@@ -1,1 +1,26 @@
-Link api codice fiscale: http://webservices.dotnethell.it/codicefiscale.asmx?op=CalcolaCodiceFiscale
+Funzioni interfaccia medico di base:
+    -Vedere tutti i propri pazienti (Nome, cognome, data ultima visita e ricetta prescritta)
+    -Prescrivere un esame da una lista di esami gia' presente
+    -Prescrivere un medicinale
+    -Erogare una visita medica
+    -Vedere la scheda del paziente (dati personali, visite, esami, prescrizioni)
+    -Vedere i dettagli di un esame prescritto da lui (esito e dettagli)
+
+Funzini interfaccia medico specialista:
+    -Vedere la scheda del paziente (dati ed elenco visite)
+    -Erogare la visita fornendo un report e facendo pagare il ticket di 50 euro
+
+Funzioni interfaccia paziente:
+    -Consultare lista delle proprie visite/esami fatti/da fare
+    -Consultare lista delle prescrizioni ricevute (per i medicinali)
+    -Visualizzare notifiche ricevute
+    -Cambiare medico di base(deve essere della stessa provincia del paziente)
+    -Cambiare la propria foto di profilo
+    -Stampare una ricetta (contente codice QR, medico, codice fiscale, paziente,
+        timestamp prescrizione, codice univoco prescrizione, descrizione farmaco)
+    -Vedere la lista dei ticket pagati, in che data, dove, per cosa. Visibile come pagina e come pdf scaricabile
+
+Funzioni interfaccia servizio sanitario provinciale:
+    -Erogare un esame prescritto, facendo pagare un ticket di 11 euro
+    -Scaricare un report contenente le spese di un giorno selezionato (data, ora, farmaco, 
+        farmacia, medico di base, paziente, ticket)
