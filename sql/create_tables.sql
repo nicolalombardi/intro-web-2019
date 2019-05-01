@@ -1,5 +1,3 @@
-CREATE DATABASE progetto;
-
 CREATE TABLE paziente
 (
     id INT SERIAL PRIMARY KEY,
