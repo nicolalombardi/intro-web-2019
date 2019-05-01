@@ -1,6 +1,6 @@
 CREATE TABLE paziente
 (
-    id INT SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nome VARCHAR(40) NOT NULL,
     cognome VARCHAR(40) NOT NULL,
     data_nascita DATE NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE paziente
 );
 
 CREATE TABLE visita_base(
-    id INT SERIAL NOT NULL,
+    id SERIAL NOT NULL,
     id_medico INT REFERENCES medico_base(id) NOT NULL,
     id_paziente INT REFERENCES paziente(id) NOT NULL,
 );
@@ -29,21 +29,21 @@ CREATE TABLE prescrive_visita(
 
 CREATE TABLE medico_base
 (
-    id INT SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nome VARCHAR(40) NOT NULL,
     cognome VARCHAR(40) NOT NULL
 );
 
 CREATE TABLE medico_specialista
 (
-    id INT SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nome VARCHAR(40) NOT NULL,
     cognome VARCHAR(40) NOT NULL
 );
 
 CREATE TABLE report
 (
-    id INT SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     esito TEXT NOT NULL
 );
 
