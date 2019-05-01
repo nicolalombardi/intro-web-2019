@@ -20,7 +20,8 @@ CREATE TABLE medico_base
 (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(40) NOT NULL,
-    cognome VARCHAR(40) NOT NULL
+    cognome VARCHAR(40) NOT NULL,
+    provincia_appartenenza VARCHAR(64) NOT NULL
 );
 
 CREATE TABLE paziente
@@ -34,6 +35,8 @@ CREATE TABLE paziente
     sesso CHAR(1) NOT NULL,
     foto TEXT, 
     id_medico INT REFERENCES medico_base(id) NOT NULL
+    email TEXT NOT NULL,
+    provincia_appartenenza VARCHAR(64) NOT NULL
 );
 
 CREATE TABLE visita_base(
