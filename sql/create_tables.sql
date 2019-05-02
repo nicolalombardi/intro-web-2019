@@ -34,7 +34,7 @@ CREATE TABLE paziente
     codice_fiscale VARCHAR(16) NOT NULL,
     sesso CHAR(1) NOT NULL,
     foto TEXT, 
-    id_medico INT REFERENCES medico_base(id) NOT NULL
+    id_medico INT REFERENCES medico_base(id) NOT NULL,
     email TEXT NOT NULL,
     provincia_appartenenza VARCHAR(64) NOT NULL
 );
