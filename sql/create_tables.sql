@@ -69,6 +69,10 @@ CREATE TABLE visita_specialistica(
     ticket INT NOT NULL
 );
 
+CREATE TABLE servizio_sanitario_provinciale(
+    id SERIAL PRIMARY KEY,
+    provincia_appartenenza VARCHAR(64) NOT NULl
+);
 
 
 
