@@ -1,6 +1,6 @@
 Funzioni interfaccia medico di base:
     -Vedere tutti i propri pazienti (Nome, cognome, data ultima visita e ricetta prescritta)
-    -Prescrivere un esame da una lista di esami gia' presente
+    -Prescrivere un (o più) esame da una lista di esami gia' presente
     -Prescrivere un medicinale
     -Erogare una visita medica
     -Vedere la scheda del paziente (dati personali, visite, esami, prescrizioni)
@@ -9,6 +9,7 @@ Funzioni interfaccia medico di base:
 Funzini interfaccia medico specialista:
     -Vedere la scheda del paziente (dati ed elenco visite)
     -Erogare la visita fornendo un report e facendo pagare il ticket di 50 euro
+    -Vedere la lista di tutti i pazienti
 
 Funzioni interfaccia paziente:
     -Consultare lista delle proprie visite/esami fatti/da fare
@@ -21,6 +22,7 @@ Funzioni interfaccia paziente:
     -Vedere la lista dei ticket pagati, in che data, dove, per cosa. Visibile come pagina e come pdf scaricabile
 
 Funzioni interfaccia servizio sanitario provinciale:
-    -Erogare un esame prescritto, facendo pagare un ticket di 11 euro
+    -Erogare un esame prescritto, (facendo pagare un ticket di 11 euro ???)
     -Scaricare un report contenente le spese di un giorno selezionato (data, ora, farmaco, 
         farmacia, medico di base, paziente, ticket)
+    -Prescrivere dei richiami (es mammografia e vaccini) che poi possono essere fatti da ssp o medico specialista (es mammografia da specialista, analisi del sangue da ssp)

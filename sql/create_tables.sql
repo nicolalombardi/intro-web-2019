@@ -52,7 +52,8 @@ CREATE TABLE prescrive_ricetta(
 
 CREATE TABLE prescrive_visita(
     id_visita INT REFERENCES visita_base(id) NOT NULL,
-    id_visita_medica INT REFERENCES visita_medica(id) NOT NULL
+    id_visita_medica INT REFERENCES visita_medica(id) NOT NULL   --WTF, visita medica la fa il medico di base quando vai da lui (vado dal medico perche ho mal di schiena e mi controlla la schiena xd), eventualmente poi ti prescrive una visita specialistica
+    --id_visita_specialistica INT REFERENCES visita_specialistica(id) NOT NULL
 );
 
 CREATE TABLE medico_specialista
@@ -73,7 +74,11 @@ CREATE TABLE servizio_sanitario_provinciale(
     id SERIAL PRIMARY KEY,
     provincia_appartenenza VARCHAR(64) NOT NULl
 );
-
+/*
+Da aggiungere:
+erogazione esami da parte di ssp
+richiamo pazienti da parte di ssp per svolgere un esame in ssp o da medico specialista 
+*/
 
 
 
