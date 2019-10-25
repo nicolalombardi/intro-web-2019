@@ -1,3 +1,10 @@
+CREATE TABLE users(
+    id SERIAL PRIMARY KEY,
+    typ VARCHAR(16),
+    username VARCHAR(128),
+    psw_salt VARCHAR(128),
+    psw_hash VARCHAR(128)
+);
 CREATE TABLE visita_medica
 (
     id SERIAL PRIMARY KEY,
@@ -18,7 +25,7 @@ CREATE TABLE ricetta
 
 CREATE TABLE medico_base
 (
-    id SERIAL PRIMARY KEY,
+    id_user INT PRIMARY KEY REFERENCES users(id) NOT NULL,
     nome VARCHAR(40) NOT NULL,
     cognome VARCHAR(40) NOT NULL,
     provincia_appartenenza VARCHAR(64) NOT NULL
@@ -26,7 +33,7 @@ CREATE TABLE medico_base
 
 CREATE TABLE paziente
 (
-    id SERIAL PRIMARY KEY,
+    id_user INT PRIMARY KEY REFERENCES users(id) NOT NULL,
     nome VARCHAR(40) NOT NULL,
     cognome VARCHAR(40) NOT NULL,
     data_nascita DATE NOT NULL,
@@ -34,15 +41,15 @@ CREATE TABLE paziente
     codice_fiscale VARCHAR(16) NOT NULL,
     sesso CHAR(1) NOT NULL,
     foto TEXT, 
-    id_medico INT REFERENCES medico_base(id) NOT NULL,
+    id_medico INT REFERENCES medico_base(id_user) NOT NULL,
     email TEXT NOT NULL,
     provincia_appartenenza VARCHAR(64) NOT NULL
 );
 
 CREATE TABLE visita_base(
     id SERIAL PRIMARY KEY,
-    id_medico INT REFERENCES medico_base(id) NOT NULL,
-    id_paziente INT REFERENCES paziente(id) NOT NULL
+    id_medico INT REFERENCES medico_base(id_user) NOT NULL,
+    id_paziente INT REFERENCES paziente(id_user) NOT NULL
 );
 
 CREATE TABLE prescrive_ricetta(
@@ -65,7 +72,7 @@ CREATE TABLE medico_specialista
 
 CREATE TABLE visita_specialistica(
     id_medico INT REFERENCES medico_specialista(id) NOT NULL,
-    id_paziente INT REFERENCES paziente(id) NOT NULL,
+    id_paziente INT REFERENCES paziente(id_user) NOT NULL,
     id_report INT REFERENCES report(id) NOT NULL,
     ticket INT NOT NULL
 );
