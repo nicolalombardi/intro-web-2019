@@ -1,6 +1,6 @@
 package com.icecoldbier.listeners;
 
-import com.icecoldbier.persistence.factories.DAOFactory;
+import com.icecoldbier.persistence.dao.factories.DAOFactory;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

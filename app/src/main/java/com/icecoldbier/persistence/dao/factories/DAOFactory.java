@@ -1,9 +1,9 @@
-package com.icecoldbier.persistence.factories;
+package com.icecoldbier.persistence.dao.factories;
 
 import com.icecoldbier.persistence.dao.implementations.UserDAO;
 
 public abstract class DAOFactory {
-    public static final int POSTGRES = 0;
+    public static final int POSTGRES = 0; //This is the default one
 
     public abstract void shutdown();
     public abstract UserDAO getUserDAO();
@@ -12,7 +12,7 @@ public abstract class DAOFactory {
         if(db == POSTGRES){
             return new PostgresDAOFactory();
         }else{
-            return null;
+            return new PostgresDAOFactory();
         }
     }
 

@@ -2,8 +2,7 @@ CREATE TABLE users(
     id SERIAL PRIMARY KEY,
     typ VARCHAR(16),
     username VARCHAR(128),
-    psw_salt VARCHAR(128),
-    psw_hash VARCHAR(128)
+    pass VARCHAR(256)
 );
 CREATE TABLE visita_medica
 (

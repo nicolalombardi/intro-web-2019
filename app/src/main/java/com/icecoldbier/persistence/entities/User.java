@@ -4,15 +4,13 @@ public class User {
     private Integer id;
     private String typ;
     private String username;
-    private String psw_salt;
-    private String psw_hash;
+    private String password;
 
-    public User(Integer id, String typ, String username, String psw_salt, String psw_hash) {
+    public User(Integer id, String typ, String username, String password) {
         this.id = id;
         this.typ = typ;
         this.username = username;
-        this.psw_salt = psw_salt;
-        this.psw_hash = psw_hash;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -39,19 +37,22 @@ public class User {
         this.username = username;
     }
 
-    public String getPsw_salt() {
-        return psw_salt;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPsw_salt(String psw_salt) {
-        this.psw_salt = psw_salt;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getPsw_hash() {
-        return psw_hash;
-    }
 
-    public void setPsw_hash(String psw_hash) {
-        this.psw_hash = psw_hash;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", typ='" + typ + '\'' +
+                ", username='" + username + '\'' +
+                ", psw_salt='" + password + '\'' +
+                '}';
     }
 }

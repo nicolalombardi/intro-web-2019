@@ -1,4 +1,4 @@
-package com.icecoldbier.persistence.factories;
+package com.icecoldbier.persistence.dao.factories;
 
 import com.icecoldbier.persistence.dao.implementations.UserDAO;
 
@@ -21,7 +21,7 @@ public class PostgresDAOFactory extends DAOFactory {
     public static Connection createConnection() {
         Connection conn = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(DRIVER);
             conn = DriverManager.getConnection(DBURL, USER, PASS);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -40,6 +40,6 @@ public class PostgresDAOFactory extends DAOFactory {
 
     @Override
     public UserDAO getUserDAO() {
-        return null;
+        return new UserDAO();
     }
 }
