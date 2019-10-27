@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Medico_baseDAO implements Medico_baseDAOInterface {
-    private static final String SELECT_QUERY = "SELECT * FROM paziente WHERE id_user = ?";
+    private static final String SELECT_QUERY = "SELECT * FROM medico_base WHERE id_user = ?";
     @Override
     public Medico_base getMedico_base(Integer id) {
         Connection conn = null;
