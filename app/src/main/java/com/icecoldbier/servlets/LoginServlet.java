@@ -4,6 +4,7 @@ import com.icecoldbier.persistence.dao.implementations.UserDAO;
 import com.icecoldbier.persistence.entities.User;
 import com.icecoldbier.persistence.dao.factories.DAOFactory;
 import com.icecoldbier.utils.Logger;
+import com.icecoldbier.utils.Utils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,10 +36,7 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        String contextPath = getServletContext().getContextPath();
-        if (!contextPath.endsWith("/")) {
-            contextPath += "/";
-        }
+        String contextPath = Utils.getServletContextPath(getServletContext());
 
         User u = userDao.getUserByUsernameAndPassword(username, password);
         if(u == null){
@@ -47,7 +45,7 @@ public class LoginServlet extends HttpServlet {
         }else{
             request.getSession().setAttribute("user", u);
             response.sendRedirect(response.encodeRedirectURL(contextPath + "dummy_restricted.html"));
-            logger.print("Successfully logged in.");
+            logger.print("User " + u.getUsername() + " successfully logged in.");
         }
 
 
