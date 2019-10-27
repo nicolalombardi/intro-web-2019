@@ -10,12 +10,12 @@ public class Paziente {
     private String luogo_nascita;
     private String codice_fiscale;
     private char sesso;
-    //foto
+    private String foto;
     private int id_medico;
     private String email;
     private String provincia_appartenenza;
 
-    public Paziente(Integer id, String nome, String cognome, Date data_nascita, String luogo_nascita, String codice_fiscale, char sesso, int id_medico, String email, String provincia_appartenenza) {
+    public Paziente(Integer id, String nome, String cognome, Date data_nascita, String luogo_nascita, String codice_fiscale, char sesso, String foto, int id_medico, String email, String provincia_appartenenza) {
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
@@ -23,6 +23,7 @@ public class Paziente {
         this.luogo_nascita = luogo_nascita;
         this.codice_fiscale = codice_fiscale;
         this.sesso = sesso;
+        this.foto=foto;
         this.id_medico = id_medico;
         this.email = email;
         this.provincia_appartenenza = provincia_appartenenza;
@@ -106,5 +107,13 @@ public class Paziente {
 
     public void setProvincia_appartenenza(String provincia_appartenenza) {
         this.provincia_appartenenza = provincia_appartenenza;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }
