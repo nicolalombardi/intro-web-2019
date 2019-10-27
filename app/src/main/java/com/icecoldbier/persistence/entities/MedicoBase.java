@@ -1,16 +1,16 @@
 package com.icecoldbier.persistence.entities;
 
-public class Medico_base {
+public class MedicoBase {
     private Integer id;
     private String nome;
     private String cognome;
-    private String provincia_appartenenza;
+    private String provinciaAppartenenza;
 
-    public Medico_base(Integer id, String nome, String cognome, String provincia_appartenenza) {
+    public MedicoBase(Integer id, String nome, String cognome, String provinciaAppartenenza) {
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
-        this.provincia_appartenenza = provincia_appartenenza;
+        this.provinciaAppartenenza = provinciaAppartenenza;
     }
 
     public Integer getId() {
@@ -37,11 +37,11 @@ public class Medico_base {
         this.cognome = cognome;
     }
 
-    public String getProvincia_appartenenza() {
-        return provincia_appartenenza;
+    public String getProvinciaAppartenenza() {
+        return provinciaAppartenenza;
     }
 
-    public void setProvincia_appartenenza(String provincia_appartenenza) {
-        this.provincia_appartenenza = provincia_appartenenza;
+    public void setProvinciaAppartenenza(String provinciaAppartenenza) {
+        this.provinciaAppartenenza = provinciaAppartenenza;
     }
 }
