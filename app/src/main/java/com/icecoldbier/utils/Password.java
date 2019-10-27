@@ -22,7 +22,7 @@ public class Password {
         return ITERATIONS + ":" + toHex(salt) + ":" + toHex(hash);
     }
 
-    public static boolean validatePassword(String toTest, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static boolean isMatching(String toTest, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String[] parts = storedPassword.split(":");
         int iterations = Integer.parseInt(parts[0]);
         byte[] salt = fromHex(parts[1]);
