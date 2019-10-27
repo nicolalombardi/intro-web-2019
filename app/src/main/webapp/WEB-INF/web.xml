@@ -4,6 +4,14 @@
         <description>ContextListener</description>
         <listener-class>com.icecoldbier.listeners.ContextListener</listener-class>
     </listener>
+    <servlet>
+        <servlet-name>DummyRestricted</servlet-name>
+        <jsp-file>/dummy_restricted.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DummyRestricted</servlet-name>
+        <url-pattern>/dummy_restricted.html</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

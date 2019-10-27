@@ -3,32 +3,32 @@ package com.icecoldbier.persistence.dao.implementations;
 import com.icecoldbier.persistence.dao.interfaces.UserDAOInterface;
 import com.icecoldbier.persistence.entities.User;
 import com.icecoldbier.persistence.dao.factories.PostgresDAOFactory;
+import com.icecoldbier.utils.Password;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO implements UserDAOInterface {
-    private static final String CREATE_QUERY = "INSERT INTO users(typ, username, pass) VALUES(?,?,?)";
-    private static final String SELECT_QUERY = "SELECT * FROM Users WHERE id = ?";
+    private static final String REGISTER_QUERY = "INSERT INTO users(typ, username, pass) VALUES(?,?,?)";
+    private static final String GET_USER_BY_ID_QUERY = "SELECT * FROM Users WHERE id = ?";
+    private static final String GET_USER_BY_USERNAME_QUERY = "SELECT * FROM Users WHERE username = ?";
 
 
     @Override
-    public User getUser(Integer id) {
-        Connection conn = null;
-        ResultSet resultSet = null;
-        PreparedStatement preparedStatement = null;
-        User user = null;
+    public User getUserById(Integer id) {
+        Connection conn = PostgresDAOFactory.createConnection();
 
         try {
-            conn = PostgresDAOFactory.createConnection();
-            preparedStatement = conn.prepareStatement(SELECT_QUERY);
+            PreparedStatement preparedStatement = conn.prepareStatement(GET_USER_BY_ID_QUERY);
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
-            resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.getResultSet();
             if (resultSet != null && resultSet.next()) {
-                user = new User(
+                return new User(
                         resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getString(3),
@@ -38,28 +38,46 @@ public class UserDAO implements UserDAOInterface {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                resultSet.close();
-                preparedStatement.close();
-                conn.close();
-            } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
-            }
         }
 
-        return user;
+        return null;
+    }
+
+    @Override
+    public User getUserByUsernameAndPassword(String username, String password) {
+        Connection conn = PostgresDAOFactory.createConnection();
+
+        try{
+            PreparedStatement preparedStatement = conn.prepareStatement(GET_USER_BY_USERNAME_QUERY);
+            preparedStatement.setString(1, username);
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getResultSet();
+
+            //If the username is no existent
+            if(resultSet == null || !resultSet.next()){
+                return null;
+            }
+
+            User u = new User(
+                    resultSet.getInt(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4)
+            );
+
+            return Password.isMatching(password, u.getPassword()) ? u : null; //Return user if matching, null otherwise
+
+        } catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public User createUser(String typ, String username, String password) {
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-        User user = null;
-
+        Connection conn = PostgresDAOFactory.createConnection();
         try {
-            conn = PostgresDAOFactory.createConnection();
-            preparedStatement = conn.prepareStatement(CREATE_QUERY);
+            PreparedStatement preparedStatement = conn.prepareStatement(REGISTER_QUERY);
             preparedStatement.setString(1, typ);
             preparedStatement.setString(2, username);
             preparedStatement.setString(3, password);
@@ -67,15 +85,7 @@ public class UserDAO implements UserDAOInterface {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                preparedStatement.close();
-                conn.close();
-            } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
-            }
         }
-        user = new User(-1, typ, username, password);
-        return user;
+        return new User(-1, typ, username, password);
     }
 }
