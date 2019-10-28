@@ -2,3 +2,5 @@
 target/
 server.iml
 nb-configuration.xml
+app/src/main/java/com/icecoldbier/persistence/dao/factories/DBConf.java
+
