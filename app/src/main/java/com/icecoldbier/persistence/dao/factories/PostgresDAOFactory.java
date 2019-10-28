@@ -8,10 +8,7 @@ import java.sql.SQLException;
 
 public class PostgresDAOFactory extends DAOFactory {
 
-    private static final String DRIVER = "org.postgresql.Driver";
-    private static final String DBURL = "jdbc:postgresql://localhost/nicola";
-    private static final String USER = "nicola";
-    private static final String PASS = "123";
+
 
     /**
      * Metodo per creare una connessione al database
@@ -21,8 +18,8 @@ public class PostgresDAOFactory extends DAOFactory {
     public static Connection createConnection() {
         Connection conn = null;
         try {
-            Class.forName(DRIVER);
-            conn = DriverManager.getConnection(DBURL, USER, PASS);
+            Class.forName(DBConf.DRIVER);
+            conn = DriverManager.getConnection(DBConf.DBURL, DBConf.USER, DBConf.PASS);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
