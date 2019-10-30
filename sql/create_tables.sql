@@ -1,6 +1,8 @@
+CREATE TYPE user_type AS ENUM ('paziente', 'medico_base', 'medico_specialista', 'ssn');
+
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
-    typ VARCHAR(16),
+    typ user_type,
     username VARCHAR(128),
     pass VARCHAR(256),
     nome VARCHAR(40) NOT NULL,
