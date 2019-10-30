@@ -21,7 +21,9 @@ public class RegisterUserServlet extends HttpServlet {
         String username = request.getParameter("username");
         String pass = request.getParameter("pass");
         String typ = request.getParameter("typ");
-
+        String nome = request.getParameter("nome");
+        String cognome = request.getParameter("cognome");
+        String provinciaAppartenenza = request.getParameter("provinciaAppartenenza");
         String hashedSaltedPassword = null;
         try {
             hashedSaltedPassword = Password.generatePasswordHash(pass);
@@ -30,7 +32,7 @@ public class RegisterUserServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        User newUser = daoFactory.getUserDAO().createUser(typ, username, hashedSaltedPassword);
+        User newUser = daoFactory.getUserDAO().createUser(typ, username, hashedSaltedPassword, nome, cognome, provinciaAppartenenza);
         response.getWriter().println(newUser.toString());
 
     }

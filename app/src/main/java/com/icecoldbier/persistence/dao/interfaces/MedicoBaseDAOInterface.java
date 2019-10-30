@@ -1,7 +1,7 @@
 package com.icecoldbier.persistence.dao.interfaces;
 
-import com.icecoldbier.persistence.entities.MedicoBase;
+import com.icecoldbier.persistence.entities.User;
 
 public interface MedicoBaseDAOInterface {
-    MedicoBase getMedicoBase(Integer id);
+
 }

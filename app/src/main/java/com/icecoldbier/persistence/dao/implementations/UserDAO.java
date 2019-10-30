@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO implements UserDAOInterface {
-    private static final String REGISTER_QUERY = "INSERT INTO users(typ, username, pass) VALUES(?,?,?)";
+    private static final String REGISTER_QUERY = "INSERT INTO users(typ, username, pass, nome, cognome, provincia_appartenenza) VALUES(?,?,?,?,?,?)";
     private static final String GET_USER_BY_ID_QUERY = "SELECT * FROM Users WHERE id = ?";
     private static final String GET_USER_BY_USERNAME_QUERY = "SELECT * FROM Users WHERE username = ?";
 
@@ -32,7 +32,10 @@ public class UserDAO implements UserDAOInterface {
                         resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getString(3),
-                        resultSet.getString(4)
+                        resultSet.getString(4),
+                        resultSet.getString(5),
+                        resultSet.getString(6),
+                        resultSet.getString(7)
                 );
             }
 
@@ -62,7 +65,10 @@ public class UserDAO implements UserDAOInterface {
                     resultSet.getInt(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
-                    resultSet.getString(4)
+                    resultSet.getString(4),
+                    resultSet.getString(5),
+                    resultSet.getString(6),
+                    resultSet.getString(7)
             );
 
             return Password.isMatching(password, u.getPassword()) ? u : null; //Return user if matching, null otherwise
@@ -74,18 +80,21 @@ public class UserDAO implements UserDAOInterface {
     }
 
     @Override
-    public User createUser(String typ, String username, String password) {
+    public User createUser(String typ, String username, String password, String nome, String cognome, String provinciaAppartenenza) {
         Connection conn = PostgresDAOFactory.createConnection();
         try {
             PreparedStatement preparedStatement = conn.prepareStatement(REGISTER_QUERY);
             preparedStatement.setString(1, typ);
             preparedStatement.setString(2, username);
             preparedStatement.setString(3, password);
+            preparedStatement.setString(4, nome);
+            preparedStatement.setString(5, cognome);
+            preparedStatement.setString(6, provinciaAppartenenza);
             preparedStatement.execute();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new User(-1, typ, username, password);
+        return new User(-1, typ, username, password, nome, cognome, provinciaAppartenenza);
     }
 }
