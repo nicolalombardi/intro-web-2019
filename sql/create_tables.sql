@@ -43,7 +43,7 @@ CREATE TABLE paziente(
 /* questi sono da prendere dal link */
 CREATE TABLE elenco_visite_possibili(
     id SERIAL PRIMARY KEY,
-    praticante VARCHAR(40) NOT NULL, --DA CAMBIARE CON TABELLA USER_TYPE
+    praticante user_type NOT NULL,
     nome VARCHAR(40) NOT NULL,
     descrizione TEXT NOT NULL,
     costo_ticket INT NOT NULL
