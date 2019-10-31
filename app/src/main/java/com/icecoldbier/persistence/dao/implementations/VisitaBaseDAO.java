@@ -29,7 +29,8 @@ public class VisitaBaseDAO implements VisitaBaseDAOInterface{
                 visitaBase = new VisitaBase(
                         resultSet.getInt(1),
                         resultSet.getInt(2),
-                        resultSet.getInt(3)
+                        resultSet.getInt(3),
+                        resultSet.getDate(4)
                 );
             }
         } catch (SQLException e) {
