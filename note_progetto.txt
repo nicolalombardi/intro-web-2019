@@ -30,7 +30,7 @@ Funzioni interfaccia paziente:
 
 Funzioni interfaccia servizio sanitario provinciale:
     -Erogare un esame prescritto(segnare come fatto), facendo pagare un ticket di 11 euro
-    -Scaricare un report contenente le spese di un giorno selezionato dati da inserire:(data, ora, farmaco, 
+    -Scaricare un report contenente le spese di un giorno selezionat. Dati da inserire:(data, ora, farmaco, 
         farmacia, medico di base, paziente, ticket)
     -Generare report in formato xls delle ricette erogate di un giorno da selezionare (timestamp, farmaco, medico di base, paziente) solo per la provincia di sua appartenenza
 
