@@ -66,7 +66,7 @@ CREATE TABLE visita_ssp(
     id_visita INT REFERENCES elenco_visite_possibili(id) NOT NULL,
     erogata BOOLEAN NOT NULL,
     data_prescrizione DATE NOT NULL,
-    data_erogazione DATE NOT NULL,
+    data_erogazione DATE,
     id_ssp INT REFERENCES users(id) NOT NULL,
     id_paziente INT REFERENCES paziente(id_user) NOT NULL
 );
