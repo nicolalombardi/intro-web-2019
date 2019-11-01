@@ -1,6 +1,5 @@
 package com.icecoldbier.servlets;
 
-import com.icecoldbier.persistence.dao.implementations.MedicoBaseDAO;
 import com.icecoldbier.persistence.dao.implementations.UserDAO;
 import com.icecoldbier.persistence.entities.User;
 import com.icecoldbier.persistence.dao.factories.DAOFactory;
@@ -13,8 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
