@@ -1,11 +1,10 @@
 package com.icecoldbier.persistence.entities;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.Calendar;
 
 public class Paziente {
-    private Integer id;
-    private String nome;
-    private String cognome;
+    private int id_user;
     private Date data_nascita;
     private String luogo_nascita;
     private String codice_fiscale;
@@ -13,44 +12,24 @@ public class Paziente {
     private String foto;
     private int id_medico;
     private String email;
-    private String provincia_appartenenza;
 
-    public Paziente(Integer id, String nome, String cognome, Date data_nascita, String luogo_nascita, String codice_fiscale, char sesso, String foto, int id_medico, String email, String provincia_appartenenza) {
-        this.id = id;
-        this.nome = nome;
-        this.cognome = cognome;
+    public Paziente(int id_user, Date data_nascita, String luogo_nascita, String codice_fiscale, char sesso, String foto, int id_medico, String email) {
+        this.id_user = id_user;
         this.data_nascita = data_nascita;
         this.luogo_nascita = luogo_nascita;
         this.codice_fiscale = codice_fiscale;
         this.sesso = sesso;
-        this.foto=foto;
+        this.foto = foto;
         this.id_medico = id_medico;
         this.email = email;
-        this.provincia_appartenenza = provincia_appartenenza;
     }
 
-    public Integer getId() {
-        return id;
+    public int getId_user() {
+        return id_user;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCognome() {
-        return cognome;
-    }
-
-    public void setCognome(String cognome) {
-        this.cognome = cognome;
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
     }
 
     public Date getData_nascita() {
@@ -85,6 +64,14 @@ public class Paziente {
         this.sesso = sesso;
     }
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
     public int getId_medico() {
         return id_medico;
     }
@@ -101,19 +88,17 @@ public class Paziente {
         this.email = email;
     }
 
-    public String getProvincia_appartenenza() {
-        return provincia_appartenenza;
-    }
-
-    public void setProvincia_appartenenza(String provincia_appartenenza) {
-        this.provincia_appartenenza = provincia_appartenenza;
-    }
-
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
+    @Override
+    public String toString() {
+        return "Paziente{" +
+                "id_user=" + id_user +
+                ", data_nascita=" + data_nascita +
+                ", luogo_nascita='" + luogo_nascita + '\'' +
+                ", codice_fiscale='" + codice_fiscale + '\'' +
+                ", sesso=" + sesso +
+                ", foto='" + foto + '\'' +
+                ", id_medico=" + id_medico +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

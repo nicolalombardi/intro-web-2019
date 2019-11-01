@@ -2,9 +2,11 @@ package com.icecoldbier.servlets;
 
 import com.icecoldbier.persistence.dao.implementations.UserDAO;
 import com.icecoldbier.persistence.entities.User;
-import com.icecoldbier.persistence.dao.factories.DAOFactory;
 import com.icecoldbier.utils.Logger;
 import com.icecoldbier.utils.Utils;
+import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
+import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
+import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,14 +18,18 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private UserDAO userDao;
-    private static Logger logger;
+    private Logger logger;
     @Override
     public void init() throws ServletException {
         DAOFactory daoFactory = (DAOFactory) super.getServletContext().getAttribute("daoFactory");
         if (daoFactory == null) {
             throw new ServletException("Impossible to get dao factory for user storage system");
         }
-        userDao = daoFactory.getUserDAO();
+        try {
+            userDao = daoFactory.getDAO(UserDAO.class);
+        } catch (DAOFactoryException e) {
+            throw new ServletException("Impossible to get dao factory for user storage system");
+        }
         logger = Logger.getLogger(this.getClass().getName());
         logger.print("Login servlet initialized.");
     }
@@ -36,7 +42,12 @@ public class LoginServlet extends HttpServlet {
 
         String contextPath = Utils.getServletContextPath(getServletContext());
 
-        User u = userDao.getUserByUsernameAndPassword(username, password);
+        User u = null;
+        try {
+            u = userDao.getUserByUsernameAndPassword(username, password);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
         if(u == null){
             response.sendRedirect(response.encodeRedirectURL(contextPath + "login.html"));
             logger.print("Incorrect user or password.");

@@ -2,88 +2,61 @@ package com.icecoldbier.persistence.dao.implementations;
 
 import com.icecoldbier.persistence.dao.interfaces.UserDAOInterface;
 import com.icecoldbier.persistence.entities.User;
-import com.icecoldbier.persistence.dao.factories.PostgresDAOFactory;
 import com.icecoldbier.utils.Password;
+import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
+import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UserDAO implements UserDAOInterface {
+public class UserDAO extends JDBCDAO<User, Integer> implements UserDAOInterface {
+    private static final String GET_COUNT = "SELECT COUNT(*) FROM users";
+    private static final String GET_USER_BY_ID_QUERY = "SELECT * FROM users WHERE id = ?";
+    private static final String GET_ALL = "SELECT * FROM users ORDER BY cognome";
     private static final String REGISTER_QUERY = "INSERT INTO users(typ, username, pass, nome, cognome, provincia_appartenenza) VALUES(?,?,?,?,?,?)";
-    private static final String GET_USER_BY_ID_QUERY = "SELECT * FROM Users WHERE id = ?";
-    private static final String GET_USER_BY_USERNAME_QUERY = "SELECT * FROM Users WHERE username = ?";
+    private static final String GET_USER_BY_USERNAME_QUERY = "SELECT * FROM users WHERE username = ?";
 
-
-    @Override
-    public User getUserById(Integer id) {
-        Connection conn = PostgresDAOFactory.createConnection();
-
-        try {
-            PreparedStatement preparedStatement = conn.prepareStatement(GET_USER_BY_ID_QUERY);
-            preparedStatement.setInt(1, id);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
-            if (resultSet != null && resultSet.next()) {
-                return new User(
-                        resultSet.getInt(1),
-                        User.UserType.valueOf(resultSet.getString(2)),
-                        resultSet.getString(3),
-                        resultSet.getString(4),
-                        resultSet.getString(5),
-                        resultSet.getString(6),
-                        resultSet.getString(7)
-                );
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    /**
+     * The base constructor for all the JDBC DAOs.
+     *
+     * @param con the internal {@code Connection}.
+     * @author Stefano Chirico
+     * @since 1.0.0.190406
+     */
+    public UserDAO(Connection con) {
+        super(con);
     }
 
     @Override
-    public User getUserByUsernameAndPassword(String username, String password) {
-        Connection conn = PostgresDAOFactory.createConnection();
-
-        try{
-            PreparedStatement preparedStatement = conn.prepareStatement(GET_USER_BY_USERNAME_QUERY);
+    public User getUserByUsernameAndPassword(String username, String password) throws DAOException {
+        try (PreparedStatement preparedStatement = CON.prepareStatement(GET_USER_BY_USERNAME_QUERY)) {
             preparedStatement.setString(1, username);
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                rs.next();
+                User u = new User(
+                        rs.getInt("id"),
+                        User.UserType.valueOf(rs.getString("typ")),
+                        rs.getString("username"),
+                        rs.getString("pass"),
+                        rs.getString("nome"),
+                        rs.getString("cognome"),
+                        rs.getString("provincia_appartenenza")
+                );
 
-            //If the username is no existent
-            if(resultSet == null || !resultSet.next()){
-                return null;
+                return Password.isMatching(password, u.getPassword()) ? u : null; //Return user if matching, null otherwise
             }
-
-            User u = new User(
-                    resultSet.getInt(1),
-                    User.UserType.valueOf(resultSet.getString(2)),
-                    resultSet.getString(3),
-                    resultSet.getString(4),
-                    resultSet.getString(5),
-                    resultSet.getString(6),
-                    resultSet.getString(7)
-            );
-
-            return Password.isMatching(password, u.getPassword()) ? u : null; //Return user if matching, null otherwise
 
         } catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
-            return null;
+            throw new DAOException("Error while getting the user by username and password", e);
         }
     }
 
     @Override
-    public User createUser(User.UserType typ, String username, String password, String nome, String cognome, String provinciaAppartenenza) {
-        Connection conn = PostgresDAOFactory.createConnection();
-        try {
-            PreparedStatement preparedStatement = conn.prepareStatement(REGISTER_QUERY);
+    public void createUser(User.UserType typ, String username, String password, String nome, String cognome, String provinciaAppartenenza) throws DAOException {
+        try (PreparedStatement preparedStatement = CON.prepareStatement(REGISTER_QUERY)) {
             preparedStatement.setString(1, typ.toString());
             preparedStatement.setString(2, username);
             preparedStatement.setString(3, password);
@@ -91,10 +64,79 @@ public class UserDAO implements UserDAOInterface {
             preparedStatement.setString(5, cognome);
             preparedStatement.setString(6, provinciaAppartenenza);
             preparedStatement.execute();
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Error while creating a new user", e);
         }
-        return new User(-1, typ, username, password, nome, cognome, provinciaAppartenenza);
+
+    }
+
+    @Override
+    public Long getCount() throws DAOException {
+        try (Statement stmt = CON.createStatement()) {
+            ResultSet counter = stmt.executeQuery(GET_COUNT);
+            if (counter.next()) {
+                return counter.getLong(1);
+            }
+
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to count users", ex);
+        }
+
+        return 0L;
+    }
+
+    @Override
+    public User getByPrimaryKey(Integer primaryKey) throws DAOException {
+        if (primaryKey == null) {
+            throw new DAOException("primaryKey is null");
+        }
+        try (PreparedStatement stm = CON.prepareStatement(GET_USER_BY_ID_QUERY)) {
+            stm.setInt(1, primaryKey);
+            try (ResultSet rs = stm.executeQuery()) {
+
+                rs.next();
+
+                return new User(
+                        rs.getInt("id"),
+                        User.UserType.valueOf(rs.getString("typ")),
+                        rs.getString("username"),
+                        rs.getString("pass"),
+                        rs.getString("nome"),
+                        rs.getString("cognome"),
+                        rs.getString("provincia_appartenenza")
+                );
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the user for the passed primary key", ex);
+        }
+    }
+
+    @Override
+    public List<User> getAll() throws DAOException {
+        List<User> users = new ArrayList<>();
+
+        try (Statement stm = CON.createStatement()) {
+            try (ResultSet rs = stm.executeQuery(GET_ALL)) {
+
+
+                while (rs.next()) {
+                    User user = new User(
+                            rs.getInt("id"),
+                            User.UserType.valueOf(rs.getString("typ")),
+                            rs.getString("username"),
+                            rs.getString("pass"),
+                            rs.getString("nome"),
+                            rs.getString("cognome"),
+                            rs.getString("provincia_appartenenza")
+                    );
+
+                    users.add(user);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the list of users", ex);
+        }
+
+        return users;
     }
 }

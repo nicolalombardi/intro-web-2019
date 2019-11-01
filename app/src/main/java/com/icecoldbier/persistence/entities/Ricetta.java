@@ -3,25 +3,35 @@ package com.icecoldbier.persistence.entities;
 public class Ricetta {
     private Integer id;
     private String nome;
-    
-    public Ricetta(Integer id, String nome){
+    private boolean prescritta;
+
+    public Ricetta(Integer id, String nome, boolean prescritta) {
         this.id = id;
         this.nome = nome;
+        this.prescritta = prescritta;
     }
-    
-    public Integer getId(){
-        return this.id;
+
+    public Integer getId() {
+        return id;
     }
-    
-    public String getNome(){
-        return this.nome;
-    }
-    
-    public void setId(Integer id){
+
+    public void setId(Integer id) {
         this.id = id;
-    } 
-    
-    public void setNome(String nome){
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public boolean isPrescritta() {
+        return prescritta;
+    }
+
+    public void setPrescritta(boolean prescritta) {
+        this.prescritta = prescritta;
     }
 }

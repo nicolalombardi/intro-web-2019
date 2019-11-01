@@ -1,8 +1,12 @@
 package com.icecoldbier.servlets;
 
-import com.icecoldbier.persistence.dao.factories.DAOFactory;
+import com.icecoldbier.persistence.dao.implementations.UserDAO;
 import com.icecoldbier.persistence.entities.User;
+import com.icecoldbier.utils.Logger;
 import com.icecoldbier.utils.Password;
+import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
+import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
+import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,9 +19,23 @@ import java.security.spec.InvalidKeySpecException;
 
 @WebServlet(name = "RegisterUserServlet", value = "/register")
 public class RegisterUserServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DAOFactory daoFactory = (DAOFactory) request.getServletContext().getAttribute("daoFactory");
+    private UserDAO userDao;
+    private Logger logger;
 
+    public void init() throws ServletException {
+        DAOFactory daoFactory = (DAOFactory) super.getServletContext().getAttribute("daoFactory");
+        if (daoFactory == null) {
+            throw new ServletException("Impossible to get dao factory for user storage system");
+        }
+        try {
+            userDao = daoFactory.getDAO(UserDAO.class);
+        } catch (DAOFactoryException e) {
+            throw new ServletException("Impossible to get dao factory for user storage system");
+        }
+        logger = Logger.getLogger(this.getClass().getName());
+        logger.print("Login servlet initialized.");
+    }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String pass = request.getParameter("pass");
         String typ = request.getParameter("typ");
@@ -32,8 +50,11 @@ public class RegisterUserServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        User newUser = daoFactory.getUserDAO().createUser(User.UserType.valueOf(typ), username, hashedSaltedPassword, nome, cognome, provinciaAppartenenza);
-        response.getWriter().println(newUser.toString());
+        try {
+            userDao.createUser(User.UserType.valueOf(typ), username, hashedSaltedPassword, nome, cognome, provinciaAppartenenza);
+        } catch (DAOException e) {
+            throw new ServletException("Error while registering a new user");
+        }
 
     }
 }
