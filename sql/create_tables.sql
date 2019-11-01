@@ -10,12 +10,6 @@ CREATE TABLE users(
     provincia_appartenenza VARCHAR(64) NOT NULL
 );
 
-CREATE TABLE visita_medica
-(
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL
-);
-
 CREATE TABLE ricetta(
     id SERIAL PRIMARY KEY,
     farmaco VARCHAR(100) NOT NULL,
