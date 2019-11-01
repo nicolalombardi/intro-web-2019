@@ -30,7 +30,7 @@ public class UserDAO implements UserDAOInterface {
             if (resultSet != null && resultSet.next()) {
                 return new User(
                         resultSet.getInt(1),
-                        resultSet.getString(2),
+                        User.UserType.valueOf(resultSet.getString(2)),
                         resultSet.getString(3),
                         resultSet.getString(4),
                         resultSet.getString(5),
@@ -63,7 +63,7 @@ public class UserDAO implements UserDAOInterface {
 
             User u = new User(
                     resultSet.getInt(1),
-                    resultSet.getString(2),
+                    User.UserType.valueOf(resultSet.getString(2)),
                     resultSet.getString(3),
                     resultSet.getString(4),
                     resultSet.getString(5),
@@ -80,11 +80,11 @@ public class UserDAO implements UserDAOInterface {
     }
 
     @Override
-    public User createUser(String typ, String username, String password, String nome, String cognome, String provinciaAppartenenza) {
+    public User createUser(User.UserType typ, String username, String password, String nome, String cognome, String provinciaAppartenenza) {
         Connection conn = PostgresDAOFactory.createConnection();
         try {
             PreparedStatement preparedStatement = conn.prepareStatement(REGISTER_QUERY);
-            preparedStatement.setString(1, typ);
+            preparedStatement.setString(1, typ.toString());
             preparedStatement.setString(2, username);
             preparedStatement.setString(3, password);
             preparedStatement.setString(4, nome);

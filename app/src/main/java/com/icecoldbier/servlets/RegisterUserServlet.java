@@ -32,7 +32,7 @@ public class RegisterUserServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        User newUser = daoFactory.getUserDAO().createUser(typ, username, hashedSaltedPassword, nome, cognome, provinciaAppartenenza);
+        User newUser = daoFactory.getUserDAO().createUser(User.UserType.valueOf(typ), username, hashedSaltedPassword, nome, cognome, provinciaAppartenenza);
         response.getWriter().println(newUser.toString());
 
     }

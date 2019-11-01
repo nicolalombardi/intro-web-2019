@@ -1,20 +1,22 @@
 package com.icecoldbier.persistence.entities;
 
 public class User {
-    private static final Integer medicoBase = 0;
-    private static final Integer medicoSpecialista = 1;
-    private static final Integer paziente = 2;
-    private static final Integer ssp = 3;
+    public enum UserType{
+        medico_base,
+        medico_specialista,
+        paziente,
+        ssn;
+    }
 
     private Integer id;
-    private String typ;
+    private UserType typ;
     private String username;
     private String password;
     private String nome;
     private String cognome;
     private String provinciaAppartenenza;
 
-    public User(Integer id, String typ, String username, String password, String nome, String cognome, String provinciaAppartenenza) {
+    public User(Integer id, UserType typ, String username, String password, String nome, String cognome, String provinciaAppartenenza) {
         this.id = id;
         this.typ = typ;
         this.username = username;
@@ -32,11 +34,11 @@ public class User {
         this.id = id;
     }
 
-    public String getTyp() {
+    public UserType getTyp() {
         return typ;
     }
 
-    public void setTyp(String typ) {
+    public void setTyp(UserType typ) {
         this.typ = typ;
     }
 
