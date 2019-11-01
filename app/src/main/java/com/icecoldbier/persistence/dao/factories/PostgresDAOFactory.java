@@ -1,6 +1,7 @@
 package com.icecoldbier.persistence.dao.factories;
 
 import com.icecoldbier.persistence.dao.implementations.UserDAO;
+import com.icecoldbier.persistence.dao.implementations.VisitePossibiliDAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -38,5 +39,10 @@ public class PostgresDAOFactory extends DAOFactory {
     @Override
     public UserDAO getUserDAO() {
         return new UserDAO();
+    }
+
+    @Override
+    public VisitePossibiliDAO getVisitePossibiliDAO() {
+        return new VisitePossibiliDAO();
     }
 }
