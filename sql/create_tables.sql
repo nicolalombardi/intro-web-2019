@@ -58,6 +58,7 @@ CREATE TABLE visita_specialistica(
     data_erogazione DATE,
     id_medico INT REFERENCES users(id) NOT NULL,
     id_paziente INT REFERENCES paziente(id_user) NOT NULL,
+    id_medico_base INT REFERENCES users(id) NOT NULL,
     id_report INT REFERENCES report(id)
 );
 
@@ -68,22 +69,13 @@ CREATE TABLE visita_ssp(
     data_prescrizione DATE NOT NULL,
     data_erogazione DATE,
     id_ssp INT REFERENCES users(id) NOT NULL,
-    id_paziente INT REFERENCES paziente(id_user) NOT NULL
+    id_paziente INT REFERENCES paziente(id_user) NOT NULL,
+    id_medico_base INT REFERENCES users(id) NOT NULL
 );
 
 CREATE TABLE prescrive_ricetta(
     id_visita INT REFERENCES visita_base(id) NOT NULL,
     id_ricetta INT REFERENCES ricetta(id) NOT NULL
-);
-
-CREATE TABLE prescrive_visita_specialistica(
-    id_visita INT REFERENCES visita_base(id) NOT NULL,
-    id_visita_specialistica INT REFERENCES visita_specialistica(id) NOT NULL
-);
-
-CREATE TABLE prescrive_visita_ssp(
-    id_visita INT REFERENCES visita_base(id) NOT NULL,
-    id_visita_ssp INT REFERENCES visita_ssp(id) NOT NULL
 );
 
 CREATE TABLE servizio_sanitario_provinciale(
