@@ -1,9 +1,7 @@
 package com.icecoldbier.persistence.dao.implementations;
 
 import com.icecoldbier.persistence.dao.interfaces.MedicoBaseDAOInterface;
-import com.icecoldbier.persistence.entities.User;
-import com.icecoldbier.persistence.entities.VisitaBase;
-import com.icecoldbier.persistence.entities.VisitaPossibile;
+import com.icecoldbier.persistence.entities.*;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 
@@ -17,6 +15,8 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
     private static final String CREATE_VISITA_BASE = "INSERT INTO visita_base(id_medico, id_paziente, data_erogazione) VALUES(?,?,?)";
     private static final String CREATE_VISITA_SSP = "INSERT INTO visita_ssp(id_visita, erogata, data_prescrizione, id_ssp, id_paziente, id_medico_base) VALUES(?,?,?,?,?,?)";
     private static final String CREATE_VISITA_SPECIALISTICA = "INSERT INTO visita_specialistica(id_visita, erogata, data_prescrizione, id_medico, id_paziente, id_medico_base) VALUES(?,?,?,?,?,?)";
+    private static final String GET_VISITA_SPECIALISTICA = "SELECT id_visita, id_report FROM visita_specialistica WHERE id = ? ";
+
 
 
     /**
@@ -110,6 +110,36 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
             throw new DAOException("Error while creating a new visita_specialistica", e);
 
         }
+
+    }
+
+    @Override
+    public InfoVisita getInfoVisita(int idv) throws DAOException {
+        InfoVisita infoVisita = new InfoVisita();
+        int id_visita=-1;
+        int id_report=-1;
+        try (PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITA_SPECIALISTICA)) {
+            preparedStatement.setInt(1, idv);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            resultSet.next();
+            id_visita = resultSet.getInt("id_visita");
+            id_report = resultSet.getInt("id_report");
+
+            //System.out.println(id_visita+"  "+id_report);
+
+            VisitePossibiliDAO vis = new VisitePossibiliDAO(CON);
+            //ReportDAO rep = new ReportDAO(CON);
+            VisitaPossibile visitaPossibile = vis.getVisitaFromId(id_visita);
+            //Report report = rep.getByPrimaryKey(id_report);
+            infoVisita.setNome(visitaPossibile.getNome());
+            infoVisita.setDescrizione(visitaPossibile.getDescrizione());
+
+            //infoVisita.setReport(report);
+        } catch (SQLException e) {
+            throw new DAOException("Error while getting a visita_specialistica", e);
+        }
+        return infoVisita;
 
     }
 

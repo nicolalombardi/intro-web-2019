@@ -6,15 +6,14 @@ import com.icecoldbier.persistence.entities.VisitaPossibile;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class VisitePossibiliDAO extends JDBCDAO<VisitaPossibile, Integer> implements VisitePossibiliDAOInterface {
     private static final String GET_VISITE_BY_PRATICANTE = "SELECT * FROM elenco_visite_possibili WHERE praticante = CAST(? AS user_type)";
+    private static final String GET_VISITA_FROM_ID = "SELECT * FROM elenco_visite_possibili WHERE id = ?";
+
 
     /**
      * The base constructor for all the JDBC DAOs.
@@ -51,6 +50,25 @@ public class VisitePossibiliDAO extends JDBCDAO<VisitaPossibile, Integer> implem
             throw new DAOException("Error while getting the possible visits list", ex);
         }
 
+    }
+
+    @Override
+    public VisitaPossibile getVisitaFromId(int id) throws DAOException {
+        VisitaPossibile v = null;
+        try (PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITA_FROM_ID)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            String praticante = resultSet.getString("praticante");
+            String nome = resultSet.getString("nome");
+            String descrizione = resultSet.getString("descrizione");
+            int costo_ticket = resultSet.getInt("costo_ticket");
+
+            v = new VisitaPossibile(id, User.UserType.valueOf(praticante), nome, descrizione, costo_ticket);
+        } catch (SQLException e) {
+            throw new DAOException("Error while getting a visita_specialistica", e);
+        }
+        return v;
     }
 
     @Override

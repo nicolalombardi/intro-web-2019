@@ -9,4 +9,5 @@ import java.util.ArrayList;
 
 public interface VisitePossibiliDAOInterface extends DAO<VisitaPossibile, Integer> {
     ArrayList<VisitaPossibile> getVisitePossibili(User.UserType praticante) throws DAOException;
+    VisitaPossibile getVisitaFromId(int id) throws DAOException;
 }
