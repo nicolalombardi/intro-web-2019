@@ -10,7 +10,7 @@ public class VisitaSpecialistica extends Visita{
     private Integer idReport;
 
     public VisitaSpecialistica(int id, int id_visita, boolean erogata, Date dataPrescrizione, Date dataErogazione, Integer idMedico, Integer idPaziente, Integer idReport) {
-        super(id, idPaziente, dataErogazione, VisitaType.SPECIALISTICA);
+        super(id, idPaziente, dataErogazione);
         this.id_visita = id_visita;
         this.erogata = erogata;
         this.dataPrescrizione = dataPrescrizione;

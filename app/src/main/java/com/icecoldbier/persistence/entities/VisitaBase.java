@@ -6,7 +6,7 @@ public class VisitaBase extends Visita{
     private Integer idMedicoBase;
 
     public VisitaBase(Integer id, Integer idMedicoBase, Integer idPaziente, Date dataErogazione) {
-        super(id, idPaziente, dataErogazione, VisitaType.BASE);
+        super(id, idPaziente, dataErogazione);
         this.idMedicoBase = idMedicoBase;
     }
 

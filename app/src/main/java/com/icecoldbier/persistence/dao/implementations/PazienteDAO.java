@@ -80,8 +80,8 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
 
             try (ResultSet rs = preparedStatement.executeQuery()){
                 while (rs.next()){
-                    Visita.VisitaType type = Visita.VisitaType.valueOf(rs.getString("type").toUpperCase());
-                    if(type == Visita.VisitaType.BASE){
+                    String type = rs.getString("type");
+                    if(type.equals("base")){
                         VisitaBase visitaBase = new VisitaBase(
                             rs.getInt("id"),
                             rs.getInt("id_medico"),
@@ -90,7 +90,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                     );
                     visite.add(visitaBase);
                     }
-                    else if(type == Visita.VisitaType.SPECIALISTICA){
+                    else if(type.equals("specialistica")){
                         VisitaSpecialistica visitaSpecialistica = new VisitaSpecialistica(
                             rs.getInt("id"),
                             rs.getInt("id_visita"),
@@ -103,7 +103,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                     );
                     visite.add(visitaSpecialistica);
                     }
-                    if(type == Visita.VisitaType.SSP){
+                    if(type.equals("ssp")){
                         VisitaSSP visitaSSP = new VisitaSSP(
                             rs.getInt("id"),
                             rs.getInt("id_visita"),
