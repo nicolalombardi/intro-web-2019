@@ -3,6 +3,7 @@ package com.icecoldbier.persistence.dao.implementations;
 import com.icecoldbier.persistence.dao.interfaces.MedicoBaseDAOInterface;
 import com.icecoldbier.persistence.entities.User;
 import com.icecoldbier.persistence.entities.VisitaBase;
+import com.icecoldbier.persistence.entities.VisitaPossibile;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 
@@ -14,6 +15,9 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
 
     private static final String GET_USER_LIST = "SELECT id FROM visita_base WHERE id_medico = ?";
     private static final String CREATE_VISITA_BASE = "INSERT INTO visita_base(id_medico, id_paziente, data_erogazione) VALUES(?,?,?)";
+    private static final String PRESCRIVE_VISITA_SSP = "INSERT INTO prescrive_visita_ssp(id_visita, id_visita_ssp) VALUES(?,?)";
+    private static final String PRESCRIVE_VISITA_SPECIALISTICA = "INSERT INTO prescive_visita_specialistica(id_visita, id_visita_specialistica) VALUES(?,?)";
+    private static final String CREATE_VISITA_SSP = "INSERT INTO visita_ssp(id_visita, erogata, data_prescrizione, id_ssp, id_paziente) VALUES(?,?,?,?,?)";
 
     /**
      * The base constructor for all the JDBC DAOs.
@@ -69,6 +73,40 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
         } catch (SQLException e) {
             throw new DAOException("Error while creating a new visita base", e);
         }
+    }
+
+    @Override
+    public void prescrizioneEsameSSP(VisitaBase visitaBase, int idSSP, VisitaPossibile vis, Date dataPrescrizione) throws DAOException {
+
+
+        try (PreparedStatement preparedStatement = CON.prepareStatement(CREATE_VISITA_SSP)) {
+            preparedStatement.setInt(1, vis.getId());
+            preparedStatement.setBoolean(2, false);
+            preparedStatement.setDate(3, dataPrescrizione);
+            preparedStatement.setInt(4, idSSP);
+            preparedStatement.setInt(5, visitaBase.getId_paziente());
+
+            preparedStatement.execute();
+
+        } catch (SQLException e) {
+            throw new DAOException("Error while creating a new visita_ssp", e);
+
+        }
+        try (PreparedStatement preparedStatement = CON.prepareStatement(PRESCRIVE_VISITA_SSP)) {
+            preparedStatement.setInt(1, visitaBase.getId());
+            System.out.println("ID visitabase:" + visitaBase.getId() + ", id ssp: " + idSSP);
+            preparedStatement.setInt(2, idSSP);
+            preparedStatement.execute();
+
+        } catch (SQLException e) {
+            throw new DAOException("Error while creating a new prescrive_visita_ssp", e);
+
+        }
+    }
+
+    @Override
+    public void prescrizioneEsameMS(int idv, int idMS, VisitaPossibile vis) {
+
     }
 
     @Override
