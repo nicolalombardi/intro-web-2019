@@ -37,7 +37,7 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
                 while (resultSet.next()) {
                     VisitaBase vis = new VisitaBase(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getDate(4));
                     for (VisitaBase x : lista) {
-                        if (x.getIdPaziente() == vis.getIdPaziente()) {
+                        if (x.getId_paziente() == vis.getId_paziente()) {
                             if (x.getDataErogazione().before(vis.getDataErogazione())) {
                                 lista.remove(x);
                                 lista.add(vis);
