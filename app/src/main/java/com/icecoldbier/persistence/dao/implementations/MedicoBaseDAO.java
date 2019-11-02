@@ -18,6 +18,8 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
     private static final String PRESCRIVE_VISITA_SSP = "INSERT INTO prescrive_visita_ssp(id_visita, id_visita_ssp) VALUES(?,?)";
     private static final String PRESCRIVE_VISITA_SPECIALISTICA = "INSERT INTO prescive_visita_specialistica(id_visita, id_visita_specialistica) VALUES(?,?)";
     private static final String CREATE_VISITA_SSP = "INSERT INTO visita_ssp(id_visita, erogata, data_prescrizione, id_ssp, id_paziente) VALUES(?,?,?,?,?)";
+    private static final String CREATE_VISITA_SPECIALISTICA = "INSERT INTO visita_specialistica(id_visita, erogata, data_prescrizione, id_medico, id_paziente) VALUES(?,?,?,?,?)";
+
 
     /**
      * The base constructor for all the JDBC DAOs.
@@ -94,7 +96,7 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
         }
         try (PreparedStatement preparedStatement = CON.prepareStatement(PRESCRIVE_VISITA_SSP)) {
             preparedStatement.setInt(1, visitaBase.getId());
-            System.out.println("ID visitabase:" + visitaBase.getId() + ", id ssp: " + idSSP);
+            System.out.println("ID visita_base:" + visitaBase.getId() + ", id ssp: " + idSSP);
             preparedStatement.setInt(2, idSSP);
             preparedStatement.execute();
 
@@ -105,8 +107,30 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
     }
 
     @Override
-    public void prescrizioneEsameMS(int idv, int idMS, VisitaPossibile vis) {
+    public void prescrizioneEsameMS(VisitaBase visitaBase, int idMS, VisitaPossibile vis, Date dataPrescrizione) throws DAOException {
+        try (PreparedStatement preparedStatement = CON.prepareStatement(CREATE_VISITA_SPECIALISTICA)) {
+            preparedStatement.setInt(1, vis.getId());
+            preparedStatement.setBoolean(2, false);
+            preparedStatement.setDate(3, dataPrescrizione);
+            preparedStatement.setInt(4, idMS);
+            preparedStatement.setInt(5, visitaBase.getId_paziente());
 
+            preparedStatement.execute();
+
+        } catch (SQLException e) {
+            throw new DAOException("Error while creating a new visita_specialistica", e);
+
+        }
+        try (PreparedStatement preparedStatement = CON.prepareStatement(PRESCRIVE_VISITA_SPECIALISTICA)) {
+            preparedStatement.setInt(1, visitaBase.getId());
+            System.out.println("ID visita_base:" + visitaBase.getId() + ", id medico_specialista: " + idMS);
+            preparedStatement.setInt(2, idMS);
+            preparedStatement.execute();
+
+        } catch (SQLException e) {
+            throw new DAOException("Error while creating a new prescrive_visita_specialistica", e);
+
+        }
     }
 
     @Override

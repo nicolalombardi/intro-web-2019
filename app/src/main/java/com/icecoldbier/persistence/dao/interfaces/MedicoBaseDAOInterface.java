@@ -13,5 +13,5 @@ public interface MedicoBaseDAOInterface extends DAO<User, Integer> {
     public ArrayList<VisitaBase> getListaPazienti(int id);
     public void createVisitaBase(int idm, int idp, Date data) throws DAOException;
     public void prescrizioneEsameSSP(VisitaBase visitaBase, int idSSP, VisitaPossibile vis, Date dataPrescrizione) throws DAOException;
-    public void prescrizioneEsameMS(int idv, int idMS, VisitaPossibile vis);
+    public void prescrizioneEsameMS(VisitaBase visitaBase, int idMS, VisitaPossibile vis, Date dataPrescrizione) throws DAOException;
 }
