@@ -16,11 +16,11 @@ INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket
 INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Visita specialistica 3', 'Descrizione della visita specialistica 3', 50);
 INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Visita specialistica 4', 'Descrizione della visita specialistica 4', 50);
 INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Visita specialistica 5', 'Descrizione della visita specialistica 5', 50);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssn', 'Visita ssn 1', 'Descrizione della visita ssn 1', 11);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssn', 'Visita ssn 2', 'Descrizione della visita ssn 2', 11);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssn', 'Visita ssn 3', 'Descrizione della visita ssn 3', 11);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssn', 'Visita ssn 4', 'Descrizione della visita ssn 4', 11);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssn', 'Visita ssn 5', 'Descrizione della visita ssn 5', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Visita ssp 1', 'Descrizione della visita ssp 1', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Visita ssp 2', 'Descrizione della visita ssp 2', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Visita ssp 3', 'Descrizione della visita ssp 3', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Visita ssp 4', 'Descrizione della visita ssp 4', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Visita ssp 5', 'Descrizione della visita ssp 5', 11);
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES('paziente', 'Nicola.Ferrari@fake.gmail.com', '10000:a98ff6a57cadcb55:1db21b5686c6a742be54f8bfd93fae23d7a482aa851fb37fc58fb857fc389665884dca65d8363e633f9c2a7d56d9bac1105d3b7dab09bde8f251f61dabb5c5c8','Nicola', 'Ferrari', 'Brescia');
 INSERT INTO paziente(id_user, data_nascita, luogo_nascita, codice_fiscale, sesso, foto, id_medico, email) VALUES('11', '1961-12-15', 'Roma', 'FRRNCL61T15H501B', 'M', '','1', 'Nicola.Ferrari@fake.gmail.com');
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES('paziente', 'Giovanni.Greco@fake.gmail.com', '10000:9d6d7eb7bf75ac5d:8ff06ff941994d3c5436e03c379f060acb6de920f86c157d4f26494fab2e0852f2a5f2e7f3029e1f21abfbace23cc72ddb3c24f4b6f7e4319acd53a2d7733991','Giovanni', 'Greco', 'Brescia');

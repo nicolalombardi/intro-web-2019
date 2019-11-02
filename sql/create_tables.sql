@@ -1,4 +1,4 @@
-CREATE TYPE user_type AS ENUM ('paziente', 'medico_base', 'medico_specialista', 'ssn');
+CREATE TYPE user_type AS ENUM ('paziente', 'medico_base', 'medico_specialista', 'ssp');
 
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,

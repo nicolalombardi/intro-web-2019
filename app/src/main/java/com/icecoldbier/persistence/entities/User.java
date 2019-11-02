@@ -5,7 +5,7 @@ public class User {
         medico_base,
         medico_specialista,
         paziente,
-        ssn;
+        ssp;
     }
 
     private Integer id;
