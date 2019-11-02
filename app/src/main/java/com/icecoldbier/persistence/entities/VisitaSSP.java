@@ -2,20 +2,18 @@ package com.icecoldbier.persistence.entities;
 
 import java.sql.Date;
 
-public class VisitaSpecialistica extends Visita{
+public class VisitaSSP extends Visita {
     private int id_visita;
     private boolean erogata;
     private Date dataPrescrizione;
-    private Integer idMedico;
-    private Integer idReport;
+    private Integer idSSP;
 
-    public VisitaSpecialistica(int id, int id_visita, boolean erogata, Date dataPrescrizione, Date dataErogazione, Integer idMedico, Integer idPaziente, Integer idReport) {
-        super(id, idPaziente, dataErogazione, VisitaType.SPECIALISTICA);
+    public VisitaSSP(int id, int id_visita, boolean erogata, Date dataPrescrizione, Date dataErogazione, Integer idSSP, Integer idPaziente) {
+        super(id, idPaziente, dataErogazione, VisitaType.SSP);
         this.id_visita = id_visita;
         this.erogata = erogata;
         this.dataPrescrizione = dataPrescrizione;
-        this.idMedico = idMedico;
-        this.idReport = idReport;
+        this.idSSP = idSSP;
     }
 
     public int getId_visita() {
@@ -42,19 +40,12 @@ public class VisitaSpecialistica extends Visita{
         this.dataPrescrizione = dataPrescrizione;
     }
 
-    public Integer getIdMedico() {
-        return idMedico;
+    public Integer getIdSSP() {
+        return idSSP;
     }
 
-    public void setIdMedico(Integer idMedico) {
-        this.idMedico = idMedico;
+    public void setIdSSP(Integer idSSP) {
+        this.idSSP = idSSP;
     }
 
-    public Integer getIdReport() {
-        return idReport;
-    }
-
-    public void setIdReport(Integer idReport) {
-        this.idReport = idReport;
-    }
 }

@@ -1,26 +1,13 @@
 package com.icecoldbier.persistence.entities;
 
-import java.util.Date;
+import java.sql.Date;
 
-public class VisitaBase {
-    private Integer id;
+public class VisitaBase extends Visita{
     private Integer idMedicoBase;
-    private Integer idPaziente;
-    private Date dataErogazione;
 
     public VisitaBase(Integer id, Integer idMedicoBase, Integer idPaziente, Date dataErogazione) {
-        this.id = id;
+        super(id, idPaziente, dataErogazione, VisitaType.BASE);
         this.idMedicoBase = idMedicoBase;
-        this.idPaziente = idPaziente;
-        this.dataErogazione = dataErogazione;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Integer getIdMedicoBase() {
@@ -29,21 +16,5 @@ public class VisitaBase {
 
     public void setIdMedicoBase(Integer idMedicoBase) {
         this.idMedicoBase = idMedicoBase;
-    }
-
-    public Integer getIdPaziente() {
-        return idPaziente;
-    }
-
-    public void setIdPaziente(Integer idPaziente) {
-        this.idPaziente = idPaziente;
-    }
-
-    public Date getDataErogazione() {
-        return dataErogazione;
-    }
-
-    public void setDataErogazione(Date dataErogazione) {
-        this.dataErogazione = dataErogazione;
     }
 }
