@@ -55,7 +55,7 @@ CREATE TABLE visita_specialistica(
     id_visita INT REFERENCES elenco_visite_possibili(id) NOT NULL,
     erogata BOOLEAN NOT NULL,
     data_prescrizione DATE NOT NULL,
-    data_erogazione DATE NOT NULL,
+    data_erogazione DATE,
     id_medico INT REFERENCES users(id) NOT NULL,
     id_paziente INT REFERENCES paziente(id_user) NOT NULL,
     id_report INT REFERENCES report(id)
