@@ -127,15 +127,15 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
             id_report = resultSet.getInt("id_report");
 
             //System.out.println(id_visita+"  "+id_report);
-
             VisitePossibiliDAO vis = new VisitePossibiliDAO(CON);
-            //ReportDAO rep = new ReportDAO(CON);
+            if(id_report > 0){
+                ReportDAO rep = new ReportDAO(CON);
+                Report report = rep.getByPrimaryKey(id_report);
+                infoVisita.setReport(report);
+            }
             VisitaPossibile visitaPossibile = vis.getByPrimaryKey(id_visita);
-            //Report report = rep.getByPrimaryKey(id_report);
             infoVisita.setNome(visitaPossibile.getNome());
             infoVisita.setDescrizione(visitaPossibile.getDescrizione());
-
-            //infoVisita.setReport(report);
         } catch (SQLException e) {
             throw new DAOException("Error while getting a visita_specialistica", e);
         }
