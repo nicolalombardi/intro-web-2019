@@ -38,18 +38,8 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
 
     @Override
     public Paziente getByPrimaryKey(Integer primaryKey) throws DAOException {
-        return null;
-    }
-
-    @Override
-    public List<Paziente> getAll() throws DAOException {
-        return null;
-    }
-
-    @Override
-    public Paziente getPaziente(Integer id) throws DAOException {
         try(PreparedStatement preparedStatement = CON.prepareStatement(GET_PAZIENTE_BY_ID)){
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, primaryKey);
             try(ResultSet resultSet = preparedStatement.executeQuery()){
                 resultSet.next();
                 return new Paziente(
@@ -67,6 +57,11 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
         } catch (SQLException e) {
             throw new DAOException("Error while getting paziente", e);
         }
+    }
+
+    @Override
+    public List<Paziente> getAll() throws DAOException {
+        return null;
     }
 
     @Override
