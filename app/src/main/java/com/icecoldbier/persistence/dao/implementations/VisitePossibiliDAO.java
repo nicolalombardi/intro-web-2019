@@ -53,10 +53,15 @@ public class VisitePossibiliDAO extends JDBCDAO<VisitaPossibile, Integer> implem
     }
 
     @Override
-    public VisitaPossibile getVisitaFromId(int id) throws DAOException {
+    public Long getCount() throws DAOException {
+        return null;
+    }
+
+    @Override
+    public VisitaPossibile getByPrimaryKey(Integer primaryKey) throws DAOException {
         VisitaPossibile v = null;
         try (PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITA_FROM_ID)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, primaryKey);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             String praticante = resultSet.getString("praticante");
@@ -64,21 +69,11 @@ public class VisitePossibiliDAO extends JDBCDAO<VisitaPossibile, Integer> implem
             String descrizione = resultSet.getString("descrizione");
             int costo_ticket = resultSet.getInt("costo_ticket");
 
-            v = new VisitaPossibile(id, User.UserType.valueOf(praticante), nome, descrizione, costo_ticket);
+            v = new VisitaPossibile(primaryKey, User.UserType.valueOf(praticante), nome, descrizione, costo_ticket);
         } catch (SQLException e) {
             throw new DAOException("Error while getting a visita_specialistica", e);
         }
         return v;
-    }
-
-    @Override
-    public Long getCount() throws DAOException {
-        return null;
-    }
-
-    @Override
-    public VisitaPossibile getByPrimaryKey(Integer primaryKey) throws DAOException {
-        return null;
     }
 
     @Override
