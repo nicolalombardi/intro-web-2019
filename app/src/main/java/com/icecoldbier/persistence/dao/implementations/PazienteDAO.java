@@ -1,5 +1,6 @@
 package com.icecoldbier.persistence.dao.implementations;
 
+import com.icecoldbier.persistence.dao.exceptions.ProvincieNotMatchingException;
 import com.icecoldbier.persistence.dao.interfaces.PazienteDAOInterface;
 import com.icecoldbier.persistence.entities.*;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
@@ -12,7 +13,10 @@ import java.util.List;
 public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteDAOInterface {
     private static final String GET_PAZIENTE_BY_ID = "SELECT * FROM paziente WHERE id_user = ?";
     private static final String GET_ALL_VISITE = "SELECT 'specialistica' as type, id, id_visita, erogata, data_prescrizione, data_erogazione, id_medico, id_paziente, id_report, NULL AS id_ssp from visita_specialistica WHERE id_paziente = ? UNION SELECT 'ssp' AS type, id, id_visita, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_paziente, NULL AS id_report, id_ssp from visita_ssp WHERE id_paziente = ? UNION SELECT 'base' AS type, id, NULL AS id_visita, NULL AS erogata, NULL AS data_prescrizione, data_erogazione, id_medico, id_paziente, NULL AS id_report, NULL AS id_ssp FROM visita_base WHERE id_paziente = ?;";
-
+    private static final String GET_ALL_VISITE_PAGATE = "SELECT 'specialistica' as type, id, id_visita, erogata, data_prescrizione, data_erogazione, id_medico, id_paziente, id_report, NULL AS id_ssp from visita_specialistica WHERE id_paziente = ? AND data_erogazione IS NOT NULL UNION SELECT 'ssp' AS type, id, id_visita, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_paziente, NULL AS id_report, id_ssp from visita_ssp WHERE id_paziente = ? AND data_erogazione IS NOT NULL;";
+    private static final String GET_ALL_RICETTE = "SELECT * FROM ricetta LEFT JOIN visita_base ON ricetta.id_visita_base = visita_base.id WHERE id_paziente = ?";
+    private static final String CHANGE_PROFILE_PICTURE = "UPDATE paziente SET foto = ? WHERE id_user = ?";
+    private static final String CHANGE_MEDICO_BASE = "UPDATE paziente SET id_medico = ? WHERE id_user = ?";
     /**
      * The base constructor for all the JDBC DAOs.
      *
@@ -109,5 +113,95 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
             throw new DAOException("Error while getting list of visite", e);
         }
         return visite;
+    }
+
+    @Override
+    public ArrayList<Ricetta> getRicette(Integer id) throws DAOException {
+        ArrayList<Ricetta> ricette = new ArrayList<>();
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_ALL_RICETTE)){
+            preparedStatement.setInt(1, id);
+            try(ResultSet rs = preparedStatement.executeQuery()){
+                while(rs.next()){
+                    ricette.add(new Ricetta(
+                            rs.getInt("id"),
+                            rs.getString("farmaco"),
+                            rs.getInt("id_visita_base"),
+                            rs.getBoolean("prescritta")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Error while getting ricette", e);
+        }
+        return ricette;
+    }
+
+    @Override
+    public void changeProfilePicture(Integer pazienteId, String newPath) throws DAOException {
+        try(PreparedStatement preparedStatement = CON.prepareStatement(CHANGE_PROFILE_PICTURE)){
+            preparedStatement.setString(1, newPath);
+            preparedStatement.setInt(2, pazienteId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new DAOException("Error while changing profile picture", e);
+        }
+    }
+
+    @Override
+    public void changeMedicoBase(User paziente, User newMedicoBase) throws DAOException, ProvincieNotMatchingException {
+        if(!paziente.getProvinciaAppartenenza().equals(newMedicoBase.getProvinciaAppartenenza())){
+            throw new ProvincieNotMatchingException();
+        }
+        try(PreparedStatement preparedStatement = CON.prepareStatement(CHANGE_MEDICO_BASE)){
+            preparedStatement.setInt(1, newMedicoBase.getId());
+            preparedStatement.setInt(2, paziente.getId());
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new DAOException("Error while changing medico base", e);
+        }
+    }
+
+    @Override
+    public ArrayList<Visita> getVisitePagate(Integer pazienteId) throws DAOException {
+        ArrayList<Visita> visitePagate = new ArrayList<>();
+
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_ALL_VISITE_PAGATE)){
+            preparedStatement.setInt(1, pazienteId);
+            preparedStatement.setInt(2, pazienteId);
+
+            try (ResultSet rs = preparedStatement.executeQuery()){
+                while (rs.next()){
+                    String type = rs.getString("type");
+                    if(type.equals("specialistica")){
+                        VisitaSpecialistica visitaSpecialistica = new VisitaSpecialistica(
+                                rs.getInt("id"),
+                                rs.getInt("id_visita"),
+                                rs.getBoolean("erogata"),
+                                rs.getDate("data_prescrizione"),
+                                rs.getDate("data_erogazione"),
+                                rs.getInt("id_medico"),
+                                rs.getInt("id_paziente"),
+                                rs.getInt("id_report")
+                        );
+                        visitePagate.add(visitaSpecialistica);
+                    }
+                    if(type.equals("ssp")){
+                        VisitaSSP visitaSSP = new VisitaSSP(
+                                rs.getInt("id"),
+                                rs.getInt("id_visita"),
+                                rs.getBoolean("erogata"),
+                                rs.getDate("data_prescrizione"),
+                                rs.getDate("data_erogazione"),
+                                rs.getInt("id_ssp"),
+                                rs.getInt("id_paziente")
+                        );
+                        visitePagate.add(visitaSSP);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Error while getting list of visite pagate", e);
+        }
+        return visitePagate;
     }
 }
