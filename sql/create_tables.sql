@@ -40,7 +40,7 @@ CREATE TABLE visita_base(
 CREATE TABLE ricetta(
     id SERIAL PRIMARY KEY,
     farmaco VARCHAR(100) NOT NULL,
-    id_visita_base INT REFERENCES visita_base NOT NULL,
+    id_visita_base INT REFERENCES visita_base(id) NOT NULL,
     prescritta BOOLEAN NOT NULL --se è stata proposta dal medico specialista o se è stata accettata dal medico di base
 );
 
