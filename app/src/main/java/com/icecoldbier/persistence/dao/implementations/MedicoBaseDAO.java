@@ -33,7 +33,7 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
 
 
     @Override
-    public ArrayList<VisitaBase> getListaPazienti(int id) {
+    public ArrayList<VisitaBase> getListaPazienti(int id) throws  DAOException {
         int change = 0;
         ArrayList<VisitaBase> lista = new ArrayList<>();
         try (PreparedStatement preparedStatement = CON.prepareStatement(GET_USER_LIST)) {
@@ -58,7 +58,7 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Error while getting pazienti list", e);
         }
         return lista;
     }
