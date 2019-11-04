@@ -12,11 +12,12 @@ import java.util.List;
 
 public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteDAOInterface {
     private static final String GET_PAZIENTE_BY_ID = "SELECT * FROM paziente WHERE id_user = ?";
-    private static final String GET_ALL_VISITE = "SELECT 'specialistica' as type, id, id_visita, erogata, data_prescrizione, data_erogazione, id_medico, id_paziente, id_report, NULL AS id_ssp from visita_specialistica WHERE id_paziente = ? UNION SELECT 'ssp' AS type, id, id_visita, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_paziente, NULL AS id_report, id_ssp from visita_ssp WHERE id_paziente = ? UNION SELECT 'base' AS type, id, NULL AS id_visita, NULL AS erogata, NULL AS data_prescrizione, data_erogazione, id_medico, id_paziente, NULL AS id_report, NULL AS id_ssp FROM visita_base WHERE id_paziente = ?;";
-    private static final String GET_ALL_VISITE_PAGATE = "SELECT 'specialistica' as type, id, id_visita, erogata, data_prescrizione, data_erogazione, id_medico, id_paziente, id_report, NULL AS id_ssp from visita_specialistica WHERE id_paziente = ? AND data_erogazione IS NOT NULL UNION SELECT 'ssp' AS type, id, id_visita, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_paziente, NULL AS id_report, id_ssp from visita_ssp WHERE id_paziente = ? AND data_erogazione IS NOT NULL;";
+    private static final String GET_ALL_VISITE = "SELECT 'specialistica' as type, id, id_visita, erogata, data_prescrizione, data_erogazione, id_medico, id_paziente, id_report, NULL AS id_ssp FROM visita_specialistica WHERE id_paziente = ? UNION SELECT 'ssp' AS type, id, id_visita, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_paziente, NULL AS id_report, id_ssp FROM visita_ssp WHERE id_paziente = ? UNION SELECT 'base' AS type, id, NULL AS id_visita, NULL AS erogata, NULL AS data_prescrizione, data_erogazione, id_medico, id_paziente, NULL AS id_report, NULL AS id_ssp FROM visita_base WHERE id_paziente = ?;";
+    private static final String GET_ALL_TICKETS = "SELECT visita_specialistica.data_erogazione AS data, 'specialistica' as type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_specialistica LEFT JOIN elenco_visite_possibili ON visita_specialistica.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL UNION SELECT visita_ssp.data_erogazione, 'ssp' AS type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_ssp LEFT JOIN elenco_visite_possibili ON visita_ssp.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL;";
     private static final String GET_ALL_RICETTE = "SELECT * FROM ricetta LEFT JOIN visita_base ON ricetta.id_visita_base = visita_base.id WHERE id_paziente = ?";
     private static final String CHANGE_PROFILE_PICTURE = "UPDATE paziente SET foto = ? WHERE id_user = ?";
     private static final String CHANGE_MEDICO_BASE = "UPDATE paziente SET id_medico = ? WHERE id_user = ?";
+
     /**
      * The base constructor for all the JDBC DAOs.
      *
@@ -162,46 +163,26 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     }
 
     @Override
-    public ArrayList<Visita> getVisitePagate(Integer pazienteId) throws DAOException {
-        ArrayList<Visita> visitePagate = new ArrayList<>();
+    public ArrayList<Ticket> getTickets(Integer pazienteId) throws DAOException {
+        ArrayList<Ticket> tickets = new ArrayList<>();
 
-        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_ALL_VISITE_PAGATE)){
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_ALL_TICKETS)){
             preparedStatement.setInt(1, pazienteId);
             preparedStatement.setInt(2, pazienteId);
 
             try (ResultSet rs = preparedStatement.executeQuery()){
                 while (rs.next()){
-                    String type = rs.getString("type");
-                    if(type.equals("specialistica")){
-                        VisitaSpecialistica visitaSpecialistica = new VisitaSpecialistica(
-                                rs.getInt("id"),
-                                rs.getInt("id_visita"),
-                                rs.getBoolean("erogata"),
-                                rs.getDate("data_prescrizione"),
-                                rs.getDate("data_erogazione"),
-                                rs.getInt("id_medico"),
-                                rs.getInt("id_paziente"),
-                                rs.getInt("id_report")
-                        );
-                        visitePagate.add(visitaSpecialistica);
-                    }
-                    if(type.equals("ssp")){
-                        VisitaSSP visitaSSP = new VisitaSSP(
-                                rs.getInt("id"),
-                                rs.getInt("id_visita"),
-                                rs.getBoolean("erogata"),
-                                rs.getDate("data_prescrizione"),
-                                rs.getDate("data_erogazione"),
-                                rs.getInt("id_ssp"),
-                                rs.getInt("id_paziente")
-                        );
-                        visitePagate.add(visitaSSP);
-                    }
+                    Ticket t = new Ticket(
+                            rs.getDate("data"),
+                            rs.getString("type"),
+                            rs.getString("nome"),
+                            rs.getInt("costo")
+                    );
                 }
             }
         } catch (SQLException e) {
             throw new DAOException("Error while getting list of visite pagate", e);
         }
-        return visitePagate;
+        return tickets;
     }
 }
