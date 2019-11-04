@@ -38,6 +38,7 @@ public class RicettaDAO extends JDBCDAO<Ricetta, Integer> implements RicettaDAOI
                 Ricetta r = new Ricetta(
                         resultSet.getInt("id"),
                         resultSet.getString("farmaco"),
+                        resultSet.getInt("id_visita_base"),
                         resultSet.getBoolean("prescritta")
                 );
                 return r;
