@@ -8,6 +8,5 @@ import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import java.util.ArrayList;
 
 public interface PazienteDAOInterface extends DAO<Paziente, Integer> {
-    ArrayList<Visita> getVisiteSingleQuery(Integer id) throws DAOException;
-    ArrayList<Visita> getVisiteMultipleQueries(Integer id) throws DAOException;
+    ArrayList<Visita> getVisite(Integer id) throws DAOException;
 }
