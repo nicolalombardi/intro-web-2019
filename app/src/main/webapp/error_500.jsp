@@ -2,4 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
 Errore 500
+<%
+    out.println("Causa: " + exception.getCause() + "</br>");
+    out.println("Messaggio: " + exception.getMessage());
+%>
 </html>
