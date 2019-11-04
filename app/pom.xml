@@ -26,6 +26,11 @@
             <artifactId>postgresql</artifactId>
             <version>9.0-801.jdbc4</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.dhorions</groupId>
+            <artifactId>boxable</artifactId>
+            <version>1.5</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
         <dependency>
             <groupId>com.sun.mail</groupId>

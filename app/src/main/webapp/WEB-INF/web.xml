@@ -28,4 +28,9 @@
         <error-code>404</error-code>
         <location>/error_404.jsp</location>
     </error-page>
+    <context-param>
+        <description>The folder where are stored the exported pdfs</description>
+        <param-name>pdfFolder</param-name>
+        <param-value>pdfs</param-value>
+    </context-param>
 </web-app>
