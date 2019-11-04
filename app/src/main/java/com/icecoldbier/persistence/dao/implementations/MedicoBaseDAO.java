@@ -16,6 +16,7 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
     private static final String CREATE_VISITA_SSP = "INSERT INTO visita_ssp(id_visita, erogata, data_prescrizione, id_ssp, id_paziente, id_medico_base) VALUES(?,?,?,?,?,?)";
     private static final String CREATE_VISITA_SPECIALISTICA = "INSERT INTO visita_specialistica(id_visita, erogata, data_prescrizione, id_medico, id_paziente, id_medico_base) VALUES(?,?,?,?,?,?)";
     private static final String GET_VISITA_SPECIALISTICA = "SELECT id_visita, id_report FROM visita_specialistica WHERE id = ? ";
+    private static final String CREATE_RICETTA = "INSERT INTO ricetta(farmaco, id_visita_base, prescritta) VALUES(?,?,?)";
 
 
 
@@ -141,6 +142,19 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
         }
         return infoVisita;
 
+    }
+
+    @Override
+    public void prescrizioneRicetta(int idv, String farmaco) throws DAOException {
+        try (PreparedStatement preparedStatement = CON.prepareStatement(CREATE_RICETTA)) {
+            preparedStatement.setString(1, farmaco);
+            preparedStatement.setInt(2, idv);
+            preparedStatement.setBoolean(3, true);
+            preparedStatement.execute();
+
+        } catch (SQLException e) {
+            throw new DAOException("Error while creating a new ricetta", e);
+        }
     }
 
     @Override

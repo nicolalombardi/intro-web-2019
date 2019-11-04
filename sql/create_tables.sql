@@ -10,20 +10,6 @@ CREATE TABLE users(
     provincia_appartenenza VARCHAR(64) NOT NULL
 );
 
-CREATE TABLE ricetta(
-    id SERIAL PRIMARY KEY,
-    farmaco VARCHAR(100) NOT NULL,
-    id_visita_base INT REFERENCES visita_base NOT NULL,
-    prescritta BOOLEAN NOT NULL --se è stata proposta dal medico specialista o se è stata accettata dal medico di base
-);
-
-CREATE TABLE report(
-    id SERIAL PRIMARY KEY,
-    esito TEXT NOT NULL,
-    id_ricetta INT REFERENCES ricetta(id)
-);
-
-
 CREATE TABLE paziente(
     id_user INT PRIMARY KEY REFERENCES users(id) NOT NULL,
     data_nascita DATE NOT NULL,
@@ -49,6 +35,19 @@ CREATE TABLE visita_base(
     id_medico INT REFERENCES users(id) NOT NULL,
     id_paziente INT REFERENCES paziente(id_user) NOT NULL,
     data_erogazione DATE NOT NULL
+);
+
+CREATE TABLE ricetta(
+    id SERIAL PRIMARY KEY,
+    farmaco VARCHAR(100) NOT NULL,
+    id_visita_base INT REFERENCES visita_base NOT NULL,
+    prescritta BOOLEAN NOT NULL --se è stata proposta dal medico specialista o se è stata accettata dal medico di base
+);
+
+CREATE TABLE report(
+    id SERIAL PRIMARY KEY,
+    esito TEXT NOT NULL,
+    id_ricetta INT REFERENCES ricetta(id)
 );
 
 CREATE TABLE visita_specialistica(

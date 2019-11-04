@@ -13,4 +13,5 @@ public interface MedicoBaseDAOInterface extends DAO<User, Integer> {
     public void prescrizioneEsameSSP(VisitaBase visitaBase, int idSSP, VisitaPossibile vis, Date dataPrescrizione) throws DAOException;
     public void prescrizioneEsameMS(VisitaBase visitaBase, int idMS, VisitaPossibile vis, Date dataPrescrizione) throws DAOException;
     public InfoVisita getInfoVisita(int idv) throws DAOException;
+    public void prescrizioneRicetta(int idv, String farmaco) throws DAOException;
 }
