@@ -1,17 +1,28 @@
 package com.icecoldbier.persistence.dao.implementations;
 
 import com.icecoldbier.persistence.dao.interfaces.SSPDAOInterface;
+import com.icecoldbier.persistence.entities.InfoRicetta;
+import com.icecoldbier.persistence.entities.Ricetta;
 import com.icecoldbier.persistence.entities.SSP;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class SSPDAO extends JDBCDAO<SSP, Integer> implements SSPDAOInterface {
     private static final String EROGA_VISITA_BY_ID = "UPDATE visita_ssp SET erogata = TRUE, data_erogazione = NOW() WHERE id = ?";
+    private static final String GET_VISITE = "SELECT v.data_erogazione AS data, r.farmaco AS farmaco, v.id_medico AS medico, v.id_paziente AS paziente FROM visita_base v, ricetta r, users m WHERE r.id_visita_base = v.id AND v.id_medico = m.id AND v.data_erogazione = CAST ( ? AS date) AND m.provincia_appartenenza = ?";
+
 
     /**
      * The base constructor for all the JDBC DAOs.
@@ -34,6 +45,25 @@ public class SSPDAO extends JDBCDAO<SSP, Integer> implements SSPDAOInterface {
             throw new DAOException("Error while updating visita", e);
         }
     }
+
+    @Override
+    public ArrayList<InfoRicetta> getListaRicette(Date data, SSP ssp) throws DAOException {
+        ArrayList<InfoRicetta> list = new ArrayList<InfoRicetta>();
+        try (PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE)) {
+            preparedStatement.setDate(1, data);
+            preparedStatement.setString(2, ssp.getProvinciaAppartenenza());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                list.add(new InfoRicetta(resultSet.getDate("data"), resultSet.getString("farmaco"), resultSet.getInt("medico"), resultSet.getInt("paziente")));
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Error while getting lista ricette erogate in un giorno ", e);
+        }
+        return list;
+
+    }
+
 
 
     @Override
