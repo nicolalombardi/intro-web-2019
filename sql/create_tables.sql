@@ -5,8 +5,8 @@ CREATE TABLE users(
     typ user_type,
     username VARCHAR(128),
     pass VARCHAR(256),
-    nome VARCHAR(40) NOT NULL,
-    cognome VARCHAR(40) NOT NULL,
+    nome VARCHAR(40),
+    cognome VARCHAR(40),
     provincia_appartenenza VARCHAR(64) NOT NULL
 );
 
@@ -71,9 +71,4 @@ CREATE TABLE visita_ssp(
     id_ssp INT REFERENCES users(id) NOT NULL,
     id_paziente INT REFERENCES paziente(id_user) NOT NULL,
     id_medico_base INT REFERENCES users(id) NOT NULL
-);
-
-CREATE TABLE servizio_sanitario_provinciale(
-    id SERIAL PRIMARY KEY,
-    provincia_appartenenza VARCHAR(64) NOT NULL
 );
