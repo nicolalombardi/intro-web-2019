@@ -44,9 +44,14 @@ public class XLSServlet extends HttpServlet {
 
     @Override
     //due parametri passati : idssp e date
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //String folder = "/home/andrea/Desktop/progettoWeb/intro-web-2019/app/src/main/webapp/WEB-INF/";
-        String folder = "folderPath";  //DA MODIFICARE!!!
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String xlsFolder = getServletContext().getInitParameter("xlsFolder");
+        if (xlsFolder == null) {
+            throw new ServletException("XLSs folder not configured");
+        }
+        xlsFolder = getServletContext().getRealPath(xlsFolder);
+
         int idssp = Integer.parseInt(req.getParameter("idssp"));
         SSP ssp = null;
         ArrayList<InfoRicetta> list = null;
@@ -117,8 +122,8 @@ public class XLSServlet extends HttpServlet {
             sheet.autoSizeColumn(i);
         }
 
-        File fold = new File(folder);
-        File result = new File(fold, "Report.xls");
+        File fold = new File(xlsFolder);
+        File result = new File(fold, "Report" + data.toString() + ".xls");
         try (FileOutputStream outputStream = new FileOutputStream(result)) {
             workbook.write(outputStream);
         }
