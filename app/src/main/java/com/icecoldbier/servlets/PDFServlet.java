@@ -148,7 +148,7 @@ public class PDFServlet extends HttpServlet {
             doc.save(new File(pdfFolder, "user-" + "prova" + "-" + Calendar.getInstance().getTimeInMillis() + ".pdf"));
 
             response.setContentType("application/pdf");
-            response.setHeader("Content-disposition", "attachment; filename='prova.pdf'");
+            response.setHeader("Content-disposition", "attachment; filename=prova.pdf");
             doc.save(response.getOutputStream());
         }
 

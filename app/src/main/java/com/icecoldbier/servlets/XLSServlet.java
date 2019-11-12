@@ -125,11 +125,11 @@ public class XLSServlet extends HttpServlet {
         File fold = new File(xlsFolder);
         String name = "Report" + data.toString() + ".xls";
         File result = new File(fold, name);
-
-        resp.setContentType("application/pdf");
-        resp.setHeader("Content-disposition", "attachment; filename='" + name + "'");
+        resp.setContentType("application/vnd.ms-excel");
+        resp.setHeader("Content-disposition", "attachment; filename=" + name + "");
         try (FileOutputStream outputStream = new FileOutputStream(result)) {
             workbook.write(outputStream);
+            workbook.write(resp.getOutputStream());
         }
     }
 }
