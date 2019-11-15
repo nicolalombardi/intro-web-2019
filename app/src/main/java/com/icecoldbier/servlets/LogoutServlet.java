@@ -40,7 +40,7 @@ public class LogoutServlet extends HttpServlet {
         String contextPath = Utils.getServletContextPath(getServletContext());
 
         if (!response.isCommitted()) {
-            response.sendRedirect(response.encodeRedirectURL(contextPath + "login.html"));
+            response.sendRedirect(response.encodeRedirectURL(contextPath + "login.jsp"));
         }
     }
 }
