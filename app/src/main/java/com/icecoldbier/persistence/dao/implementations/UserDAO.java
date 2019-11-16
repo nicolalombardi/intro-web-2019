@@ -18,6 +18,7 @@ public class UserDAO extends JDBCDAO<User, Integer> implements UserDAOInterface 
     private static final String GET_ALL = "SELECT * FROM users ORDER BY cognome";
     private static final String REGISTER_QUERY = "INSERT INTO users(typ, username, pass, nome, cognome, provincia_appartenenza) VALUES(?,?,?,?,?,?)";
     private static final String GET_USER_BY_USERNAME_QUERY = "SELECT * FROM users WHERE username = ?";
+    private static final String UPDATE_USER_LOCALE = "UPDATE users SET locale = ? WHERE id = ?";
 
     /**
      * The base constructor for all the JDBC DAOs.
@@ -43,7 +44,8 @@ public class UserDAO extends JDBCDAO<User, Integer> implements UserDAOInterface 
                         rs.getString("pass"),
                         rs.getString("nome"),
                         rs.getString("cognome"),
-                        rs.getString("provincia_appartenenza")
+                        rs.getString("provincia_appartenenza"),
+                        rs.getString("locale")
                 );
 
                 return Password.isMatching(password, u.getPassword()) ? u : null; //Return user if matching, null otherwise
@@ -68,6 +70,17 @@ public class UserDAO extends JDBCDAO<User, Integer> implements UserDAOInterface 
             throw new DAOException("Error while creating a new user", e);
         }
 
+    }
+
+    @Override
+    public void setUserLocale(int userId, String locale) throws DAOException {
+        try(PreparedStatement preparedStatement = CON.prepareStatement(UPDATE_USER_LOCALE)){
+            preparedStatement.setString(1, locale);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new DAOException("Error while updating user locale", e);
+        }
     }
 
     @Override
@@ -103,7 +116,8 @@ public class UserDAO extends JDBCDAO<User, Integer> implements UserDAOInterface 
                         rs.getString("pass"),
                         rs.getString("nome"),
                         rs.getString("cognome"),
-                        rs.getString("provincia_appartenenza")
+                        rs.getString("provincia_appartenenza"),
+                        rs.getString("locale")
                 );
             }
         } catch (SQLException ex) {
@@ -127,7 +141,8 @@ public class UserDAO extends JDBCDAO<User, Integer> implements UserDAOInterface 
                             rs.getString("pass"),
                             rs.getString("nome"),
                             rs.getString("cognome"),
-                            rs.getString("provincia_appartenenza")
+                            rs.getString("provincia_appartenenza"),
+                            rs.getString("locale")
                     );
 
                     users.add(user);

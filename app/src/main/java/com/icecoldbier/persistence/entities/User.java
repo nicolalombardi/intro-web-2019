@@ -15,8 +15,9 @@ public class User {
     private String nome;
     private String cognome;
     private String provinciaAppartenenza;
+    private String locale;
 
-    public User(Integer id, UserType typ, String username, String password, String nome, String cognome, String provinciaAppartenenza) {
+    public User(Integer id, UserType typ, String username, String password, String nome, String cognome, String provinciaAppartenenza, String locale) {
         this.id = id;
         this.typ = typ;
         this.username = username;
@@ -24,6 +25,7 @@ public class User {
         this.nome = nome;
         this.cognome = cognome;
         this.provinciaAppartenenza = provinciaAppartenenza;
+        this.locale = locale;
     }
 
     public Integer getId() {
@@ -82,16 +84,25 @@ public class User {
         this.provinciaAppartenenza = provinciaAppartenenza;
     }
 
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", typ='" + typ + '\'' +
+                ", typ=" + typ +
                 ", username='" + username + '\'' +
-                ", psw_salt='" + password + '\'' +
+                ", password='" + password + '\'' +
                 ", nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
-                ", provincia di appartenenza='" + provinciaAppartenenza + '\'' +
+                ", provinciaAppartenenza='" + provinciaAppartenenza + '\'' +
+                ", locale='" + locale + '\'' +
                 '}';
     }
 }
