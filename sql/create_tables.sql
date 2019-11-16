@@ -7,8 +7,7 @@ CREATE TABLE users(
     pass VARCHAR(256),
     nome VARCHAR(40),
     cognome VARCHAR(40),
-    provincia_appartenenza VARCHAR(64) NOT NULL,
-    locale VARCHAR(16)
+    provincia_appartenenza VARCHAR(64) NOT NULL
 );
 
 CREATE TABLE paziente(
