@@ -58,6 +58,15 @@
         <url-pattern>/medico-base/profilo</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>MedicoBaseSchedaPaziente</servlet-name>
+        <jsp-file>/pages/medico_base/scheda_paziente.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicoBaseSchedaPaziente</servlet-name>
+        <url-pattern>/medico-base/scheda-paziente</url-pattern>
+    </servlet-mapping>
+
 <!--    MEDICO SPECIALISTA-->
     <servlet>
         <servlet-name>MedicoSpecialistaHome</servlet-name>
