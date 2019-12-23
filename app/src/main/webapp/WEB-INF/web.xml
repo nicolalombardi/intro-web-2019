@@ -6,7 +6,7 @@
     </listener>
     <servlet>
         <servlet-name>DummyRestricted</servlet-name>
-        <jsp-file>/dummy_restricted.jsp</jsp-file>
+        <jsp-file>/pages/dummy_restricted.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>DummyRestricted</servlet-name>
@@ -14,27 +14,96 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>LoginPage</servlet-name>
-        <jsp-file>/login.jsp</jsp-file>
+        <jsp-file>/pages/login.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginPage</servlet-name>
-        <url-pattern>/login.html</url-pattern>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
+
+<!--    MEDICO DI BASE-->
+    <servlet>
+        <servlet-name>MedicoBaseHome</servlet-name>
+        <jsp-file>/pages/medico_base/home.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicoBaseHome</servlet-name>
+        <url-pattern>/medico-base/home</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MedicoBaseLista</servlet-name>
+        <jsp-file>/pages/medico_base/lista_pazienti.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicoBaseLista</servlet-name>
+        <url-pattern>/medico-base/lista</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MedicoBaseRicerca</servlet-name>
+        <jsp-file>/pages/medico_base/ricerca_pazienti.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicoBaseRicerca</servlet-name>
+        <url-pattern>/medico-base/ricerca</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MedicoBaseProfilo</servlet-name>
+        <jsp-file>/pages/medico_base/profilo.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicoBaseProfilo</servlet-name>
+        <url-pattern>/medico-base/profilo</url-pattern>
+    </servlet-mapping>
+
+<!--    MEDICO SPECIALISTA-->
+    <servlet>
+        <servlet-name>MedicoSpecialistaHome</servlet-name>
+        <jsp-file>/pages/medico_specialista/home.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicoSpecialistaHome</servlet-name>
+        <url-pattern>/medico-specialista/home</url-pattern>
+    </servlet-mapping>
+
+<!--    SSP-->
+    <servlet>
+        <servlet-name>SSPHome</servlet-name>
+        <jsp-file>/pages/ssp/home.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SSPHome</servlet-name>
+        <url-pattern>/ssp/home</url-pattern>
+    </servlet-mapping>
+
+<!--    PAZIENTE-->
+    <servlet>
+        <servlet-name>PazienteHome</servlet-name>
+        <jsp-file>/pages/paziente/home.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PazienteHome</servlet-name>
+        <url-pattern>/paziente/home</url-pattern>
+    </servlet-mapping>
+
+
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>login.html</welcome-file>
+        <welcome-file>/pages/login.jsp</welcome-file>
     </welcome-file-list>
     <error-page>
         <error-code>500</error-code>
-        <location>/error_500.jsp</location>
+        <location>/pages/error_500.jsp</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/error_404.jsp</location>
+        <location>/pages/error_404.jsp</location>
     </error-page>
     <context-param>
         <description>The folder where are stored the exported pdfs</description>
