@@ -1,59 +1,49 @@
 package com.icecoldbier.persistence.entities;
 
 import java.sql.Date;
-import java.util.Calendar;
 
-public class Paziente {
-    private int id_user;
-    private Date data_nascita;
-    private String luogo_nascita;
-    private String codice_fiscale;
+public class Paziente extends User{
+    private Date dataNascita;
+    private String luogoNascita;
+    private String codiceFiscale;
     private char sesso;
     private String foto;
-    private int id_medico;
+    private int idMedico;
     private String email;
 
-    public Paziente(int id_user, Date data_nascita, String luogo_nascita, String codice_fiscale, char sesso, String foto, int id_medico, String email) {
-        this.id_user = id_user;
-        this.data_nascita = data_nascita;
-        this.luogo_nascita = luogo_nascita;
-        this.codice_fiscale = codice_fiscale;
+    public Paziente(Integer id, UserType typ, String username, String password, String nome, String cognome, String provinciaAppartenenza, Date dataNascita, String luogoNascita, String codiceFiscale, char sesso, String foto, int idMedico, String email) {
+        super(id, typ, username, password, nome, cognome, provinciaAppartenenza);
+        this.dataNascita = dataNascita;
+        this.luogoNascita = luogoNascita;
+        this.codiceFiscale = codiceFiscale;
         this.sesso = sesso;
         this.foto = foto;
-        this.id_medico = id_medico;
+        this.idMedico = idMedico;
         this.email = email;
     }
 
-    public int getId_user() {
-        return id_user;
+    public Date getDataNascita() {
+        return dataNascita;
     }
 
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
+    public void setDataNascita(Date dataNascita) {
+        this.dataNascita = dataNascita;
     }
 
-    public Date getData_nascita() {
-        return data_nascita;
+    public String getLuogoNascita() {
+        return luogoNascita;
     }
 
-    public void setData_nascita(Date data_nascita) {
-        this.data_nascita = data_nascita;
+    public void setLuogoNascita(String luogoNascita) {
+        this.luogoNascita = luogoNascita;
     }
 
-    public String getLuogo_nascita() {
-        return luogo_nascita;
+    public String getCodiceFiscale() {
+        return codiceFiscale;
     }
 
-    public void setLuogo_nascita(String luogo_nascita) {
-        this.luogo_nascita = luogo_nascita;
-    }
-
-    public String getCodice_fiscale() {
-        return codice_fiscale;
-    }
-
-    public void setCodice_fiscale(String codice_fiscale) {
-        this.codice_fiscale = codice_fiscale;
+    public void setCodiceFiscale(String codiceFiscale) {
+        this.codiceFiscale = codiceFiscale;
     }
 
     public char getSesso() {
@@ -72,12 +62,12 @@ public class Paziente {
         this.foto = foto;
     }
 
-    public int getId_medico() {
-        return id_medico;
+    public int getIdMedico() {
+        return idMedico;
     }
 
-    public void setId_medico(int id_medico) {
-        this.id_medico = id_medico;
+    public void setIdMedico(int idMedico) {
+        this.idMedico = idMedico;
     }
 
     public String getEmail() {
@@ -91,14 +81,13 @@ public class Paziente {
     @Override
     public String toString() {
         return "Paziente{" +
-                "id_user=" + id_user +
-                ", data_nascita=" + data_nascita +
-                ", luogo_nascita='" + luogo_nascita + '\'' +
-                ", codice_fiscale='" + codice_fiscale + '\'' +
+                "data_nascita=" + dataNascita +
+                ", luogo_nascita='" + luogoNascita + '\'' +
+                ", codice_fiscale='" + codiceFiscale + '\'' +
                 ", sesso=" + sesso +
                 ", foto='" + foto + '\'' +
-                ", id_medico=" + id_medico +
+                ", id_medico=" + idMedico +
                 ", email='" + email + '\'' +
-                '}';
+                "} " + super.toString();
     }
 }
