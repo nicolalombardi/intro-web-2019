@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/login")
+@WebServlet("/dologin")
 public class LoginServlet extends HttpServlet {
     private UserDAO userDao;
     private Logger logger;
@@ -47,15 +47,15 @@ public class LoginServlet extends HttpServlet {
             u = userDao.getUserByUsernameAndPassword(inputEmail, inputPassword);
 
             if (u == null) {
-                response.sendRedirect(response.encodeRedirectURL(contextPath + "login.html?error=true&error_message=Incorrect email or password"));
+                response.sendRedirect(response.encodeRedirectURL(contextPath + "login?error=true&error_message=Incorrect email or password"));
                 logger.print("Incorrect user or password.");
             } else {
                 request.getSession().setAttribute("user", u);
-                response.sendRedirect(response.encodeRedirectURL(contextPath + "dummy_restricted.html"));
+                response.sendRedirect(response.encodeRedirectURL(contextPath + "login"));
                 logger.print("User " + u.getUsername() + " successfully logged in.");
             }
         } catch (DAOException e) {
-            response.sendRedirect(response.encodeRedirectURL(contextPath + "login.html?error=true&error_message=Incorrect email or password"));
+            response.sendRedirect(response.encodeRedirectURL(contextPath + "login?error=true&error_message=Incorrect email or password"));
             logger.print(e.getMessage());
         }
 

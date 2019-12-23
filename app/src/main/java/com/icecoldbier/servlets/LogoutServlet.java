@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(name = "LogoutServlet", value = "/logout")
+@WebServlet(name = "LogoutServlet", value = "/dologout")
 public class LogoutServlet extends HttpServlet {
     private Logger logger;
 
@@ -40,7 +40,7 @@ public class LogoutServlet extends HttpServlet {
         String contextPath = Utils.getServletContextPath(getServletContext());
 
         if (!response.isCommitted()) {
-            response.sendRedirect(response.encodeRedirectURL(contextPath + "login.jsp"));
+            response.sendRedirect(response.encodeRedirectURL(contextPath + "login"));
         }
     }
 }
