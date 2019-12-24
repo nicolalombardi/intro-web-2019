@@ -9,9 +9,7 @@ public class Paziente extends User{
     private char sesso;
     private String foto;
     private int idMedico;
-    private String email;
-
-    public Paziente(Integer id, UserType typ, String username, String password, String nome, String cognome, String provinciaAppartenenza, Date dataNascita, String luogoNascita, String codiceFiscale, char sesso, String foto, int idMedico, String email) {
+    public Paziente(Integer id, UserType typ, String username, String password, String nome, String cognome, String provinciaAppartenenza, Date dataNascita, String luogoNascita, String codiceFiscale, char sesso, String foto, int idMedico) {
         super(id, typ, username, password, nome, cognome, provinciaAppartenenza);
         this.dataNascita = dataNascita;
         this.luogoNascita = luogoNascita;
@@ -19,7 +17,6 @@ public class Paziente extends User{
         this.sesso = sesso;
         this.foto = foto;
         this.idMedico = idMedico;
-        this.email = email;
     }
 
     public Date getDataNascita() {
@@ -70,14 +67,6 @@ public class Paziente extends User{
         this.idMedico = idMedico;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     @Override
     public String toString() {
         return "Paziente{" +
@@ -87,7 +76,6 @@ public class Paziente extends User{
                 ", sesso=" + sesso +
                 ", foto='" + foto + '\'' +
                 ", id_medico=" + idMedico +
-                ", email='" + email + '\'' +
                 "} " + super.toString();
     }
 }

@@ -15,6 +15,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     private static final String GET_PAZIENTE_BY_ID = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id WHERE id_user = ?";
     private static final String GET_PAZIENTI_PAGED = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id ORDER BY users.nome LIMIT ? OFFSET ?";
     private static final String GET_ALL_PAZIENTI = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id ORDER BY users.nome";
+    private static final String SEARCH_PAZIENTI = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id  WHERE LOWER(users.username) LIKE ? OR LOWER(users.nome) LIKE ? OR LOWER(users.cognome) LIKE ? ORDER BY users.nome LIMIT 5";
     private static final String GET_ALL_VISITE = "SELECT 'specialistica' as type, id, id_visita, erogata, data_prescrizione, data_erogazione, id_medico, id_paziente, id_report, NULL AS id_ssp FROM visita_specialistica WHERE id_paziente = ? UNION SELECT 'ssp' AS type, id, id_visita, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_paziente, NULL AS id_report, id_ssp FROM visita_ssp WHERE id_paziente = ? UNION SELECT 'base' AS type, id, NULL AS id_visita, NULL AS erogata, NULL AS data_prescrizione, data_erogazione, id_medico, id_paziente, NULL AS id_report, NULL AS id_ssp FROM visita_base WHERE id_paziente = ?;";
     private static final String GET_ALL_TICKETS = "SELECT visita_specialistica.data_erogazione AS data, 'specialistica' as type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_specialistica LEFT JOIN elenco_visite_possibili ON visita_specialistica.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL UNION SELECT visita_ssp.data_erogazione, 'ssp' AS type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_ssp LEFT JOIN elenco_visite_possibili ON visita_ssp.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL;";
     private static final String GET_ALL_RICETTE = "SELECT * FROM ricetta LEFT JOIN visita_base ON ricetta.id_visita_base = visita_base.id WHERE id_paziente = ?";
@@ -91,6 +92,28 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
             }
         } catch (SQLException ex) {
             throw new DAOException("Impossible to get the list of pazienti", ex);
+        }
+
+        return pazienti;
+    }
+
+    @Override
+    public ArrayList<Paziente> searchPazienti(String query) throws DAOException {
+        ArrayList<Paziente> pazienti = new ArrayList<>();
+
+        try(PreparedStatement preparedStatement = CON.prepareStatement(SEARCH_PAZIENTI)){
+            preparedStatement.setString(1, query);
+            preparedStatement.setString(2, query);
+            preparedStatement.setString(3, query);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()) {
+                    Paziente paziente = getPazienteFromResultSet(resultSet);
+                    pazienti.add(paziente);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to search the list of pazienti", ex);
         }
 
         return pazienti;
@@ -234,8 +257,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                 resultSet.getString("codice_fiscale"),
                 resultSet.getString("sesso").charAt(0),
                 resultSet.getString("foto"),
-                resultSet.getInt("id_medico"),
-                resultSet.getString("email")
+                resultSet.getInt("id_medico")
         );
     }
 }
