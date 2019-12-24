@@ -3,6 +3,7 @@ package com.icecoldbier.filters;
 import com.icecoldbier.persistence.dao.implementations.PazienteDAO;
 import com.icecoldbier.persistence.entities.Paziente;
 import com.icecoldbier.persistence.entities.User;
+import com.icecoldbier.utils.Utils;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
@@ -16,13 +17,12 @@ import java.util.ArrayList;
 
 @WebFilter(filterName = "ControllerFilter", urlPatterns = {"/medico-base/*"})
 public class ControllerFilter implements Filter {
+    private static final float DEFAULT_PAGE_COUNT = 15;
     private PazienteDAO pazienteDAO;
     public void destroy() {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-
-
         HttpServletRequest request = (HttpServletRequest) req;
         HttpSession session = request.getSession();
         String userPath = request.getServletPath();
@@ -32,12 +32,26 @@ public class ControllerFilter implements Filter {
 
         if(userPath.equals("/medico-base/lista")){
             ArrayList<Paziente> listaPazienti = null;
-            try {
-                listaPazienti = (ArrayList<Paziente>) pazienteDAO.getAll();
-            } catch (DAOException e) {
+            try{
+                long count = pazienteDAO.getCount();
+                int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
+
+                //Grab the requested page value if i exist, set a default value (1) if it does not
+                int requestedPage = 1;
+                if(request.getParameter("page") != null){
+                    requestedPage = Integer.parseInt(request.getParameter("page"));
+                }
+
+                requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
+
+                listaPazienti = pazienteDAO.getPazientiPaged((int)DEFAULT_PAGE_COUNT, requestedPage);
+
+                request.setAttribute("page", requestedPage);
+                request.setAttribute("pagesCount", pagesCount);
+                request.setAttribute("listaPazienti", listaPazienti);
+            }catch (DAOException e) {
                 e.printStackTrace();
             }
-            request.setAttribute("listaPazienti", listaPazienti);
         }else if(userPath.equals("/medico-base/ricerca")){
 
         }else if(userPath.equals("/medico-base/profilo")){
