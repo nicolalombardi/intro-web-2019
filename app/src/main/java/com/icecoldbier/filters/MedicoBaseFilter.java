@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "MedicoBaseFilter", value = "/medico-base/*")
+@WebFilter(filterName = "MedicoBaseFilter", urlPatterns = {"/medico-base/*", "/rest/pazienti-service"})
 public class MedicoBaseFilter implements Filter {
     public void destroy() {
     }

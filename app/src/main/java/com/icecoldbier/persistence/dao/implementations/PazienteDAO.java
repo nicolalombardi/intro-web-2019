@@ -101,6 +101,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     public ArrayList<Paziente> searchPazienti(String query) throws DAOException {
         ArrayList<Paziente> pazienti = new ArrayList<>();
 
+        query = "%" + query.toLowerCase() + "%";
         try(PreparedStatement preparedStatement = CON.prepareStatement(SEARCH_PAZIENTI)){
             preparedStatement.setString(1, query);
             preparedStatement.setString(2, query);
