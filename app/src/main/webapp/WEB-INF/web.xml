@@ -96,7 +96,14 @@
         <servlet-name>PazienteHome</servlet-name>
         <url-pattern>/paziente/home</url-pattern>
     </servlet-mapping>
-
+    <servlet>
+        <servlet-name>PazienteProfilo</servlet-name>
+        <jsp-file>/pages/paziente/profilo.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PazienteProfilo</servlet-name>
+        <url-pattern>/paziente/profilo</url-pattern>
+    </servlet-mapping>
 
     <session-config>
         <session-timeout>
