@@ -11,6 +11,7 @@ import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class ControllerFilter implements Filter {
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         String userPath = request.getServletPath();
         User user = (User)session.getAttribute("user");
 
@@ -35,9 +36,9 @@ public class ControllerFilter implements Filter {
             try{
                 long count = pazienteDAO.getCount();
                 int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
+                int requestedPage = 1;
 
                 //Grab the requested page value if i exist, set a default value (1) if it does not
-                int requestedPage = 1;
                 if(request.getParameter("page") != null){
                     requestedPage = Integer.parseInt(request.getParameter("page"));
                 }
@@ -50,6 +51,7 @@ public class ControllerFilter implements Filter {
                 request.setAttribute("pagesCount", pagesCount);
                 request.setAttribute("listaPazienti", listaPazienti);
             }catch (DAOException e) {
+                ((HttpServletResponse)resp).sendError(500, e.getMessage());
                 e.printStackTrace();
             }
         }else if(userPath.equals("/medico-base/ricerca")){
