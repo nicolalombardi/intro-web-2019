@@ -14,10 +14,10 @@
 <div class="container">
     <h1>Lista pazienti</h1>
 
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Navigazione lista pazienti">
         <ul class="pagination justify-content-center">
             <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
-                <a class="page-link" href="/medico-base/lista?page=${page - 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Previous</a>
+                <a class="page-link" href="/medico-base/lista?page=${page - 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Precedente</a>
             </li>
 
             <c:forEach var = "i" begin = "1" end = "${pagesCount}">
@@ -25,7 +25,7 @@
             </c:forEach>
 
             <li class="page-item <c:if test="${page == pagesCount}">disabled</c:if>">
-                <a class="page-link" href="/medico-base/lista?page=${page + 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Next</a>
+                <a class="page-link" href="/medico-base/lista?page=${page + 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Successiva</a>
             </li>
         </ul>
     </nav>
