@@ -51,9 +51,11 @@ public class PazientiService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getPazienti() {
+        String query = request.getParameter("q");
+        if(query == null){
+            return "[]";
+        }
         try {
-            String query = request.getParameter("query");
-            System.out.println(query);
             ArrayList<Paziente> pazienti = pazienteDAO.searchPazienti(query);
             for(Paziente p:pazienti){
                 System.out.println(p);
