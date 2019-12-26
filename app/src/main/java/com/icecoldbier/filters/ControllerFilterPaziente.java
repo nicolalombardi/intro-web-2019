@@ -1,6 +1,7 @@
 package com.icecoldbier.filters;
 
 import com.icecoldbier.persistence.dao.implementations.PazienteDAO;
+import com.icecoldbier.persistence.dao.implementations.UserDAO;
 import com.icecoldbier.persistence.dao.implementations.VisitaBaseDAO;
 import com.icecoldbier.persistence.entities.Paziente;
 import com.icecoldbier.persistence.entities.User;

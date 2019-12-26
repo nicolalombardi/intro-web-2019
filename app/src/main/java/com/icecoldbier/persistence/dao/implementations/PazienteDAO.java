@@ -17,7 +17,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     private static final String GET_ALL_PAZIENTI = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id ORDER BY users.nome";
     private static final String SEARCH_PAZIENTI = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id  WHERE LOWER(users.username) LIKE ? OR LOWER(users.nome) LIKE ? OR LOWER(users.cognome) LIKE ? ORDER BY users.nome LIMIT 5";
     private static final String GET_ALL_VISITE = "SELECT 'specialistica' as type, id, id_visita, erogata, data_prescrizione, data_erogazione, id_medico, id_paziente, id_report, NULL AS id_ssp FROM visita_specialistica WHERE id_paziente = ? UNION SELECT 'ssp' AS type, id, id_visita, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_paziente, NULL AS id_report, id_ssp FROM visita_ssp WHERE id_paziente = ? UNION SELECT 'base' AS type, id, NULL AS id_visita, NULL AS erogata, NULL AS data_prescrizione, data_erogazione, id_medico, id_paziente, NULL AS id_report, NULL AS id_ssp FROM visita_base WHERE id_paziente = ? LIMIT ? OFFSET ?;";
-    private static final String GET_VISITE_BASE= "SELECT * FROM visita_base WHERE id_paziente = ? LIMIT ? OFFSET ?";
+    private static final String GET_VISITE_BASE= "SELECT v.id, v.id_medico, v.id_paziente, v.data_erogazione, users.nome AS nome_medico, users.cognome AS cognome_medico FROM visita_base v INNER JOIN users ON v.id_medico = users.id WHERE v.id_paziente = ? LIMIT ? OFFSET ?";
     private static final String GET_ALL_TICKETS = "SELECT visita_specialistica.data_erogazione AS data, 'specialistica' as type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_specialistica LEFT JOIN elenco_visite_possibili ON visita_specialistica.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL UNION SELECT visita_ssp.data_erogazione, 'ssp' AS type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_ssp LEFT JOIN elenco_visite_possibili ON visita_ssp.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL;";
     private static final String GET_ALL_RICETTE = "SELECT * FROM ricetta LEFT JOIN visita_base ON ricetta.id_visita_base = visita_base.id WHERE id_paziente = ?";
     private static final String CHANGE_PROFILE_PICTURE = "UPDATE paziente SET foto = ? WHERE id_user = ?";
@@ -188,9 +188,11 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                 while (rs.next()){
                     VisitaBase visitaBase = new VisitaBase(
                             rs.getInt("id"),
-                            rs.getInt("id_medico"),
                             rs.getInt("id_paziente"),
-                            rs.getDate("data_erogazione"));
+                            rs.getDate("data_erogazione"),
+                            rs.getInt("id_medico"),
+                            rs.getString("nome_medico"),
+                            rs.getString("cognome_medico"));
                     visite.add(visitaBase);
                 }
             }

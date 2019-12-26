@@ -40,14 +40,16 @@
         <table class="table table-striped table-hover">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Medico</th>
+                <th scope="col">Nome Medico</th>
+                <th scope="col">Cognome Medico</th>
                 <th scope="col">Data erogazione</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach var="v" items="${elencoVisite}">
                 <tr data-href="/paziente/elenco-visite-base?id=${v.getId()}">
-                    <th scope="row">${v.getId()}</th>
+                    <th scope="row">${v.getNomeMedico()}</th>
+                    <th>${v.getCognomeMedico()}</th>
                     <th>${v.getDataErogazione()}</th>
                 </tr>
             </c:forEach>
