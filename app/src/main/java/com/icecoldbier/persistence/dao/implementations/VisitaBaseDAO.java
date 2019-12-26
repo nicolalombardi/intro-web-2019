@@ -5,14 +5,13 @@ import com.icecoldbier.persistence.entities.VisitaBase;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class VisitaBaseDAO extends JDBCDAO<VisitaBase, Integer> implements VisitaBaseDAOInterface {
     private static final String GET_BY_ID = "SELECT * FROM visita_base WHERE id = ? ";
+    private static final String GET_VISITE_COUNT = "SELECT COUNT(id) as count FROM visita_base v WHERE v.id_paziente = ?";
+
 
     /**
      * The base constructor for all the JDBC DAOs.
@@ -23,6 +22,20 @@ public class VisitaBaseDAO extends JDBCDAO<VisitaBase, Integer> implements Visit
      */
     public VisitaBaseDAO(Connection con) {
         super(con);
+    }
+
+
+    @Override
+    public Long getCount(int idp) throws DAOException {
+        try (PreparedStatement preparedStatement = CON.prepareStatement((GET_VISITE_COUNT))){
+            preparedStatement.setInt(1,idp);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                return resultSet.getLong("count");
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the count of visitaBase", ex);
+        }
     }
 
     @Override

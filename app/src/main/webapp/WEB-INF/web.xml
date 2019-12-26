@@ -121,6 +121,14 @@
         <servlet-name>PazienteProfilo</servlet-name>
         <url-pattern>/paziente/profilo</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ElencoVisiteBase</servlet-name>
+        <jsp-file>/pages/paziente/visite_base.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ElencoVisiteBase</servlet-name>
+        <url-pattern>/paziente/elenco-visite-base</url-pattern>
+    </servlet-mapping>
 
     <session-config>
         <session-timeout>

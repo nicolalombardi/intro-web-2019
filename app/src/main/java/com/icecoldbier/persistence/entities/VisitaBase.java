@@ -14,6 +14,8 @@ public class VisitaBase extends Visita{
         return idMedicoBase;
     }
 
+
+
     public void setIdMedicoBase(Integer idMedicoBase) {
         this.idMedicoBase = idMedicoBase;
     }

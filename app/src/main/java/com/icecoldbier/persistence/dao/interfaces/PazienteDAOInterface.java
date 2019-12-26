@@ -10,7 +10,9 @@ import java.util.ArrayList;
 public interface PazienteDAOInterface extends DAO<Paziente, Integer> {
     ArrayList<Paziente> getPazientiPaged(int pageSize, int page) throws DAOException;
     ArrayList<Paziente> searchPazienti(String query) throws DAOException;
-    ArrayList<Visita> getVisite(Integer id) throws DAOException;
+    ArrayList<Visita> getVisite(Integer id, int pageSize, int page) throws DAOException;
+    ArrayList<VisitaBase> getVisiteBase(Integer id, int pageSize, int page) throws DAOException;
+    ArrayList<VisitaSpecialistica> getVisiteSpecialistiche(Integer id, int pageSize, int page) throws DAOException;
     ArrayList<Ricetta> getRicette(Integer id) throws DAOException;
     void changeProfilePicture(Integer pazienteId, String newPath) throws DAOException;
     void changeMedicoBase(User paziente, User newMedicoBase) throws DAOException, ProvincieNotMatchingException;
