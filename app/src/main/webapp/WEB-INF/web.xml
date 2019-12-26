@@ -129,6 +129,14 @@
         <servlet-name>ElencoVisiteBase</servlet-name>
         <url-pattern>/paziente/elenco-visite-base</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ElencoVisiteSpecialistiche</servlet-name>
+        <jsp-file>/pages/paziente/visite_specialistiche.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ElencoVisiteSpecialistiche</servlet-name>
+        <url-pattern>/paziente/elenco-visite-specialistiche</url-pattern>
+    </servlet-mapping>
 
     <session-config>
         <session-timeout>

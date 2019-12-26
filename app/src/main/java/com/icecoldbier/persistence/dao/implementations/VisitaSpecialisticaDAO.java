@@ -13,6 +13,7 @@ import java.util.List;
 
 public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer> implements VisitaSpecialisticaDAOInterface {
     private static final String GET_BY_ID = "SELECT * FROM visita_specialistica WHERE id = ?";
+    private static final String GET_VISITE_COUNT = "SELECT COUNT(id) as count FROM visita_specialistica v WHERE v.id_paziente = ?";
 
     /**
      * The base constructor for all the JDBC DAOs.
@@ -28,6 +29,19 @@ public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer
     @Override
     public Long getCount() throws DAOException {
         return null;
+    }
+
+    @Override
+    public Long getCount(int idp) throws DAOException {
+        try (PreparedStatement preparedStatement = CON.prepareStatement((GET_VISITE_COUNT))){
+            preparedStatement.setInt(1,idp);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                return resultSet.getLong("count");
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the count of visitaBase", ex);
+        }
     }
 
     @Override
