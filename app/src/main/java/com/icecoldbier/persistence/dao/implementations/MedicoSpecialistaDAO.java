@@ -11,15 +11,19 @@ import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements MedicoSpecialistaDAOInterface{
     
-    private static final String GET_LISTA_PAZIENTI = "SELECT visita_specialistica.id_paziente \n" +
-        "FROM visita_specialistica, users \n" +
-        "WHERE visita_specialistica.id_medico = ? AND visita_specialistica.id_medico = users.id \n" +
-        "AND users.user_type = 'medico_specialista';";
+    private static final String GET_LISTA_PAZIENTI = "SELECT * FROM visita_specialistica, users, paziente "
+            + "WHERE paziente.id_user = users.id AND visita_specialistica.id_paziente = paziente.id_user "
+            + "AND visita_specialistica.id_medico = ? GROUP BY users.id";
     private static final String GET_LISTA_VISITE = "SELECT * \n" +
         "FROM visita_specialistica\n" +
         "WHERE id_medico = ?\n" +
@@ -63,7 +67,20 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
 
     @Override
     public ArrayList<Paziente> getListaPazientiAssociati(int id) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        ArrayList<Paziente> pazienti = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = CON.prepareStatement(GET_LISTA_PAZIENTI);
+            preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()) {
+                    Paziente paziente = getPazienteFromResultSet(resultSet);
+                    pazienti.add(paziente);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the list of pazienti", ex);
+        }
+        return pazienti;
     }
 
     @Override
@@ -84,5 +101,23 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
     @Override
     public void erogaVisitaConRicetta(int idv, Report report) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); 
+    }
+    
+    private Paziente getPazienteFromResultSet(ResultSet resultSet) throws SQLException {
+        return new Paziente(
+                resultSet.getInt("id_user"),
+                User.UserType.valueOf(resultSet.getString("typ")),
+                resultSet.getString("username"),
+                resultSet.getString("pass"),
+                resultSet.getString("nome"),
+                resultSet.getString("cognome"),
+                resultSet.getString("provincia_appartenenza"),
+                resultSet.getDate("data_nascita"),
+                resultSet.getString("luogo_nascita"),
+                resultSet.getString("codice_fiscale"),
+                resultSet.getString("sesso").charAt(0),
+                resultSet.getString("foto"),
+                resultSet.getInt("id_medico")
+        );
     }
 }
