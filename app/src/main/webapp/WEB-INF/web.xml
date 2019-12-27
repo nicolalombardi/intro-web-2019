@@ -93,6 +93,24 @@
         <servlet-name>MedicoSpecialistaHome</servlet-name>
         <url-pattern>/medico-specialista/home</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>MedicoSpecialistaProfilo</servlet-name>
+        <jsp-file>/pages/medico_specialista/profilo.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicoSpecialistaProfilo</servlet-name>
+        <url-pattern>/medico-specialista/profilo</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>MedicoSpecialistaLista</servlet-name>
+        <jsp-file>/pages/medico_specialista/lista_pazienti.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicoSpecialistaLista</servlet-name>
+        <url-pattern>/medico-specialista/lista</url-pattern>
+    </servlet-mapping>
 
 <!--    SSP-->
     <servlet>
