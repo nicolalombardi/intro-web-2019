@@ -65,9 +65,6 @@ public class ControllerFilterPaziente implements Filter {
             ArrayList<VisitaSpecialistica> elencoVisite = null;
             try{
                 long count = visitaSpecialisticaDAO.getCount(user.getId());
-
-
-
                 int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
                 int requestedPage = 1;
 
@@ -75,7 +72,6 @@ public class ControllerFilterPaziente implements Filter {
                 if(request.getParameter("page") != null){
                     requestedPage = Integer.parseInt(request.getParameter("page"));
                 }
-                //TODO: coerceInt fa danni se ho 0 elementi!!!!!!!!
                 requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
 
                 elencoVisite = pazienteDAO.getVisiteSpecialistiche(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);

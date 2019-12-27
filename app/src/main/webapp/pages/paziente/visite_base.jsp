@@ -47,7 +47,7 @@
             </thead>
             <tbody>
             <c:forEach var="v" items="${elencoVisite}">
-                <tr data-href="/paziente/elenco-visite-base?id=${v.getId()}">
+                <tr>
                     <th scope="row">${v.getNomeMedico()}</th>
                     <th>${v.getCognomeMedico()}</th>
                     <th>${v.getDataErogazione()}</th>

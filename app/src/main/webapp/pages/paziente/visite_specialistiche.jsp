@@ -51,20 +51,53 @@
             </thead>
             <tbody>
             <c:forEach var="v" items="${elencoVisite}">
-                <tr data-href="/paziente/elenco-visite-specialistiche?id=${v.getId()}">
-                    <th scope="row">${v.getIdVisita}</th>
+                <tr>
+                    <th scope="row">${v.getId_visita()}</th>
                     <th>${v.isErogata()}</th>
                     <th>${v.getDataPrescrizione()}</th>
                     <th>${v.getDataErogazione()}</th>
                     <th>${v.getNomeMedico()}</th>
                     <th>${v.getCognomeMedico()}</th>
-                    <th>${v.getReport()}</th>
+
+
+                    <c:choose>
+                        <c:when test="${v.getIdReport() == 0}">
+                            <th><button class="btn btn-sm btn-primary btn-block" disabled="disabled" type="submit">Report</button></th>
+                        </c:when>
+                        <c:otherwise>
+                            <!-- Trigger the modal with a button -->
+                            <th><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Report</button></th>th>
+
+                            <!-- Modal -->
+                            <div id="myModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Testo report</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">bsn</button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+
                 </tr>
             </c:forEach>
             </tbody>
         </table>
     </div>
 </div>
+
 
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

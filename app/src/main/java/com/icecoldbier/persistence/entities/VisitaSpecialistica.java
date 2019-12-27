@@ -86,4 +86,6 @@ public class VisitaSpecialistica extends Visita{
     public void setIdReport(Integer idReport) {
         this.idReport = idReport;
     }
+
+
 }
