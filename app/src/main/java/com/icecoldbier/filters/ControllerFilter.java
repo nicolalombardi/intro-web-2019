@@ -1,5 +1,6 @@
 package com.icecoldbier.filters;
 
+import com.icecoldbier.persistence.dao.implementations.MedicoSpecialistaDAO;
 import com.icecoldbier.persistence.dao.implementations.PazienteDAO;
 import com.icecoldbier.persistence.entities.Paziente;
 import com.icecoldbier.persistence.entities.User;
@@ -15,11 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebFilter(filterName = "ControllerFilter", urlPatterns = {"/medico-base/*"})
 public class ControllerFilter implements Filter {
     private static final float DEFAULT_PAGE_COUNT = 15;
     private PazienteDAO pazienteDAO;
+    private MedicoSpecialistaDAO medicoSpecialistaDAO;
     public void destroy() {
     }
 
@@ -58,6 +62,17 @@ public class ControllerFilter implements Filter {
 
         }else if(userPath.equals("/medico-base/profilo")){
 
+        }
+        
+        if(userPath.equals("/medico-specialista/lista")){
+            ArrayList<Paziente> listaPazientiSpecialista = null;
+            try {
+                listaPazientiSpecialista = medicoSpecialistaDAO.getListaPazientiAssociati(user.getId());
+                request.setAttribute("listaPazientiSpecialista", listaPazientiSpecialista);
+            } catch (DAOException ex) {
+                ((HttpServletResponse)resp).sendError(500, ex.getMessage());
+                ex.printStackTrace();
+            }
         }
 
         chain.doFilter(req, resp);
