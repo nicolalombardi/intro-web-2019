@@ -111,6 +111,15 @@
         <servlet-name>MedicoSpecialistaLista</servlet-name>
         <url-pattern>/medico-specialista/lista</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>MedicoSpecialistaVisite</servlet-name>
+        <jsp-file>/pages/medico_specialista/visite.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicoSpecialistaVisite</servlet-name>
+        <url-pattern>/medico-specialista/visite</url-pattern>
+    </servlet-mapping>
 
 <!--    SSP-->
     <servlet>

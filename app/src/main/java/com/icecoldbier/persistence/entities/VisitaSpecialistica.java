@@ -8,6 +8,8 @@ public class VisitaSpecialistica extends Visita{
     private Date dataPrescrizione;
     private Integer idMedico;
     private Integer idReport;
+    private Integer idMedicoBase;
+    private Integer idPaziente;
     private String nomeMedico;
     private String cognomeMedico;
 
@@ -29,6 +31,17 @@ public class VisitaSpecialistica extends Visita{
         this.idReport = idReport;
         this.nomeMedico = nomeMedico;
         this.cognomeMedico = cognomeMedico;
+    }
+    
+    public VisitaSpecialistica(int id, int id_visita, boolean erogata, Date dataPrescrizione, Date dataErogazione, Integer idMedico, Integer idPaziente, Integer idMedicoBase,Integer idReport){
+        super(id, idPaziente, dataErogazione);
+        this.id_visita = id_visita;
+        this.erogata = erogata;
+        this.dataPrescrizione = dataPrescrizione;
+        this.idMedico = idMedico;
+        this.idReport = idReport;
+        this.idMedicoBase = idMedicoBase;
+        this.idPaziente = idPaziente;
     }
 
     public String getNomeMedico() {
@@ -86,6 +99,13 @@ public class VisitaSpecialistica extends Visita{
     public void setIdReport(Integer idReport) {
         this.idReport = idReport;
     }
-
+    
+    public void setIdPaziente(Integer idPaziente){
+        this.idPaziente = idPaziente;
+    }
+    
+    public Integer getIdPaziente(){
+        return this.idPaziente;
+    }
 
 }

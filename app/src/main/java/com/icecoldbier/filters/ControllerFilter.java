@@ -4,6 +4,7 @@ import com.icecoldbier.persistence.dao.implementations.MedicoSpecialistaDAO;
 import com.icecoldbier.persistence.dao.implementations.PazienteDAO;
 import com.icecoldbier.persistence.entities.Paziente;
 import com.icecoldbier.persistence.entities.User;
+import com.icecoldbier.persistence.entities.VisitaSpecialistica;
 import com.icecoldbier.utils.Utils;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
@@ -67,9 +68,17 @@ public class ControllerFilter implements Filter {
         if(userPath.equals("/medico-specialista/lista")){
             ArrayList<Paziente> listaPazientiSpecialista = null;
             try {
-                System.out.println(user.getId() + " " + user.getNome() + " " + user.getCognome());
                 listaPazientiSpecialista = medicoSpecialistaDAO.getListaPazientiAssociati(user.getId());
                 request.setAttribute("listaPazientiSpecialista", listaPazientiSpecialista);
+            } catch (DAOException ex) {
+                ((HttpServletResponse)resp).sendError(500, ex.getMessage());
+                ex.printStackTrace();
+            }
+        }else if(userPath.equals(("/medico-specialista/visite"))){
+            ArrayList<VisitaSpecialistica> visite = null;
+            try {
+                visite = medicoSpecialistaDAO.getListaVisitePazienti(user.getId());
+                request.setAttribute("visite", visite);
             } catch (DAOException ex) {
                 ((HttpServletResponse)resp).sendError(500, ex.getMessage());
                 ex.printStackTrace();

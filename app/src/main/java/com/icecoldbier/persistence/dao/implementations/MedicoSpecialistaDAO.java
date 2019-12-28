@@ -77,7 +77,6 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
                 while (resultSet.next()) {
                     Paziente paziente = getPazienteFromResultSet(resultSet);
                     pazienti.add(paziente);
-                    System.out.println(paziente);
                 }
             }
         } catch (SQLException ex) {
@@ -87,8 +86,22 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
     }
 
     @Override
-    public ArrayList<VisitaSpecialistica> getListaVisitePazienti() throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public ArrayList<VisitaSpecialistica> getListaVisitePazienti(int id) throws DAOException {
+        ArrayList<VisitaSpecialistica> visite = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = CON.prepareStatement(GET_LISTA_VISITE);
+            preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()) {
+                    VisitaSpecialistica visita = getVisitaSpecialisticaFromResultSet(resultSet);
+                    visite.add(visita);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the list of pazienti", ex);
+        }
+        System.out.println(visite);
+        return visite;
     }
 
     @Override
@@ -121,6 +134,20 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
                 resultSet.getString("sesso").charAt(0),
                 resultSet.getString("foto"),
                 resultSet.getInt("id_medico")
+        );
+    }
+    
+    private VisitaSpecialistica getVisitaSpecialisticaFromResultSet(ResultSet resultSet) throws SQLException {
+        return new VisitaSpecialistica(
+                resultSet.getInt("id"),
+                resultSet.getInt("id_visita"),
+                resultSet.getBoolean("erogata"),
+                resultSet.getDate("data_prescrizione"),
+                resultSet.getDate("data_erogazione"),
+                resultSet.getInt("id_medico"),
+                resultSet.getInt("id_paziente"),
+                resultSet.getInt("id_medico_base"),
+                resultSet.getInt("id_report")
         );
     }
 }
