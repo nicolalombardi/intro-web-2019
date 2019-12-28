@@ -84,8 +84,8 @@ public class ControllerFilterPaziente implements Filter {
                 ((HttpServletResponse)resp).sendError(500, e.getMessage());
                 e.printStackTrace();
             }
-        }else if(userPath.equals("/paziente/elenco-visite-specialistiche/report?id=*")){
-            System.out.println("reportttttt");
+        }else if(userPath.equals("/.....")){
+
         }
 
         chain.doFilter(req, resp);
