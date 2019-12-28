@@ -21,9 +21,11 @@ import java.util.logging.Logger;
 
 public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements MedicoSpecialistaDAOInterface{
     
-    private static final String GET_LISTA_PAZIENTI = "SELECT * FROM visita_specialistica, users, paziente "
-            + "WHERE paziente.id_user = users.id AND visita_specialistica.id_paziente = paziente.id_user "
-            + "AND visita_specialistica.id_medico = ? GROUP BY users.id";
+    private static final String GET_LISTA_PAZIENTI = "SELECT DISTINCT paziente.id_user, users.typ,users.username,users.pass,users.nome, "
+            + "users.cognome, paziente.data_nascita, paziente.luogo_nascita, paziente.codice_fiscale,paziente.sesso,"
+            + " users.provincia_appartenenza, paziente.foto, paziente.id_medico "
+            + "FROM visita_specialistica, users, paziente "
+            + "WHERE visita_specialistica.id_medico = ? AND paziente.id_user = users.id AND visita_specialistica.id_paziente = paziente.id_user;";
     private static final String GET_LISTA_VISITE = "SELECT * \n" +
         "FROM visita_specialistica\n" +
         "WHERE id_medico = ?\n" +
@@ -75,6 +77,7 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
                 while (resultSet.next()) {
                     Paziente paziente = getPazienteFromResultSet(resultSet);
                     pazienti.add(paziente);
+                    System.out.println(paziente);
                 }
             }
         } catch (SQLException ex) {

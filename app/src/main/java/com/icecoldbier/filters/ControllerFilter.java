@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebFilter(filterName = "ControllerFilter", urlPatterns = {"/medico-base/*"})
+@WebFilter(filterName = "ControllerFilter", urlPatterns = {"/medico-base/*","/medico-specialista/*"})
 public class ControllerFilter implements Filter {
     private static final float DEFAULT_PAGE_COUNT = 15;
     private PazienteDAO pazienteDAO;
@@ -67,6 +67,7 @@ public class ControllerFilter implements Filter {
         if(userPath.equals("/medico-specialista/lista")){
             ArrayList<Paziente> listaPazientiSpecialista = null;
             try {
+                System.out.println(user.getId() + " " + user.getNome() + " " + user.getCognome());
                 listaPazientiSpecialista = medicoSpecialistaDAO.getListaPazientiAssociati(user.getId());
                 request.setAttribute("listaPazientiSpecialista", listaPazientiSpecialista);
             } catch (DAOException ex) {
@@ -86,6 +87,11 @@ public class ControllerFilter implements Filter {
         }
         try {
             pazienteDAO = daoFactory.getDAO(PazienteDAO.class);
+        } catch (DAOFactoryException e) {
+            throw new ServletException("Impossible to get dao factory for pazienti storage system");
+        }
+        try {
+            medicoSpecialistaDAO = daoFactory.getDAO(MedicoSpecialistaDAO.class);
         } catch (DAOFactoryException e) {
             throw new ServletException("Impossible to get dao factory for pazienti storage system");
         }
