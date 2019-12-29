@@ -1,8 +1,11 @@
 package com.icecoldbier.persistence.dao.implementations;
 
 import com.icecoldbier.persistence.dao.interfaces.VisitaBaseDAOInterface;
+import com.icecoldbier.persistence.entities.Paziente;
+import com.icecoldbier.persistence.entities.User;
 import com.icecoldbier.persistence.entities.VisitaBase;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
+import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 
 import java.sql.*;
@@ -11,6 +14,9 @@ import java.util.List;
 public class VisitaBaseDAO extends JDBCDAO<VisitaBase, Integer> implements VisitaBaseDAOInterface {
     private static final String GET_BY_ID = "SELECT * FROM visita_base WHERE id = ? ";
     private static final String GET_VISITE_COUNT = "SELECT COUNT(id) as count FROM visita_base v WHERE v.id_paziente = ?";
+
+    private UserDAO userDAO;
+    private PazienteDAO pazienteDAO;
 
 
     /**
@@ -22,6 +28,12 @@ public class VisitaBaseDAO extends JDBCDAO<VisitaBase, Integer> implements Visit
      */
     public VisitaBaseDAO(Connection con) {
         super(con);
+        try {
+            userDAO = this.getDAO(UserDAO.class);
+            pazienteDAO = this.getDAO(PazienteDAO.class);
+        } catch (DAOFactoryException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -45,15 +57,19 @@ public class VisitaBaseDAO extends JDBCDAO<VisitaBase, Integer> implements Visit
 
     @Override
     public VisitaBase getByPrimaryKey(Integer primaryKey) throws DAOException {
+        User medicoBase;
+        Paziente paziente;
         try (PreparedStatement preparedStatement = CON.prepareStatement(GET_BY_ID)) {
             preparedStatement.setInt(1, primaryKey);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
+                medicoBase = userDAO.getByPrimaryKey(resultSet.getInt("id_medico"));
+                paziente = pazienteDAO.getByPrimaryKey(resultSet.getInt("id_paziente"));
                 return new VisitaBase(
                         resultSet.getInt("id"),
-                        resultSet.getInt("id_medico"),
-                        resultSet.getInt("id_paziente"),
-                        resultSet.getDate("data_erogazione")
+                        paziente,
+                        resultSet.getDate("data_erogazione"),
+                        medicoBase
                 );
             }
 

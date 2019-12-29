@@ -2,6 +2,7 @@ package com.icecoldbier.persistence.dao.implementations;
 
 import com.icecoldbier.persistence.dao.interfaces.ReportDAOInterface;
 import com.icecoldbier.persistence.entities.Report;
+import com.icecoldbier.persistence.entities.Ricetta;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 
@@ -14,6 +15,8 @@ import java.util.List;
 
 public class ReportDAO extends JDBCDAO<Report, Integer> implements ReportDAOInterface {
     private static final String GET_REPORT_BY_ID = "SELECT * FROM report WHERE id = ?";
+    private static final String GET_RICETTA_BY_ID = "SELECT * FROM ricetta WHERE id = ?";
+
 
     /**
      * The base constructor for all the JDBC DAOs.
@@ -33,21 +36,40 @@ public class ReportDAO extends JDBCDAO<Report, Integer> implements ReportDAOInte
 
     @Override
     public Report getByPrimaryKey(Integer primaryKey) throws DAOException {
+        //report
+        Report report;
         try(PreparedStatement preparedStatement = CON.prepareStatement(GET_REPORT_BY_ID)){
             preparedStatement.setInt(1, primaryKey);
             try(ResultSet resultSet = preparedStatement.executeQuery()){
                 resultSet.next();
-                Report r = new Report(
+                //ricetta
+                Ricetta ricetta;
+                try (PreparedStatement preparedStatement1 = CON.prepareStatement(GET_RICETTA_BY_ID)) {
+                    preparedStatement.setInt(1, resultSet.getInt("id"));
+                    try (ResultSet resultSet1 = preparedStatement1.executeQuery()) {
+                        resultSet1.next();
+                        ricetta = new Ricetta(
+                                resultSet.getInt("id"),
+                                resultSet.getString("farmaco"),
+                                resultSet.getInt("id_visita_base"),
+                                resultSet.getBoolean("prescritta")
+                        );
+                    }
+
+                } catch (SQLException e) {
+                    throw new DAOException("Error while getting ricetta", e);
+                }
+                report = new Report(
                         resultSet.getInt("id"),
                         resultSet.getString("esito"),
-                        resultSet.getInt("id_ricetta")
+                        ricetta
                 );
-                return r;
             }
 
         } catch (SQLException e) {
             throw new DAOException("Error while getting report", e);
         }
+        return report;
     }
 
     @Override

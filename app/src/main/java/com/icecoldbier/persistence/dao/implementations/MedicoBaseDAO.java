@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseDAOInterface {
-
     private static final String GET_MEDICO_BY_ID = "SELECT * FROM users WHERE id = ? AND typ = user_type(?)";
     private static final String GET_USER_LIST = "SELECT id FROM visita_base WHERE id_medico = ?";
     private static final String CREATE_VISITA_BASE = "INSERT INTO visita_base(id_medico, id_paziente, data_erogazione) VALUES(?,?,?)";
@@ -30,38 +29,6 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
      */
     public MedicoBaseDAO(Connection con) {
         super(con);
-    }
-
-
-    @Override
-    public ArrayList<VisitaBase> getListaPazienti(int id) throws  DAOException {
-        int change = 0;
-        ArrayList<VisitaBase> lista = new ArrayList<>();
-        try (PreparedStatement preparedStatement = CON.prepareStatement(GET_USER_LIST)) {
-            preparedStatement.setInt(1, id);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    VisitaBase vis = new VisitaBase(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getDate(4));
-                    for (VisitaBase x : lista) {
-                        if (x.getId_paziente() == vis.getId_paziente()) {
-                            if (x.getDataErogazione().before(vis.getDataErogazione())) {
-                                lista.remove(x);
-                                lista.add(vis);
-                                change = 1;
-                            }
-
-                        }
-                    }
-                    if (change == 0) {
-                        lista.add(vis);
-                    }
-                    change = 0;
-                }
-            }
-        } catch (SQLException e) {
-            throw new DAOException("Error while getting pazienti list", e);
-        }
-        return lista;
     }
 
     @Override
@@ -86,8 +53,8 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
             preparedStatement.setBoolean(2, false);
             preparedStatement.setDate(3, dataPrescrizione);
             preparedStatement.setInt(4, idSSP);
-            preparedStatement.setInt(5, visitaBase.getId_paziente());
-            preparedStatement.setInt(6, visitaBase.getIdMedicoBase());
+            preparedStatement.setInt(5, visitaBase.getPaziente().getId());
+            preparedStatement.setInt(6, visitaBase.getMedicoBase().getId());
             preparedStatement.execute();
 
         } catch (SQLException e) {
@@ -104,8 +71,8 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
             preparedStatement.setBoolean(2, false);
             preparedStatement.setDate(3, dataPrescrizione);
             preparedStatement.setInt(4, idMS);
-            preparedStatement.setInt(5, visitaBase.getId_paziente());
-            preparedStatement.setInt(6, visitaBase.getIdMedicoBase());
+            preparedStatement.setInt(5, visitaBase.getPaziente().getId());
+            preparedStatement.setInt(6, visitaBase.getMedicoBase().getId());
             preparedStatement.execute();
 
         } catch (SQLException e) {

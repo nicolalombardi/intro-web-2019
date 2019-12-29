@@ -42,6 +42,7 @@ public class SSPDAO extends JDBCDAO<SSP, Integer> implements SSPDAOInterface {
     @Override
     public ArrayList<InfoRicetta> getListaRicette(Date data, SSP ssp) throws DAOException {
         ArrayList<InfoRicetta> list = new ArrayList<InfoRicetta>();
+        /*
         try (PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE)) {
             preparedStatement.setDate(1, data);
             String prov = ssp.getProvinciaAppartenenza();
@@ -55,6 +56,7 @@ public class SSPDAO extends JDBCDAO<SSP, Integer> implements SSPDAOInterface {
         } catch (SQLException e) {
             throw new DAOException("Error while getting lista ricette erogate in un giorno ", e);
         }
+         */
         return list;
 
     }

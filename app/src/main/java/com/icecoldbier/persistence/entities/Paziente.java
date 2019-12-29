@@ -8,15 +8,16 @@ public class Paziente extends User{
     private String codiceFiscale;
     private char sesso;
     private String foto;
-    private int idMedico;
-    public Paziente(Integer id, UserType typ, String username, String password, String nome, String cognome, String provinciaAppartenenza, Date dataNascita, String luogoNascita, String codiceFiscale, char sesso, String foto, int idMedico) {
+    private User medico;
+
+    public Paziente(Integer id, UserType typ, String username, String password, String nome, String cognome, String provinciaAppartenenza, Date dataNascita, String luogoNascita, String codiceFiscale, char sesso, String foto, User medico) {
         super(id, typ, username, password, nome, cognome, provinciaAppartenenza);
         this.dataNascita = dataNascita;
         this.luogoNascita = luogoNascita;
         this.codiceFiscale = codiceFiscale;
         this.sesso = sesso;
         this.foto = foto;
-        this.idMedico = idMedico;
+        this.medico = medico;
     }
 
     public Date getDataNascita() {
@@ -59,12 +60,12 @@ public class Paziente extends User{
         this.foto = foto;
     }
 
-    public int getIdMedico() {
-        return idMedico;
+    public User getMedico() {
+        return medico;
     }
 
-    public void setIdMedico(int idMedico) {
-        this.idMedico = idMedico;
+    public void setMedico(User medico) {
+        this.medico = medico;
     }
 
     @Override
@@ -75,7 +76,7 @@ public class Paziente extends User{
                 ", codice_fiscale='" + codiceFiscale + '\'' +
                 ", sesso=" + sesso +
                 ", foto='" + foto + '\'' +
-                ", id_medico=" + idMedico +
+                ", id_medico=" + medico.getId() +
                 "} " + super.toString();
     }
 }

@@ -6,58 +6,19 @@ public class VisitaSpecialistica extends Visita{
     private int id_visita;
     private boolean erogata;
     private Date dataPrescrizione;
-    private Integer idMedico;
-    private Integer idReport;
-    private Integer idMedicoBase;
-    private Integer idPaziente;
-    private String nomeMedico;
-    private String cognomeMedico;
+    private User medicoSpecialista;
+    private Report report;
+    private User medicoBase;
 
-    public VisitaSpecialistica(int id, int id_visita, boolean erogata, Date dataPrescrizione, Date dataErogazione, Integer idMedico, Integer idPaziente, Integer idReport) {
-        super(id, idPaziente, dataErogazione);
+
+    public VisitaSpecialistica(int id, User paziente, Date dataErogazione, int id_visita, boolean erogata, Date dataPrescrizione, User medicoSpecialista, Report report, User medicoBase) {
+        super(id, paziente, dataErogazione);
         this.id_visita = id_visita;
         this.erogata = erogata;
         this.dataPrescrizione = dataPrescrizione;
-        this.idMedico = idMedico;
-        this.idReport = idReport;
-    }
-
-    public VisitaSpecialistica(int id, int id_paziente, Date dataErogazione, int id_visita, boolean erogata, Date dataPrescrizione, Integer idMedico, Integer idReport, String nomeMedico, String cognomeMedico) {
-        super(id, id_paziente, dataErogazione);
-        this.id_visita = id_visita;
-        this.erogata = erogata;
-        this.dataPrescrizione = dataPrescrizione;
-        this.idMedico = idMedico;
-        this.idReport = idReport;
-        this.nomeMedico = nomeMedico;
-        this.cognomeMedico = cognomeMedico;
-    }
-    
-    public VisitaSpecialistica(int id, int id_visita, boolean erogata, Date dataPrescrizione, Date dataErogazione, Integer idMedico, Integer idPaziente, Integer idMedicoBase,Integer idReport){
-        super(id, idPaziente, dataErogazione);
-        this.id_visita = id_visita;
-        this.erogata = erogata;
-        this.dataPrescrizione = dataPrescrizione;
-        this.idMedico = idMedico;
-        this.idReport = idReport;
-        this.idMedicoBase = idMedicoBase;
-        this.idPaziente = idPaziente;
-    }
-
-    public String getNomeMedico() {
-        return nomeMedico;
-    }
-
-    public void setNomeMedico(String nomeMedico) {
-        this.nomeMedico = nomeMedico;
-    }
-
-    public String getCognomeMedico() {
-        return cognomeMedico;
-    }
-
-    public void setCognomeMedico(String cognomeMedico) {
-        this.cognomeMedico = cognomeMedico;
+        this.medicoSpecialista = medicoSpecialista;
+        this.report = report;
+        this.medicoBase = medicoBase;
     }
 
     public int getId_visita() {
@@ -84,28 +45,27 @@ public class VisitaSpecialistica extends Visita{
         this.dataPrescrizione = dataPrescrizione;
     }
 
-    public Integer getIdMedico() {
-        return idMedico;
+    public User getMedicoSpecialista() {
+        return medicoSpecialista;
     }
 
-    public void setIdMedico(Integer idMedico) {
-        this.idMedico = idMedico;
+    public void setMedicoSpecialista(User medicoSpecialista) {
+        this.medicoSpecialista = medicoSpecialista;
     }
 
-    public Integer getIdReport() {
-        return idReport;
+    public Report getReport() {
+        return report;
     }
 
-    public void setIdReport(Integer idReport) {
-        this.idReport = idReport;
-    }
-    
-    public void setIdPaziente(Integer idPaziente){
-        this.idPaziente = idPaziente;
-    }
-    
-    public Integer getIdPaziente(){
-        return this.idPaziente;
+    public void setReport(Report report) {
+        this.report = report;
     }
 
+    public User getMedicoBase() {
+        return medicoBase;
+    }
+
+    public void setMedicoBase(User medicoBase) {
+        this.medicoBase = medicoBase;
+    }
 }

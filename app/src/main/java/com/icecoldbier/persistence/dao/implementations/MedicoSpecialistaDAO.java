@@ -5,9 +5,9 @@ import com.icecoldbier.persistence.entities.Paziente;
 import com.icecoldbier.persistence.entities.Report;
 import com.icecoldbier.persistence.entities.User;
 import com.icecoldbier.persistence.entities.VisitaSpecialistica;
-import it.unitn.disi.wp.commons.persistence.dao.DAO;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
+import it.unitn.disi.wp.commons.persistence.dao.factories.jdbc.JDBCDAOFactory;
 import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 
 import java.sql.Connection;
@@ -16,11 +16,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements MedicoSpecialistaDAOInterface{
-    
+
+
     private static final String GET_LISTA_PAZIENTI = "SELECT DISTINCT paziente.id_user, users.typ,users.username,users.pass,users.nome, "
             + "users.cognome, paziente.data_nascita, paziente.luogo_nascita, paziente.codice_fiscale,paziente.sesso,"
             + " users.provincia_appartenenza, paziente.foto, paziente.id_medico "
@@ -40,6 +39,11 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
         "	 paziente.email, A.nome, A.cognome\n" +
         "FROM paziente, users, (SELECT id ,nome, cognome FROM users WHERE user_type = 'medico_base') as A\n" +
         "WHERE paziente.id_user = users.id AND paziente.id_user = ? AND paziente.id_medico = A.id";
+
+
+    private UserDAO userDAO;
+    private PazienteDAO pazienteDAO;
+    private ReportDAO reportDAO;
     
     /**
      * The base constructor for all the JDBC DAOs.
@@ -50,6 +54,15 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
      */
     public MedicoSpecialistaDAO(Connection con) {
         super(con);
+        try {
+            JDBCDAOFactory daoFactory = JDBCDAOFactory.getInstance();
+            pazienteDAO = daoFactory.getDAO(PazienteDAO.class);
+            userDAO = daoFactory.getDAO(UserDAO.class);
+            reportDAO = daoFactory.getDAO(ReportDAO.class);
+        } catch (DAOFactoryException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -118,7 +131,8 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
         throw new UnsupportedOperationException("Not supported yet."); 
     }
     
-    private Paziente getPazienteFromResultSet(ResultSet resultSet) throws SQLException {
+    private Paziente getPazienteFromResultSet(ResultSet resultSet) throws SQLException, DAOException {
+        User medico = userDAO.getByPrimaryKey(resultSet.getInt("id_medico"));
         return new Paziente(
                 resultSet.getInt("id_user"),
                 User.UserType.valueOf(resultSet.getString("typ")),
@@ -132,21 +146,26 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
                 resultSet.getString("codice_fiscale"),
                 resultSet.getString("sesso").charAt(0),
                 resultSet.getString("foto"),
-                resultSet.getInt("id_medico")
+                medico
         );
     }
     
-    private VisitaSpecialistica getVisitaSpecialisticaFromResultSet(ResultSet resultSet) throws SQLException {
+    private VisitaSpecialistica getVisitaSpecialisticaFromResultSet(ResultSet resultSet) throws SQLException, DAOException {
+        Paziente paziente = pazienteDAO.getByPrimaryKey(resultSet.getInt("id_paziente"));
+        User medicoBase = userDAO.getByPrimaryKey(resultSet.getInt("id_medico_base"));
+        User medicoSpecialista = userDAO.getByPrimaryKey(resultSet.getInt("id_medico"));
+        Report report = reportDAO.getByPrimaryKey(resultSet.getInt("id_report"));
+
         return new VisitaSpecialistica(
                 resultSet.getInt("id"),
+                paziente,
+                resultSet.getDate("data_erogazione"),
                 resultSet.getInt("id_visita"),
                 resultSet.getBoolean("erogata"),
                 resultSet.getDate("data_prescrizione"),
-                resultSet.getDate("data_erogazione"),
-                resultSet.getInt("id_medico"),
-                resultSet.getInt("id_paziente"),
-                resultSet.getInt("id_medico_base"),
-                resultSet.getInt("id_report")
+                medicoSpecialista,
+                report,
+                medicoBase
         );
     }
 }

@@ -1,8 +1,13 @@
 package com.icecoldbier.persistence.dao.implementations;
 
 import com.icecoldbier.persistence.dao.interfaces.VisitaSpecialisticaDAOInterface;
+import com.icecoldbier.persistence.entities.Paziente;
+import com.icecoldbier.persistence.entities.Report;
+import com.icecoldbier.persistence.entities.User;
 import com.icecoldbier.persistence.entities.VisitaSpecialistica;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
+import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
+import it.unitn.disi.wp.commons.persistence.dao.factories.jdbc.JDBCDAOFactory;
 import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 
 import java.sql.Connection;
@@ -15,6 +20,10 @@ public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer
     private static final String GET_BY_ID = "SELECT * FROM visita_specialistica WHERE id = ?";
     private static final String GET_VISITE_COUNT = "SELECT COUNT(id) as count FROM visita_specialistica v WHERE v.id_paziente = ?";
 
+
+    private PazienteDAO pazienteDAO;
+    private UserDAO userDAO;
+    private ReportDAO reportDAO;
     /**
      * The base constructor for all the JDBC DAOs.
      *
@@ -24,6 +33,14 @@ public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer
      */
     public VisitaSpecialisticaDAO(Connection con) {
         super(con);
+        try {
+            JDBCDAOFactory daoFactory = JDBCDAOFactory.getInstance();
+            userDAO = daoFactory.getDAO(UserDAO.class);
+            pazienteDAO = daoFactory.getDAO(PazienteDAO.class);
+            reportDAO = daoFactory.getDAO(ReportDAO.class);
+        } catch (DAOFactoryException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -46,20 +63,28 @@ public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer
 
     @Override
     public VisitaSpecialistica getByPrimaryKey(Integer primaryKey) throws DAOException {
+        User medicoBase;
+        User medicoSpecialista;
+        Paziente paziente;
+        Report report;
         try (PreparedStatement preparedStatement = CON.prepareStatement(GET_BY_ID)) {
             preparedStatement.setInt(1, primaryKey);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
+                report = reportDAO.getByPrimaryKey(resultSet.getInt("id_report"));
+                paziente = pazienteDAO.getByPrimaryKey(resultSet.getInt("id_paziente"));
+                medicoSpecialista = userDAO.getByPrimaryKey(resultSet.getInt("id_medico"));
+                medicoBase = userDAO.getByPrimaryKey(resultSet.getInt("id_medico_base"));
                 return new VisitaSpecialistica(
                         resultSet.getInt("id"),
+                        paziente,
+                        resultSet.getDate("data_erogazione"),
                         resultSet.getInt("id_visita"),
                         resultSet.getBoolean("erogata"),
                         resultSet.getDate("data_prescrizione"),
-                        resultSet.getDate("data_erogazione"),
-                        resultSet.getInt("id_medico"),
-                        resultSet.getInt("id_paziente"),
-                        resultSet.getInt("id_report")
-                );
+                        medicoSpecialista,
+                        report,
+                        medicoBase);
             }
 
         } catch (SQLException e) {

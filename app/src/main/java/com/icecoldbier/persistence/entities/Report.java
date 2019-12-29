@@ -3,12 +3,12 @@ package com.icecoldbier.persistence.entities;
 public class Report {
     private int id;
     private String esito;
-    private int id_ricetta;
+    private Ricetta ricetta;
 
-    public Report(int id, String esito, int id_ricetta) {
+    public Report(int id, String esito, Ricetta ricetta) {
         this.id = id;
         this.esito = esito;
-        this.id_ricetta = id_ricetta;
+        this.ricetta = ricetta;
     }
 
     public int getId() {
@@ -27,11 +27,11 @@ public class Report {
         this.esito = esito;
     }
 
-    public int getId_ricetta() {
-        return id_ricetta;
+    public Ricetta getRicetta() {
+        return ricetta;
     }
 
-    public void setId_ricetta(int id_ricetta) {
-        this.id_ricetta = id_ricetta;
+    public void setRicetta(Ricetta ricetta) {
+        this.ricetta = ricetta;
     }
 }
