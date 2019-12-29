@@ -1,4 +1,4 @@
-<%--<jsp:useBean id="medico" scope="request" type="com.icecoldbier.persistence.entities.User"/>--%>
+<%@ page import="com.icecoldbier.persistence.entities.User" %><%--<jsp:useBean id="medico" scope="request" type="com.icecoldbier.persistence.entities.User"/>--%>
 <jsp:useBean id="medico" scope="request" type="com.icecoldbier.persistence.entities.User"/>
 <jsp:useBean id="paziente" scope="request" type="com.icecoldbier.persistence.entities.Paziente"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -83,22 +83,31 @@
 
                 </div>
 
+                <%
+                    boolean isMedicoAssociato = false;
+                    User user = (User) session.getAttribute("user");
+                    if(medico.getId().equals(user.getId())){
+                        isMedicoAssociato = true;
+                    }
+                    request.setAttribute("isMedicoAssociato", isMedicoAssociato);
+                %>
+
 
             </div>
 <%--            Funzioni--%>
             <div class="col funzioni-col">
                 <h2>Funzioni</h2>
                 <div class="row funzioni-row">
-                    <a class="btn btn-primary" href="#" role="button">Eroga visita base</a>
+                    <a class="btn btn-primary <c:if test="${not isMedicoAssociato}">disabled</c:if>" href="#" role="button">Eroga visita base</a>
                 </div>
                 <div class="row funzioni-row">
-                    <a class="btn btn-primary" href="#" role="button">Visualizza elenco visite base</a>
+                    <a class="btn btn-primary <c:if test="${not isMedicoAssociato}">disabled</c:if>" href="#" role="button">Visualizza elenco visite base</a>
                 </div>
                 <div class="row funzioni-row">
-                    <a class="btn btn-primary" href="#" role="button">Prescrivi esame specialistico</a>
+                    <a class="btn btn-primary <c:if test="${not isMedicoAssociato}">disabled</c:if>" href="#" role="button">Prescrivi esame specialistico</a>
                 </div>
                 <div class="row funzioni-row">
-                    <a class="btn btn-primary" href="#" role="button">Visualizza elenco esami specialistici prescritti</a>
+                    <a class="btn btn-primary <c:if test="${not isMedicoAssociato}">disabled</c:if>" href="#" role="button">Visualizza elenco esami specialistici prescritti</a>
                 </div>
 
 
@@ -117,5 +126,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+<script src="../js/lista_pazienti.js"></script>
+
 </body>
 </html>
