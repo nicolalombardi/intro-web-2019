@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebFilter(filterName = "ControllerFilter", urlPatterns = {"/medico-base/*","/medico-specialista/*"})
+@WebFilter(filterName = "ControllerFilter", urlPatterns = {"/medico-base/*"})
 public class MedicoBaseController implements Filter {
     private static final int DEFAULT_PAGE_SIZE = 15;
     private static final int MAX_PAGE_SIZE = 30;
@@ -44,30 +44,45 @@ public class MedicoBaseController implements Filter {
         if(userPath.equals("/medico-base/lista")){
             ArrayList<Paziente> listaPazienti;
             try{
-                long count = pazienteDAO.getCount();
                 int requestedPage = 1;
                 int requestedPageSize = DEFAULT_PAGE_SIZE;
 
+                String showAllS = request.getParameter("mostraTutti");
+
+                boolean showAll = showAllS == null ? true : Boolean.parseBoolean(showAllS);
+                System.out.println("mostra " + showAll);
+
                 //Grab the requested page size value if it exists, set a default value (1) if it does not
-                if(request.getParameter("pageSize") != null){
+                if(request.getParameter("pageSize") != null && !request.getParameter("pageSize").equals("")){
                     requestedPageSize = Integer.parseInt(request.getParameter("pageSize"));
                 }
 
                 requestedPageSize = Utils.coerceInt(MIN_PAGE_SIZE, MAX_PAGE_SIZE, requestedPageSize);
 
-                int pagesCount = (int)Math.ceil(((count * 1.0f)/ requestedPageSize));
 
                 //Grab the requested page value if it exists, set a default value (1) if it does not
-                if(request.getParameter("page") != null){
+                if(request.getParameter("page") != null && !request.getParameter("page").equals("")){
                     requestedPage = Integer.parseInt(request.getParameter("page"));
                 }
+
+                long count = showAll ? pazienteDAO.getCount() : pazienteDAO.getAssociatiCount(user.getId());
+
+                int pagesCount = (int)Math.ceil(((count * 1.0f)/ requestedPageSize));
                 requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
 
-                listaPazienti = pazienteDAO.getPazientiPaged(requestedPageSize, requestedPage);
+                if(showAll){
+                    listaPazienti = pazienteDAO.getPazientiPaged(requestedPageSize, requestedPage);
+                }else{
+                    listaPazienti = pazienteDAO.getPazientiAssociatiPaged(user.getId(), requestedPageSize, requestedPage);
+                }
+
+                System.out.println("lista paz size" + listaPazienti.size());
+
 
                 request.setAttribute("selectedPage", requestedPage);
                 request.setAttribute("pageSize", requestedPageSize);
                 request.setAttribute("pagesCount", pagesCount);
+                request.setAttribute("showAll", showAll);
                 request.setAttribute("listaPazienti", listaPazienti);
             }catch (DAOException e) {
                 doChain = false;
@@ -84,7 +99,7 @@ public class MedicoBaseController implements Filter {
                     Paziente p = pazienteDAO.getByPrimaryKey(id);
                     request.setAttribute("paziente", p);
                     try {
-                        User medicoBase = medicoBaseDAO.getByPrimaryKey(p.getId());
+                        User medicoBase = medicoBaseDAO.getByPrimaryKey(p.getMedico().getId());
                         System.out.println(" medico " + medicoBase);
                         request.setAttribute("medico", medicoBase);
                     } catch (DAOException e) {

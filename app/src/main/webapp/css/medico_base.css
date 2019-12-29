@@ -15,3 +15,7 @@ h1{
 .funzioni-col{
     text-align: center;
 }
+
+td{
+    vertical-align: middle !important;
+}

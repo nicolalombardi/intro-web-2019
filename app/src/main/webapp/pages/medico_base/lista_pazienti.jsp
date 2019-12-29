@@ -3,6 +3,8 @@
 
 <jsp:useBean id="pageSize" scope="request" type="java.lang.Integer"/>
 <jsp:useBean id="selectedPage" scope="request" type="java.lang.Integer"/>
+<jsp:useBean id="showAll" scope="request" type="java.lang.Boolean"/>
+
 
 <html>
 <head>
@@ -19,25 +21,33 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
+                <c:choose>
+                    <c:when test="${showAll}">
+                        <a class="btn btn-primary" href="lista?page=${selectedPage}&pageSize=${pageSize}&mostraTutti=false" role="button">Mostra solo i tuoi pazienti</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="btn btn-primary" href="lista?page=${selectedPage}&pageSize=${pageSize}&mostraTutti=true" role="button">Mostra tutti i pazienti</a>
+                    </c:otherwise>
+                </c:choose>
             </div>
             <div class="col-sm">
                 <nav aria-label="Navigazione lista pazienti">
                     <span class="btn-group"></span>
                     <ul class="pagination justify-content-center">
                         <li class="page-item <c:if test="${selectedPage == 1}">disabled</c:if>">
-                            <a class="page-link" href="lista?page=${selectedPage - 1}&pageSize=${pageSize}"
+                            <a class="page-link" href="lista?page=${selectedPage - 1}&pageSize=${pageSize}&mostraTutti=${showAll}"
                                <c:if test="${selectedPage == 1}">tabindex="-1"</c:if> >Precedente</a>
                         </li>
 
                         <jsp:useBean id="pagesCount" scope="request" type="java.lang.Integer"/>
                         <c:forEach var="i" begin="1" end="${pagesCount}">
                             <li class="page-item <c:if test="${selectedPage == i}">active</c:if> "><a class="page-link"
-                                                                                                      href="lista?page=${i}&pageSize=${pageSize}">${i}</a>
+                                                                                                      href="lista?page=${i}&pageSize=${pageSize}&mostraTutti=${showAll}">${i}</a>
                             </li>
                         </c:forEach>
 
                         <li class="page-item <c:if test="${selectedPage == pagesCount}">disabled</c:if>">
-                            <a class="page-link" href="lista?page=${selectedPage + 1}&pageSize=${pageSize}"
+                            <a class="page-link" href="lista?page=${selectedPage + 1}&pageSize=${pageSize}&mostraTutti=${showAll}"
                                <c:if test="${selectedPage == 1}">tabindex="-1"</c:if> >Successiva</a>
                         </li>
                     </ul>
@@ -52,9 +62,9 @@
                     ${pageSize}
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="lista?page=${selectedPage}&pageSize=10">10</a>
-                    <a class="dropdown-item" href="lista?page=${selectedPage}&pageSize=15">15</a>
-                    <a class="dropdown-item" href="lista?page=${selectedPage}&pageSize=30">30</a>
+                    <a class="dropdown-item" href="lista?page=${selectedPage}&pageSize=10&mostraTutti=${showAll}">10</a>
+                    <a class="dropdown-item" href="lista?page=${selectedPage}&pageSize=15&mostraTutti=${showAll}">15</a>
+                    <a class="dropdown-item" href="lista?page=${selectedPage}&pageSize=30&mostraTutti=${showAll}">30</a>
                 </div>
             </div>
             </div>
@@ -65,6 +75,7 @@
         <table class="table table-striped table-hover">
             <thead class="thead-dark">
             <tr>
+                <th scope="col">Tuo</th>
                 <th scope="col">Nome</th>
                 <th scope="col">Cognome</th>
                 <th scope="col">Sesso</th>
@@ -77,6 +88,16 @@
             <jsp:useBean id="listaPazienti" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.Paziente>"/>
             <c:forEach var="p" items="${listaPazienti}">
                 <tr data-href="/medico-base/scheda-paziente?id=${p.id}">
+                    <td>
+                        <c:choose>
+                            <c:when test="${user.id == p.medico.id}">
+                                <img src="../images/checkbox_checked.svg" height="36px" width="36px">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${pageContext.request.contextPath}/images/checkbox_unchecked.svg" height="36px" width="36px">
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                     <td scope="row">${p.nome}</td>
                     <td>${p.cognome}</td>
                     <td>${p.sesso}</td>

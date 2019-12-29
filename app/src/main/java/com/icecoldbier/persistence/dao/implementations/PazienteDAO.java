@@ -15,7 +15,9 @@ import java.util.List;
 public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteDAOInterface {
     private static final String GET_PAZIENTE_BY_ID = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id WHERE id_user = ?";
     private static final String GET_PAZIENTI_COUNT = "SELECT COUNT(*) as count FROM paziente";
+    private static final String GET_PAZIENTI_ASSOCIATI_COUNT = "SELECT COUNT(*) as count FROM paziente WHERE paziente.id_medico = ? ";
     private static final String GET_PAZIENTI_PAGED = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id ORDER BY users.nome LIMIT ? OFFSET ?";
+    private static final String GET_PAZIENTI_ASSOCIATI_PAGED = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id WHERE paziente.id_medico = ? ORDER BY users.nome LIMIT ? OFFSET ?";
     private static final String GET_ALL_PAZIENTI = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id ORDER BY users.nome";
     private static final String SEARCH_PAZIENTI = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id  WHERE LOWER(users.username) LIKE ? OR LOWER(users.nome) LIKE ? OR LOWER(users.cognome) LIKE ? ORDER BY users.nome LIMIT 5";
     private static final String GET_VISITE_BASE= "SELECT v.id, v.id_medico, v.id_paziente, v.data_erogazione, users.nome AS nome_medico, users.cognome AS cognome_medico FROM visita_base v INNER JOIN users ON v.id_medico = users.id WHERE v.id_paziente = ? LIMIT ? OFFSET ?";
@@ -49,7 +51,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                 resultSet.next();
                 return getPazienteFromResultSet(resultSet);
             }
-        } catch (SQLException | DAOFactoryException e) {
+        } catch (SQLException e) {
             throw new DAOException("Error while getting paziente", e);
         }
     }
@@ -67,6 +69,20 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     }
 
     @Override
+    public Long getAssociatiCount(int idMedico) throws DAOException {
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_PAZIENTI_ASSOCIATI_COUNT)){
+            preparedStatement.setInt(1, idMedico);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()){
+                resultSet.next();
+                return resultSet.getLong("count");
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the count of pazienti associati", ex);
+        }
+    }
+
+    @Override
     public List<Paziente> getAll() throws DAOException {
         List<Paziente> pazienti = new ArrayList<>();
 
@@ -77,7 +93,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                     pazienti.add(paziente);
                 }
             }
-        } catch (SQLException | DAOFactoryException ex) {
+        } catch (SQLException ex) {
             throw new DAOException("Impossible to get the list of pazienti", ex);
         }
 
@@ -98,7 +114,29 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                     pazienti.add(paziente);
                 }
             }
-        } catch (SQLException | DAOFactoryException ex) {
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the list of pazienti", ex);
+        }
+
+        return pazienti;
+    }
+
+    @Override
+    public ArrayList<Paziente> getPazientiAssociatiPaged(int idMedico, int pageSize, int page) throws DAOException {
+        ArrayList<Paziente> pazienti = new ArrayList<>();
+
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_PAZIENTI_ASSOCIATI_PAGED)){
+            preparedStatement.setInt(1, idMedico);
+            preparedStatement.setInt(2, pageSize);
+            preparedStatement.setInt(3, (page-1)*pageSize);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()) {
+                    Paziente paziente = getPazienteFromResultSet(resultSet);
+                    pazienti.add(paziente);
+                }
+            }
+        } catch (SQLException ex) {
             throw new DAOException("Impossible to get the list of pazienti", ex);
         }
 
@@ -121,7 +159,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                     pazienti.add(paziente);
                 }
             }
-        } catch (SQLException | DAOFactoryException ex) {
+        } catch (SQLException ex) {
             throw new DAOException("Impossible to search the list of pazienti", ex);
         }
 
@@ -263,7 +301,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
         return tickets;
     }
 
-    private Paziente getPazienteFromResultSet(ResultSet resultSet) throws SQLException, DAOException, DAOFactoryException {
+    private Paziente getPazienteFromResultSet(ResultSet resultSet) throws SQLException, DAOException {
         User medico = userDAO.getByPrimaryKey(resultSet.getInt("id_medico"));
         return new Paziente(
                 resultSet.getInt("id_user"),
