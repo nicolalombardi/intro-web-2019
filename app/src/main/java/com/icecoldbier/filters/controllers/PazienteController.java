@@ -92,7 +92,6 @@ public class PazienteController implements Filter {
     }
 
     public void init(FilterConfig config) throws ServletException {
-        System.out.println("called controller filter init method");
         DAOFactory daoFactory = (DAOFactory) config.getServletContext().getAttribute("daoFactory");
         if (daoFactory == null) {
             throw new ServletException("Impossible to get dao factory storage system");

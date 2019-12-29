@@ -36,9 +36,6 @@ public class MedicoBaseController implements Filter {
         String userPath = request.getServletPath();
         User user = (User)session.getAttribute("user");
 
-
-        System.out.println(request.getServletPath());
-
         boolean doChain = true;
 
         if(userPath.equals("/medico-base/lista")){
@@ -50,7 +47,6 @@ public class MedicoBaseController implements Filter {
                 String showAllS = request.getParameter("mostraTutti");
 
                 boolean showAll = showAllS == null ? true : Boolean.parseBoolean(showAllS);
-                System.out.println("mostra " + showAll);
 
                 //Grab the requested page size value if it exists, set a default value (1) if it does not
                 if(request.getParameter("pageSize") != null && !request.getParameter("pageSize").equals("")){
@@ -76,9 +72,6 @@ public class MedicoBaseController implements Filter {
                     listaPazienti = pazienteDAO.getPazientiAssociatiPaged(user.getId(), requestedPageSize, requestedPage);
                 }
 
-                System.out.println("lista paz size" + listaPazienti.size());
-
-
                 request.setAttribute("selectedPage", requestedPage);
                 request.setAttribute("pageSize", requestedPageSize);
                 request.setAttribute("pagesCount", pagesCount);
@@ -100,7 +93,6 @@ public class MedicoBaseController implements Filter {
                     request.setAttribute("paziente", p);
                     try {
                         User medicoBase = medicoBaseDAO.getByPrimaryKey(p.getMedico().getId());
-                        System.out.println(" medico " + medicoBase);
                         request.setAttribute("medico", medicoBase);
                     } catch (DAOException e) {
                         e.printStackTrace();
@@ -116,7 +108,7 @@ public class MedicoBaseController implements Filter {
             String idS = request.getParameter("idPaziente");
             if(idS != null) {
                 int id = Integer.parseInt(idS);
-//                medicoBaseDAO.createVisitaBase();                System.out.println(id);
+//                medicoBaseDAO.createVisitaBase();
             }else{
                 request.setAttribute("errorMessage", "Id utente non specificato");
                 response.sendRedirect(((HttpServletResponse) resp).encodeRedirectURL(contextPath + "medico-base/lista"));
@@ -131,7 +123,6 @@ public class MedicoBaseController implements Filter {
     }
 
     public void init(FilterConfig config) throws ServletException {
-        System.out.println("called controller filter init method");
         DAOFactory daoFactory = (DAOFactory) config.getServletContext().getAttribute("daoFactory");
         if (daoFactory == null) {
             throw new ServletException("Impossible to get dao factory ");

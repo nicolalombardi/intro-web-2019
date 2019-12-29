@@ -57,9 +57,6 @@ public class PazientiService {
         }
         try {
             ArrayList<Paziente> pazienti = pazienteDAO.searchPazienti(query);
-            for(Paziente p:pazienti){
-                System.out.println(p);
-            }
             return JSON.toJSONString(pazienti);
         } catch (DAOException e) {
             try {

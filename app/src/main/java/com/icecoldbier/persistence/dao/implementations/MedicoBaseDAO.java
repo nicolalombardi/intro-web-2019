@@ -95,7 +95,6 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
             id_visita = resultSet.getInt("id_visita");
             id_report = resultSet.getInt("id_report");
 
-            //System.out.println(id_visita+"  "+id_report);
             VisitePossibiliDAO vis = new VisitePossibiliDAO(CON);
             if(id_report > 0){
                 ReportDAO rep = new ReportDAO(CON);
@@ -137,9 +136,7 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
         }
         try (PreparedStatement stm = CON.prepareStatement(GET_MEDICO_BY_ID)) {
             stm.setInt(1, primaryKey);
-            System.out.println(User.UserType.medico_base.name());
             stm.setString(2, User.UserType.medico_base.name());
-            System.out.println(stm.toString());
             try (ResultSet rs = stm.executeQuery()) {
 
                 rs.next();
