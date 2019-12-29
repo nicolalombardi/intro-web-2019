@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebFilter(filterName = "ControllerFilter", urlPatterns = {"/medico-specialista/*"})
+@WebFilter(filterName = "MedicoSpecialistaController", urlPatterns = {"/medico-specialista/*"})
 public class MedicoSpecialistaController implements Filter {
 
     private MedicoSpecialistaDAO medicoSpecialistaDAO;

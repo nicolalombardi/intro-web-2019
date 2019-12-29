@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebFilter(filterName = "ControllerFilter", urlPatterns = {"/medico-base/*"})
+@WebFilter(filterName = "MedicoBaseController", urlPatterns = {"/medico-base/*"})
 public class MedicoBaseController implements Filter {
     private static final int DEFAULT_PAGE_SIZE = 15;
     private static final int MAX_PAGE_SIZE = 30;
