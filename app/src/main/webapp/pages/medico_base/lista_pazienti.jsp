@@ -1,6 +1,9 @@
-<%@ page import="com.icecoldbier.persistence.entities.Paziente" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<jsp:useBean id="pageSize" scope="request" type="java.lang.Integer"/>
+<jsp:useBean id="selectedPage" scope="request" type="java.lang.Integer"/>
+
 <html>
 <head>
     <title>Medico Base - Lista Pazienti</title>
@@ -13,22 +16,50 @@
 
 <div class="container">
     <h1>Lista pazienti</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+            </div>
+            <div class="col-sm">
+                <nav aria-label="Navigazione lista pazienti">
+                    <span class="btn-group"></span>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item <c:if test="${selectedPage == 1}">disabled</c:if>">
+                            <a class="page-link" href="lista?page=${selectedPage - 1}&pageSize=${pageSize}"
+                               <c:if test="${selectedPage == 1}">tabindex="-1"</c:if> >Precedente</a>
+                        </li>
 
-    <nav aria-label="Navigazione lista pazienti">
-        <ul class="pagination justify-content-center">
-            <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
-                <a class="page-link" href="/medico-base/lista?page=${page - 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Precedente</a>
-            </li>
+                        <jsp:useBean id="pagesCount" scope="request" type="java.lang.Integer"/>
+                        <c:forEach var="i" begin="1" end="${pagesCount}">
+                            <li class="page-item <c:if test="${selectedPage == i}">active</c:if> "><a class="page-link"
+                                                                                                      href="lista?page=${i}&pageSize=${pageSize}">${i}</a>
+                            </li>
+                        </c:forEach>
 
-            <c:forEach var = "i" begin = "1" end = "${pagesCount}">
-                <li class="page-item <c:if test="${page == i}">active</c:if> "><a class="page-link" href="/medico-base/lista?page=${i}">${i}</a></li>
-            </c:forEach>
+                        <li class="page-item <c:if test="${selectedPage == pagesCount}">disabled</c:if>">
+                            <a class="page-link" href="lista?page=${selectedPage + 1}&pageSize=${pageSize}"
+                               <c:if test="${selectedPage == 1}">tabindex="-1"</c:if> >Successiva</a>
+                        </li>
+                    </ul>
 
-            <li class="page-item <c:if test="${page == pagesCount}">disabled</c:if>">
-                <a class="page-link" href="/medico-base/lista?page=${page + 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Successiva</a>
-            </li>
-        </ul>
-    </nav>
+                </nav>
+            </div>
+            <div class="col-sm">
+                <div class="btn-group">
+                    <label class="label" for="pageSizeDropdown">Elementi: </label>
+                <button id="pageSizeDropdown" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    ${pageSize}
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="lista?page=${selectedPage}&pageSize=10">10</a>
+                    <a class="dropdown-item" href="lista?page=${selectedPage}&pageSize=15">15</a>
+                    <a class="dropdown-item" href="lista?page=${selectedPage}&pageSize=30">30</a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
 
     <div class="table-responsive-md">
         <table class="table table-striped table-hover">
@@ -43,15 +74,16 @@
             </tr>
             </thead>
             <tbody>
+            <jsp:useBean id="listaPazienti" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.Paziente>"/>
             <c:forEach var="p" items="${listaPazienti}">
-                    <tr data-href="/medico-base/scheda-paziente?id=${p.getId()}">
-                        <th scope="row">${p.getNome()}</th>
-                        <th>${p.getCognome()}</th>
-                        <th>${p.getSesso()}</th>
-                        <th>${p.getDataNascita()}</th>
-                        <th>${p.getLuogoNascita()}</th>
-                        <th>${p.getCodiceFiscale()}</th>
-                    </tr>
+                <tr data-href="/medico-base/scheda-paziente?id=${p.id}">
+                    <td scope="row">${p.nome}</td>
+                    <td>${p.cognome}</td>
+                    <td>${p.sesso}</td>
+                    <td>${p.dataNascita}</td>
+                    <td>${p.luogoNascita}</td>
+                    <td>${p.codiceFiscale}</td>
+                </tr>
             </c:forEach>
             </tbody>
         </table>

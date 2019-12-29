@@ -11,6 +11,7 @@ import java.util.List;
 
 public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseDAOInterface {
 
+    private static final String GET_MEDICO_BY_ID = "SELECT * FROM users WHERE id = ? AND typ = user_type(?)";
     private static final String GET_USER_LIST = "SELECT id FROM visita_base WHERE id_medico = ?";
     private static final String CREATE_VISITA_BASE = "INSERT INTO visita_base(id_medico, id_paziente, data_erogazione) VALUES(?,?,?)";
     private static final String CREATE_VISITA_SSP = "INSERT INTO visita_ssp(id_visita, erogata, data_prescrizione, id_ssp, id_paziente, id_medico_base) VALUES(?,?,?,?,?,?)";
@@ -164,7 +165,31 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
 
     @Override
     public User getByPrimaryKey(Integer primaryKey) throws DAOException {
-        return null;
+        if (primaryKey == null) {
+            throw new DAOException("primaryKey is null");
+        }
+        try (PreparedStatement stm = CON.prepareStatement(GET_MEDICO_BY_ID)) {
+            stm.setInt(1, primaryKey);
+            System.out.println(User.UserType.medico_base.name());
+            stm.setString(2, User.UserType.medico_base.name());
+            System.out.println(stm.toString());
+            try (ResultSet rs = stm.executeQuery()) {
+
+                rs.next();
+
+                return new User(
+                        rs.getInt("id"),
+                        User.UserType.valueOf(rs.getString("typ")),
+                        rs.getString("username"),
+                        rs.getString("pass"),
+                        rs.getString("nome"),
+                        rs.getString("cognome"),
+                        rs.getString("provincia_appartenenza")
+                );
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the medico base for the passed primary key", ex);
+        }
     }
 
     @Override
