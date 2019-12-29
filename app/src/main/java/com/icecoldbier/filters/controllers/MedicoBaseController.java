@@ -1,11 +1,9 @@
-package com.icecoldbier.filters;
+package com.icecoldbier.filters.controllers;
 
 import com.icecoldbier.persistence.dao.implementations.MedicoBaseDAO;
-import com.icecoldbier.persistence.dao.implementations.MedicoSpecialistaDAO;
 import com.icecoldbier.persistence.dao.implementations.PazienteDAO;
 import com.icecoldbier.persistence.entities.Paziente;
 import com.icecoldbier.persistence.entities.User;
-import com.icecoldbier.persistence.entities.VisitaSpecialistica;
 import com.icecoldbier.utils.Utils;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
@@ -20,26 +18,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @WebFilter(filterName = "ControllerFilter", urlPatterns = {"/medico-base/*","/medico-specialista/*"})
-public class ControllerFilter implements Filter {
+public class MedicoBaseController implements Filter {
     private static final int DEFAULT_PAGE_SIZE = 15;
     private static final int MAX_PAGE_SIZE = 30;
     private static final int MIN_PAGE_SIZE = 10;
 
     private PazienteDAO pazienteDAO;
     private MedicoBaseDAO medicoBaseDAO;
-    private MedicoSpecialistaDAO medicoSpecialistaDAO;
     public void destroy() {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession(false);
+        String contextPath = Utils.getServletContextPath(req.getServletContext());
         String userPath = request.getServletPath();
         User user = (User)session.getAttribute("user");
 
+
         System.out.println(request.getServletPath());
 
-        boolean error = false;
+        boolean doChain = true;
 
         if(userPath.equals("/medico-base/lista")){
             ArrayList<Paziente> listaPazienti;
@@ -70,11 +70,10 @@ public class ControllerFilter implements Filter {
                 request.setAttribute("pagesCount", pagesCount);
                 request.setAttribute("listaPazienti", listaPazienti);
             }catch (DAOException e) {
-                ((HttpServletResponse)resp).sendError(500, e.getMessage());
+                doChain = false;
+                response.sendError(500, e.getMessage());
                 e.printStackTrace();
             }
-        }else if(userPath.equals("/medico-base/ricerca")){
-
         }else if(userPath.equals("/medico-base/profilo")){
 
         }else if(userPath.equals("/medico-base/scheda-paziente")){
@@ -85,7 +84,7 @@ public class ControllerFilter implements Filter {
                     Paziente p = pazienteDAO.getByPrimaryKey(id);
                     request.setAttribute("paziente", p);
                     try {
-                        User medicoBase = medicoBaseDAO.getByPrimaryKey(p.getIdMedico());
+                        User medicoBase = medicoBaseDAO.getByPrimaryKey(p.getId());
                         System.out.println(" medico " + medicoBase);
                         request.setAttribute("medico", medicoBase);
                     } catch (DAOException e) {
@@ -93,40 +92,26 @@ public class ControllerFilter implements Filter {
                         request.setAttribute("medico", null);
                     }
                 } catch (DAOException e) {
-                    error = true;
-                    ((HttpServletResponse)resp).sendError(404, e.getMessage());
+                    doChain = false;
+                    response.sendError(404, e.getMessage());
                 }
             }
 
+        }else if(userPath.equals("/medico-base/eroga")){
+            String idS = request.getParameter("idPaziente");
+            if(idS != null) {
+                int id = Integer.parseInt(idS);
+//                medicoBaseDAO.createVisitaBase();                System.out.println(id);
+            }else{
+                request.setAttribute("errorMessage", "Id utente non specificato");
+                response.sendRedirect(((HttpServletResponse) resp).encodeRedirectURL(contextPath + "medico-base/lista"));
+                doChain = false;
+//                sendErrorMessage(response, "Id utente non specificato");
+            }
         }
         
-        if(userPath.equals("/medico-specialista/lista")){
-            ArrayList<Paziente> listaPazientiSpecialista = null;
-            try {
-                listaPazientiSpecialista = medicoSpecialistaDAO.getListaPazientiAssociati(user.getId());
-                request.setAttribute("listaPazientiSpecialista", listaPazientiSpecialista);
-            } catch (DAOException ex) {
-                error = true;
-                ((HttpServletResponse)resp).sendError(500, ex.getMessage());
-                ex.printStackTrace();
-            }
-        }else if(userPath.equals(("/medico-specialista/visite"))){
-            ArrayList<VisitaSpecialistica> visite = null;
-            try {
-                visite = medicoSpecialistaDAO.getListaVisitePazienti(user.getId());
-                request.setAttribute("visite", visite);
-            } catch (DAOException ex) {
-                ((HttpServletResponse)resp).sendError(500, ex.getMessage());
-                ex.printStackTrace();
-            }
-        }else if(userPath.equals(("/medico-specialista/scheda-paziente?id=*"))){
-            System.out.println("Arrivato qua");
-            System.out.println(request.getParameter("id"));
-        }else if(userPath.equals(("/medico-specialista/scheda-paziente"))){
-            System.out.println("Sono quiiiii");
-        }
 
-        if(!error)
+        if(doChain)
             chain.doFilter(req, resp);
     }
 
@@ -139,10 +124,17 @@ public class ControllerFilter implements Filter {
         try {
             pazienteDAO = daoFactory.getDAO(PazienteDAO.class);
             medicoBaseDAO = daoFactory.getDAO(MedicoBaseDAO.class);
-            medicoSpecialistaDAO = daoFactory.getDAO(MedicoSpecialistaDAO.class);
         } catch (DAOFactoryException e) {
             throw new ServletException(e.getMessage());
         }
+    }
+
+    private void sendSuccessMessage(HttpServletResponse response, String message){
+
+    }
+
+    private void sendErrorMessage(HttpServletResponse response, String message){
+//        response.sendRedirect();
     }
 
 }
