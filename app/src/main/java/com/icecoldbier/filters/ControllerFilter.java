@@ -1,5 +1,6 @@
 package com.icecoldbier.filters;
 
+import com.icecoldbier.persistence.dao.implementations.MedicoBaseDAO;
 import com.icecoldbier.persistence.dao.implementations.MedicoSpecialistaDAO;
 import com.icecoldbier.persistence.dao.implementations.PazienteDAO;
 import com.icecoldbier.persistence.entities.Paziente;
@@ -17,13 +18,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @WebFilter(filterName = "ControllerFilter", urlPatterns = {"/medico-base/*","/medico-specialista/*"})
 public class ControllerFilter implements Filter {
-    private static final float DEFAULT_PAGE_COUNT = 15;
+    private static final int DEFAULT_PAGE_SIZE = 15;
+    private static final int MAX_PAGE_SIZE = 30;
+    private static final int MIN_PAGE_SIZE = 10;
+
     private PazienteDAO pazienteDAO;
+    private MedicoBaseDAO medicoBaseDAO;
     private MedicoSpecialistaDAO medicoSpecialistaDAO;
     public void destroy() {
     }
@@ -36,23 +39,34 @@ public class ControllerFilter implements Filter {
 
         System.out.println(request.getServletPath());
 
+        boolean error = false;
+
         if(userPath.equals("/medico-base/lista")){
-            ArrayList<Paziente> listaPazienti = null;
+            ArrayList<Paziente> listaPazienti;
             try{
                 long count = pazienteDAO.getCount();
-                int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
                 int requestedPage = 1;
+                int requestedPageSize = DEFAULT_PAGE_SIZE;
 
-                //Grab the requested page value if i exist, set a default value (1) if it does not
+                //Grab the requested page size value if it exists, set a default value (1) if it does not
+                if(request.getParameter("pageSize") != null){
+                    requestedPageSize = Integer.parseInt(request.getParameter("pageSize"));
+                }
+
+                requestedPageSize = Utils.coerceInt(MIN_PAGE_SIZE, MAX_PAGE_SIZE, requestedPageSize);
+
+                int pagesCount = (int)Math.ceil(((count * 1.0f)/ requestedPageSize));
+
+                //Grab the requested page value if it exists, set a default value (1) if it does not
                 if(request.getParameter("page") != null){
                     requestedPage = Integer.parseInt(request.getParameter("page"));
                 }
-
                 requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
 
-                listaPazienti = pazienteDAO.getPazientiPaged((int)DEFAULT_PAGE_COUNT, requestedPage);
+                listaPazienti = pazienteDAO.getPazientiPaged(requestedPageSize, requestedPage);
 
-                request.setAttribute("page", requestedPage);
+                request.setAttribute("selectedPage", requestedPage);
+                request.setAttribute("pageSize", requestedPageSize);
                 request.setAttribute("pagesCount", pagesCount);
                 request.setAttribute("listaPazienti", listaPazienti);
             }catch (DAOException e) {
@@ -63,6 +77,27 @@ public class ControllerFilter implements Filter {
 
         }else if(userPath.equals("/medico-base/profilo")){
 
+        }else if(userPath.equals("/medico-base/scheda-paziente")){
+            String idS = request.getParameter("id");
+            if(idS != null){
+                int id = Integer.parseInt(idS);
+                try {
+                    Paziente p = pazienteDAO.getByPrimaryKey(id);
+                    request.setAttribute("paziente", p);
+                    try {
+                        User medicoBase = medicoBaseDAO.getByPrimaryKey(p.getIdMedico());
+                        System.out.println(" medico " + medicoBase);
+                        request.setAttribute("medico", medicoBase);
+                    } catch (DAOException e) {
+                        e.printStackTrace();
+                        request.setAttribute("medico", null);
+                    }
+                } catch (DAOException e) {
+                    error = true;
+                    ((HttpServletResponse)resp).sendError(404, e.getMessage());
+                }
+            }
+
         }
         
         if(userPath.equals("/medico-specialista/lista")){
@@ -71,6 +106,7 @@ public class ControllerFilter implements Filter {
                 listaPazientiSpecialista = medicoSpecialistaDAO.getListaPazientiAssociati(user.getId());
                 request.setAttribute("listaPazientiSpecialista", listaPazientiSpecialista);
             } catch (DAOException ex) {
+                error = true;
                 ((HttpServletResponse)resp).sendError(500, ex.getMessage());
                 ex.printStackTrace();
             }
@@ -90,24 +126,22 @@ public class ControllerFilter implements Filter {
             System.out.println("Sono quiiiii");
         }
 
-        chain.doFilter(req, resp);
+        if(!error)
+            chain.doFilter(req, resp);
     }
 
     public void init(FilterConfig config) throws ServletException {
         System.out.println("called controller filter init method");
         DAOFactory daoFactory = (DAOFactory) config.getServletContext().getAttribute("daoFactory");
         if (daoFactory == null) {
-            throw new ServletException("Impossible to get dao factory for pazienti storage system");
+            throw new ServletException("Impossible to get dao factory ");
         }
         try {
             pazienteDAO = daoFactory.getDAO(PazienteDAO.class);
-        } catch (DAOFactoryException e) {
-            throw new ServletException("Impossible to get dao factory for pazienti storage system");
-        }
-        try {
+            medicoBaseDAO = daoFactory.getDAO(MedicoBaseDAO.class);
             medicoSpecialistaDAO = daoFactory.getDAO(MedicoSpecialistaDAO.class);
         } catch (DAOFactoryException e) {
-            throw new ServletException("Impossible to get dao factory for pazienti storage system");
+            throw new ServletException(e.getMessage());
         }
     }
 
