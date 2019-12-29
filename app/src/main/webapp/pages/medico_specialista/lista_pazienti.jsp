@@ -28,7 +28,7 @@
                 </thead>
                 <tbody>
                 <c:forEach var="p" items="${listaPazientiSpecialista}">
-                        <tr data-href="/medico-base/scheda-paziente?id=${p.getId()}">
+                        <tr data-href="/medico-specialista/scheda-paziente?id=${p.getId()}">
                             <th scope="row">${p.getNome()}</th>
                             <th>${p.getCognome()}</th>
                             <th>${p.getSesso()}</th>

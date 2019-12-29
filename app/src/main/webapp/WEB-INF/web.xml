@@ -120,7 +120,16 @@
         <servlet-name>MedicoSpecialistaVisite</servlet-name>
         <url-pattern>/medico-specialista/visite</url-pattern>
     </servlet-mapping>
-
+    
+    <servlet>
+        <servlet-name>MedicoSpecialistaSchedaPaziente</servlet-name>
+        <jsp-file>/pages/medico_specialista/scheda_paziente.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicoSpecialistaSchedaPaziente</servlet-name>
+        <url-pattern>/medico-specialista/scheda-paziente</url-pattern>
+    </servlet-mapping>
+    
 <!--    SSP-->
     <servlet>
         <servlet-name>SSPHome</servlet-name>

@@ -83,6 +83,11 @@ public class ControllerFilter implements Filter {
                 ((HttpServletResponse)resp).sendError(500, ex.getMessage());
                 ex.printStackTrace();
             }
+        }else if(userPath.equals(("/medico-specialista/scheda-paziente?id=*"))){
+            System.out.println("Arrivato qua");
+            System.out.println(request.getParameter("id"));
+        }else if(userPath.equals(("/medico-specialista/scheda-paziente"))){
+            System.out.println("Sono quiiiii");
         }
 
         chain.doFilter(req, resp);

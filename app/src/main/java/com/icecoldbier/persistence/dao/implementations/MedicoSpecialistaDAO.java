@@ -100,7 +100,6 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
         } catch (SQLException ex) {
             throw new DAOException("Impossible to get the list of pazienti", ex);
         }
-        System.out.println(visite);
         return visite;
     }
 
