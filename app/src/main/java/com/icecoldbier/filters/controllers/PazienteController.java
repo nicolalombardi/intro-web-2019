@@ -1,4 +1,4 @@
-package com.icecoldbier.filters;
+package com.icecoldbier.filters.controllers;
 
 import com.icecoldbier.persistence.dao.implementations.PazienteDAO;
 import com.icecoldbier.persistence.dao.implementations.UserDAO;
@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @WebFilter(filterName = "ControllerFilterPaziente", urlPatterns = {"/paziente/*"})
-public class ControllerFilterPaziente implements Filter {
+public class PazienteController implements Filter {
 
     private static final float DEFAULT_PAGE_COUNT = 15;
     private VisitaBaseDAO visitaBaseDAO;
