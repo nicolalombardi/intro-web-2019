@@ -1,5 +1,6 @@
 <%@ page import="com.icecoldbier.persistence.entities.User"%>
 <jsp:useBean id="paziente" scope="request" type="com.icecoldbier.persistence.entities.Paziente"/>
+<jsp:useBean id="medico" scope="request" type="com.icecoldbier.persistence.entities.User"/>
 <%@ page import="com.icecoldbier.persistence.entities.Paziente" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -66,6 +67,10 @@
                             <tr>
                                 <th><b>Sesso</b></th>
                                 <td>${paziente.sesso}</td>
+                            </tr>
+                            <tr>
+                                <th><b>Medico di base</b></th>
+                                <td>${medico.getNome()} ${medico.getCognome()}</td>
                             </tr>
 
                             </tbody>

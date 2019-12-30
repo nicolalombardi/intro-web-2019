@@ -32,6 +32,10 @@
                                 <td>${visita.getPaziente().getCognome()}</td>
                             </tr>
                             <tr>
+                                <th><b>Codice Fiscale</b></th>
+                                <td>${visita.getPaziente().getCodiceFiscale()}</td>
+                            </tr>
+                            <tr>
                                 <th><b>Data di prescrizione</b></th>
                                 <td>${visita.getDataPrescrizione()}</td>
                             </tr>
@@ -41,7 +45,7 @@
                             </tr>
                             <tr>
                                 <th><b>Medico di base</b></th>
-                                <td> <c:out value="${visita.getMedicoBase().getNome()} ${visita.getMedicoBase().getCognome()}"/> </td>
+                                <td> <c:out value="${visita.getPaziente().getMedico().getNome()} ${visita.getPaziente().getMedico().getCognome()}"/> </td>
                             </tr>
                             
                             </tbody>

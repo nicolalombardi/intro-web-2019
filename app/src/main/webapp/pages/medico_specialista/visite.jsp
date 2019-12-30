@@ -13,7 +13,7 @@
     <%@ include file="navbar.html" %>
 
     <div class="container">
-        <h1>Lista pazienti</h1>
+        <h1>Lista visite</h1>
 
         <div class="table-responsive-md">
             <table class="table table-striped table-hover">
