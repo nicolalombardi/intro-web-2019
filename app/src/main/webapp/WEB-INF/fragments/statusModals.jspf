@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header success-modal-header">
                 <div class="icon-box">
-                    <i class="material-icons">check</i>
+                    <i class="material-icons modal-icon">check</i>
                 </div>
             </div>
             <div class="modal-body">

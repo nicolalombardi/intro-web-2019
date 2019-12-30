@@ -99,23 +99,31 @@
 <%--            Funzioni--%>
             <div class="col funzioni-col">
                 <h2>Funzioni</h2>
+                <p class="info-text">
+                    <i class="material-icons info-icon">info_outline</i>
+                    <c:if test="${not isMedicoAssociato}"><span>Funzioni disabilitate perchè non è un tuo paziente</span></c:if>
+                </p>
                 <div class="row funzioni-row">
                     <form method="post" action="eroga">
                         <input type="hidden" name="idPaziente" value="${paziente.id}">
-                        <button type="submit" class="btn btn-primary <c:if test="${not isMedicoAssociato}">disabled</c:if>">Eroga visita base</button>
+                        <button type="submit" class="btn btn-primary" <c:if test="${not isMedicoAssociato}">disabled</c:if>>Eroga visita base</button>
                     </form>
                 </div>
                 <div class="row funzioni-row">
-                    <a class="btn btn-primary <c:if test="${not isMedicoAssociato}">disabled</c:if>" href="#" role="button">Visualizza elenco visite base</a>
+                    <form method="post" action="">
+                        <button type="submit" class="btn btn-primary" <c:if test="${not isMedicoAssociato}">disabled</c:if>>Visualizza elenco visite base</button>
+                    </form>
                 </div>
                 <div class="row funzioni-row">
-                    <a class="btn btn-primary <c:if test="${not isMedicoAssociato}">disabled</c:if>" href="#" role="button">Prescrivi esame specialistico</a>
+                    <form method="post" action="">
+                        <button type="submit" class="btn btn-primary" <c:if test="${not isMedicoAssociato}">disabled</c:if>>Prescrivi esame specialistico</button>
+                    </form>
                 </div>
                 <div class="row funzioni-row">
-                    <a class="btn btn-primary <c:if test="${not isMedicoAssociato}">disabled</c:if>" href="#" role="button">Visualizza elenco esami specialistici prescritti</a>
+                    <form method="post" action="">
+                        <button type="submit" class="btn btn-primary" <c:if test="${not isMedicoAssociato}">disabled</c:if>>Visualizza elenco esami specialistici prescritti</button>
+                    </form>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -136,6 +144,11 @@
 <%--These are the success and error modals--%>
 <%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>
 
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 
 </body>
 </html>

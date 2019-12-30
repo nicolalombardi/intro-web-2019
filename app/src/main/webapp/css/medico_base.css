@@ -42,9 +42,19 @@ td{
     background: #13c76b;
 }
 
-.material-icons{
+.modal-icon {
     font-size: 64px !important;
     margin: -4px 0 0 -4px;
+}
+
+.info-text{
+    font-size: smaller;
+    color: #3e3e3e;
+}
+
+.info-icon{
+    font-size: 1.5em;
+    color: #3e3e3e;
 }
 
 .icon-box{
