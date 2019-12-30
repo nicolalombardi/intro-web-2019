@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../css/medico_base.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 <body>
 <%@ include file="navbar.html" %>
@@ -91,10 +93,10 @@
                     <td>
                         <c:choose>
                             <c:when test="${user.id == p.medico.id}">
-                                <img src="../images/checkbox_checked.svg" height="36px" width="36px">
+                                <i class="material-icons info-icon">check_box</i>
                             </c:when>
                             <c:otherwise>
-                                <img src="${pageContext.request.contextPath}/images/checkbox_unchecked.svg" height="36px" width="36px">
+                                <i class="material-icons info-icon">check_box_outline_blank</i>
                             </c:otherwise>
                         </c:choose>
                     </td>
