@@ -37,35 +37,37 @@ public class ReportDAO extends JDBCDAO<Report, Integer> implements ReportDAOInte
     @Override
     public Report getByPrimaryKey(Integer primaryKey) throws DAOException {
         //report
-        Report report;
+        Report report = null;
+        Ricetta ricetta = null;
         try(PreparedStatement preparedStatement = CON.prepareStatement(GET_REPORT_BY_ID)){
             preparedStatement.setInt(1, primaryKey);
             try(ResultSet resultSet = preparedStatement.executeQuery()){
-                resultSet.next();
-                //ricetta
-                Ricetta ricetta;
-                try (PreparedStatement preparedStatement1 = CON.prepareStatement(GET_RICETTA_BY_ID)) {
-                    preparedStatement.setInt(1, resultSet.getInt("id"));
-                    try (ResultSet resultSet1 = preparedStatement1.executeQuery()) {
-                        resultSet1.next();
-                        ricetta = new Ricetta(
-                                resultSet.getInt("id"),
-                                resultSet.getString("farmaco"),
-                                resultSet.getInt("id_visita_base"),
-                                resultSet.getBoolean("prescritta")
-                        );
+                //Se presente un risultato, processalo. Altrimenti null
+                if(resultSet.next()){
+                    try (PreparedStatement preparedStatement1 = CON.prepareStatement(GET_RICETTA_BY_ID)) {
+                        System.out.println("Prima");
+                        preparedStatement1.setInt(1, resultSet.getInt("id_ricetta"));
+                        System.out.println("Dopo");
+                        try (ResultSet resultSet1 = preparedStatement1.executeQuery()) {
+                            if(resultSet1.next()){
+                                ricetta = new Ricetta(
+                                    resultSet1.getInt("id"),
+                                    resultSet1.getString("farmaco"),
+                                    resultSet1.getInt("id_visita_base"),
+                                    resultSet1.getBoolean("prescritta")
+                                );
+                            }
+                        }
+                    } catch (SQLException e) {
+                        throw new DAOException("Error while getting ricetta", e);
                     }
-
-                } catch (SQLException e) {
-                    throw new DAOException("Error while getting ricetta", e);
+                    report = new Report(
+                            resultSet.getInt("id"),
+                            resultSet.getString("esito"),
+                            ricetta
+                    );
                 }
-                report = new Report(
-                        resultSet.getInt("id"),
-                        resultSet.getString("esito"),
-                        ricetta
-                );
             }
-
         } catch (SQLException e) {
             throw new DAOException("Error while getting report", e);
         }

@@ -26,10 +26,10 @@
                 </thead>
                 <tbody>
                 <c:forEach var="p" items="${visite}">
-                        <tr data-href="/medico-base/scheda-paziente?id=${p.getId()}">
+                        <tr data-href="">
                             <th scope="row">${p.isErogata()}</th>
                             <th>${p.getDataPrescrizione()}</th>
-                            <th>${p.getIdPaziente()}</th
+                            <th>${p.getPaziente().getId()}</th
                         </tr>
                 </c:forEach>
                 </tbody>
