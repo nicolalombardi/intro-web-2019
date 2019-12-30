@@ -122,6 +122,15 @@
     </servlet-mapping>
     
     <servlet>
+        <servlet-name>MedicoSpecialistaDettagliVisita</servlet-name>
+        <jsp-file>/pages/medico_specialista/dettagli_visita.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicoSpecialistaDettagliVisita</servlet-name>
+        <url-pattern>/medico-specialista/visite/dettagli-visita</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
         <servlet-name>MedicoSpecialistaSchedaPaziente</servlet-name>
         <jsp-file>/pages/medico_specialista/scheda_paziente.jsp</jsp-file>
     </servlet>

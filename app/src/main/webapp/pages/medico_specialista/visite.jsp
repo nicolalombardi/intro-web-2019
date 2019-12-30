@@ -19,17 +19,19 @@
             <table class="table table-striped table-hover">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Erogata</th>
                     <th scope="col">Data prescrizione</th>
-                    <th scope="col">Id paziente</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Cognome</th>
+                    <th scope="col">Erogata</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="p" items="${visite}">
-                        <tr data-href="">
-                            <th scope="row">${p.isErogata()}</th>
-                            <th>${p.getDataPrescrizione()}</th>
-                            <th>${p.getPaziente().getId()}</th
+                        <tr data-href="/medico-specialista/visite/dettagli-visita?id=${p.getId()}">
+                            <td scope="row">${p.getDataPrescrizione()}</td>
+                            <td>${p.getPaziente().getNome()}</td>
+                            <td>${p.getPaziente().getCognome()}</td>
+                            <td>${p.isErogata()}</td>
                         </tr>
                 </c:forEach>
                 </tbody>

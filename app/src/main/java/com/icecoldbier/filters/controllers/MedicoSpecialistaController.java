@@ -58,8 +58,10 @@ public class MedicoSpecialistaController implements Filter {
                 ((HttpServletResponse)resp).sendError(500, ex.getMessage());
                 ex.printStackTrace();
             }
+        }else if(userPath.equals("/medico-specialista/visite/dettagli-visita")){
+            String idS = request.getParameter("id");
+            System.out.println("Id visita: " + idS);
         }else if(userPath.equals(("/medico-specialista/scheda-paziente"))){
-            System.out.println("Scheda paziente");
             String idS = request.getParameter("id");
             Paziente paziente = null;
             if(idS != null){
