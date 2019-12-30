@@ -1,3 +1,5 @@
+<%@ page import="com.icecoldbier.persistence.entities.User"%>
+<jsp:useBean id="paziente" scope="request" type="com.icecoldbier.persistence.entities.Paziente"/>
 <%@ page import="com.icecoldbier.persistence.entities.Paziente" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,7 +14,67 @@
     <%@ include file="navbar.html" %>
 
     
-    
+    <div class="container">
+        <h1>Scheda del paziente</h1>
+        <div class="container">
+            <div class="row">
+    <%--            Dati paziente--%>
+                <div class="col">
+                    <div class="row">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td colspan="2" style="text-align: center">
+                                    <c:choose>
+                                        <c:when test="${not empty paziente.foto}">
+                                            <img src="${paziente.foto}" height="300px" width="300px">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="/images/profile_placeholder.svg" height="300px" width="300px">
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><b>Nome</b></th>
+                                <td>${paziente.nome}</td>
+                            </tr>
+                            <tr>
+                                <th><b>Cognome</b></th>
+                                <td>${paziente.cognome}</td>
+                            </tr>
+                            <tr>
+                                <th><b>Email</b></th>
+                                <td>${paziente.username}</td>
+                            </tr>
+                            <tr>
+                                <th><b>Provincia di appartenenza</b></th>
+                                <td>${paziente.provinciaAppartenenza}</td>
+                            </tr>
+                            <tr>
+                                <th><b>Data di nascita</b></th>
+                                <td>${paziente.dataNascita}</td>
+                            </tr>
+                            <tr>
+                                <th><b>Luogo di nascita</b></th>
+                                <td>${paziente.luogoNascita}</td>
+                            </tr>
+                            <tr>
+                                <th><b>Codice fiscale</b></th>
+                                <td>${paziente.codiceFiscale}</td>
+                            </tr>
+                            <tr>
+                                <th><b>Sesso</b></th>
+                                <td>${paziente.sesso}</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
     
     

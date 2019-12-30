@@ -18,11 +18,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebFilter(filterName = "MedicoSpecialistaController", urlPatterns = {"/medico-specialista/*"})
 public class MedicoSpecialistaController implements Filter {
 
     private MedicoSpecialistaDAO medicoSpecialistaDAO;
+    private PazienteDAO pazienteDAO;
     public void destroy() {
     }
 
@@ -33,6 +36,8 @@ public class MedicoSpecialistaController implements Filter {
         User user = (User)session.getAttribute("user");
 
         boolean error = false;
+        
+        System.out.println(request.getServletPath());
 
         if(userPath.equals("/medico-specialista/lista")){
             ArrayList<Paziente> listaPazientiSpecialista = null;
@@ -53,11 +58,20 @@ public class MedicoSpecialistaController implements Filter {
                 ((HttpServletResponse)resp).sendError(500, ex.getMessage());
                 ex.printStackTrace();
             }
-        }else if(userPath.equals(("/medico-specialista/scheda-paziente?id=*"))){
-            System.out.println("Arrivato qua");
-            System.out.println(request.getParameter("id"));
         }else if(userPath.equals(("/medico-specialista/scheda-paziente"))){
-            System.out.println("Sono quiiiii");
+            System.out.println("Scheda paziente");
+            String idS = request.getParameter("id");
+            Paziente paziente = null;
+            if(idS != null){
+                int id = Integer.parseInt(idS);
+                try {
+                    paziente = pazienteDAO.getByPrimaryKey(id);
+                    request.setAttribute("paziente", paziente);
+                } catch (DAOException ex) {
+                    ((HttpServletResponse)resp).sendError(500, ex.getMessage());
+                    ex.printStackTrace();
+                }
+            }
         }
 
         if(!error)
@@ -72,6 +86,11 @@ public class MedicoSpecialistaController implements Filter {
         }
         try {
             medicoSpecialistaDAO = daoFactory.getDAO(MedicoSpecialistaDAO.class);
+        } catch (DAOFactoryException e) {
+            throw new ServletException(e.getMessage());
+        }
+        try {
+            pazienteDAO = daoFactory.getDAO(PazienteDAO.class);
         } catch (DAOFactoryException e) {
             throw new ServletException(e.getMessage());
         }
