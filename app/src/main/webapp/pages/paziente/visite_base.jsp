@@ -48,8 +48,8 @@
             <tbody>
             <c:forEach var="v" items="${elencoVisite}">
                 <tr>
-                    <th scope="row">${v.getNomeMedico()}</th>
-                    <th>${v.getCognomeMedico()}</th>
+                    <th scope="row">${v.getMedicoBase().getNome()}</th>
+                    <th>${v.getMedicoBase().getCognome()}</th>
                     <th>${v.getDataErogazione()}</th>
                 </tr>
             </c:forEach>

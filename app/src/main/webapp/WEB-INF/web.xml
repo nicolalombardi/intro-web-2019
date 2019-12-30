@@ -182,22 +182,6 @@
         <servlet-name>ElencoVisiteSpecialistiche</servlet-name>
         <url-pattern>/paziente/elenco-visite-specialistiche</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>Report</servlet-name>
-        <jsp-file>/pages/paziente/report.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Report</servlet-name>
-        <url-pattern>/paziente/elenco-visite-specialistiche/report</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>Ricetta</servlet-name>
-        <jsp-file>/pages/paziente/ricetta.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Ricetta</servlet-name>
-        <url-pattern>/paziente/elenco-visite-specialistiche/report/ricetta</url-pattern>
-    </servlet-mapping>
 
     <session-config>
         <session-timeout>

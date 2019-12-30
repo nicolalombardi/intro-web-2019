@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebFilter(filterName = "ControllerFilterPaziente", urlPatterns = {"/paziente/*"})
+@WebFilter(filterName = "PazienteController", urlPatterns = {"/paziente/*"})
 public class PazienteController implements Filter {
 
     private static final float DEFAULT_PAGE_COUNT = 15;

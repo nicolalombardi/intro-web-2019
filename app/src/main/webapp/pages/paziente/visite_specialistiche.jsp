@@ -56,19 +56,58 @@
                     <th>${v.isErogata()}</th>
                     <th>${v.getDataPrescrizione()}</th>
                     <th>${v.getDataErogazione()}</th>
-                    <th>${v.getNomeMedico()}</th>
-                    <th>${v.getCognomeMedico()}</th>
+                    <th>${v.getMedicoSpecialista().getNome()}</th>
+                    <th>${v.getMedicoSpecialista().getCognome()}</th>
 
 
                     <c:choose>
-                        <c:when test="${v.getIdReport() == 0}">
+                        <c:when test="${v.getReport().getId() == 0}">
                             <th><button class="btn btn-sm btn-primary btn-block" disabled="disabled" type="submit">Report</button></th>
                         </c:when>
                         <c:otherwise>
-                        <form class="form-login" action="/report" method="GET">
-                            <input hidden id="idReport" name="idReport" value="${v.getIdReport()}">
-                            <th><button class="btn btn-sm btn-primary btn-block" type="submit">Report</button></th>
-                        </form>
+
+                            <!-- Trigger the modal with a button -->
+                            <th><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Report</button></th>
+
+                            <!-- Modal -->
+                            <div id="myModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Report</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Esito report:</p>
+                                            <p>${v.getReport().getEsito()}</p>
+                                            <c:choose>
+                                                <c:when test="${v.getReport().getRicetta().getId() != 0}">
+                                                    <br><br>
+                                                    <p>Nome ricetta: ${v.getReport().getRicetta().getNome()}</p>
+                                                    <c:choose>
+                                                        <c:when test="${v.getReport().getRicetta().isPrescritta()}">
+                                                            La ricetta è stata prescritta
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            La ricetta non è ancora stata prescritta
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <p> Nessuna ricetta associata a questo report</p>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
                         </c:otherwise>
                     </c:choose>
 
