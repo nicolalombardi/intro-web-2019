@@ -12,7 +12,7 @@ import java.util.List;
 public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseDAOInterface {
     private static final String GET_MEDICO_BY_ID = "SELECT * FROM users WHERE id = ? AND typ = user_type(?)";
     private static final String GET_USER_LIST = "SELECT id FROM visita_base WHERE id_medico = ?";
-    private static final String CREATE_VISITA_BASE = "INSERT INTO visita_base(id_medico, id_paziente, data_erogazione) VALUES(?,?,?)";
+    private static final String CREATE_VISITA_BASE = "INSERT INTO visita_base(id_medico, id_paziente, data_erogazione) VALUES(?,?,NOW())";
     private static final String CREATE_VISITA_SSP = "INSERT INTO visita_ssp(id_visita, erogata, data_prescrizione, id_ssp, id_paziente, id_medico_base) VALUES(?,?,?,?,?,?)";
     private static final String CREATE_VISITA_SPECIALISTICA = "INSERT INTO visita_specialistica(id_visita, erogata, data_prescrizione, id_medico, id_paziente, id_medico_base) VALUES(?,?,?,?,?,?)";
     private static final String GET_VISITA_SPECIALISTICA = "SELECT id_visita, id_report FROM visita_specialistica WHERE id = ? ";
@@ -32,11 +32,10 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
     }
 
     @Override
-    public void createVisitaBase(int idm, int idp, Date data) throws DAOException {
+    public void createVisitaBase(int idm, int idp) throws DAOException {
         try (PreparedStatement preparedStatement = CON.prepareStatement(CREATE_VISITA_BASE)) {
             preparedStatement.setInt(1, idm);
             preparedStatement.setInt(2, idp);
-            preparedStatement.setDate(3, data);
             preparedStatement.execute();
 
         } catch (SQLException e) {

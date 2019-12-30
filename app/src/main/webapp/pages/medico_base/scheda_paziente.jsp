@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../css/medico_base.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 <body>
 <%@ include file="navbar.html" %>
@@ -98,7 +100,10 @@
             <div class="col funzioni-col">
                 <h2>Funzioni</h2>
                 <div class="row funzioni-row">
-                    <a class="btn btn-primary <c:if test="${not isMedicoAssociato}">disabled</c:if>" href="#" role="button">Eroga visita base</a>
+                    <form method="post" action="eroga">
+                        <input type="hidden" name="idPaziente" value="${paziente.id}">
+                        <button type="submit" class="btn btn-primary <c:if test="${not isMedicoAssociato}">disabled</c:if>">Eroga visita base</button>
+                    </form>
                 </div>
                 <div class="row funzioni-row">
                     <a class="btn btn-primary <c:if test="${not isMedicoAssociato}">disabled</c:if>" href="#" role="button">Visualizza elenco visite base</a>
@@ -128,5 +133,10 @@
         crossorigin="anonymous"></script>
 <script src="../js/lista_pazienti.js"></script>
 
+<%--These are the success and error modals--%>
+<%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>
+
+
 </body>
 </html>
+

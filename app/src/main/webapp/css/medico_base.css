@@ -19,3 +19,42 @@ h1{
 td{
     vertical-align: middle !important;
 }
+
+.modal-content{
+    border: 0;
+}
+.modal-header{
+    display: block;
+    text-align: center;
+}
+.modal-body{
+    text-align: center;
+    font-size: x-large;
+}
+.modal-body p{
+    color: #3e3e3e;
+}
+.error-modal-header{
+    background: #ff483f;
+}
+
+.success-modal-header{
+    background: #13c76b;
+}
+
+.material-icons{
+    font-size: 64px !important;
+    margin: -4px 0 0 -4px;
+}
+
+.icon-box{
+    color: #fff;
+    width: 95px;
+    height: 95px;
+    display: inline-block;
+    border-radius: 50%;
+    z-index: 9;
+    border: 5px solid #fff;
+    padding: 15px;
+    text-align: center;
+}

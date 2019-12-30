@@ -32,7 +32,6 @@ public class MedicoBaseController implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession(false);
-        String contextPath = Utils.getServletContextPath(req.getServletContext());
         String userPath = request.getServletPath();
         User user = (User)session.getAttribute("user");
 
@@ -79,7 +78,7 @@ public class MedicoBaseController implements Filter {
                 request.setAttribute("listaPazienti", listaPazienti);
             }catch (DAOException e) {
                 doChain = false;
-                response.sendError(500, e.getMessage());
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Non è stato possibile recuperare la lista dei pazienti, riprova più tardi");
                 e.printStackTrace();
             }
         }else if(userPath.equals("/medico-base/profilo")){
@@ -95,28 +94,16 @@ public class MedicoBaseController implements Filter {
                         User medicoBase = medicoBaseDAO.getByPrimaryKey(p.getMedico().getId());
                         request.setAttribute("medico", medicoBase);
                     } catch (DAOException e) {
-                        e.printStackTrace();
                         request.setAttribute("medico", null);
                     }
                 } catch (DAOException e) {
                     doChain = false;
-                    response.sendError(404, e.getMessage());
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Non è stato possibile recuperare i dettagli del paziente, riprova più tardi");
                 }
             }
 
-        }else if(userPath.equals("/medico-base/eroga")){
-            String idS = request.getParameter("idPaziente");
-            if(idS != null) {
-                int id = Integer.parseInt(idS);
-//                medicoBaseDAO.createVisitaBase();
-            }else{
-                request.setAttribute("errorMessage", "Id utente non specificato");
-                response.sendRedirect(((HttpServletResponse) resp).encodeRedirectURL(contextPath + "medico-base/lista"));
-                doChain = false;
-//                sendErrorMessage(response, "Id utente non specificato");
-            }
         }
-        
+
 
         if(doChain)
             chain.doFilter(req, resp);

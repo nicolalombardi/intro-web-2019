@@ -1,0 +1,47 @@
+<div id="successModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header success-modal-header">
+                <div class="icon-box">
+                    <i class="material-icons">check</i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p><c:out value="${empty successMessage ? '' : successMessage}"/> </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="errorModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header error-modal-header">
+                <div class="icon-box">
+                    <i class="material-icons">clear</i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p><c:out value="${empty errorMessage ? '' : errorMessage}"/> </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<c:if test="${not empty successMessage}">
+    <script>$('#successModal').modal('show')</script>
+</c:if>
+<c:if test="${not empty errorMessage}">
+    <script>$('#errorModal').modal('show')</script>
+</c:if>
+
+<%--Remove the variable from the session to avoid showing any message again--%>
+<c:remove var="successMessage"/>
+<c:remove var="errorMessage"/>
