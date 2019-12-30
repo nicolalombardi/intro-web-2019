@@ -3,6 +3,7 @@ package com.icecoldbier.filters.controllers;
 import com.icecoldbier.persistence.dao.implementations.MedicoBaseDAO;
 import com.icecoldbier.persistence.dao.implementations.MedicoSpecialistaDAO;
 import com.icecoldbier.persistence.dao.implementations.PazienteDAO;
+import com.icecoldbier.persistence.dao.implementations.VisitaSpecialisticaDAO;
 import com.icecoldbier.persistence.entities.Paziente;
 import com.icecoldbier.persistence.entities.User;
 import com.icecoldbier.persistence.entities.VisitaSpecialistica;
@@ -26,6 +27,7 @@ public class MedicoSpecialistaController implements Filter {
 
     private MedicoSpecialistaDAO medicoSpecialistaDAO;
     private PazienteDAO pazienteDAO;
+    private VisitaSpecialisticaDAO visitaSpecialisticaDAO;
     public void destroy() {
     }
 
@@ -60,7 +62,18 @@ public class MedicoSpecialistaController implements Filter {
             }
         }else if(userPath.equals("/medico-specialista/visite/dettagli-visita")){
             String idS = request.getParameter("id");
-            System.out.println("Id visita: " + idS);
+            VisitaSpecialistica visita = null;
+            if(idS != null){
+                int id = Integer.parseInt(idS);
+                try {
+                    visita = visitaSpecialisticaDAO.getByPrimaryKey(id);
+                    request.setAttribute("visita", visita);
+                } catch (DAOException ex) {
+                    ((HttpServletResponse)resp).sendError(500, ex.getMessage());
+                    ex.printStackTrace();
+                }
+            }
+            //System.out.println("Id visita: " + idS);
         }else if(userPath.equals(("/medico-specialista/scheda-paziente"))){
             String idS = request.getParameter("id");
             Paziente paziente = null;
@@ -93,6 +106,11 @@ public class MedicoSpecialistaController implements Filter {
         }
         try {
             pazienteDAO = daoFactory.getDAO(PazienteDAO.class);
+        } catch (DAOFactoryException e) {
+            throw new ServletException(e.getMessage());
+        }
+        try {
+            visitaSpecialisticaDAO = daoFactory.getDAO(VisitaSpecialisticaDAO.class);
         } catch (DAOFactoryException e) {
             throw new ServletException(e.getMessage());
         }
