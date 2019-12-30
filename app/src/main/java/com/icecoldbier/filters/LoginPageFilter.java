@@ -24,7 +24,7 @@ public class LoginPageFilter implements Filter {
             if (user != null) {
                 switch (user.getTyp()) {
                     case medico_base:
-                        servletResponse.sendRedirect("/medico-base/home");
+                        servletResponse.sendRedirect("/medico-base/lista");
                         break;
                     case medico_specialista:
                         servletResponse.sendRedirect("/medico-specialista/home");

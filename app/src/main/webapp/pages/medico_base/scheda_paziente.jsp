@@ -99,10 +99,14 @@
 <%--            Funzioni--%>
             <div class="col funzioni-col">
                 <h2>Funzioni</h2>
+
+                <c:if test="${not isMedicoAssociato}">
                 <p class="info-text">
                     <i class="material-icons info-icon">info_outline</i>
-                    <c:if test="${not isMedicoAssociato}"><span>Funzioni disabilitate perchè non è un tuo paziente</span></c:if>
+                    <span>Funzioni disabilitate perchè non è un tuo paziente</span>
                 </p>
+                </c:if>
+
                 <div class="row funzioni-row">
                     <form method="post" action="eroga">
                         <input type="hidden" name="idPaziente" value="${paziente.id}">
@@ -139,7 +143,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-<script src="../js/lista_pazienti.js"></script>
 
 <%--These are the success and error modals--%>
 <%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>
