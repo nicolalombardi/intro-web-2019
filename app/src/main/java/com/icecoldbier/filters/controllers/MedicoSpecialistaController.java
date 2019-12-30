@@ -28,6 +28,7 @@ public class MedicoSpecialistaController implements Filter {
     private MedicoSpecialistaDAO medicoSpecialistaDAO;
     private PazienteDAO pazienteDAO;
     private VisitaSpecialisticaDAO visitaSpecialisticaDAO;
+    private MedicoBaseDAO medicoBaseDAO;
     public void destroy() {
     }
 
@@ -77,11 +78,14 @@ public class MedicoSpecialistaController implements Filter {
         }else if(userPath.equals(("/medico-specialista/scheda-paziente"))){
             String idS = request.getParameter("id");
             Paziente paziente = null;
+            User medico = null;
             if(idS != null){
                 int id = Integer.parseInt(idS);
                 try {
                     paziente = pazienteDAO.getByPrimaryKey(id);
+                    medico = medicoBaseDAO.getByPrimaryKey(paziente.getMedico().getId());
                     request.setAttribute("paziente", paziente);
+                    request.setAttribute("medico", medico);
                 } catch (DAOException ex) {
                     ((HttpServletResponse)resp).sendError(500, ex.getMessage());
                     ex.printStackTrace();
@@ -111,6 +115,11 @@ public class MedicoSpecialistaController implements Filter {
         }
         try {
             visitaSpecialisticaDAO = daoFactory.getDAO(VisitaSpecialisticaDAO.class);
+        } catch (DAOFactoryException e) {
+            throw new ServletException(e.getMessage());
+        }
+        try {
+            medicoBaseDAO = daoFactory.getDAO(MedicoBaseDAO.class);
         } catch (DAOFactoryException e) {
             throw new ServletException(e.getMessage());
         }

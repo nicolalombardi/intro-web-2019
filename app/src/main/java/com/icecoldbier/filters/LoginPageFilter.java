@@ -27,7 +27,7 @@ public class LoginPageFilter implements Filter {
                         servletResponse.sendRedirect("/medico-base/lista");
                         break;
                     case medico_specialista:
-                        servletResponse.sendRedirect("/medico-specialista/home");
+                        servletResponse.sendRedirect("/medico-specialista/lista");
                         break;
                     case paziente:
                         servletResponse.sendRedirect("/paziente/home");
