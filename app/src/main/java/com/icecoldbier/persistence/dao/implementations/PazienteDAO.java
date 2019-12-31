@@ -29,6 +29,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
 
     private UserDAO userDAO;
     private ReportDAO reportDAO;
+    private RicettaDAO ricettaDAO;
 
     public PazienteDAO(Connection con) {
 
@@ -37,6 +38,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
             JDBCDAOFactory daoFactory = JDBCDAOFactory.getInstance();
             userDAO = daoFactory.getDAO(UserDAO.class);
             reportDAO = daoFactory.getDAO(ReportDAO.class);
+            ricettaDAO = daoFactory.getDAO(RicettaDAO.class);
 
         } catch (DAOFactoryException e) {
             e.printStackTrace();
@@ -169,21 +171,23 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     @Override
     public ArrayList<VisitaBase> getVisiteBase(Integer id, int pageSize, int page) throws DAOException {
         ArrayList<VisitaBase> visite = new ArrayList<>();
-        User medico;
-        Paziente paziente;
         try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_BASE)){
             preparedStatement.setInt(1, id);
             preparedStatement.setInt(2, pageSize);
             preparedStatement.setInt(3, (page-1)*pageSize);
             try (ResultSet rs = preparedStatement.executeQuery()){
                 while (rs.next()){
-                    medico = userDAO.getByPrimaryKey(rs.getInt("id_medico"));
-                    paziente = getByPrimaryKey(rs.getInt("id_paziente"));
+                    User medico = userDAO.getByPrimaryKey(rs.getInt("id_medico"));
+                    Paziente paziente = getByPrimaryKey(rs.getInt("id_paziente"));
+                    Ricetta ricetta = ricettaDAO.getByPrimaryKey(rs.getInt("id_ricetta"));
+
                     VisitaBase visitaBase = new VisitaBase(
                             rs.getInt("id"),
                             paziente,
                             rs.getDate("data_erogazione"),
-                            medico);
+                            medico,
+                            ricetta
+                    );
                     visite.add(visitaBase);
                 }
             }

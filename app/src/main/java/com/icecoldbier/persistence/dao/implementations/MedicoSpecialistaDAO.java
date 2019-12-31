@@ -10,17 +10,16 @@ import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.jdbc.JDBCDAOFactory;
 import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements MedicoSpecialistaDAOInterface{
+
+    private static final String GET_MEDICO_SPECIALISTA_BY_ID = "SELECT * FROM users WHERE id = ? AND typ = user_type(?)";
+    private static final String GET_ALL_MEDICI = "SELECT * FROM users WHERE typ = 'medico_specialista'";
 
 
     private static final String GET_LISTA_PAZIENTI = "SELECT DISTINCT paziente.id_user, users.typ,users.username,users.pass,users.nome, "
@@ -75,12 +74,53 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
 
     @Override
     public User getByPrimaryKey(Integer primaryKey) throws DAOException {
-        return null;
+        if (primaryKey == null) {
+            throw new DAOException("primaryKey is null");
+        }
+        try (PreparedStatement stm = CON.prepareStatement(GET_MEDICO_SPECIALISTA_BY_ID)) {
+            stm.setInt(1, primaryKey);
+            stm.setString(2, User.UserType.medico_specialista.name());
+            try (ResultSet rs = stm.executeQuery()) {
+
+                rs.next();
+
+                return new User(
+                        rs.getInt("id"),
+                        User.UserType.valueOf(rs.getString("typ")),
+                        rs.getString("username"),
+                        rs.getString("pass"),
+                        rs.getString("nome"),
+                        rs.getString("cognome"),
+                        rs.getString("provincia_appartenenza")
+                );
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the medico specialista for the passed primary key", ex);
+        }
     }
 
     @Override
     public List<User> getAll() throws DAOException {
-        return null;
+        List<User> mediciSpecialisti = new ArrayList<>();
+        try(Statement stm = CON.createStatement()) {
+            ResultSet rs = stm.executeQuery(GET_ALL_MEDICI);
+            while (rs.next()){
+                User m = new User(
+                        rs.getInt("id"),
+                        User.UserType.valueOf(rs.getString("typ")),
+                        rs.getString("username"),
+                        rs.getString("pass"),
+                        rs.getString("nome"),
+                        rs.getString("cognome"),
+                        rs.getString("provincia_appartenenza")
+                );
+                mediciSpecialisti.add(m);
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Error while getting list of medici specialisti", e);
+        }
+        return mediciSpecialisti;
     }
 
     @Override

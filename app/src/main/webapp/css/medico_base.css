@@ -20,20 +20,23 @@ td{
     vertical-align: middle !important;
 }
 
-.modal-content{
-    border: 0;
-}
-.modal-header{
-    display: block;
-    text-align: center;
-}
-.modal-body{
-    text-align: center;
-    font-size: x-large;
-}
 .modal-body p{
     color: #3e3e3e;
 }
+
+.status-modal-header{
+    display: block;
+    text-align: center;
+}
+
+.status-modal-body{
+    text-align: center;
+    font-size: x-large;
+}
+.status-modal-content{
+    border: 0;
+}
+
 .error-modal-header{
     background: #ff483f;
 }

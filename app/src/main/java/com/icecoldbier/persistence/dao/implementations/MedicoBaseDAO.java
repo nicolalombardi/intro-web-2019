@@ -12,11 +12,13 @@ import java.util.List;
 public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseDAOInterface {
     private static final String GET_MEDICO_BY_ID = "SELECT * FROM users WHERE id = ? AND typ = user_type(?)";
     private static final String GET_USER_LIST = "SELECT id FROM visita_base WHERE id_medico = ?";
-    private static final String CREATE_VISITA_BASE = "INSERT INTO visita_base(id_medico, id_paziente, data_erogazione) VALUES(?,?,NOW())";
-    private static final String CREATE_VISITA_SSP = "INSERT INTO visita_ssp(id_visita, erogata, data_prescrizione, id_ssp, id_paziente, id_medico_base) VALUES(?,?,?,?,?,?)";
-    private static final String CREATE_VISITA_SPECIALISTICA = "INSERT INTO visita_specialistica(id_visita, erogata, data_prescrizione, id_medico, id_paziente, id_medico_base) VALUES(?,?,?,?,?,?)";
+
+    private static final String CREATE_VISITA_SPECIALISTICA = "INSERT INTO visita_specialistica(id_visita, erogata, data_prescrizione, id_medico, id_paziente, id_medico_base) VALUES(?,?,NOW(),?,?,?)";
+    private static final String CREATE_VISITA_SSP = "INSERT INTO visita_ssp(id_visita, erogata, data_prescrizione, id_ssp, id_paziente, id_medico_base) VALUES(?,?,NOW(),?,?,?)";
+    private static final String CREATE_RICETTA = "INSERT INTO ricetta(farmaco, prescritta) VALUES(?,?) RETURNING id";
+    private static final String CREATE_VISITA_BASE = "INSERT INTO visita_base(id_medico, id_paziente, data_erogazione, id_ricetta) VALUES(?, ?, NOW(), ?)";
+
     private static final String GET_VISITA_SPECIALISTICA = "SELECT id_visita, id_report FROM visita_specialistica WHERE id = ? ";
-    private static final String CREATE_RICETTA = "INSERT INTO ricetta(farmaco, id_visita_base, prescritta) VALUES(?,?,?)";
 
 
 
@@ -31,47 +33,64 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
         super(con);
     }
 
-    @Override
-    public void createVisitaBase(int idm, int idp) throws DAOException {
-        try (PreparedStatement preparedStatement = CON.prepareStatement(CREATE_VISITA_BASE)) {
-            preparedStatement.setInt(1, idm);
-            preparedStatement.setInt(2, idp);
-            preparedStatement.execute();
 
-        } catch (SQLException e) {
-            throw new DAOException("Error while creating a new visita base", e);
+
+    @Override
+    public void erogaVisitaBase(int idMedico, int idPaziente, String ricetta) throws DAOException {
+        boolean hasRicetta = ricetta != null;
+        int idRicetta = -1;
+        try {
+            if(hasRicetta){
+                PreparedStatement pstm = CON.prepareStatement(CREATE_RICETTA);
+                pstm.setString(1, ricetta);
+                pstm.setBoolean(2, true);
+                ResultSet rs = pstm.executeQuery();
+                if(rs.next()){
+                    idRicetta = rs.getInt("id");;
+                }else {
+                    throw new DAOException("Error while creating ricetta");
+                }
+
+            }
+            PreparedStatement pstm = CON.prepareStatement(CREATE_VISITA_BASE);
+            pstm.setInt(1, idMedico);
+            pstm.setInt(2, idPaziente);
+            //Set id ricetta o null
+            if(idRicetta != -1){
+                pstm.setInt(3, idRicetta);
+            }else{
+                pstm.setNull(3, Types.INTEGER);
+            }
+            pstm.execute();
+        }catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void prescrizioneEsameSSP(VisitaBase visitaBase, int idSSP, VisitaPossibile vis, Date dataPrescrizione) throws DAOException {
-
-
+    public void prescrizioneEsameSSP(int idTipoVisita, int idSSP, int idPaziente, int idMedicoBase) throws DAOException {
         try (PreparedStatement preparedStatement = CON.prepareStatement(CREATE_VISITA_SSP)) {
-            preparedStatement.setInt(1, vis.getId());
+            preparedStatement.setInt(1, idTipoVisita);
             preparedStatement.setBoolean(2, false);
-            preparedStatement.setDate(3, dataPrescrizione);
-            preparedStatement.setInt(4, idSSP);
-            preparedStatement.setInt(5, visitaBase.getPaziente().getId());
-            preparedStatement.setInt(6, visitaBase.getMedicoBase().getId());
+            preparedStatement.setInt(3, idSSP);
+            preparedStatement.setInt(4, idPaziente);
+            preparedStatement.setInt(5, idMedicoBase);
             preparedStatement.execute();
 
         } catch (SQLException e) {
             throw new DAOException("Error while creating a new visita_ssp", e);
 
         }
-
     }
 
     @Override
-    public void prescrizioneEsameMS(VisitaBase visitaBase, int idMS, VisitaPossibile vis, Date dataPrescrizione) throws DAOException {
+    public void prescrizioneEsameMS(int idTipoVisita, int idMedicoSpecialista, int idPaziente, int idMedicoBase) throws DAOException {
         try (PreparedStatement preparedStatement = CON.prepareStatement(CREATE_VISITA_SPECIALISTICA)) {
-            preparedStatement.setInt(1, vis.getId());
+            preparedStatement.setInt(1, idTipoVisita);
             preparedStatement.setBoolean(2, false);
-            preparedStatement.setDate(3, dataPrescrizione);
-            preparedStatement.setInt(4, idMS);
-            preparedStatement.setInt(5, visitaBase.getPaziente().getId());
-            preparedStatement.setInt(6, visitaBase.getMedicoBase().getId());
+            preparedStatement.setInt(3, idMedicoSpecialista);
+            preparedStatement.setInt(4, idPaziente);
+            preparedStatement.setInt(5, idMedicoBase);
             preparedStatement.execute();
 
         } catch (SQLException e) {
@@ -108,19 +127,6 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
         }
         return infoVisita;
 
-    }
-
-    @Override
-    public void prescrizioneRicetta(int idv, String farmaco) throws DAOException {
-        try (PreparedStatement preparedStatement = CON.prepareStatement(CREATE_RICETTA)) {
-            preparedStatement.setString(1, farmaco);
-            preparedStatement.setInt(2, idv);
-            preparedStatement.setBoolean(3, true);
-            preparedStatement.execute();
-
-        } catch (SQLException e) {
-            throw new DAOException("Error while creating a new ricetta", e);
-        }
     }
 
     @Override

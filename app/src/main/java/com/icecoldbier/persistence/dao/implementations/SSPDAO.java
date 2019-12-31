@@ -3,6 +3,7 @@ package com.icecoldbier.persistence.dao.implementations;
 import com.icecoldbier.persistence.dao.interfaces.SSPDAOInterface;
 import com.icecoldbier.persistence.entities.InfoRicetta;
 import com.icecoldbier.persistence.entities.SSP;
+import com.icecoldbier.persistence.entities.User;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 import java.sql.*;
@@ -11,6 +12,7 @@ import java.util.List;
 
 
 public class SSPDAO extends JDBCDAO<SSP, Integer> implements SSPDAOInterface {
+    private static final String GET_ALL_SSP = "SELECT * FROM users WHERE typ = 'ssp'";
     private static final String EROGA_VISITA_BY_ID = "UPDATE visita_ssp SET erogata = TRUE, data_erogazione = NOW() WHERE id = ?";
     private static final String GET_VISITE = "SELECT v.data_erogazione AS data, r.farmaco AS farmaco, v.id_medico AS medico, v.id_paziente AS paziente FROM visita_base v, ricetta r, users m WHERE r.id_visita_base = v.id AND v.id_medico = m.id AND v.data_erogazione = CAST ( ? AS date) AND m.provincia_appartenenza = ?";
     private static final String GET_SSP_BY_ID = "SELECT * FROM users WHERE id = ?";
@@ -89,6 +91,21 @@ public class SSPDAO extends JDBCDAO<SSP, Integer> implements SSPDAOInterface {
 
     @Override
     public List<SSP> getAll() throws DAOException {
-        return null;
+        List<SSP> ssp = new ArrayList<>();
+        try(Statement stm = CON.createStatement()) {
+            ResultSet rs = stm.executeQuery(GET_ALL_SSP);
+            while (rs.next()){
+                SSP s = new SSP(
+                        rs.getInt("id"),
+                        rs.getString("provincia_appartenenza")
+                );
+                ssp.add(s);
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Error while getting list of ssp", e);
+        }
+        return ssp;
     }
-}
+
+    }

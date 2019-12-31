@@ -30,23 +30,24 @@ public class VisitePossibiliDAO extends JDBCDAO<VisitaPossibile, Integer> implem
     public ArrayList<VisitaPossibile> getVisitePossibili(User.UserType praticante) throws DAOException {
         ArrayList<VisitaPossibile> visitePossibili = new ArrayList<>();
 
-        try (Statement stm = CON.createStatement()) {
-            try (ResultSet resultSet = stm.executeQuery(GET_VISITE_BY_PRATICANTE)) {
+        try (PreparedStatement stm = CON.prepareStatement(GET_VISITE_BY_PRATICANTE)) {
+            stm.setString(1, praticante.name());
+            try (ResultSet resultSet = stm.executeQuery()) {
 
                 while (resultSet.next()) {
                     VisitaPossibile visitaPossibile = new VisitaPossibile(
-                            resultSet.getInt(1),
-                            User.UserType.valueOf(resultSet.getString(2)),
-                            resultSet.getString(3),
-                            resultSet.getString(4),
-                            resultSet.getInt(5)
+                            resultSet.getInt("id"),
+                            User.UserType.valueOf(resultSet.getString("praticante")),
+                            resultSet.getString("nome"),
+                            resultSet.getString("descrizione"),
+                            resultSet.getInt("costo_ticket")
                     );
-
                     visitePossibili.add(visitaPossibile);
                 }
                 return visitePossibili;
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
             throw new DAOException("Error while getting the possible visits list", ex);
         }
 

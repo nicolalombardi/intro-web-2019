@@ -8,9 +8,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 public interface MedicoBaseDAOInterface extends DAO<User, Integer> {
-    public void createVisitaBase(int idm, int idp) throws DAOException;
-    public void prescrizioneEsameSSP(VisitaBase visitaBase, int idSSP, VisitaPossibile vis, Date dataPrescrizione) throws DAOException;
-    public void prescrizioneEsameMS(VisitaBase visitaBase, int idMS, VisitaPossibile vis, Date dataPrescrizione) throws DAOException;
-    public InfoVisita getInfoVisita(int idv) throws DAOException;
-    public void prescrizioneRicetta(int idv, String farmaco) throws DAOException;
+    void erogaVisitaBase(int idm, int idp, String ricetta) throws DAOException;
+    void prescrizioneEsameSSP(int idTipoVisita, int idSSP, int idPaziente, int idMedicoBase) throws DAOException;
+    void prescrizioneEsameMS(int idTipoVisita, int idMedicoSpecialista, int idPaziente, int idMedicoBase) throws DAOException;
+    InfoVisita getInfoVisita(int idv) throws DAOException;
 }

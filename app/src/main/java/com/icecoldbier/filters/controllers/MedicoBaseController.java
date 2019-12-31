@@ -1,9 +1,10 @@
 package com.icecoldbier.filters.controllers;
 
-import com.icecoldbier.persistence.dao.implementations.MedicoBaseDAO;
-import com.icecoldbier.persistence.dao.implementations.PazienteDAO;
+import com.icecoldbier.persistence.dao.implementations.*;
 import com.icecoldbier.persistence.entities.Paziente;
+import com.icecoldbier.persistence.entities.SSP;
 import com.icecoldbier.persistence.entities.User;
+import com.icecoldbier.persistence.entities.VisitaPossibile;
 import com.icecoldbier.utils.Utils;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
@@ -25,6 +26,9 @@ public class MedicoBaseController implements Filter {
 
     private PazienteDAO pazienteDAO;
     private MedicoBaseDAO medicoBaseDAO;
+    private MedicoSpecialistaDAO medicoSpecialistaDAO;
+    private SSPDAO sspDAO;
+    private VisitePossibiliDAO visitePossibiliDAO;
     public void destroy() {
     }
 
@@ -90,13 +94,30 @@ public class MedicoBaseController implements Filter {
                 try {
                     Paziente p = pazienteDAO.getByPrimaryKey(id);
                     request.setAttribute("paziente", p);
+
+                    //Visite specialistiche possibili
+                    ArrayList<VisitaPossibile> visitePossibili = visitePossibiliDAO.getVisitePossibili(User.UserType.medico_specialista);
+                    request.setAttribute("visitePossibili", visitePossibili);
+
+                    //Esami ssp possibili
+                    ArrayList<VisitaPossibile> esamiPossibili = visitePossibiliDAO.getVisitePossibili(User.UserType.ssp);
+                    request.setAttribute("esamiPossibili", esamiPossibili);
+
+
+                    ArrayList<User> mediciSpecialisti = (ArrayList<User>) medicoSpecialistaDAO.getAll();
+                    request.setAttribute("mediciSpecialisti", mediciSpecialisti);
+
+                    ArrayList<SSP> ssp = (ArrayList<SSP>) sspDAO.getAll();
+                    request.setAttribute("ssp", ssp);
                     try {
                         User medicoBase = medicoBaseDAO.getByPrimaryKey(p.getMedico().getId());
                         request.setAttribute("medico", medicoBase);
                     } catch (DAOException e) {
+                        e.printStackTrace();
                         request.setAttribute("medico", null);
                     }
                 } catch (DAOException e) {
+                    e.printStackTrace();
                     doChain = false;
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Non è stato possibile recuperare i dettagli del paziente, riprova più tardi");
                 }
@@ -117,17 +138,11 @@ public class MedicoBaseController implements Filter {
         try {
             pazienteDAO = daoFactory.getDAO(PazienteDAO.class);
             medicoBaseDAO = daoFactory.getDAO(MedicoBaseDAO.class);
+            medicoSpecialistaDAO = daoFactory.getDAO(MedicoSpecialistaDAO.class);
+            sspDAO = daoFactory.getDAO(SSPDAO.class);
+            visitePossibiliDAO = daoFactory.getDAO(VisitePossibiliDAO.class);
         } catch (DAOFactoryException e) {
             throw new ServletException(e.getMessage());
         }
     }
-
-    private void sendSuccessMessage(HttpServletResponse response, String message){
-
-    }
-
-    private void sendErrorMessage(HttpServletResponse response, String message){
-//        response.sendRedirect();
-    }
-
 }

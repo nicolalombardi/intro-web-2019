@@ -1,14 +1,16 @@
 package com.icecoldbier.persistence.dao.implementations;
 
 import com.icecoldbier.persistence.dao.interfaces.VisitaBaseDAOInterface;
-import com.icecoldbier.persistence.entities.Paziente;
-import com.icecoldbier.persistence.entities.User;
-import com.icecoldbier.persistence.entities.VisitaBase;
+import com.icecoldbier.persistence.entities.*;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
+import it.unitn.disi.wp.commons.persistence.dao.factories.jdbc.JDBCDAOFactory;
 import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class VisitaBaseDAO extends JDBCDAO<VisitaBase, Integer> implements VisitaBaseDAOInterface {
@@ -17,20 +19,16 @@ public class VisitaBaseDAO extends JDBCDAO<VisitaBase, Integer> implements Visit
 
     private UserDAO userDAO;
     private PazienteDAO pazienteDAO;
+    private RicettaDAO ricettaDAO;
 
 
-    /**
-     * The base constructor for all the JDBC DAOs.
-     *
-     * @param con the internal {@code Connection}.
-     * @author Stefano Chirico
-     * @since 1.0.0.190406
-     */
     public VisitaBaseDAO(Connection con) {
         super(con);
         try {
-            userDAO = this.getDAO(UserDAO.class);
-            pazienteDAO = this.getDAO(PazienteDAO.class);
+            JDBCDAOFactory daoFactory = JDBCDAOFactory.getInstance();
+            userDAO = daoFactory.getDAO(UserDAO.class);
+            pazienteDAO = daoFactory.getDAO(PazienteDAO.class);
+            ricettaDAO = daoFactory.getDAO(RicettaDAO.class);
         } catch (DAOFactoryException e) {
             e.printStackTrace();
         }
@@ -39,8 +37,8 @@ public class VisitaBaseDAO extends JDBCDAO<VisitaBase, Integer> implements Visit
 
     @Override
     public Long getCount(int idp) throws DAOException {
-        try (PreparedStatement preparedStatement = CON.prepareStatement((GET_VISITE_COUNT))){
-            preparedStatement.setInt(1,idp);
+        try (PreparedStatement preparedStatement = CON.prepareStatement((GET_VISITE_COUNT))) {
+            preparedStatement.setInt(1, idp);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
                 return resultSet.getLong("count");
@@ -57,20 +55,23 @@ public class VisitaBaseDAO extends JDBCDAO<VisitaBase, Integer> implements Visit
 
     @Override
     public VisitaBase getByPrimaryKey(Integer primaryKey) throws DAOException {
-        User medicoBase;
-        Paziente paziente;
         try (PreparedStatement preparedStatement = CON.prepareStatement(GET_BY_ID)) {
             preparedStatement.setInt(1, primaryKey);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
-                medicoBase = userDAO.getByPrimaryKey(resultSet.getInt("id_medico"));
-                paziente = pazienteDAO.getByPrimaryKey(resultSet.getInt("id_paziente"));
+                User medicoBase = userDAO.getByPrimaryKey(resultSet.getInt("id_medico"));
+                Paziente paziente = pazienteDAO.getByPrimaryKey(resultSet.getInt("id_paziente"));
+                Ricetta ricetta = ricettaDAO.getByPrimaryKey(resultSet.getInt("id_ricetta"));
+
                 return new VisitaBase(
                         resultSet.getInt("id"),
                         paziente,
                         resultSet.getDate("data_erogazione"),
-                        medicoBase
+                        medicoBase,
+                        ricetta
                 );
+
+
             }
 
         } catch (SQLException e) {

@@ -1,12 +1,12 @@
 <div id="successModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header success-modal-header">
+        <div class="modal-content status-modal-content">
+            <div class="modal-header success-modal-header status-modal-header">
                 <div class="icon-box">
                     <i class="material-icons modal-icon">check</i>
                 </div>
             </div>
-            <div class="modal-body">
+            <div class="modal-body status-modal-body">
                 <p><c:out value="${empty successMessage ? '' : successMessage}"/> </p>
             </div>
             <div class="modal-footer">
@@ -19,13 +19,13 @@
 
 <div id="errorModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header error-modal-header">
+        <div class="modal-content status-modal-content">
+            <div class="modal-header error-modal-header status-modal-header">
                 <div class="icon-box">
                     <i class="material-icons">clear</i>
                 </div>
             </div>
-            <div class="modal-body">
+            <div class="modal-body status-modal-body">
                 <p><c:out value="${empty errorMessage ? '' : errorMessage}"/> </p>
             </div>
             <div class="modal-footer">
