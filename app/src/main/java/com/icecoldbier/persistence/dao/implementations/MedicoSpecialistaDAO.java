@@ -14,8 +14,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements MedicoSpecialistaDAOInterface{
 
@@ -30,15 +33,15 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
         "WHERE id_medico = ?\n" +
         "ORDER BY data_prescrizione DESC;";
     private static final String EROGA_VISITA = "UPDATE visita_specialistica\n" +
-        "SET erogata = 'true'\n" +
-        "	data_erogazione = ?\n" +
-        "WHERE id = ? AND id_medico = ?";
+        "SET erogata = 'true', data_erogazione = NOW(), id_report = ?\n" +
+        "        WHERE id = ? AND id_paziente = ? AND id_medico_base = ?";
     private static final String EROGA_VISITA_RICETTA = "";
     private static final String GET_INFO_PAZIENTE = "SELECT users.nome, users.cognome, users.provincia_appartenenza,\n" +
         "	 paziente.data_nascita, paziente.luogo_nascita, paziente.sesso,\n" +
         "	 paziente.email, A.nome, A.cognome\n" +
         "FROM paziente, users, (SELECT id ,nome, cognome FROM users WHERE user_type = 'medico_base') as A\n" +
         "WHERE paziente.id_user = users.id AND paziente.id_user = ? AND paziente.id_medico = A.id";
+    private static final String INSERT_REPORT = "INSERT INTO report (esito) VALUES (?)";
 
 
     private UserDAO userDAO;
@@ -117,13 +120,25 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
     }
 
     @Override
-    public Paziente getInfoPaziente(int id) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
-    @Override
-    public void erogaVisita(int idv, Report report) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public void erogaVisita(int idVisita,int idPaziente,int idMedicoBase,Report report) throws DAOException {
+        try {
+            PreparedStatement preparedStatement = CON.prepareStatement(INSERT_REPORT,Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, report.getEsito());
+            preparedStatement.executeUpdate();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            int idReport = 0;
+            if(generatedKeys.next()){
+                idReport = generatedKeys.getInt(1);
+            }
+            preparedStatement = CON.prepareStatement(EROGA_VISITA);
+            preparedStatement.setInt(1, idReport);
+            preparedStatement.setInt(2, idVisita);
+            preparedStatement.setInt(3, idPaziente);
+            preparedStatement.setInt(4, idMedicoBase);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAOException("Non è stato possibile erogare una nuova visita", ex);
+        }
     }
 
     @Override

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public interface MedicoSpecialistaDAOInterface extends DAO<User, Integer> {
     public ArrayList <Paziente> getListaPazientiAssociati(int id) throws DAOException;
     public ArrayList <VisitaSpecialistica> getListaVisitePazienti(int id) throws DAOException;
-    public Paziente getInfoPaziente(int id) throws DAOException;
-    public void erogaVisita(int idv, Report report) throws DAOException;
+    public void erogaVisita(int idVisita,int idPaziente,int idMedicoBAse,Report report) throws DAOException;
     public void erogaVisitaConRicetta(int idv, Report report) throws DAOException;
 }
