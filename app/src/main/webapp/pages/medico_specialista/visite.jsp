@@ -31,7 +31,12 @@
                             <td scope="row">${p.getDataPrescrizione()}</td>
                             <td>${p.getPaziente().getNome()}</td>
                             <td>${p.getPaziente().getCognome()}</td>
-                            <td>${p.isErogata()}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${p.isErogata()==true}">Si</c:when>
+                                    <c:when test="${p.isErogata()==false}">No</c:when>
+                                </c:choose>
+                            </td>
                         </tr>
                 </c:forEach>
                 </tbody>

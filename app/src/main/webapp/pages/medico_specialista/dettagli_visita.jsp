@@ -41,7 +41,12 @@
                             </tr>
                             <tr>
                                 <th><b>Erogata</b></th>
-                                <td>${visita.isErogata()}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${visita.isErogata()==true}">Si</c:when>
+                                        <c:when test="${visita.isErogata()==false}">No</c:when>
+                                    </c:choose>
+                                </td>
                             </tr>
                             <tr>
                                 <th><b>Medico di base</b></th>
@@ -53,13 +58,16 @@
                     </div>
                     <c:if test="${visita.isErogata()==false}">
                         <div class="row">
-                            <form method="post" action="">
+                            <form method="post" action="eroga">
+                                <input type="hidden" name="idPaziente" value="${visita.getPaziente().getId()}">
+                                <input type="hidden" name="idMedicoSpecialista" value="${visita.getMedicoSpecialista().getId()}">
+                                <input type="hidden" name="idMedicoBase" value="${visita.getMedicoBase().getId()}">
+                                <input type="hidden" name="idVisita" value="${visita.getId()}">
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">Report</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="textReport"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" name="idPaziente" value="">
                                     <button type="submit" class="btn btn-primary form-control">Eroga visita</button>
                                 </div>
                             </form>
@@ -80,5 +88,14 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
     <script src="../js/clickable_row.js"></script>
+    
+    <%--These are the success and error modals--%>
+    <%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
     </body>
 </html>
