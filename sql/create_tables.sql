@@ -30,17 +30,9 @@ CREATE TABLE elenco_visite_possibili(
     costo_ticket INT NOT NULL
 );
 
-CREATE TABLE visita_base(
-    id SERIAL PRIMARY KEY,
-    id_medico INT REFERENCES users(id) NOT NULL,
-    id_paziente INT REFERENCES paziente(id_user) NOT NULL,
-    data_erogazione DATE NOT NULL
-);
-
 CREATE TABLE ricetta(
     id SERIAL PRIMARY KEY,
     farmaco VARCHAR(100) NOT NULL,
-    id_visita_base INT REFERENCES visita_base(id) NOT NULL,
     prescritta BOOLEAN NOT NULL --se è stata proposta dal medico specialista o se è stata accettata dal medico di base
 );
 
@@ -60,6 +52,15 @@ CREATE TABLE visita_specialistica(
     id_paziente INT REFERENCES paziente(id_user) NOT NULL,
     id_medico_base INT REFERENCES users(id) NOT NULL,
     id_report INT REFERENCES report(id)
+);
+
+CREATE TABLE visita_base(
+    id SERIAL PRIMARY KEY,
+    id_medico INT REFERENCES users(id) NOT NULL,
+    id_paziente INT REFERENCES paziente(id_user) NOT NULL,
+    id_visita_specialistica INT REFERENCES visita_specialistica(id),
+    id_ricetta INT REFERENCES ricetta(id),
+    data_erogazione DATE NOT NULL
 );
 
 CREATE TABLE visita_ssp(
