@@ -10,6 +10,15 @@ public class Report {
         this.esito = esito;
         this.ricetta = ricetta;
     }
+    
+    public Report(String esito, Ricetta ricetta){
+        this.esito = esito;
+        this.ricetta = ricetta;
+    }
+    
+    public Report(String esito){
+        this.esito = esito;
+    }
 
     public int getId() {
         return id;
