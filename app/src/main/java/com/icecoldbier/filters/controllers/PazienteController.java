@@ -40,7 +40,7 @@ public class PazienteController implements Filter {
         if(userPath.equals("/paziente/elenco-visite-base")){
             ArrayList<VisitaBase> elencoVisite = null;
             try{
-                long count = visitaBaseDAO.getCount(user.getId());
+                long count = visitaBaseDAO.getByPazienteCount(user.getId());
                 int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
                 int requestedPage = 1;
 
