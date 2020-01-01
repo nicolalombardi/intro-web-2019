@@ -11,7 +11,7 @@ public class VisitaSpecialistica extends Visita{
     private User medicoBase;
 
 
-    public VisitaSpecialistica(int id, User paziente, Date dataErogazione, int id_visita, boolean erogata, Date dataPrescrizione, User medicoSpecialista, Report report, User medicoBase) {
+    public VisitaSpecialistica(int id, Paziente paziente, Date dataErogazione, int id_visita, boolean erogata, Date dataPrescrizione, User medicoSpecialista, Report report, User medicoBase) {
         super(id, paziente, dataErogazione);
         this.id_visita = id_visita;
         this.erogata = erogata;

@@ -4,10 +4,10 @@ import java.sql.Date;
 
 public abstract class Visita {
     private int id;
-    private User paziente;
+    private Paziente paziente;
     private Date dataErogazione;
 
-    public Visita(int id, User paziente, Date dataErogazione) {
+    public Visita(int id, Paziente paziente, Date dataErogazione) {
         this.id = id;
         this.paziente = paziente;
         this.dataErogazione = dataErogazione;
@@ -25,7 +25,7 @@ public abstract class Visita {
         return paziente;
     }
 
-    public void setPaziente(User paziente) {
+    public void setPaziente(Paziente paziente) {
         this.paziente = paziente;
     }
 

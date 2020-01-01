@@ -7,7 +7,7 @@ public class VisitaBase extends Visita{
     private Ricetta ricetta;
 
 
-    public VisitaBase(int id, User paziente, Date dataErogazione, User medicoBase, Ricetta ricetta) {
+    public VisitaBase(int id, Paziente paziente, Date dataErogazione, User medicoBase, Ricetta ricetta) {
         super(id, paziente, dataErogazione);
         this.medicoBase = medicoBase;
         this.ricetta = ricetta;

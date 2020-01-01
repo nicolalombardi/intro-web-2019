@@ -8,7 +8,7 @@ public class VisitaSSP extends Visita {
     private Date dataPrescrizione;
     private SSP ssp;
 
-    public VisitaSSP(int id, User paziente, Date dataErogazione, int id_visita, boolean erogata, Date dataPrescrizione, SSP ssp) {
+    public VisitaSSP(int id, Paziente paziente, Date dataErogazione, int id_visita, boolean erogata, Date dataPrescrizione, SSP ssp) {
         super(id, paziente, dataErogazione);
         this.id_visita = id_visita;
         this.erogata = erogata;
