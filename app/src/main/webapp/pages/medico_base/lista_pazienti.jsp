@@ -1,8 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<jsp:useBean id="pageSize" scope="request" type="java.lang.Integer"/>
-<jsp:useBean id="selectedPage" scope="request" type="java.lang.Integer"/>
+<jsp:useBean id="pageParams" scope="request" type="com.icecoldbier.utils.pagination.PaginationParameters"/>
 <jsp:useBean id="showAll" scope="request" type="java.lang.Boolean"/>
 
 
@@ -25,10 +24,10 @@
             <div class="col-sm">
                 <c:choose>
                     <c:when test="${showAll}">
-                        <a class="btn btn-primary" href="lista?page=${selectedPage}&pageSize=${pageSize}&mostraTutti=false" role="button">Mostra solo i tuoi pazienti</a>
+                        <a class="btn btn-primary" href="lista?page=${pageParams.page}&pageSize=${pageParams.pageSize}&mostraTutti=false" role="button">Mostra solo i tuoi pazienti</a>
                     </c:when>
                     <c:otherwise>
-                        <a class="btn btn-primary" href="lista?page=${selectedPage}&pageSize=${pageSize}&mostraTutti=true" role="button">Mostra tutti i pazienti</a>
+                        <a class="btn btn-primary" href="lista?page=${pageParams.page}&pageSize=${pageParams.pageSize}&mostraTutti=true" role="button">Mostra tutti i pazienti</a>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -36,21 +35,20 @@
                 <nav aria-label="Navigazione lista pazienti">
                     <span class="btn-group"></span>
                     <ul class="pagination justify-content-center">
-                        <li class="page-item <c:if test="${selectedPage == 1}">disabled</c:if>">
-                            <a class="page-link" href="lista?page=${selectedPage - 1}&pageSize=${pageSize}&mostraTutti=${showAll}"
-                               <c:if test="${selectedPage == 1}">tabindex="-1"</c:if> >Precedente</a>
+                        <li class="page-item <c:if test="${pageParams.page == 1}">disabled</c:if>">
+                            <a class="page-link" href="lista?page=${pageParams.page - 1}&pageSize=${pageParams.pageSize}&mostraTutti=${showAll}"
+                               <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Precedente</a>
                         </li>
 
-                        <jsp:useBean id="pagesCount" scope="request" type="java.lang.Integer"/>
-                        <c:forEach var="i" begin="1" end="${pagesCount}">
-                            <li class="page-item <c:if test="${selectedPage == i}">active</c:if> "><a class="page-link"
-                                                                                                      href="lista?page=${i}&pageSize=${pageSize}&mostraTutti=${showAll}">${i}</a>
+                        <c:forEach var="i" begin="1" end="${pageParams.pagesCount}">
+                            <li class="page-item <c:if test="${pageParams.page == i}">active</c:if> "><a class="page-link"
+                                                                                                      href="lista?page=${i}&pageSize=${pageParams.pageSize}&mostraTutti=${showAll}">${i}</a>
                             </li>
                         </c:forEach>
 
-                        <li class="page-item <c:if test="${selectedPage == pagesCount}">disabled</c:if>">
-                            <a class="page-link" href="lista?page=${selectedPage + 1}&pageSize=${pageSize}&mostraTutti=${showAll}"
-                               <c:if test="${selectedPage == 1}">tabindex="-1"</c:if> >Successiva</a>
+                        <li class="page-item <c:if test="${pageParams.page == pageParams.pagesCount}">disabled</c:if>">
+                            <a class="page-link" href="lista?page=${pageParams.page + 1}&pageSize=${pageParams.pageSize}&mostraTutti=${showAll}"
+                               <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Successiva</a>
                         </li>
                     </ul>
 
@@ -61,12 +59,12 @@
                     <label class="label" for="pageSizeDropdown">Elementi: </label>
                 <button id="pageSizeDropdown" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    ${pageSize}
+                    ${pageParams.pageSize}
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="lista?page=${selectedPage}&pageSize=10&mostraTutti=${showAll}">10</a>
-                    <a class="dropdown-item" href="lista?page=${selectedPage}&pageSize=15&mostraTutti=${showAll}">15</a>
-                    <a class="dropdown-item" href="lista?page=${selectedPage}&pageSize=30&mostraTutti=${showAll}">30</a>
+                    <a class="dropdown-item" href="lista?page=${pageParams.page}&pageSize=10&mostraTutti=${showAll}">10</a>
+                    <a class="dropdown-item" href="lista?page=${pageParams.page}&pageSize=15&mostraTutti=${showAll}">15</a>
+                    <a class="dropdown-item" href="lista?page=${pageParams.page}&pageSize=30&mostraTutti=${showAll}">30</a>
                 </div>
             </div>
             </div>
