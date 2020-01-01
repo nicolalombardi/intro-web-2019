@@ -21,7 +21,7 @@ public abstract class Visita {
         this.id = id;
     }
 
-    public User getPaziente() {
+    public Paziente getPaziente() {
         return paziente;
     }
 

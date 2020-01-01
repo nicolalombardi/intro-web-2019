@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VisitaBaseDAO extends JDBCDAO<VisitaBase, Integer> implements VisitaBaseDAOInterface {
-    private static final String GET_VISITE_BY_MEDICO_PAGED = "SELECT * FROM visita_base WHERE id_medico = ? LIMIT ? OFFSET ?";
-    private static final String GET_COUNT_VISITE_BY_MEDICO = "SELECT COUNT(*) FROM visita_base WHERE id_medico = ?";
+    private static final String GET_VISITE_BY_MEDICO_PAGED = "SELECT * FROM visita_base, paziente WHERE visita_base.id_medico = ? AND visita_base.id_medico = paziente.id_medico AND visita_base.id_paziente = paziente.id_user LIMIT ? OFFSET ?";
+    private static final String GET_COUNT_VISITE_BY_MEDICO = "SELECT COUNT(*) FROM visita_base, paziente WHERE visita_base.id_medico = ? AND visita_base.id_medico = paziente.id_medico AND visita_base.id_paziente = paziente.id_user";
 
     private static final String GET_VISITE_BY_PAZIENTE_PAGED = "SELECT * FROM visita_base WHERE id_paziente = ? LIMIT ? OFFSET ?";
     private static final String GET_COUNT_VISITE_BY_PAZIENTE = "SELECT COUNT(*) FROM visita_base WHERE id_paziente = ?";

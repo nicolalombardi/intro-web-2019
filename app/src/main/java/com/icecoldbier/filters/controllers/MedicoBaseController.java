@@ -33,7 +33,7 @@ public class MedicoBaseController implements Filter {
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession(false);
         String userPath = request.getServletPath();
-        User user = (User)session.getAttribute("user");
+        final User user = (User)session.getAttribute("user");
 
         boolean doChain = true;
 
@@ -83,13 +83,6 @@ public class MedicoBaseController implements Filter {
 
 
             try{
-                Paziente paziente = pazienteDAO.getByPrimaryKey(idPaziente);
-
-                //Se il paziente non è tuo
-                if(paziente.getMedico().getId() != user.getId()){
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Il paziente non è tuo");
-                }
-
                 long count = 0;
                 if(idPaziente == -1){
                     count = visitaBaseDAO.getByMedicoCount(idMedico);
@@ -107,6 +100,11 @@ public class MedicoBaseController implements Filter {
                 if(idPaziente == -1){
                     listaVisite = visitaBaseDAO.getByMedicoPaged(idMedico, pageParams);
                 }else {
+                    Paziente paziente = pazienteDAO.getByPrimaryKey(idPaziente);
+                    //Se il paziente non è tuo
+                    if(paziente.getMedico().getId() != user.getId()){
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Il paziente non è tuo");
+                    }
                     request.setAttribute("paziente", paziente);
                     listaVisite = visitaBaseDAO.getByMedicoAndPazientePaged(idMedico, idPaziente, pageParams);
                 }
