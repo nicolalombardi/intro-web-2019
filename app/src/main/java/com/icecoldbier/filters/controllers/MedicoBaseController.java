@@ -1,11 +1,10 @@
 package com.icecoldbier.filters.controllers;
 
 import com.icecoldbier.persistence.dao.implementations.*;
-import com.icecoldbier.persistence.entities.Paziente;
-import com.icecoldbier.persistence.entities.SSP;
-import com.icecoldbier.persistence.entities.User;
-import com.icecoldbier.persistence.entities.VisitaPossibile;
+import com.icecoldbier.persistence.entities.*;
 import com.icecoldbier.utils.Utils;
+import com.icecoldbier.utils.pagination.Pagination;
+import com.icecoldbier.utils.pagination.PaginationParameters;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
@@ -20,15 +19,12 @@ import java.util.ArrayList;
 
 @WebFilter(filterName = "MedicoBaseController", urlPatterns = {"/medico-base/*"})
 public class MedicoBaseController implements Filter {
-    private static final int DEFAULT_PAGE_SIZE = 15;
-    private static final int MAX_PAGE_SIZE = 30;
-    private static final int MIN_PAGE_SIZE = 10;
-
     private PazienteDAO pazienteDAO;
     private MedicoBaseDAO medicoBaseDAO;
     private MedicoSpecialistaDAO medicoSpecialistaDAO;
     private SSPDAO sspDAO;
     private VisitePossibiliDAO visitePossibiliDAO;
+    private VisitaBaseDAO visitaBaseDAO;
     public void destroy() {
     }
 
@@ -44,40 +40,24 @@ public class MedicoBaseController implements Filter {
         if(userPath.equals("/medico-base/lista")){
             ArrayList<Paziente> listaPazienti;
             try{
-                int requestedPage = 1;
-                int requestedPageSize = DEFAULT_PAGE_SIZE;
-
                 String showAllS = request.getParameter("mostraTutti");
-
                 boolean showAll = showAllS == null ? true : Boolean.parseBoolean(showAllS);
-
-                //Grab the requested page size value if it exists, set a default value (1) if it does not
-                if(request.getParameter("pageSize") != null && !request.getParameter("pageSize").equals("")){
-                    requestedPageSize = Integer.parseInt(request.getParameter("pageSize"));
-                }
-
-                requestedPageSize = Utils.coerceInt(MIN_PAGE_SIZE, MAX_PAGE_SIZE, requestedPageSize);
-
-
-                //Grab the requested page value if it exists, set a default value (1) if it does not
-                if(request.getParameter("page") != null && !request.getParameter("page").equals("")){
-                    requestedPage = Integer.parseInt(request.getParameter("page"));
-                }
 
                 long count = showAll ? pazienteDAO.getCount() : pazienteDAO.getAssociatiCount(user.getId());
 
-                int pagesCount = (int)Math.ceil(((count * 1.0f)/ requestedPageSize));
-                requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
+                PaginationParameters pageParams = Pagination.getPageParameters(
+                        request.getParameter("page"),
+                        request.getParameter("pageSize"),
+                        count
+                );
 
                 if(showAll){
-                    listaPazienti = pazienteDAO.getPazientiPaged(requestedPageSize, requestedPage);
+                    listaPazienti = pazienteDAO.getPazientiPaged(pageParams.getPageSize(), pageParams.getPage());
                 }else{
-                    listaPazienti = pazienteDAO.getPazientiAssociatiPaged(user.getId(), requestedPageSize, requestedPage);
+                    listaPazienti = pazienteDAO.getPazientiAssociatiPaged(user.getId(), pageParams.getPageSize(), pageParams.getPage());
                 }
 
-                request.setAttribute("selectedPage", requestedPage);
-                request.setAttribute("pageSize", requestedPageSize);
-                request.setAttribute("pagesCount", pagesCount);
+                request.setAttribute("pageParams", pageParams);
                 request.setAttribute("showAll", showAll);
                 request.setAttribute("listaPazienti", listaPazienti);
             }catch (DAOException e) {
@@ -85,7 +65,50 @@ public class MedicoBaseController implements Filter {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Non è stato possibile recuperare la lista dei pazienti, riprova più tardi");
                 e.printStackTrace();
             }
-        }else if(userPath.equals("/medico-base/profilo")){
+        }else if(userPath.equals("/medico-base/lista-visite-base")){
+            int idPaziente = -1, idMedico = user.getId();
+
+            String idPazienteS;
+            idPazienteS = request.getParameter("id_paziente");
+
+            try {
+                if(idPazienteS != null && !idPazienteS.equals("")){
+                    idPaziente = Integer.parseInt(idPazienteS);
+                }
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            try{
+                long count = 0;
+                if(idPaziente == -1){
+                    count = visitaBaseDAO.getByMedicoCount(idMedico);
+                }else {
+                    count = visitaBaseDAO.getByMedicoAndPazienteCount(idMedico, idPaziente);
+                }
+                PaginationParameters pageParams = Pagination.getPageParameters(
+                        request.getParameter("page"),
+                        request.getParameter("pageSize"),
+                        count
+                );
+
+                ArrayList<VisitaBase> listaVisite;
+
+                if(idPaziente == -1){
+                    listaVisite = visitaBaseDAO.getByMedicoPaged(idMedico, pageParams);
+                }else {
+                    request.setAttribute("paziente", pazienteDAO.getByPrimaryKey(idPaziente));
+                    listaVisite = visitaBaseDAO.getByMedicoAndPazientePaged(idMedico, idPaziente, pageParams);
+                }
+
+                request.setAttribute("pageParams", pageParams);
+                request.setAttribute("listaVisite", listaVisite);
+
+            }catch (DAOException e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Non è stato possibile recuperare la lista delle visite base, riprova più tardi");
+            }
 
         }else if(userPath.equals("/medico-base/scheda-paziente")){
             String idS = request.getParameter("id");
@@ -141,6 +164,7 @@ public class MedicoBaseController implements Filter {
             medicoSpecialistaDAO = daoFactory.getDAO(MedicoSpecialistaDAO.class);
             sspDAO = daoFactory.getDAO(SSPDAO.class);
             visitePossibiliDAO = daoFactory.getDAO(VisitePossibiliDAO.class);
+            visitaBaseDAO = daoFactory.getDAO(VisitaBaseDAO.class);
         } catch (DAOFactoryException e) {
             throw new ServletException(e.getMessage());
         }

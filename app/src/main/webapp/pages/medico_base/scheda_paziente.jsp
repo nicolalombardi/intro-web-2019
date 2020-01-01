@@ -133,10 +133,10 @@
                     </button>
                 </div>
                 <div class="row funzioni-row">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modaleElencoVisiteBase"
+                    <a class="btn btn-primary <c:if test="${not isMedicoAssociato}">disabled</c:if>" role="button" href="lista-visite-base?id_paziente=${paziente.id}"
                             <c:if test="${not isMedicoAssociato}">disabled</c:if>>
                         Visualizza elenco visite base
-                    </button>
+                    </a>
                 </div>
                 <div class="row funzioni-row">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modaleElencoEsamiSpecialistici"

@@ -58,6 +58,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>MedicoBaseListaVisiteBase</servlet-name>
+        <jsp-file>/pages/medico_base/lista_visite.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicoBaseListaVisiteBase</servlet-name>
+        <url-pattern>/medico-base/lista-visite-base</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>MedicoBaseRicerca</servlet-name>
         <jsp-file>/pages/medico_base/ricerca_pazienti.jsp</jsp-file>
     </servlet>
