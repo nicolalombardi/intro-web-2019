@@ -53,7 +53,6 @@ public class ReportDAO extends JDBCDAO<Report, Integer> implements ReportDAOInte
                                 ricetta = new Ricetta(
                                     resultSet1.getInt("id"),
                                     resultSet1.getString("farmaco"),
-                                    resultSet1.getInt("id_visita_base"),
                                     resultSet1.getBoolean("prescritta")
                                 );
                             }

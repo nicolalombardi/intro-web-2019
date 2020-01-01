@@ -34,13 +34,14 @@ public class RicettaDAO extends JDBCDAO<Ricetta, Integer> implements RicettaDAOI
         try (PreparedStatement preparedStatement = CON.prepareStatement(GET_RICETTA_BY_ID)) {
             preparedStatement.setInt(1, primaryKey);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                resultSet.next();
-                Ricetta r = new Ricetta(
-                        resultSet.getInt("id"),
-                        resultSet.getString("farmaco"),
-                        resultSet.getInt("id_visita_base"),
-                        resultSet.getBoolean("prescritta")
-                );
+                Ricetta r = null;
+                if(resultSet.next()){
+                    r = new Ricetta(
+                            resultSet.getInt("id"),
+                            resultSet.getString("farmaco"),
+                            resultSet.getBoolean("prescritta")
+                    );
+                }
                 return r;
             }
 

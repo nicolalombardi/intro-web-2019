@@ -244,7 +244,6 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                     ricette.add(new Ricetta(
                             rs.getInt("id"),
                             rs.getString("farmaco"),
-                            rs.getInt("id_visita_base"),
                             rs.getBoolean("prescritta")
                     ));
                 }
