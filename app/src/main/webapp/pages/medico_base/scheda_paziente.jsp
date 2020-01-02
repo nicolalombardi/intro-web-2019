@@ -2,8 +2,10 @@
         import="com.icecoldbier.persistence.entities.User" %><%--<jsp:useBean id="medico" scope="request" type="com.icecoldbier.persistence.entities.User"/>--%>
 <jsp:useBean id="medico" scope="request" type="com.icecoldbier.persistence.entities.User"/>
 <jsp:useBean id="paziente" scope="request" type="com.icecoldbier.persistence.entities.Paziente"/>
-<jsp:useBean id="visitePossibili" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.VisitaPossibile>"/>
-<jsp:useBean id="esamiPossibili" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.VisitaPossibile>"/>
+<jsp:useBean id="visitePossibili" scope="request"
+             type="java.util.List<com.icecoldbier.persistence.entities.VisitaPossibile>"/>
+<jsp:useBean id="esamiPossibili" scope="request"
+             type="java.util.List<com.icecoldbier.persistence.entities.VisitaPossibile>"/>
 <jsp:useBean id="mediciSpecialisti" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.User>"/>
 <jsp:useBean id="ssp" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.SSP>"/>
 
@@ -91,7 +93,7 @@
 
                 </div>
 
-<%--                Calcola se è il tuo paziente--%>
+                <%--                Calcola se è il tuo paziente--%>
                 <%
                     boolean isMedicoAssociato = false;
                     User user = (User) session.getAttribute("user");
@@ -114,35 +116,73 @@
                     </p>
                 </c:if>
 
-                <div class="row funzioni-row">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modaleErogaVisita"
-                            <c:if test="${not isMedicoAssociato}">disabled</c:if>>
-                        Eroga visita base
-                    </button>
+                <div class="card-deck">
+
+                    <div class="card border-dark mb-3" style="max-width: 100rem;">
+                        <div class="card-header">Eroga visita base</div>
+                        <div class="card-body text-dark">
+                            <p class="card-text">Eroga una visita base con la possibilità di associare una ricetta.</p>
+                            <button type="button" class="btn btn-primary stretched-link" data-toggle="modal"
+                                    data-target="#modaleErogaVisita"
+                                    <c:if test="${not isMedicoAssociato}">disabled</c:if>>
+                                Apri
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card border-dark mb-3" style="max-width: 100rem;">
+                        <div class="card-header">Prescrivi visita specialistica
+                        </div>
+                        <div class="card-body text-dark">
+                            <p class="card-text">Prescrivi una visita specialistica selezionando visita e medico</p>
+                            <button type="button" class="btn btn-primary stretched-link" data-toggle="modal"
+                                    data-target="#modalePrescriviVisitaSpecialistica"
+                                    <c:if test="${not isMedicoAssociato}">disabled</c:if>>
+                                Apri
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="row funzioni-row">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalePrescriviVisitaSpecialistica"
-                            <c:if test="${not isMedicoAssociato}">disabled</c:if>>
-                        Prescrivi visita specialistica
-                    </button>
+                <div class="card-deck">
+
+                    <div class="card border-dark mb-3" style="max-width: 100rem;">
+                        <div class="card-header">Prescrivi esame SSP</div>
+                        <div class="card-body text-dark">
+                            <p class="card-text">Prescrivi un'esame specialistico selezionando esame e ssp</p>
+                            <button type="button" class="btn btn-primary stretched-link" data-toggle="modal"
+                                    data-target="#modalePrescriviEsameSSP"
+                                    <c:if test="${not isMedicoAssociato}">disabled</c:if>>
+                                Vai
+                            </button>
+
+                        </div>
+                    </div>
+                    <div class="card border-dark mb-3" style="max-width: 100rem;">
+                        <div class="card-header">Elenco visite base</div>
+                        <div class="card-body text-dark">
+                            <p class="card-text">Visualizza l'elenco delle visite base erogate per questo paziente</p>
+                            <a class="btn btn-primary stretched-link <c:if test="${not isMedicoAssociato}">disabled</c:if>"
+                               role="button" href="lista-visite-base?id_paziente=${paziente.id}"
+                               <c:if test="${not isMedicoAssociato}">disabled</c:if>>
+                                Vai
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="row funzioni-row">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalePrescriviEsameSSP"
-                            <c:if test="${not isMedicoAssociato}">disabled</c:if>>
-                        Prescrivi esame SSP
-                    </button>
-                </div>
-                <div class="row funzioni-row">
-                    <a class="btn btn-primary <c:if test="${not isMedicoAssociato}">disabled</c:if>" role="button" href="lista-visite-base?id_paziente=${paziente.id}"
-                            <c:if test="${not isMedicoAssociato}">disabled</c:if>>
-                        Visualizza elenco visite base
-                    </a>
-                </div>
-                <div class="row funzioni-row">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modaleElencoEsamiSpecialistici"
-                            <c:if test="${not isMedicoAssociato}">disabled</c:if>>
-                        Visualizza elenco esami/visite specialistiche
-                    </button>
+                <div class="card-deck">
+
+                    <div class="card border-dark mb-3" style="max-width: 100rem;">
+                        <div class="card-header">Elenco esami specialistici</div>
+                        <div class="card-body text-dark">
+                            <p class="card-text">Visualizza l'elenco degli esami specialistici erogati per questo
+                                paziente</p>
+                            <a class="btn btn-primary stretched-link <c:if test="${not isMedicoAssociato}">disabled</c:if>"
+                               role="button" href="lista-visite-specialistiche?id_paziente=${paziente.id}"
+                               <c:if test="${not isMedicoAssociato}">disabled</c:if>>
+                                Vai
+                            </a>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -204,7 +244,8 @@
                     </div>
                     <div id="visitaSpecialisticaDescriptionContainer">
                         <c:forEach var="v" items="${visitePossibili}">
-                            <div id="descrizioneVisitaSpecialistica-${v.id}" class="card border-dark mb-3" style="display: none;" >
+                            <div id="descrizioneVisitaSpecialistica-${v.id}" class="card border-dark mb-3"
+                                 style="display: none;">
                                 <div class="card-header">Descrizione/Note</div>
                                 <div class="card-body text-dark">
                                     <p class="card-text">${v.descrizione}</p>
@@ -257,7 +298,7 @@
                     </div>
                     <div id="visitaSSPDescriptionContainer">
                         <c:forEach var="e" items="${esamiPossibili}">
-                            <div id="descrizioneEsameSSP-${e.id}" class="card border-dark mb-3" style="display: none;" >
+                            <div id="descrizioneEsameSSP-${e.id}" class="card border-dark mb-3" style="display: none;">
                                 <div class="card-header">Descrizione/Note</div>
                                 <div class="card-body text-dark">
                                     <p class="card-text">${e.descrizione}</p>
