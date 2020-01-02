@@ -151,7 +151,7 @@
                             <button type="button" class="btn btn-primary stretched-link" data-toggle="modal"
                                     data-target="#modalePrescriviEsameSSP"
                                     <c:if test="${not isMedicoAssociato}">disabled</c:if>>
-                                Vai
+                                Apri
                             </button>
 
                         </div>
