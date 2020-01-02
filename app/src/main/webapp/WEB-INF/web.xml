@@ -36,6 +36,7 @@
     <servlet-mapping>
         <servlet-name>LoginPage</servlet-name>
         <url-pattern>/login</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
 <!--    MEDICO DI BASE-->
@@ -197,9 +198,6 @@
             30
         </session-timeout>
     </session-config>
-    <welcome-file-list>
-        <welcome-file>/pages/login.jsp</welcome-file>
-    </welcome-file-list>
     <error-page>
         <error-code>500</error-code>
         <location>/pages/error_500.jsp</location>
