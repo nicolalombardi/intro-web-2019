@@ -1,26 +1,48 @@
+-- Medici base
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES ('medico_base','noemi.marchetti@fake.gmail.com','10000:129e9b574c87da54:d99f9c5033956065c058b236497ab831b9cedb554e5a426762b040cc8e059729dbed66778ac75a4c8c89cc7edf6a0dbc4a3a5d4a956946fa92e5752b5f43940e','Noemi', 'Marchetti', 'Brescia');
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES ('medico_base','antonio.santoro@fake.gmail.com','10000:a4a4551be53e1107:38e949573d0a8508b3c72af68fe5632a6b083aaca9ad873538dcc3b6f93bce84462ad690439d8231ae7727ade81b1284e673d0847fdbb28627de640c55c561b1','Antonio', 'Santoro', 'Milano');
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES ('medico_base','greta.de santis@fake.gmail.com','10000:eb6fb148de5339b3:85a7b0e6fa5c4dfba280ff7d775b6068d2457444d1308762a47526fa0da5b7e73b1e49838bada6703d6b62ce096f3d44ff921ca10050c1ea4fe67ba472a16d24','Greta', 'De Santis', 'Roma');
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES ('medico_base','lorenzo.valentini@fake.gmail.com','10000:fb9395d94f51e80d:efc3e38d10c96bd512e40dd9cd219696db4095e6acebf611e327f13b56626f7350d508bc82ce939d97c38343e1bf1685e5d86e0825048a9b4dfc997bba04557e','Lorenzo', 'Valentini', 'Brescia');
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES ('medico_base','leonardo.longo@fake.gmail.com','10000:5b296a187016ee30:d0beb22b5326f95779c576bee315411c9aeada1f4669f64f2565854ba16c48beebe74286f585758a2fe4b738d935d4951d87ad217c77bedf34a8e9b028bdbbfd','Leonardo', 'Longo', 'Milano');
+
+-- Medici specialisti
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES ('medico_specialista','noemi.marino@fake.gmail.com','10000:34b30e4aec1076e1:6604b5bd813e940276833e6101adec57125e4dfefb88cbca457ba5849eb040367e56779bf6dca1cc24329966e9131f047a72ab2d856b35b203d2fae9129127eb','Noemi', 'Marino', 'Brescia');
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES ('medico_specialista','tommaso.mariani@fake.gmail.com','10000:f7937395777d236d:997b3065ea0e0ef62ee4983e045be8fe5634647b1491997d5b56180e5b962e6d624ef0fb8d6f8176051a23f87fb85b1d041eb2af14f11f53ff84c05a0b8df95a','Tommaso', 'Mariani', 'Milano');
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES ('medico_specialista','noemi.de santis@fake.gmail.com','10000:6522d4fbad68ff2c:d2fc9d14125828fe69a8eb45469b837a617df7545ccf82a09923da5a9ecc620b9dd99934846b898fcf94648e52becb2f71508ff0a0ca9fb2baceb500c0032e34','Noemi', 'De Santis', 'Roma');
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES ('medico_specialista','nicola.gallo@fake.gmail.com','10000:2bae4a569707b10f:57da354e10ea7d6a1d052430df9052495185b8c55737253be3b51397a16d78566e459513651ba708255f375e69efa2530a2ae61527d9d3c00902be7006fd112a','Nicola', 'Gallo', 'Brescia');
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES ('medico_specialista','sara.ricci@fake.gmail.com','10000:1985008543a4b5eb:1057757b79b07181f45bffe379a3325689e2badd2cf5482d44c40f4eced6d22162358991ce795872276f9743da505a3186b5f1e4c10bb592238ef1a835cc2d76','Sara', 'Ricci', 'Milano');
+
+-- SSP
 INSERT INTO users (typ, username, pass, provincia_appartenenza) VALUES ('ssp','ssp.brescia@fake.gmail.com','10000:d1c808532e9b2bce:9419880703421407a23a502dedc86acb0b5b6d60fcca63d1816fa05d117a8d4181afe100d7f84453015dd06d4fc1b0c7062c7b3148e13a96f19dda290d25480f', 'Brescia');
 INSERT INTO users (typ, username, pass, provincia_appartenenza) VALUES ('ssp','ssp.milano@fake.gmail.com','10000:851e414b0ec4bda9:d6be77e4c1c79a9f7f875db0aac0f5303376d6552cfe6c4f80d00eb098033d056463c11747c9115ba35ba874ecc6cb9966d0f32237faf40172819e114e4b9c4b', 'Milano');
 INSERT INTO users (typ, username, pass, provincia_appartenenza) VALUES ('ssp','ssp.roma@fake.gmail.com','10000:e468179f352bd422:daafb88048349c3af3af935ee99258dabc8034466411c2ad55b949cbab4e83983fb21a04a7419c7921b62995229056d372ca5f9d36e94fea93b9d5c6e2ce70e5', 'Roma');
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Visita specialistica 1', 'Descrizione della visita specialistica 1', 50);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Visita specialistica 2', 'Descrizione della visita specialistica 2', 50);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Visita specialistica 3', 'Descrizione della visita specialistica 3', 50);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Visita specialistica 4', 'Descrizione della visita specialistica 4', 50);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Visita specialistica 5', 'Descrizione della visita specialistica 5', 50);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Visita ssp 1', 'Descrizione della visita ssp 1', 11);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Visita ssp 2', 'Descrizione della visita ssp 2', 11);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Visita ssp 3', 'Descrizione della visita ssp 3', 11);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Visita ssp 4', 'Descrizione della visita ssp 4', 11);
-INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Visita ssp 5', 'Descrizione della visita ssp 5', 11);
+
+-- Elenco visite possibili medico specialista
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Estrazione di dente deciduo', 'Inclusa anestesia', 50);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Estrazione di dente permanente', 'Estrazione di altro dente NAS. Inclusa anestesia', 50);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Ricostruzione di dente mediante otturazione', 'Fino a due superfici. Incluso: Otturazione carie, Otturazione carie con incappucciamento indiretto della polpa', 50);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Applicazione di corona in lega aurea', 'Trattamento per applicazione di corona faccettata in lega aurea e resina o corona di 3/4 lega aurea o in lega aurea fusa', 50);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Inserzione di protesi removibile', 'Trattamento per applicazione protesi rimovibile completa (per arcata)', 50);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Gengivoplastica [Chirurgia paradontale]', 'Lembo di Widman modificato con levigatura radici e curettage tasche infraossee, applicazione di osso o membrane, osteoplastica (per sestante)', 50);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Tomografia computerizzata (TC) del rachide e dello speco vertebrale senza e con contrasto', 'TC del rachide [cervicale, toracico, lombosacrale], spinale. Incluso: lo studio di 3 metameri e due spazi intersomatici in caso di estensione della prestazione ad un ulteriore spazio intersomatico o metamero', 50);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Risonanza magnetica nucleare (RM) della colonna cervicale, toracica, lombosacrale', '', 50);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Asportazione di lesione o tessuto della gengiva', 'Asportazione di epulidi. Escluso: biopsia della gengiva, asportazione di lesione odontogena', 50);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('medico_specialista', 'Trattamento ortodontico con apparecchi ortopedico funzionali', 'Incluso: trattamento con placca di svincolo', 50);
+
+-- Elenco visite possibili ssp
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Acido 5 idrossi 3 indolacetico [dU]', 'Diagnosi di carcinoidi', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Ala deidrasi eritrocitaria', 'Diagnosi e monitoraggio delle porfirie o delle intossicazioni da Piombo', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Albumina [S/U/dU]', 'Indagine di primo livello in caso di sospetta malnutrizione o di patologie epatiche e/o renali', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Androstenediolo glucoronide', 'Diagnosi dell''irsutismo', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Creatina clearance', 'Indagine di secondo livello per il monitoraggio delle patologie renali croniche', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Cromo', 'Portatori di protesi impiantabili metallo su metallo', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Tipizzazione genomica HLA-B mediante sequenziamento diretto', 'A scopo di trapianto e, per le patologie/condizioni riportate nell''allegato Genetica (colonna D), su prescrizione del genetista medico', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Campylobacter antibiogramma', 'In caso di controllo dopo coprocoltura positiva Campylobacter', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Virus epatite delta [HDV] antigene HDVAg', 'Contestualmente all''esito positivo dell''HBsAg', 11);
+INSERT INTO elenco_visite_possibili (praticante, nome, descrizione, costo_ticket) VALUES ('ssp', 'Immunizzazione per malattia autoimmune', 'Erogabile solo a seguito i visita allergologica o dermatologica', 11);
+
+
+-- Pazienti
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES('paziente', 'christian.grasso@fake.gmail.com', '10000:9510bf1f6b3f99d4:9d812d7a64e5c122da0ceb28ad7c54769b5ed3d9f7aec52cf9feb983e6a306b55a8c0c8fdfd016fff6baec7010ee1fe6205b094ab8a12e19ddaaf47097900f30','Christian', 'Grasso', 'Brescia');
 INSERT INTO paziente(id_user, data_nascita, luogo_nascita, codice_fiscale, sesso, foto, id_medico, email) VALUES('14', '1990-02-21', 'Milano', 'GRSCRS90B21F205O', 'M', '','1', 'christian.grasso@fake.gmail.com');
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES('paziente', 'ludovica.bianco@fake.gmail.com', '10000:1043ed2c526426fa:64e3c92888c4d73c8b2941a8ad82f977fa67a01323f0bdff14d63c3229fd651e245b47eb021fbed2bb3bc2b4b750c2bdd826d818b1951163e98885702eed183a','Ludovica', 'Bianco', 'Milano');
@@ -122,27 +144,6 @@ INSERT INTO paziente(id_user, data_nascita, luogo_nascita, codice_fiscale, sesso
 INSERT INTO users (typ, username, pass, nome, cognome, provincia_appartenenza) VALUES('paziente', 'emma.marchetti@fake.gmail.com', '10000:ca106b72487abead:e94ca75caf67b9f876911c0895369d95f0af426d5544fc19190f57edf3f00d76b698f6c0ce595d9b979e7f3cc5aea8149156a46afe07657aa74dfe816dc827df','Emma', 'Marchetti', 'Milano');
 INSERT INTO paziente(id_user, data_nascita, luogo_nascita, codice_fiscale, sesso, foto, id_medico, email) VALUES('63', '1930-07-21', 'Roma', 'MRCMME30L61H501H', 'F', '','5', 'emma.marchetti@fake.gmail.com');
 
-
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Omeprazen','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Omeprazen','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Moment','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Imodium','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Eutirox','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Triatec','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Omeprazen','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Triatec','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Tachipirina','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Eutirox','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Moment','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Dibase','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Triatec','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Moment','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Moment','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Eutirox','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Cardioaspirin','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Cardioaspirin','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Imodium','True');
-INSERT INTO ricetta (farmaco,prescritta) VALUES ('Omeprazen','True');
 
 INSERT INTO visita_base (id_medico,id_paziente,data_erogazione) VALUES (2,31,'2020-05-15');
 INSERT INTO visita_specialistica (id_visita,erogata,data_prescrizione,id_medico,id_paziente,id_medico_base) VALUES (6,False,'2021-07-07',10,14,2);
