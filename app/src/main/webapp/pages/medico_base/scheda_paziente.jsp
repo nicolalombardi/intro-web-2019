@@ -202,6 +202,18 @@
                             </c:forEach>
                         </select>
                     </div>
+                    <div id="visitaSpecialisticaDescriptionContainer">
+                        <c:forEach var="v" items="${visitePossibili}">
+                            <div id="descrizioneVisitaSpecialistica-${v.id}" class="card border-dark mb-3" style="display: none;" >
+                                <div class="card-header">Descrizione/Note</div>
+                                <div class="card-body text-dark">
+                                    <p class="card-text">${v.descrizione}</p>
+                                </div>
+                            </div>
+
+                        </c:forEach>
+                    </div>
+
                     <div class="form-group">
                         <label for="medicoSpecialista">Seleziona il medico</label>
                         <select class="form-control" name="medicoSpecialista" id="medicoSpecialista">
@@ -236,12 +248,23 @@
                 <div class="modal-body">
 
                     <div class="form-group">
-                        <label for="visitaSpecialistica">Seleziona tipo esame</label>
+                        <label for="esameSpecialistico">Seleziona tipo esame</label>
                         <select class="form-control" name="esameSpecialistico" id="esameSpecialistico">
                             <c:forEach var="e" items="${esamiPossibili}">
                                 <option value="${e.id}">${e.nome}</option>
                             </c:forEach>
                         </select>
+                    </div>
+                    <div id="visitaSSPDescriptionContainer">
+                        <c:forEach var="e" items="${esamiPossibili}">
+                            <div id="descrizioneEsameSSP-${e.id}" class="card border-dark mb-3" style="display: none;" >
+                                <div class="card-header">Descrizione/Note</div>
+                                <div class="card-body text-dark">
+                                    <p class="card-text">${e.descrizione}</p>
+                                </div>
+                            </div>
+
+                        </c:forEach>
                     </div>
                     <div class="form-group">
                         <label for="ssp">Seleziona l'SSP</label>
@@ -271,6 +294,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+
+<script src="../js/scheda_paziente.js"></script>
 
 <%--These are the success and error modals--%>
 <%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>
