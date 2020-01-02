@@ -25,7 +25,7 @@ CREATE TABLE paziente(
 CREATE TABLE elenco_visite_possibili(
     id SERIAL PRIMARY KEY,
     praticante user_type NOT NULL,
-    nome VARCHAR(40) NOT NULL,
+    nome TEXT NOT NULL,
     descrizione TEXT NOT NULL,
     costo_ticket INT NOT NULL
 );
