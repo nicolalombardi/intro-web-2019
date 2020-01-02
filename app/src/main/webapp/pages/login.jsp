@@ -35,7 +35,7 @@
     </form>
 
     <form class="form-login" action="dologin" method="POST">
-        <input hidden id="inputEmail" name="inputEmail" value="Ludovica.Bianco@fake.gmail.com">
+        <input hidden id="inputEmail" name="inputEmail" value="ludovica.bianco@fake.gmail.com">
 
         <input hidden id="inputPassword" name="inputPassword" value="pass456">
 

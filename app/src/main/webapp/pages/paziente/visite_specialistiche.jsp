@@ -61,7 +61,7 @@
 
 
                     <c:choose>
-                        <c:when test="${v.getReport().getId() == 0}">
+                        <c:when test="${empty v.getReport().getId()}">
                             <th><button class="btn btn-sm btn-primary btn-block" disabled="disabled" type="submit">Report</button></th>
                         </c:when>
                         <c:otherwise>
