@@ -1,13 +1,7 @@
 package com.icecoldbier.filters.controllers;
 
-import com.icecoldbier.persistence.dao.implementations.PazienteDAO;
-import com.icecoldbier.persistence.dao.implementations.UserDAO;
-import com.icecoldbier.persistence.dao.implementations.VisitaBaseDAO;
-import com.icecoldbier.persistence.dao.implementations.VisitaSpecialisticaDAO;
-import com.icecoldbier.persistence.entities.Paziente;
-import com.icecoldbier.persistence.entities.User;
-import com.icecoldbier.persistence.entities.VisitaBase;
-import com.icecoldbier.persistence.entities.VisitaSpecialistica;
+import com.icecoldbier.persistence.dao.implementations.*;
+import com.icecoldbier.persistence.entities.*;
 import com.icecoldbier.utils.Utils;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
@@ -28,6 +22,7 @@ public class PazienteController implements Filter {
     private VisitaBaseDAO visitaBaseDAO;
     private PazienteDAO pazienteDAO;
     private VisitaSpecialisticaDAO visitaSpecialisticaDAO;
+    private RicettaDAO ricettaDAO;
     public void destroy() {
     }
 
@@ -84,6 +79,29 @@ public class PazienteController implements Filter {
                 ((HttpServletResponse)resp).sendError(500, e.getMessage());
                 e.printStackTrace();
             }
+        }else if (userPath.equals("/paziente/elenco-prescrizioni")){
+            ArrayList<Ricetta> elencoRicette = null;
+            try{
+                long count = ricettaDAO.getCount(user.getId());
+                int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
+                int requestedPage = 1;
+
+                //Grab the requested page value if i exist, set a default value (1) if it does not
+                if(request.getParameter("page") != null){
+                    requestedPage = Integer.parseInt(request.getParameter("page"));
+                }
+                requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
+
+                elencoRicette = pazienteDAO.getRicette(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
+
+                request.setAttribute("page", requestedPage);
+                request.setAttribute("pagesCount", pagesCount);
+                request.setAttribute("elencoRicette", elencoRicette);
+
+            }catch (DAOException e) {
+                ((HttpServletResponse)resp).sendError(500, e.getMessage());
+                e.printStackTrace();
+            }
         }else if(userPath.equals("/.....")){
 
         }
@@ -108,6 +126,11 @@ public class PazienteController implements Filter {
         }
         try {
             visitaSpecialisticaDAO = daoFactory.getDAO(VisitaSpecialisticaDAO.class);
+        } catch (DAOFactoryException e) {
+            throw new ServletException("Impossible to get dao factory for visitaSpecialistica storage system");
+        }
+        try {
+            ricettaDAO = daoFactory.getDAO(RicettaDAO.class);
         } catch (DAOFactoryException e) {
             throw new ServletException("Impossible to get dao factory for visitaSpecialistica storage system");
         }
