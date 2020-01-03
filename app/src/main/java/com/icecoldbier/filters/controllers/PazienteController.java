@@ -79,10 +79,11 @@ public class PazienteController implements Filter {
                 ((HttpServletResponse)resp).sendError(500, e.getMessage());
                 e.printStackTrace();
             }
-        }else if (userPath.equals("/paziente/elenco-prescrizioni")){
+        }else if (userPath.equals("/paziente/elenco-prescrizioni-ricette")){
             ArrayList<Ricetta> elencoRicette = null;
             try{
                 long count = ricettaDAO.getCount(user.getId());
+                System.out.println("Numero ricette per user: " + count);
                 int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
                 int requestedPage = 1;
 
