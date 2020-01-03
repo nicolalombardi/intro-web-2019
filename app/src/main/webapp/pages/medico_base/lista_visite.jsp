@@ -46,7 +46,7 @@
                             </li>
                         </c:forEach>
 
-                        <li class="page-item <c:if test="${pageParams.page == pageParams.pagesCount}">disabled</c:if>">
+                        <li class="page-item <c:if test="${pageParams.page == pageParams.pagesCount || pageParams.pagesCount == 0}">disabled</c:if>">
                             <a class="page-link" href="lista-visite-base?page=${pageParams.page + 1}&pageSize=${pageParams.pageSize}&id_paziente=${paziente.id}"
                                <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Successiva</a>
                         </li>
