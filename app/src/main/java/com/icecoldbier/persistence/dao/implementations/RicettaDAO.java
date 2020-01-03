@@ -13,7 +13,7 @@ import java.util.List;
 
 public class RicettaDAO extends JDBCDAO<Ricetta, Integer> implements RicettaDAOInterface {
     private static final String GET_RICETTA_BY_ID = "SELECT * FROM ricetta WHERE id = ?";
-    private static final String GET_RICETTE_COUNT = "SELECT COUNT(id) as count FROM ricetta r, visita_base vb, report rep, visita_specialistica vs WHERE (r.id = vb.id_ricetta AND vb.id_paziente = ?) OR (r.id = rep.id_ricetta AND rep.id = vs.id_report AND vs.id_paziente = ?) ";
+    private static final String GET_RICETTE_COUNT = "SELECT COUNT(*) as count FROM (SELECT ricetta.id FROM ricetta, visita_base WHERE ricetta.id = visita_base.id_ricetta AND visita_base.id_paziente = ? UNION SELECT ricetta.id FROM ricetta, Visita_specialistica, report WHERE ricetta.id = report.id_ricetta AND report.id = visita_specialistica.id_report AND visita_specialistica.id_paziente = ?) AS ricette";
 
     /**
      * The base constructor for all the JDBC DAOs.
@@ -30,6 +30,7 @@ public class RicettaDAO extends JDBCDAO<Ricetta, Integer> implements RicettaDAOI
     public Long getCount(int idp) throws DAOException {
         try (PreparedStatement preparedStatement = CON.prepareStatement((GET_RICETTE_COUNT))){
             preparedStatement.setInt(1,idp);
+            preparedStatement.setInt(2,idp);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
                 return resultSet.getLong("count");
