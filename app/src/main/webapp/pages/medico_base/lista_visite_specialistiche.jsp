@@ -93,23 +93,28 @@
                     <c:forEach var="v" items="${listaVisite}">
                         <c:choose>
                             <c:when test="${v.SSP}">
+                                <c:set var="nome" value="${v.visitaSSP.paziente.nome}"/>
+                                <c:set var="cognome" value="${v.visitaSSP.paziente.cognome}"/>
                                 <c:set var="dataPrescrizione" value="${v.visitaSSP.dataPrescrizione}"/>
                                 <c:set var="tipo" value="Esame SSP"/>
                                 <c:set var="descrizione" value="${v.visitaSSP.tipo_visita.nome}"/>
+                                <c:set var="tuo" value="${user.id == v.visitaSSP.paziente.medico.id}"/>
                                 <c:set var="targetModal" value="#modaleVisitaSSP-${v.visitaSSP.id}"/>
                             </c:when>
                             <c:otherwise>
+                                <c:set var="nome" value="${v.visitaSpecialistica.paziente.nome}"/>
+                                <c:set var="cognome" value="${v.visitaSpecialistica.paziente.cognome}"/>
                                 <c:set var="dataPrescrizione" value="${v.visitaSpecialistica.dataPrescrizione}"/>
                                 <c:set var="tipo" value="Visita specialistica"/>
                                 <c:set var="descrizione" value="${v.visitaSpecialistica.tipo_visita.nome}"/>
+                                <c:set var="tuo" value="${user.id == v.visitaSpecialistica.paziente.medico.id}"/>
                                 <c:set var="targetModal" value="#modaleVisitaSpecialistica-${v.visitaSpecialistica.id}"/>
                             </c:otherwise>
                         </c:choose>
-<%--                        qua sotto dopo #modalevisita manca l'id della visita--%>
                         <tr data-toggle="modal" data-target="${targetModal}">
                             <td>
                                 <c:choose>
-                                    <c:when test="${user.id == paziente.medico.id}">
+                                    <c:when test="${tuo}">
                                         <i class="material-icons info-icon">check_box</i>
                                     </c:when>
                                     <c:otherwise>
@@ -117,8 +122,8 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td>${paziente.nome}</td>
-                            <td>${paziente.cognome}</td>
+                            <td><c:out value="${nome}"/></td>
+                            <td><c:out value="${cognome}"/></td>
                             <td><c:out value="${dataPrescrizione}"/></td>
                             <td><c:out value="${tipo}"/></td>
                             <td><c:out value="${descrizione}"/></td>
@@ -155,7 +160,7 @@
                                 </tr>
                                 <tr>
                                     <th>Paziente</th>
-                                    <td>${paziente.nome} ${paziente.cognome}</td>
+                                    <td>${v.visitaSSP.paziente.nome} ${v.visitaSSP.paziente.cognome}</td>
                                 </tr>
                                 <tr>
                                     <th>Nome esame</th>
@@ -220,7 +225,7 @@
                                 </tr>
                                 <tr>
                                     <th>Paziente</th>
-                                    <td>${paziente.nome} ${paziente.cognome}</td>
+                                    <td>${v.visitaSpecialistica.paziente.nome} ${v.visitaSpecialistica.paziente.cognome}</td>
                                 </tr>
                                 <tr>
                                     <th>Nome visita</th>
@@ -327,5 +332,6 @@
 <script src="../js/clickable_row.js"></script>
 <%--These are the success and error modals--%>
 <%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>
+
 </body>
 </html>
