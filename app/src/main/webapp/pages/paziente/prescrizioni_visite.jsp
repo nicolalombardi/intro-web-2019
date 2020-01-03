@@ -55,6 +55,14 @@
                     <th scope="row">${v.getMedicoSpecialista().toStringNomeCognome()}</th>
                 </tr>
             </c:forEach>
+            <c:forEach var="v" items="${elencoVisiteSSP}">
+                <tr>
+                    <th scope="row">${v.getId_visita()}</th>
+                    <th scope="row">${v.getDataPrescrizione()}</th>
+                    <th scope="row">${v.getMedicoBase().toStringNomeCognome()}</th>
+                    <th scope="row">${v.getSsp().toStringSSP()}</th>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </div>

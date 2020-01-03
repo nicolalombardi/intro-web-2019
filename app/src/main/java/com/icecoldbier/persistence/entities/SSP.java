@@ -31,4 +31,8 @@ public class SSP {
                 + "id= }" + this.id +
                 ", provincia= " + this.provinciaAppartenenza;
     }
+
+    public String toStringSSP(){
+        return "SSP " + provinciaAppartenenza;
+    }
 }
