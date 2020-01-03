@@ -330,6 +330,9 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 <script src="../js/clickable_row.js"></script>
+
+<script src="../js/toggle_modal_hash.js"></script>
+
 <%--These are the success and error modals--%>
 <%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>
 
