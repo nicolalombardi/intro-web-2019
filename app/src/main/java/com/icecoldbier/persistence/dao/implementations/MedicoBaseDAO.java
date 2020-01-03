@@ -20,6 +20,8 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
     private static final String CREATE_RICETTA = "INSERT INTO ricetta(farmaco, prescritta) VALUES(?,?) RETURNING id";
     private static final String CREATE_VISITA_BASE = "INSERT INTO visita_base(id_medico, id_paziente, data_erogazione, id_ricetta) VALUES(?, ?, NOW(), ?)";
 
+    private static final String APPROVA_RICETTA = "UPDATE ricetta SET prescritta=true WHERE id = ?";
+
     private static final String GET_VISITE_ESAMI_BY_MEDICO_PAZIENTE_PAGED =
             "SELECT * FROM (\n" +
                     "SELECT id, id_visita, erogata, data_prescrizione, data_erogazione, id_medico, id_paziente, id_medico_base, id_report, NULL AS id_ssp, 'specialistica' AS tipo from visita_specialistica WHERE id_medico_base = ? AND id_paziente = ?\n" +
@@ -132,6 +134,17 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
 
         }
 
+    }
+
+    @Override
+    public void approvaRicetta(int idRicetta) throws DAOException {
+        try (PreparedStatement preparedStatement = CON.prepareStatement(APPROVA_RICETTA)) {
+            preparedStatement.setInt(1, idRicetta);
+            preparedStatement.execute();
+
+        } catch (SQLException e) {
+            throw new DAOException("Error while approving a ricetta", e);
+        }
     }
 
     @Override

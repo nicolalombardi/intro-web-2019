@@ -16,6 +16,8 @@ import java.util.List;
 public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer> implements VisitaSpecialisticaDAOInterface {
     private static final String GET_BY_ID = "SELECT * FROM visita_specialistica WHERE id = ?";
     private static final String GET_VISITE_COUNT = "SELECT COUNT(id) as count FROM visita_specialistica v WHERE v.id_paziente = ?";
+    private static final String GET_VISITA_CONTAINING_RICETTA = "SELECT * FROM visita_specialistica WHERE id_report = (SELECT id FROM report WHERE id_ricetta = ?)";
+
 
 
     private PazienteDAO pazienteDAO;
@@ -56,33 +58,32 @@ public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer
     }
 
     @Override
+    public VisitaSpecialistica getContainingRicetta(int idRicetta) throws DAOException {
+        try (PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITA_CONTAINING_RICETTA)) {
+            preparedStatement.setInt(1, idRicetta);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if(resultSet.next()){
+                    return getFromResultSet(resultSet);
+                }else{
+                    return null;
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Error while getting visita specialistica", e);
+        }
+    }
+
+    @Override
     public VisitaSpecialistica getByPrimaryKey(Integer primaryKey) throws DAOException {
-        User medicoBase;
-        User medicoSpecialista;
-        Paziente paziente;
-        Report report;
-        VisitaPossibile tipoVisita;
         try (PreparedStatement preparedStatement = CON.prepareStatement(GET_BY_ID)) {
             preparedStatement.setInt(1, primaryKey);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                resultSet.next();
-                report = reportDAO.getByPrimaryKey(resultSet.getInt("id_report"));
-                paziente = pazienteDAO.getByPrimaryKey(resultSet.getInt("id_paziente"));
-                medicoSpecialista = userDAO.getByPrimaryKey(resultSet.getInt("id_medico"));
-                medicoBase = userDAO.getByPrimaryKey(resultSet.getInt("id_medico_base"));
-                tipoVisita = visitePossibiliDAO.getByPrimaryKey(resultSet.getInt("id_visita"));
-                return new VisitaSpecialistica(
-                        resultSet.getInt("id"),
-                        paziente,
-                        resultSet.getDate("data_erogazione"),
-                        tipoVisita,
-                        resultSet.getBoolean("erogata"),
-                        resultSet.getDate("data_prescrizione"),
-                        medicoSpecialista,
-                        report,
-                        medicoBase);
+                if(resultSet.next()){
+                    return getFromResultSet(resultSet);
+                }else{
+                    return null;
+                }
             }
-
         } catch (SQLException e) {
             throw new DAOException("Error while getting visita specialistica", e);
         }
@@ -92,4 +93,23 @@ public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer
     public List<VisitaSpecialistica> getAll() throws DAOException {
         return null;
     }
+
+    private VisitaSpecialistica getFromResultSet(ResultSet resultSet) throws SQLException, DAOException {
+        Report report = reportDAO.getByPrimaryKey(resultSet.getInt("id_report"));
+        Paziente paziente = pazienteDAO.getByPrimaryKey(resultSet.getInt("id_paziente"));
+        User medicoSpecialista = userDAO.getByPrimaryKey(resultSet.getInt("id_medico"));
+        User medicoBase = userDAO.getByPrimaryKey(resultSet.getInt("id_medico_base"));
+        VisitaPossibile tipoVisita = visitePossibiliDAO.getByPrimaryKey(resultSet.getInt("id_visita"));
+        return new VisitaSpecialistica(
+                resultSet.getInt("id"),
+                paziente,
+                resultSet.getDate("data_erogazione"),
+                tipoVisita,
+                resultSet.getBoolean("erogata"),
+                resultSet.getDate("data_prescrizione"),
+                medicoSpecialista,
+                report,
+                medicoBase);
+    }
+
 }

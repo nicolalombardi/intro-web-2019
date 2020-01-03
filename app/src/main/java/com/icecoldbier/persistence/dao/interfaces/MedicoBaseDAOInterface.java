@@ -12,6 +12,7 @@ public interface MedicoBaseDAOInterface extends DAO<User, Integer> {
     void erogaVisitaBase(int idm, int idp, String ricetta) throws DAOException;
     void prescrizioneEsameSSP(int idTipoVisita, int idSSP, int idPaziente, int idMedicoBase) throws DAOException;
     void prescrizioneEsameMS(int idTipoVisita, int idMedicoSpecialista, int idPaziente, int idMedicoBase) throws DAOException;
+    void approvaRicetta(int idRicetta) throws DAOException;
     InfoVisita getInfoVisita(int idv) throws DAOException;
     ArrayList<VisitaSpecialisticaOrSSP> getVisiteEsamiByMedicoPaged(int idMedico, PaginationParameters pageParams) throws DAOException;
     ArrayList<VisitaSpecialisticaOrSSP> getVisiteEsamiByMedicoAndPazientePaged(int idMedico, int idPaziente, PaginationParameters pageParams) throws DAOException;

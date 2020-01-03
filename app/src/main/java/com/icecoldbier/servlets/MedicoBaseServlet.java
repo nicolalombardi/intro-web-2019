@@ -1,10 +1,7 @@
 package com.icecoldbier.servlets;
 
 import com.icecoldbier.persistence.dao.implementations.*;
-import com.icecoldbier.persistence.entities.Paziente;
-import com.icecoldbier.persistence.entities.SSP;
-import com.icecoldbier.persistence.entities.User;
-import com.icecoldbier.persistence.entities.VisitaPossibile;
+import com.icecoldbier.persistence.entities.*;
 import com.icecoldbier.utils.Utils;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
@@ -24,6 +21,7 @@ public class MedicoBaseServlet extends HttpServlet {
     private PazienteDAO pazienteDAO;
     private MedicoSpecialistaDAO medicoSpecialistaDAO;
     private VisitePossibiliDAO visitePossibiliDAO;
+    private VisitaSpecialisticaDAO visitaSpecialisticaDAO;
     private SSPDAO sspDAO;
     @Override
     public void init() throws ServletException {
@@ -36,6 +34,7 @@ public class MedicoBaseServlet extends HttpServlet {
             pazienteDAO = daoFactory.getDAO(PazienteDAO.class);
             medicoSpecialistaDAO = daoFactory.getDAO(MedicoSpecialistaDAO.class);
             visitePossibiliDAO = daoFactory.getDAO(VisitePossibiliDAO.class);
+            visitaSpecialisticaDAO = daoFactory.getDAO(VisitaSpecialisticaDAO.class);
             sspDAO = daoFactory.getDAO(SSPDAO.class);
         } catch (DAOFactoryException e) {
             throw new ServletException("Impossible to get dao factory for medico base storage system");
@@ -78,6 +77,29 @@ public class MedicoBaseServlet extends HttpServlet {
                     }
                 } catch (DAOException e) {
                     session.setAttribute("errorMessage", "Errore nell'erogare la visita, riprova più tardi");
+                    e.printStackTrace();
+                }
+            }
+
+        }else if(userPath.equals("/medico-base/approva")){
+            String idRicettaS = request.getParameter("id_ricetta");
+
+            if(idRicettaS == null){
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Id ricetta mancante");
+            }else{
+                int idRicetta = Integer.parseInt(idRicettaS);
+                try {
+                    //Controlliamo che la ricetta sia contenuta in una visita prescritta dal medico base loggato
+                    VisitaSpecialistica visitaSpecialistica = visitaSpecialisticaDAO.getContainingRicetta(idRicetta);
+                    if(!visitaSpecialistica.getMedicoBase().getId().equals(user.getId())){
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "La visita specialistica che contiene questa ricetta non è stata prescritta da te");
+                    }else{
+                        medicoBaseDAO.approvaRicetta(idRicetta);
+                        session.setAttribute("successMessage", "Ricetta approvata con successo");
+                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/lista-visite-specialistiche?id=" + visitaSpecialistica.getPaziente().getId()));
+                    }
+                } catch (DAOException e) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore durante l'approvazione della ricetta");
                     e.printStackTrace();
                 }
             }
