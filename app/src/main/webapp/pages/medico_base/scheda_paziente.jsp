@@ -161,7 +161,7 @@
                         <div class="card-body text-dark">
                             <p class="card-text">Visualizza l'elenco delle visite base erogate per questo paziente</p>
                             <a class="btn btn-primary stretched-link <c:if test="${not isMedicoAssociato}">disabled</c:if>"
-                               role="button" href="lista-visite-base?id_paziente=${paziente.id}"
+                               role="button"  <c:if test="${isMedicoAssociato}">href="lista-visite-base?id_paziente=${paziente.id}"</c:if>
                                <c:if test="${not isMedicoAssociato}">disabled</c:if>>
                                 Vai
                             </a>
@@ -176,7 +176,7 @@
                             <p class="card-text">Visualizza l'elenco degli esami specialistici erogati per questo
                                 paziente</p>
                             <a class="btn btn-primary stretched-link <c:if test="${not isMedicoAssociato}">disabled</c:if>"
-                               role="button" href="lista-visite-specialistiche?id_paziente=${paziente.id}"
+                               role="button" <c:if test="${isMedicoAssociato}">href="lista-visite-specialistiche?id_paziente=${paziente.id}"</c:if>
                                <c:if test="${not isMedicoAssociato}">disabled</c:if>>
                                 Vai
                             </a>
