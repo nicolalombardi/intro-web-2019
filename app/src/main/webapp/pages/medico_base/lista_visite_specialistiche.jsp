@@ -288,7 +288,11 @@
                                                         Ricetta già approvata
                                                     </c:when>
                                                     <c:otherwise>
-                                                        Ricetta non approvata [bottone eroga]
+                                                        Ricetta non approvata
+                                                        <form action="approva" method="post">
+                                                            <input type="hidden" name="id_ricetta" value="${v.visitaSpecialistica.report.ricetta.id}">
+                                                            <button type="submit" class="btn btn-primary">Approva</button>
+                                                        </form>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>
@@ -321,5 +325,7 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 <script src="../js/clickable_row.js"></script>
+<%--These are the success and error modals--%>
+<%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>
 </body>
 </html>
