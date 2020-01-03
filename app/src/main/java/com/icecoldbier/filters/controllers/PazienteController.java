@@ -23,6 +23,8 @@ public class PazienteController implements Filter {
     private PazienteDAO pazienteDAO;
     private VisitaSpecialisticaDAO visitaSpecialisticaDAO;
     private RicettaDAO ricettaDAO;
+    private VisitaSSPDAO visitaSSPDAO;
+
     public void destroy() {
     }
 
@@ -83,7 +85,6 @@ public class PazienteController implements Filter {
             ArrayList<Ricetta> elencoRicette = null;
             try{
                 long count = ricettaDAO.getCount(user.getId());
-                System.out.println("Numero ricette per user: " + count);
                 int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
                 int requestedPage = 1;
 
@@ -103,8 +104,32 @@ public class PazienteController implements Filter {
                 ((HttpServletResponse)resp).sendError(500, e.getMessage());
                 e.printStackTrace();
             }
-        }else if(userPath.equals("/.....")){
+        }else if(userPath.equals("/paziente/elenco-prescrizioni-visite")){
+            ArrayList<VisitaSpecialistica> elencoVisiteSpecialistiche = null;
+            ArrayList<VisitaSSP> elencoVisiteSSP = null;
+            try{
+                long count = visitaSpecialisticaDAO.getCount(user.getId()) + visitaSpecialisticaDAO.getCount(user.getId());
+                int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
+                int requestedPage = 1;
 
+                //Grab the requested page value if i exist, set a default value (1) if it does not
+                if(request.getParameter("page") != null){
+                    requestedPage = Integer.parseInt(request.getParameter("page"));
+                }
+                requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
+
+                elencoVisiteSpecialistiche = pazienteDAO.getVisiteSpecialisticheFuture(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
+                elencoVisiteSSP = pazienteDAO.getVisiteSSPFuture(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
+
+                request.setAttribute("page", requestedPage);
+                request.setAttribute("pagesCount", pagesCount);
+                request.setAttribute("elencoVisiteSpecialistiche", elencoVisiteSpecialistiche);
+                request.setAttribute("elencoVisiteSSP", elencoVisiteSSP);
+
+            }catch (DAOException | DAOFactoryException e) {
+                ((HttpServletResponse)resp).sendError(500, e.getMessage());
+                e.printStackTrace();
+            }
         }
 
         chain.doFilter(req, resp);

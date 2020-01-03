@@ -7,13 +7,15 @@ public class VisitaSSP extends Visita {
     private boolean erogata;
     private Date dataPrescrizione;
     private SSP ssp;
+    private User medicoBase;
 
-    public VisitaSSP(int id, Paziente paziente, Date dataErogazione, int id_visita, boolean erogata, Date dataPrescrizione, SSP ssp) {
+    public VisitaSSP(int id, Paziente paziente, Date dataErogazione, int id_visita, boolean erogata, Date dataPrescrizione, SSP ssp, User medicoBase) {
         super(id, paziente, dataErogazione);
         this.id_visita = id_visita;
         this.erogata = erogata;
         this.dataPrescrizione = dataPrescrizione;
         this.ssp = ssp;
+        this.medicoBase = medicoBase;
     }
 
     public int getId_visita() {
@@ -46,5 +48,13 @@ public class VisitaSSP extends Visita {
 
     public void setSsp(SSP ssp) {
         this.ssp = ssp;
+    }
+
+    public User getMedicoBase() {
+        return medicoBase;
+    }
+
+    public void setMedicoBase(User medicoBase) {
+        this.medicoBase = medicoBase;
     }
 }

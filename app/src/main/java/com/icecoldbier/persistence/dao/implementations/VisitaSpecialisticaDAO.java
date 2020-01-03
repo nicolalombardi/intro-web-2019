@@ -57,7 +57,7 @@ public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer
                 return resultSet.getLong("count");
             }
         } catch (SQLException ex) {
-            throw new DAOException("Impossible to get the count of visitaBase", ex);
+            throw new DAOException("Impossible to get the count of visitaSpecialistica", ex);
         }
     }
 

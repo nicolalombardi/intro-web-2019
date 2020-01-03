@@ -82,6 +82,10 @@ public class User {
         this.provinciaAppartenenza = provinciaAppartenenza;
     }
 
+    public String toStringNomeCognome(){
+        return nome + " " + cognome;
+    }
+
     @Override
     public String toString() {
         return "User{" +

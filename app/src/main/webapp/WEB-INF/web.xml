@@ -199,6 +199,14 @@
         <servlet-name>ElencoPrescrizioniRicette</servlet-name>
         <url-pattern>/paziente/elenco-prescrizioni-ricette</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ElencoPrescrizioniVisite</servlet-name>
+        <jsp-file>/pages/paziente/prescrizioni_visite.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ElencoPrescrizioniVisite</servlet-name>
+        <url-pattern>/paziente/elenco-prescrizioni-visite</url-pattern>
+    </servlet-mapping>
 
     <session-config>
         <session-timeout>

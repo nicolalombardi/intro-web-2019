@@ -26,10 +26,15 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     private static final String GET_ALL_RICETTE = "SELECT ricetta.id, ricetta.farmaco, ricetta.prescritta FROM ricetta, visita_base WHERE ricetta.id = visita_base.id_ricetta AND visita_base.id_paziente = ? UNION SELECT ricetta.id, ricetta.farmaco, ricetta.prescritta FROM ricetta, Visita_specialistica, report WHERE ricetta.id = report.id_ricetta AND report.id = visita_specialistica.id_report AND visita_specialistica.id_paziente = ? LIMIT ? OFFSET ?;";
     private static final String CHANGE_PROFILE_PICTURE = "UPDATE paziente SET foto = ? WHERE id_user = ?";
     private static final String CHANGE_MEDICO_BASE = "UPDATE paziente SET id_medico = ? WHERE id_user = ?";
+    private static final String GET_VISITE_SPECIALISTICHE_FUTURE= "SELECT v.id, v.id_visita AS tipo, v.erogata, v.id_medico, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione, v.id_report FROM visita_specialistica v WHERE v.erogata = 'false' AND v.id_paziente = ? LIMIT ? OFFSET ?";
+    private static final String GET_VISITE_SSP_FUTURE= "SELECT v.id, v.id_visita AS tipo, v.erogata, v.id_ssp, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione FROM visita_ssp v WHERE v.erogata = 'false' AND v.id_paziente = ? LIMIT ? OFFSET ?";
+
+
 
     private UserDAO userDAO;
     private ReportDAO reportDAO;
     private RicettaDAO ricettaDAO;
+    private SSPDAO sspDao;
 
     public PazienteDAO(Connection con) {
 
@@ -255,6 +260,77 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
             throw new DAOException("Error while getting ricette", e);
         }
         return ricette;
+    }
+
+    @Override
+    public ArrayList<VisitaSpecialistica> getVisiteSpecialisticheFuture(Integer id, int pageSize, int page) throws DAOException, DAOFactoryException {
+        ArrayList<VisitaSpecialistica> visite = new ArrayList<>();
+        Report report;
+        User medicoBase;
+        User medicoSpecialista;
+        Paziente paziente;
+
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_SPECIALISTICHE_FUTURE)){
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, pageSize);
+            preparedStatement.setInt(3, (page-1)*pageSize);
+            try (ResultSet rs = preparedStatement.executeQuery()){
+                while (rs.next()){
+                    report = reportDAO.getByPrimaryKey(rs.getInt("id_report"));
+                    paziente = getByPrimaryKey(rs.getInt("id_paziente"));
+                    medicoSpecialista = userDAO.getByPrimaryKey(rs.getInt("id_medico"));
+                    medicoBase = userDAO.getByPrimaryKey(rs.getInt("id_medico_base"));
+                    VisitaSpecialistica visitaSpecialistica = new VisitaSpecialistica(
+                            rs.getInt("id"),
+                            paziente,
+                            rs.getDate("data_erogazione"),
+                            rs.getInt("tipo"),
+                            rs.getBoolean("erogata"),
+                            rs.getDate("data_prescrizione"),
+                            medicoSpecialista,
+                            report,
+                            medicoBase);
+                    visite.add(visitaSpecialistica);
+                }
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return visite;
+    }
+
+    @Override
+    public ArrayList<VisitaSSP> getVisiteSSPFuture(Integer id, int pageSize, int page) throws DAOException, DAOFactoryException {
+        ArrayList<VisitaSSP> visite = new ArrayList<>();
+        User medicoBase;
+        SSP ssp;
+        Paziente paziente;
+
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_SSP_FUTURE)){
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, pageSize);
+            preparedStatement.setInt(3, (page-1)*pageSize);
+            try (ResultSet rs = preparedStatement.executeQuery()){
+                while (rs.next()){
+                    paziente = getByPrimaryKey(rs.getInt("id_paziente"));
+                    ssp = sspDao.getByPrimaryKey(rs.getInt("id_ssp"));
+                    medicoBase = userDAO.getByPrimaryKey(rs.getInt("id_medico_base"));
+                    VisitaSSP visitaSSP = new VisitaSSP(
+                            rs.getInt("id"),
+                            paziente,
+                            rs.getDate("data_erogazione"),
+                            rs.getInt("tipo"),
+                            rs.getBoolean("erogata"),
+                            rs.getDate("data_prescrizione"),
+                            ssp,
+                            medicoBase);
+                    visite.add(visitaSSP);
+                }
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return visite;
     }
 
     @Override
