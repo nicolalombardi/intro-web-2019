@@ -2,7 +2,6 @@ package com.icecoldbier.filters.controllers;
 
 import com.icecoldbier.persistence.dao.implementations.*;
 import com.icecoldbier.persistence.entities.*;
-import com.icecoldbier.utils.Utils;
 import com.icecoldbier.utils.pagination.Pagination;
 import com.icecoldbier.utils.pagination.PaginationParameters;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
@@ -25,6 +24,7 @@ public class MedicoBaseController implements Filter {
     private SSPDAO sspDAO;
     private VisitePossibiliDAO visitePossibiliDAO;
     private VisitaBaseDAO visitaBaseDAO;
+
     public void destroy() {
     }
 
@@ -80,8 +80,6 @@ public class MedicoBaseController implements Filter {
                 e.printStackTrace();
             }
 
-
-
             try{
                 long count = 0;
                 if(idPaziente == -1){
@@ -102,7 +100,7 @@ public class MedicoBaseController implements Filter {
                 }else {
                     Paziente paziente = pazienteDAO.getByPrimaryKey(idPaziente);
                     //Se il paziente non è tuo
-                    if(paziente.getMedico().getId() != user.getId()){
+                    if(!paziente.getMedico().getId().equals(user.getId())){
                         response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Il paziente non è tuo");
                     }
                     request.setAttribute("paziente", paziente);
@@ -117,7 +115,59 @@ public class MedicoBaseController implements Filter {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Non è stato possibile recuperare la lista delle visite base, riprova più tardi");
             }
 
-        }else if(userPath.equals("/medico-base/scheda-paziente")){
+        }else if(userPath.equals("/medico-base/lista-visite-specialistiche")){
+            int idPaziente = -1, idMedico = user.getId();
+
+            String idPazienteS;
+            idPazienteS = request.getParameter("id_paziente");
+
+            try {
+                if(idPazienteS != null && !idPazienteS.equals("")){
+                    idPaziente = Integer.parseInt(idPazienteS);
+                }
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            try{
+                long count = 0;
+                if(idPaziente == -1){
+                    count = medicoBaseDAO.getVisiteEsamiByMedicoCount(idMedico);
+                }else {
+                    count = medicoBaseDAO.getVisiteEsamiByMedicoAndPazienteCount(idMedico, idPaziente);
+                }
+                PaginationParameters pageParams = Pagination.getPageParameters(
+                        request.getParameter("page"),
+                        request.getParameter("pageSize"),
+                        count
+                );
+
+                ArrayList<VisitaSpecialisticaOrSSP> listaVisite = new ArrayList<>();
+
+
+                if(idPaziente == -1){
+                    listaVisite = medicoBaseDAO.getVisiteEsamiByMedicoPaged(idMedico, pageParams);
+                }else {
+                    Paziente paziente = pazienteDAO.getByPrimaryKey(idPaziente);
+                    //Se il paziente non è tuo
+                    if(!paziente.getMedico().getId().equals(user.getId())){
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Il paziente non è tuo");
+                    }
+                    request.setAttribute("paziente", paziente);
+                    listaVisite =  medicoBaseDAO.getVisiteEsamiByMedicoAndPazientePaged(idMedico, idPaziente, pageParams);
+                }
+
+                request.setAttribute("pageParams", pageParams);
+                request.setAttribute("listaVisite", listaVisite);
+
+            }catch (DAOException e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Non è stato possibile recuperare la lista delle visite specialistiche, riprova più tardi");
+            }
+
+        }
+        else if(userPath.equals("/medico-base/scheda-paziente")){
             String idS = request.getParameter("id");
             if(idS != null){
                 int id = Integer.parseInt(idS);

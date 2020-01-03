@@ -67,6 +67,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>MedicoBaseListaVisiteSpecialistiche</servlet-name>
+        <jsp-file>/pages/medico_base/lista_visite_specialistiche.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MedicoBaseListaVisiteSpecialistiche</servlet-name>
+        <url-pattern>/medico-base/lista-visite-specialistiche</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>MedicoBaseRicerca</servlet-name>
         <jsp-file>/pages/medico_base/ricerca_pazienti.jsp</jsp-file>
     </servlet>
