@@ -41,6 +41,7 @@
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Farmaco prescritto</th>
+                <th scope="col">Acquistabile</th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -48,7 +49,10 @@
             <c:forEach var="r" items="${elencoRicette}">
                 <tr>
                     <th scope="row">${r.getNome()}</th>
-
+                    <c:choose>
+                        <c:when test="${r.isPrescritta()}"><th scope="row">SI</th></c:when>
+                        <c:otherwise><th scope="row">NO</th></c:otherwise>
+                    </c:choose>
                     <form action="stamparicetta" method="POST">
                         <input hidden id="idRicetta" name="idRicetta" value=${r.getId()}>
                         <th><button class="btn btn-sm btn-primary btn-block" type="submit">Stampa ricetta</button></th>
