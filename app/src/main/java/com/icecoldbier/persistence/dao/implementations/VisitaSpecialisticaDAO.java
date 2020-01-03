@@ -1,10 +1,7 @@
 package com.icecoldbier.persistence.dao.implementations;
 
 import com.icecoldbier.persistence.dao.interfaces.VisitaSpecialisticaDAOInterface;
-import com.icecoldbier.persistence.entities.Paziente;
-import com.icecoldbier.persistence.entities.Report;
-import com.icecoldbier.persistence.entities.User;
-import com.icecoldbier.persistence.entities.VisitaSpecialistica;
+import com.icecoldbier.persistence.entities.*;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.jdbc.JDBCDAOFactory;
@@ -24,13 +21,9 @@ public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer
     private PazienteDAO pazienteDAO;
     private UserDAO userDAO;
     private ReportDAO reportDAO;
-    /**
-     * The base constructor for all the JDBC DAOs.
-     *
-     * @param con the internal {@code Connection}.
-     * @author Stefano Chirico
-     * @since 1.0.0.190406
-     */
+    private VisitePossibiliDAO visitePossibiliDAO;
+
+
     public VisitaSpecialisticaDAO(Connection con) {
         super(con);
         try {
@@ -38,6 +31,7 @@ public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer
             userDAO = daoFactory.getDAO(UserDAO.class);
             pazienteDAO = daoFactory.getDAO(PazienteDAO.class);
             reportDAO = daoFactory.getDAO(ReportDAO.class);
+            visitePossibiliDAO = daoFactory.getDAO(VisitePossibiliDAO.class);
         } catch (DAOFactoryException e) {
             e.printStackTrace();
         }
@@ -67,6 +61,7 @@ public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer
         User medicoSpecialista;
         Paziente paziente;
         Report report;
+        VisitaPossibile tipoVisita;
         try (PreparedStatement preparedStatement = CON.prepareStatement(GET_BY_ID)) {
             preparedStatement.setInt(1, primaryKey);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -75,11 +70,12 @@ public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer
                 paziente = pazienteDAO.getByPrimaryKey(resultSet.getInt("id_paziente"));
                 medicoSpecialista = userDAO.getByPrimaryKey(resultSet.getInt("id_medico"));
                 medicoBase = userDAO.getByPrimaryKey(resultSet.getInt("id_medico_base"));
+                tipoVisita = visitePossibiliDAO.getByPrimaryKey(resultSet.getInt("id_visita"));
                 return new VisitaSpecialistica(
                         resultSet.getInt("id"),
                         paziente,
                         resultSet.getDate("data_erogazione"),
-                        resultSet.getInt("id_visita"),
+                        tipoVisita,
                         resultSet.getBoolean("erogata"),
                         resultSet.getDate("data_prescrizione"),
                         medicoSpecialista,

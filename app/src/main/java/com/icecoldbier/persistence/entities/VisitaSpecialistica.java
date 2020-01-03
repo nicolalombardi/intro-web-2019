@@ -3,7 +3,7 @@ package com.icecoldbier.persistence.entities;
 import java.sql.Date;
 
 public class VisitaSpecialistica extends Visita{
-    private int id_visita;
+    private VisitaPossibile tipo_visita;
     private boolean erogata;
     private Date dataPrescrizione;
     private User medicoSpecialista;
@@ -11,9 +11,9 @@ public class VisitaSpecialistica extends Visita{
     private User medicoBase;
 
 
-    public VisitaSpecialistica(int id, Paziente paziente, Date dataErogazione, int id_visita, boolean erogata, Date dataPrescrizione, User medicoSpecialista, Report report, User medicoBase) {
+    public VisitaSpecialistica(int id, Paziente paziente, Date dataErogazione, VisitaPossibile tipo_visita, boolean erogata, Date dataPrescrizione, User medicoSpecialista, Report report, User medicoBase) {
         super(id, paziente, dataErogazione);
-        this.id_visita = id_visita;
+        this.tipo_visita = tipo_visita;
         this.erogata = erogata;
         this.dataPrescrizione = dataPrescrizione;
         this.medicoSpecialista = medicoSpecialista;
@@ -21,12 +21,12 @@ public class VisitaSpecialistica extends Visita{
         this.medicoBase = medicoBase;
     }
 
-    public int getId_visita() {
-        return id_visita;
+    public VisitaPossibile getTipo_visita() {
+        return tipo_visita;
     }
 
-    public void setId_visita(int id_visita) {
-        this.id_visita = id_visita;
+    public void setTipo_visita(VisitaPossibile tipo_visita) {
+        this.tipo_visita = tipo_visita;
     }
 
     public boolean isErogata() {

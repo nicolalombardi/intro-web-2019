@@ -1,10 +1,7 @@
 package com.icecoldbier.persistence.dao.implementations;
 
 import com.icecoldbier.persistence.dao.interfaces.MedicoSpecialistaDAOInterface;
-import com.icecoldbier.persistence.entities.Paziente;
-import com.icecoldbier.persistence.entities.Report;
-import com.icecoldbier.persistence.entities.User;
-import com.icecoldbier.persistence.entities.VisitaSpecialistica;
+import com.icecoldbier.persistence.entities.*;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.jdbc.JDBCDAOFactory;
@@ -18,7 +15,7 @@ import java.util.logging.Logger;
 
 public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements MedicoSpecialistaDAOInterface{
 
-    private static final String GET_MEDICO_SPECIALISTA_BY_ID = "SELECT * FROM users WHERE id = ? AND typ = user_type(?)";
+    private static final String GET_MEDICO_SPECIALISTA_BY_ID = "SELECT * FROM users WHERE id = ? AND typ = CAST(? AS user_type)";
     private static final String GET_ALL_MEDICI = "SELECT * FROM users WHERE typ = 'medico_specialista'";
 
 
@@ -46,6 +43,7 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
     private UserDAO userDAO;
     private PazienteDAO pazienteDAO;
     private ReportDAO reportDAO;
+    private VisitePossibiliDAO visitePossibiliDAO;
     
     /**
      * The base constructor for all the JDBC DAOs.
@@ -61,6 +59,7 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
             pazienteDAO = daoFactory.getDAO(PazienteDAO.class);
             userDAO = daoFactory.getDAO(UserDAO.class);
             reportDAO = daoFactory.getDAO(ReportDAO.class);
+            visitePossibiliDAO = daoFactory.getDAO(VisitePossibiliDAO.class);
         } catch (DAOFactoryException e) {
             e.printStackTrace();
         }
@@ -210,12 +209,13 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
         User medicoBase = userDAO.getByPrimaryKey(resultSet.getInt("id_medico_base"));
         User medicoSpecialista = userDAO.getByPrimaryKey(resultSet.getInt("id_medico"));
         Report report = reportDAO.getByPrimaryKey(resultSet.getInt("id_report"));
+        VisitaPossibile tipoVisita = visitePossibiliDAO.getByPrimaryKey(resultSet.getInt("id_visita"));
 
         return new VisitaSpecialistica(
                 resultSet.getInt("id"),
                 paziente,
                 resultSet.getDate("data_erogazione"),
-                resultSet.getInt("id_visita"),
+                tipoVisita,
                 resultSet.getBoolean("erogata"),
                 resultSet.getDate("data_prescrizione"),
                 medicoSpecialista,

@@ -35,6 +35,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     private ReportDAO reportDAO;
     private RicettaDAO ricettaDAO;
     private SSPDAO sspDao;
+    private VisitePossibiliDAO visitePossibiliDAO;
 
     public PazienteDAO(Connection con) {
 
@@ -44,6 +45,8 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
             userDAO = daoFactory.getDAO(UserDAO.class);
             reportDAO = daoFactory.getDAO(ReportDAO.class);
             ricettaDAO = daoFactory.getDAO(RicettaDAO.class);
+            visitePossibiliDAO = daoFactory.getDAO(VisitePossibiliDAO.class);
+            sspDao = daoFactory.getDAO(SSPDAO.class);
 
         } catch (DAOFactoryException e) {
             e.printStackTrace();
@@ -209,6 +212,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
         User medicoBase;
         User medicoSpecialista;
         Paziente paziente;
+        VisitaPossibile tipoVisita;
 
         try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_SPECIALISTICHE)){
             preparedStatement.setInt(1, id);
@@ -220,11 +224,13 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                     paziente = getByPrimaryKey(rs.getInt("id_paziente"));
                     medicoSpecialista = userDAO.getByPrimaryKey(rs.getInt("id_medico"));
                     medicoBase = userDAO.getByPrimaryKey(rs.getInt("id_medico_base"));
+                    tipoVisita = visitePossibiliDAO.getByPrimaryKey(rs.getInt("tipo"));
+
                     VisitaSpecialistica visitaSpecialistica = new VisitaSpecialistica(
                             rs.getInt("id"),
                             paziente,
                             rs.getDate("data_erogazione"),
-                            rs.getInt("tipo"),
+                            tipoVisita,
                             rs.getBoolean("erogata"),
                             rs.getDate("data_prescrizione"),
                             medicoSpecialista,
@@ -269,6 +275,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
         User medicoBase;
         User medicoSpecialista;
         Paziente paziente;
+        VisitaPossibile tipoVisita;
 
         try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_SPECIALISTICHE_FUTURE)){
             preparedStatement.setInt(1, id);
@@ -280,11 +287,13 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                     paziente = getByPrimaryKey(rs.getInt("id_paziente"));
                     medicoSpecialista = userDAO.getByPrimaryKey(rs.getInt("id_medico"));
                     medicoBase = userDAO.getByPrimaryKey(rs.getInt("id_medico_base"));
+                    tipoVisita = visitePossibiliDAO.getByPrimaryKey(rs.getInt("tipo"));
+
                     VisitaSpecialistica visitaSpecialistica = new VisitaSpecialistica(
                             rs.getInt("id"),
                             paziente,
                             rs.getDate("data_erogazione"),
-                            rs.getInt("tipo"),
+                            tipoVisita,
                             rs.getBoolean("erogata"),
                             rs.getDate("data_prescrizione"),
                             medicoSpecialista,
@@ -305,6 +314,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
         User medicoBase;
         SSP ssp;
         Paziente paziente;
+        VisitaPossibile tipoVisita;
 
         try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_SSP_FUTURE)){
             preparedStatement.setInt(1, id);
@@ -315,11 +325,13 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                     paziente = getByPrimaryKey(rs.getInt("id_paziente"));
                     ssp = sspDao.getByPrimaryKey(rs.getInt("id_ssp"));
                     medicoBase = userDAO.getByPrimaryKey(rs.getInt("id_medico_base"));
+                    tipoVisita = visitePossibiliDAO.getByPrimaryKey(rs.getInt("tipo"));
+
                     VisitaSSP visitaSSP = new VisitaSSP(
                             rs.getInt("id"),
                             paziente,
                             rs.getDate("data_erogazione"),
-                            rs.getInt("tipo"),
+                            tipoVisita,
                             rs.getBoolean("erogata"),
                             rs.getDate("data_prescrizione"),
                             ssp,
