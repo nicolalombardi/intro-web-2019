@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(name = "MedicoBaseServlet", urlPatterns = {"/medico-base/eroga", "/medico-base/prescrivi-specialistica", "/medico-base/prescrivi-ssp"})
+@WebServlet(name = "MedicoBaseServlet", urlPatterns = {"/medico-base/eroga", "/medico-base/prescrivi-specialistica", "/medico-base/prescrivi-ssp", "/medico-base/approva"})
 public class MedicoBaseServlet extends HttpServlet {
     private MedicoBaseDAO medicoBaseDAO;
     private PazienteDAO pazienteDAO;
@@ -96,7 +96,7 @@ public class MedicoBaseServlet extends HttpServlet {
                     }else{
                         medicoBaseDAO.approvaRicetta(idRicetta);
                         session.setAttribute("successMessage", "Ricetta approvata con successo");
-                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/lista-visite-specialistiche?id=" + visitaSpecialistica.getPaziente().getId()));
+                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/lista-visite-specialistiche?id_paziente=" + visitaSpecialistica.getPaziente().getId() + "#modaleVisitaSpecialistica-" + visitaSpecialistica.getId()));
                     }
                 } catch (DAOException e) {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore durante l'approvazione della ricetta");
