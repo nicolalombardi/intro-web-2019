@@ -2,6 +2,7 @@
 <%@ page import="com.icecoldbier.persistence.entities.VisitaSpecialistica" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="pageParams" scope="request" type="com.icecoldbier.utils.pagination.PaginationParameters"/>
 <html>
     <head>
         <title>Medico Specialista - Lista visite</title>
@@ -13,6 +14,51 @@
     <%@ include file="navbar.html" %>
 
     <div class="container">
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                </div>
+                <div class="col-sm">
+                    <nav aria-label="Navigazione lista visite">
+                        <span class="btn-group"></span>
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item <c:if test="${pageParams.page == 1}">disabled</c:if>">
+                                <a class="page-link" href="visite?page=${pageParams.page - 1}&pageSize=${pageParams.pageSize}&"
+                                   <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Precedente</a>
+                            </li>
+
+                            <c:forEach var="i" begin="1" end="${pageParams.pagesCount}">
+                                <li class="page-item <c:if test="${pageParams.page == i}">active</c:if> "><a class="page-link"
+                                                                                                             href="visite?page=${i}&pageSize=${pageParams.pageSize}">${i}</a>
+                                </li>
+                            </c:forEach>
+
+                            <li class="page-item <c:if test="${pageParams.page == pageParams.pagesCount || pageParams.pagesCount == 0}">disabled</c:if>">
+                                <a class="page-link" href="visite?page=${pageParams.page + 1}&pageSize=${pageParams.pageSize}"
+                                   <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Successiva</a>
+                            </li>
+                        </ul>
+
+                    </nav>
+                </div>
+                <div class="col-sm">
+                    <div class="btn-group">
+                        <label class="label" for="pageSizeDropdown">Elementi: </label>
+                        <button id="pageSizeDropdown" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            ${pageParams.pageSize}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="visite?page=${pageParams.page}&pageSize=10">10</a>
+                            <a class="dropdown-item" href="visite?page=${pageParams.page}&pageSize=15">15</a>
+                            <a class="dropdown-item" href="visite?page=${pageParams.page}&pageSize=30">30</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <h1>Lista visite</h1>
 
         <div class="table-responsive-md">

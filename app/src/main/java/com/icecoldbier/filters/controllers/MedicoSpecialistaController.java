@@ -68,7 +68,15 @@ public class MedicoSpecialistaController implements Filter {
         }else if(userPath.equals(("/medico-specialista/visite"))){
             ArrayList<VisitaSpecialistica> visite = null;
             try {
-                visite = medicoSpecialistaDAO.getListaVisitePazienti(user.getId());
+                long count = medicoSpecialistaDAO.getCountVisite(user.getId());
+                PaginationParameters pageParams = Pagination.getPageParameters(
+                        request.getParameter("page"),
+                        request.getParameter("pageSize"),
+                        count
+                );
+                visite = medicoSpecialistaDAO.getListaVisitePazientiPaged(user.getId(), pageParams.getPageSize(), pageParams.getPage());
+                //visite = medicoSpecialistaDAO.getListaVisitePazienti(user.getId());
+                request.setAttribute("pageParams", pageParams);
                 request.setAttribute("visite", visite);
             } catch (DAOException ex) {
                 ((HttpServletResponse)resp).sendError(500, ex.getMessage());

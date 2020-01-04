@@ -45,7 +45,12 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
             + " users.provincia_appartenenza, paziente.foto, paziente.id_medico "
             + "FROM visita_specialistica, users, paziente "
             + "WHERE visita_specialistica.id_medico = ? AND paziente.id_user = users.id AND visita_specialistica.id_paziente = paziente.id_user LIMIT ? OFFSET ?";
-
+    private static final String GET_VISITE_COUNT = "SELECT COUNT(*) as count FROM visita_specialistica WHERE id_medico = ?";
+    private static final String GET_LISTA_VISITE_PAGED = "SELECT * \n" +
+        "FROM visita_specialistica\n" +
+        "WHERE id_medico = ?\n" +
+        "ORDER BY data_prescrizione DESC LIMIT ? OFFSET ?";
+    
     private UserDAO userDAO;
     private PazienteDAO pazienteDAO;
     private ReportDAO reportDAO;
@@ -159,7 +164,7 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
                 }
             }
         } catch (SQLException ex) {
-            throw new DAOException("Impossible to get the list of pazienti", ex);
+            throw new DAOException("Impossible to get the list of visite of pazienti", ex);
         }
         return visite;
     }
@@ -265,5 +270,40 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
         }
 
         return pazienti;
+    }
+
+    @Override
+    public Long getCountVisite(int idMedico) throws DAOException {
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = CON.prepareStatement(GET_VISITE_COUNT);
+            preparedStatement.setInt(1, idMedico);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                return resultSet.getLong("count");
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the count of visite", ex);
+        }
+    }
+
+    @Override
+    public ArrayList<VisitaSpecialistica> getListaVisitePazientiPaged(int id, int pageSize, int page) throws DAOException {
+        ArrayList<VisitaSpecialistica> visite = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = CON.prepareStatement(GET_LISTA_VISITE_PAGED);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, pageSize);
+            preparedStatement.setInt(3, (page-1)*pageSize);
+            try (ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()) {
+                    VisitaSpecialistica visita = getVisitaSpecialisticaFromResultSet(resultSet);
+                    visite.add(visita);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the list of visite of pazienti", ex);
+        }
+        return visite;
     }
 }
