@@ -52,7 +52,7 @@
             <tbody>
             <c:forEach var="v" items="${elencoVisite}">
                 <tr>
-                    <th scope="row">${v.getId_visita()}</th>
+                    <th scope="row">${v.getTipo_visita().getNome()}</th>
                     <th>${v.isErogata()}</th>
                     <th>${v.getDataPrescrizione()}</th>
                     <th>${v.getDataErogazione()}</th>

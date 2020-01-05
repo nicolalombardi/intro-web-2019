@@ -49,7 +49,7 @@
             <tbody>
             <c:forEach var="v" items="${elencoVisiteSpecialistiche}">
                 <tr>
-                    <th scope="row">${v.getId_visita()}</th>
+                    <th scope="row">${v.getTipo_visita().getNome()}</th>
                     <th scope="row">${v.getDataPrescrizione()}</th>
                     <th scope="row">${v.getMedicoBase().toStringNomeCognome()}</th>
                     <th scope="row">${v.getMedicoSpecialista().toStringNomeCognome()}</th>
@@ -57,7 +57,7 @@
             </c:forEach>
             <c:forEach var="v" items="${elencoVisiteSSP}">
                 <tr>
-                    <th scope="row">${v.getId_visita()}</th>
+                    <th scope="row">${v.getTipo_visita().getNome()}</th>
                     <th scope="row">${v.getDataPrescrizione()}</th>
                     <th scope="row">${v.getMedicoBase().toStringNomeCognome()}</th>
                     <th scope="row">${v.getSsp().toStringSSP()}</th>
