@@ -216,6 +216,14 @@
         <servlet-name>ElencoPrescrizioniVisite</servlet-name>
         <url-pattern>/paziente/elenco-prescrizioni-visite</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Tickets</servlet-name>
+        <jsp-file>/pages/paziente/tickets.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Tickets</servlet-name>
+        <url-pattern>/paziente/tickets</url-pattern>
+    </servlet-mapping>
 
     <session-config>
         <session-timeout>
