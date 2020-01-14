@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Paziente</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/paziente/elenco-visite-base">Paziente</a>
     <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
             data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
@@ -7,20 +7,24 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/paziente/home">Home</a>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" id="visiteDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Elenco visite
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/paziente/elenco-visite-base">base</a>
+                    <a class="dropdown-item" href="/paziente/elenco-visite-specialistiche">specialistiche</a>
+                    <a class="dropdown-item" href="/paziente/elenco-visite-ssp">ssp</a>
+                </div>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/paziente/elenco-visite-base">Elenco visite base</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/paziente/elenco-visite-specialistiche">Elenco visite specialistiche</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/paziente/elenco-prescrizioni-ricette">Elenco prescrizioni ricette</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/paziente/elenco-prescrizioni-visite">Elenco prescrizioni visite</a>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" id="prescrizioniDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Elenco prescrizioni
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/paziente/elenco-prescrizioni-ricette">ricette</a>
+                    <a class="dropdown-item" href="/paziente/elenco-prescrizioni-visite">visite</a>
+                </div>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="/paziente/tickets">Lista tickets</a>
