@@ -53,7 +53,7 @@
                         <c:when test="${r.isPrescritta()}"><th scope="row">SI</th></c:when>
                         <c:otherwise><th scope="row">NO</th></c:otherwise>
                     </c:choose>
-                    <form action="stamparicetta" method="POST">
+                    <form action="stampa-ricetta" method="POST">
                         <input hidden id="idRicetta" name="idRicetta" value=${r.getId()}>
                         <th><button class="btn btn-sm btn-primary btn-block" type="submit">Stampa ricetta</button></th>
                     </form>
