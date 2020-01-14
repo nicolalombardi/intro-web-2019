@@ -52,13 +52,16 @@
                 <tr>
                     <th scope="row">${r.nome}</th>
                     <c:choose>
-                        <c:when test="${r.prescritta}"><th scope="row">SI</th></c:when>
-                        <c:otherwise><th scope="row">NO</th></c:otherwise>
+                        <c:when test="${r.prescritta}">
+                            <th scope="row">SI</th>
+                            <form action="stampa-ricetta" method="POST">
+                                <input hidden id="idRicetta" name="idRicetta" value=${r.id}>
+                                <th><button class="btn btn-sm btn-primary btn-block" type="submit">Stampa ricetta</button></th>
+                            </form>
+                        </c:when>
+                        <c:otherwise><th scope="row">NO</th><th></th></c:otherwise>
                     </c:choose>
-                    <form action="stampa-ricetta" method="POST">
-                        <input hidden id="idRicetta" name="idRicetta" value=${r.id}>
-                        <th><button class="btn btn-sm btn-primary btn-block" type="submit">Stampa ricetta</button></th>
-                    </form>
+
                 </tr>
             </c:forEach>
             </tbody>
