@@ -12,13 +12,20 @@
     <title>Lista Tickets</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 <%@ include file="navbar.html" %>
 
 
+
 <div class="container">
-    <h1>Lista tickets</h1>
+    <h1>
+        <form action="/paziente/tickets/pdf" method="POST">
+            <input hidden id="idPaziente" name="idPaziente" value=${idPaziente}>
+            Lista tickets <button class="btn btn-sm btn-dark" type="submit"><i class="material-icons md-light">print</i></button>
+        </form>
+    </h1>
 
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">

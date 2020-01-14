@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-@WebServlet("/pdf")
+@WebServlet("/paziente/tickets/pdf")
 public class PDFServlet extends HttpServlet {
 
     PazienteDAO pazienteDAO;
@@ -50,7 +50,7 @@ public class PDFServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pdfFolder = getServletContext().getInitParameter("pdfFolder");
         if (pdfFolder == null) {
             throw new ServletException("PDFs folder not configured");
@@ -66,7 +66,7 @@ public class PDFServlet extends HttpServlet {
 //        }
 
         //Per ora passare un id
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter("idPaziente"));
 
 
         ArrayList<Ticket> tickets;

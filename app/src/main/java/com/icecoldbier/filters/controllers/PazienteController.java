@@ -144,14 +144,11 @@ public class PazienteController implements Filter {
                     requestedPage = Integer.parseInt(request.getParameter("page"));
                 }
                 requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
-
                 listaTickets = pazienteDAO.getTickets(user.getId());
-                for(Ticket t:listaTickets){
-                    System.out.println(t.getCosto());
-                }
                 request.setAttribute("page", requestedPage);
                 request.setAttribute("pagesCount", pagesCount);
                 request.setAttribute("listaTickets", listaTickets);
+                request.setAttribute("idPaziente", user.getId());
 
             }catch (DAOException e) {
                 e.printStackTrace();
