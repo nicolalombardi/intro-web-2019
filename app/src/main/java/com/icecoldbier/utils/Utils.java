@@ -15,8 +15,18 @@ public class Utils {
         return contextPath;
     }
 
-    // "uname" e "to" sono indirizzi email
-    public void sendMail(final String uname, final String psw, String to, String subject, String text) throws MessagingException {
+    /**
+     * Metodo che consente di inviare una mail
+     * @param to Indirizzo email del destinatario
+     * @param subject Oggetto della mail
+     * @param text Testo della mail
+     * @throws MessagingException
+     */
+    public static void sendMail(String to, String subject, String text) throws MessagingException {
+        final String accountEmail = "progettoweb0@gmail.com";
+        final String accountPassword = "icecoldbier";
+        final String senderAddress = "progettoweb0+admin@gmail.com";
+
         Properties prop = new Properties();
         prop.put("mail.smtp.port", 587);
         prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -26,14 +36,14 @@ public class Utils {
 
         Authenticator auth = new Authenticator() {
             public PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(uname, psw);
+                return new PasswordAuthentication(accountEmail, accountPassword);
             }
         };
 
         Session session = Session.getInstance(prop, auth);
         InternetAddress[] mailTo = InternetAddress.parse(to);
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(uname));
+        message.setFrom(new InternetAddress(senderAddress));
         message.setRecipients(Message.RecipientType.TO, mailTo);
         message.setSubject(subject);
         message.setSentDate(new Date());

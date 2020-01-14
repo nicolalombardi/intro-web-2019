@@ -19,7 +19,7 @@
 <div class="container">
 
     <form class="form-login" action="dologin" method="POST">
-        <input hidden id="inputEmail" name="inputEmail" value="antonio.santoro@fake.gmail.com">
+        <input hidden id="inputEmail" name="inputEmail" value="progettoweb0+mb.antonio.santoro@gmail.com">
 
         <input hidden id="inputPassword" name="inputPassword" value="pass123">
 
@@ -27,7 +27,7 @@
     </form>
 
     <form class="form-login" action="dologin" method="POST">
-        <input hidden id="inputEmail" name="inputEmail" value="tommaso.mariani@fake.gmail.com">
+        <input hidden id="inputEmail" name="inputEmail" value="progettoweb0+ms.tommaso.mariani@gmail.com">
 
         <input hidden id="inputPassword" name="inputPassword" value="pass123">
 
@@ -35,7 +35,7 @@
     </form>
 
     <form class="form-login" action="dologin" method="POST">
-        <input hidden id="inputEmail" name="inputEmail" value="ludovica.bianco@fake.gmail.com">
+        <input hidden id="inputEmail" name="inputEmail" value="progettoweb0+p.ludovica.bianco@gmail.com">
 
         <input hidden id="inputPassword" name="inputPassword" value="pass456">
 
@@ -43,7 +43,7 @@
     </form>
 
     <form class="form-login" action="dologin" method="POST">
-        <input hidden id="inputEmail" name="inputEmail" value="ssp.brescia@fake.gmail.com">
+        <input hidden id="inputEmail" name="inputEmail" value="progettoweb0+ssp.brescia@gmail.com">
 
         <input hidden id="inputPassword" name="inputPassword" value="passssp">
 
