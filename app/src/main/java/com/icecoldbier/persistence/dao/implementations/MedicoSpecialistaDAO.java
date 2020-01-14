@@ -37,7 +37,7 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
         "	 paziente.email, A.nome, A.cognome\n" +
         "FROM paziente, users, (SELECT id ,nome, cognome FROM users WHERE user_type = 'medico_base') as A\n" +
         "WHERE paziente.id_user = users.id AND paziente.id_user = ? AND paziente.id_medico = A.id";
-    private static final String INSERT_REPORT = "INSERT INTO report (esito) VALUES (?)";
+    private static final String INSERT_REPORT = "INSERT INTO report (esito) VALUES (?) RETURNING id";
     private static final String GET_PAZIENTI_COUNT = "SELECT COUNT(*) as count FROM (SELECT DISTINCT id_paziente FROM visita_specialistica "
             + "WHERE id_medico = ?) AS A";
     private static final String GET_LISTA_PAZIENTI_PAGED = "SELECT DISTINCT paziente.id_user, users.typ,users.username,users.pass,users.nome, "
@@ -50,7 +50,7 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
         "FROM visita_specialistica\n" +
         "WHERE id_medico = ?\n" +
         "ORDER BY data_prescrizione DESC LIMIT ? OFFSET ?";
-    
+
     private UserDAO userDAO;
     private PazienteDAO pazienteDAO;
     private ReportDAO reportDAO;
@@ -172,20 +172,20 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
     @Override
     public void erogaVisita(int idVisita,int idPaziente,int idMedicoBase,Report report) throws DAOException {
         try {
-            PreparedStatement preparedStatement = CON.prepareStatement(INSERT_REPORT,Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = CON.prepareStatement(INSERT_REPORT);
             preparedStatement.setString(1, report.getEsito());
-            preparedStatement.executeUpdate();
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            int idReport = 0;
-            if(generatedKeys.next()){
-                idReport = generatedKeys.getInt(1);
+            int idReport;
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next()){
+                idReport = rs.getInt("id");;
+
+                preparedStatement = CON.prepareStatement(EROGA_VISITA);
+                preparedStatement.setInt(1, idReport);
+                preparedStatement.setInt(2, idVisita);
+                preparedStatement.setInt(3, idPaziente);
+                preparedStatement.setInt(4, idMedicoBase);
+                preparedStatement.executeUpdate();
             }
-            preparedStatement = CON.prepareStatement(EROGA_VISITA);
-            preparedStatement.setInt(1, idReport);
-            preparedStatement.setInt(2, idVisita);
-            preparedStatement.setInt(3, idPaziente);
-            preparedStatement.setInt(4, idMedicoBase);
-            preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             throw new DAOException("Non è stato possibile erogare una nuova visita", ex);
         }
