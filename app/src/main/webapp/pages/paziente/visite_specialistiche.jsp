@@ -7,6 +7,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="elencoVisite" scope="request"
+             type="java.util.List<com.icecoldbier.persistence.entities.VisitaSpecialistica>"/>
 <html>
 <head>
     <title>Elenco Visite Specialistiche</title>
@@ -52,16 +54,16 @@
             <tbody>
             <c:forEach var="v" items="${elencoVisite}">
                 <tr>
-                    <th scope="row">${v.getTipo_visita().getNome()}</th>
-                    <th>${v.isErogata()}</th>
-                    <th>${v.getDataPrescrizione()}</th>
-                    <th>${v.getDataErogazione()}</th>
-                    <th>${v.getMedicoSpecialista().getNome()}</th>
-                    <th>${v.getMedicoSpecialista().getCognome()}</th>
+                    <th scope="row">${v.tipo_visita.nome}</th>
+                    <th>${v.erogata}</th>
+                    <th>${v.dataPrescrizione}</th>
+                    <th>${v.dataErogazione}</th>
+                    <th>${v.medicoSpecialista.nome}</th>
+                    <th>${v.medicoSpecialista.cognome}</th>
 
 
                     <c:choose>
-                        <c:when test="${empty v.getReport().getId()}">
+                        <c:when test="${empty v.report.id}">
                             <th><button class="btn btn-sm btn-primary btn-block" disabled="disabled" type="submit">Report</button></th>
                         </c:when>
                         <c:otherwise>
@@ -80,13 +82,13 @@
                                         </div>
                                         <div class="modal-body">
                                             <p>Esito report:</p>
-                                            <p>${v.getReport().getEsito()}</p>
+                                            <p>${v.report.esito}</p>
                                             <c:choose>
-                                                <c:when test="${v.getReport().getRicetta().getId() != 0}">
+                                                <c:when test="${v.report.ricetta.id != 0}">
                                                     <br><br>
-                                                    <p>Nome ricetta: ${v.getReport().getRicetta().getNome()}</p>
+                                                    <p>Ricetta: ${v.report.ricetta.nome}</p>
                                                     <c:choose>
-                                                        <c:when test="${v.getReport().getRicetta().isPrescritta()}">
+                                                        <c:when test="${v.report.ricetta.prescritta}">
                                                             La ricetta è stata prescritta
                                                         </c:when>
                                                         <c:otherwise>

@@ -7,6 +7,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="listaTickets" scope="request"
+             type="java.util.List<com.icecoldbier.persistence.entities.Ticket>"/>
 <html>
 <head>
     <title>Lista Tickets</title>
@@ -56,10 +58,10 @@
             <tbody>
             <c:forEach var="t" items="${listaTickets}">
                 <tr>
-                    <th scope="row">${t.getData()}</th>
-                    <th>${t.getNomeVisita()}</th>
-                    <th>${t.getTipoVisita()}</th>
-                    <th>${t.getCosto()}</th>
+                    <th scope="row">${t.data}</th>
+                    <th>${t.nomeVisita}</th>
+                    <th>${t.tipoVisita}</th>
+                    <th>${t.costo}</th>
                 </tr>
             </c:forEach>
             </tbody>

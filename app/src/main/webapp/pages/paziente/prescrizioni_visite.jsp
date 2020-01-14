@@ -7,6 +7,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="elencoVisiteSpecialistiche" scope="request"
+             type="java.util.List<com.icecoldbier.persistence.entities.VisitaSpecialistica>"/>
+<jsp:useBean id="elencoVisiteSSP" scope="request"
+             type="java.util.List<com.icecoldbier.persistence.entities.VisitaSSP>"/>
 <html>
 <head>
     <title>Elenco Prescrizioni Visite</title>
@@ -49,18 +53,18 @@
             <tbody>
             <c:forEach var="v" items="${elencoVisiteSpecialistiche}">
                 <tr>
-                    <th scope="row">${v.getTipo_visita().getNome()}</th>
-                    <th scope="row">${v.getDataPrescrizione()}</th>
-                    <th scope="row">${v.getMedicoBase().toStringNomeCognome()}</th>
-                    <th scope="row">${v.getMedicoSpecialista().toStringNomeCognome()}</th>
+                    <th scope="row">${v.tipo_visita.nome}</th>
+                    <th scope="row">${v.dataPrescrizione}</th>
+                    <th scope="row">${v.medicoBase.toStringNomeCognome()}</th>
+                    <th scope="row">${v.medicoSpecialista.toStringNomeCognome()}</th>
                 </tr>
             </c:forEach>
             <c:forEach var="v" items="${elencoVisiteSSP}">
                 <tr>
-                    <th scope="row">${v.getTipo_visita().getNome()}</th>
-                    <th scope="row">${v.getDataPrescrizione()}</th>
-                    <th scope="row">${v.getMedicoBase().toStringNomeCognome()}</th>
-                    <th scope="row">${v.getSsp().toStringSSP()}</th>
+                    <th scope="row">${v.tipo_visita.nome}</th>
+                    <th scope="row">${v.dataPrescrizione}</th>
+                    <th scope="row">${v.medicoBase.toStringNomeCognome()}</th>
+                    <th scope="row">${v.ssp.toStringSSP()}</th>
                 </tr>
             </c:forEach>
             </tbody>
