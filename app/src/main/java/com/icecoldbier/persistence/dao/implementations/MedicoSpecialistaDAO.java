@@ -38,6 +38,7 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
         "FROM paziente, users, (SELECT id ,nome, cognome FROM users WHERE user_type = 'medico_base') as A\n" +
         "WHERE paziente.id_user = users.id AND paziente.id_user = ? AND paziente.id_medico = A.id";
     private static final String INSERT_REPORT = "INSERT INTO report (esito) VALUES (?) RETURNING id";
+    private static final String INSERT_REPORT_RICETTA =    "INSERT INTO report (esito,id_ricetta) VALUES (?,?) RETURNING id";
     private static final String GET_PAZIENTI_COUNT = "SELECT COUNT(*) as count FROM (SELECT DISTINCT id_paziente FROM visita_specialistica "
             + "WHERE id_medico = ?) AS A";
     private static final String GET_LISTA_PAZIENTI_PAGED = "SELECT DISTINCT paziente.id_user, users.typ,users.username,users.pass,users.nome, "
@@ -50,7 +51,8 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
         "FROM visita_specialistica\n" +
         "WHERE id_medico = ?\n" +
         "ORDER BY data_prescrizione DESC LIMIT ? OFFSET ?";
-
+    private static final String CREATE_RICETTA = "INSERT INTO ricetta(farmaco, prescritta) VALUES(?,?) RETURNING id";
+    
     private UserDAO userDAO;
     private PazienteDAO pazienteDAO;
     private ReportDAO reportDAO;
@@ -192,8 +194,37 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
     }
 
     @Override
-    public void erogaVisitaConRicetta(int idv, Report report) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public void erogaVisitaConRicetta(int idVisita, int idPaziente, int idMedicoBase, Report report, Ricetta ricetta) throws DAOException {
+        try {
+            PreparedStatement pstm = CON.prepareStatement(CREATE_RICETTA);
+            pstm.setString(1, ricetta.getNome());
+            pstm.setBoolean(2, false);
+            int idRicetta = 0;
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                idRicetta = rs.getInt("id");;
+            }else {
+                throw new DAOException("Error while creating ricetta");
+            }
+            
+            PreparedStatement preparedStatement = CON.prepareStatement(INSERT_REPORT_RICETTA);
+            preparedStatement.setString(1, report.getEsito());
+            preparedStatement.setInt(2, idRicetta);
+            int idReport;
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                idReport = resultSet.getInt("id");;
+
+                preparedStatement = CON.prepareStatement(EROGA_VISITA);
+                preparedStatement.setInt(1, idReport);
+                preparedStatement.setInt(2, idVisita);
+                preparedStatement.setInt(3, idPaziente);
+                preparedStatement.setInt(4, idMedicoBase);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Non è stato possibile erogare una nuova visita", ex);
+        }
     }
     
     private Paziente getPazienteFromResultSet(ResultSet resultSet) throws SQLException, DAOException {

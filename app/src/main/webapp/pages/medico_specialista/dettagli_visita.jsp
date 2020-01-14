@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="../css/medico_base.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <body>
     <%@ include file="navbar.html" %>
@@ -57,12 +58,34 @@
                         </table>
                     </div>
                     <c:if test="${visita.isErogata()==false}">
+                        <div class="col funzioni-col">
+                            <h2>Funzioni</h2>
+                            
+                            <div class="card-deck">
+                                <div class="card border-dark mb-3" style="max-width: 100rem;">
+                                    <div class="card-header">Eroga visita specialistica</div>
+                                    <div class="card-body text-dark">
+                                        <p class="card-text">Eroga una visita specialistica con la possibilità di associare una ricetta.</p>
+                                        <button type="button" class="btn btn-primary stretched-link" data-toggle="modal"
+                                                data-target="#modaleErogaVisitaSpecialistica">
+                                            Apri
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                       <!--
                         <div class="row">
                             <form method="post" action="eroga">
                                 <input type="hidden" name="idPaziente" value="${visita.getPaziente().getId()}">
                                 <input type="hidden" name="idMedicoSpecialista" value="${visita.getMedicoSpecialista().getId()}">
                                 <input type="hidden" name="idMedicoBase" value="${visita.getMedicoBase().getId()}">
                                 <input type="hidden" name="idVisita" value="${visita.getId()}">
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">Ricetta</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="textRicetta"></textarea>
+                                </div>
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">Report</label>
                                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="textReport"></textarea>
@@ -72,12 +95,50 @@
                                 </div>
                             </form>
                         </div>
+                       -->
                     </c:if>
+                </div>
+            </div>
+        </div>
+    </div>                        
+
+    <div class="modal fade" id="modaleErogaVisitaSpecialistica" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form method="post" action="eroga">
+                    <input type="hidden" name="idPaziente" value="${visita.getPaziente().getId()}">
+                    <input type="hidden" name="idMedicoSpecialista" value="${visita.getMedicoSpecialista().getId()}">
+                    <input type="hidden" name="idMedicoBase" value="${visita.getMedicoBase().getId()}">
+                    <input type="hidden" name="idVisita" value="${visita.getId()}">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eroga una visita specialistica</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Chiudi">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="testoRicetta">Ricetta</label>
+                            <textarea class="form-control" name="textRicetta" id="textRicetta" rows="3"
+                                      placeholder="Inserisci qua l'oggetto della ricetta. Lasciando questo campo vuoto non verrà inserita alcuna ricetta"></textarea>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="testoReport">Report</label>
+                            <textarea class="form-control" name="textReport" id="textReport" rows="3"
+                                      placeholder="Inserisci qua l'esito del report. Si prega di compilarlo"></textarea>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                        <button type="submit" class="btn btn-primary">Eroga</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
-
+    
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
             integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
             crossorigin="anonymous"></script>
@@ -91,11 +152,5 @@
     
     <%--These are the success and error modals--%>
     <%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>
-
-    <script>
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-    </script>
     </body>
 </html>

@@ -5,6 +5,7 @@ import com.icecoldbier.persistence.dao.implementations.MedicoSpecialistaDAO;
 import com.icecoldbier.persistence.dao.implementations.PazienteDAO;
 import com.icecoldbier.persistence.dao.implementations.VisitaSpecialisticaDAO;
 import com.icecoldbier.persistence.entities.Report;
+import com.icecoldbier.persistence.entities.Ricetta;
 import com.icecoldbier.persistence.entities.User;
 import com.icecoldbier.persistence.entities.VisitaSpecialistica;
 import com.icecoldbier.utils.Utils;
@@ -58,6 +59,7 @@ public class MedicoSpecialistaServlet extends HttpServlet {
             String idMedicoBase = request.getParameter("idMedicoBase");
             String idVisita = request.getParameter("idVisita");
             String textReport = request.getParameter("textReport");
+            String textRicetta = request.getParameter("textRicetta");
             if(idPaziente != null && idMedicoSpecialista!= null && idMedicoBase!=null && idVisita!=null && textReport!=null){
                 int idPaz = Integer.parseInt(idPaziente);
                 int idVis = Integer.parseInt(idVisita);
@@ -65,15 +67,29 @@ public class MedicoSpecialistaServlet extends HttpServlet {
                 int idMedSpec = Integer.parseInt(idMedicoSpecialista);
                 VisitaSpecialistica visita = null;
                 Report report = new Report(textReport);
-                try {
-                    medicoSpecialistaDAO.erogaVisita(idVis, idPaz, idMedBas, report);
-                    visita = visitaSpecialisticaDAO.getByPrimaryKey(idVis);
-                    session.setAttribute("successMessage", "Visita erogata con successo");
-                    response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-specialista/visite/dettagli-visita?id=" + idVisita));
-                } catch (DAOException ex) {
-                    session.setAttribute("errorMessage", "Errore nell'erogare la visita, riprova più tardi");
-                    ex.printStackTrace();
+                if(textRicetta.equals("")){
+                    try {
+                        medicoSpecialistaDAO.erogaVisita(idVis,idPaz,idMedBas,report);
+                        visita = visitaSpecialisticaDAO.getByPrimaryKey(idVis);
+                        session.setAttribute("successMessage", "Visita erogata con successo");
+                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-specialista/visite/dettagli-visita?id=" + idVisita));
+                    } catch (DAOException ex) {
+                        session.setAttribute("errorMessage", "Errore nell'erogare la visita senza ricetta, riprova più tardi");
+                        ex.printStackTrace();
+                    }
+                }else{
+                    Ricetta ricetta = new Ricetta(textRicetta,false);
+                    try {
+                        medicoSpecialistaDAO.erogaVisitaConRicetta(idVis, idPaz, idMedBas, report, ricetta);
+                        visita = visitaSpecialisticaDAO.getByPrimaryKey(idVis);
+                        session.setAttribute("successMessage", "Visita erogata con successo");
+                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-specialista/visite/dettagli-visita?id=" + idVisita));
+                    } catch (DAOException ex) {
+                        session.setAttribute("errorMessage", "Errore nell'erogare la visita con ricetta, riprova più tardi");
+                        ex.printStackTrace();
+                    }
                 }
+                
             }else{
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Id mancanti");
             }

@@ -10,6 +10,11 @@ public class Ricetta {
         this.nome = nome;
         this.prescritta = prescritta;
     }
+    
+    public Ricetta(String nome, boolean prescritta) {
+        this.nome = nome;
+        this.prescritta = prescritta;
+    }
 
     public Integer getId() {
         return id;
