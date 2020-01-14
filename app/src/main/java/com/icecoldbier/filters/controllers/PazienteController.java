@@ -110,7 +110,7 @@ public class PazienteController implements Filter {
             ArrayList<VisitaSpecialistica> elencoVisiteSpecialistiche = null;
             ArrayList<VisitaSSP> elencoVisiteSSP = null;
             try{
-                long count = visitaSpecialisticaDAO.getCount(user.getId()) + visitaSpecialisticaDAO.getCount(user.getId());
+                long count = visitaSpecialisticaDAO.getCount(user.getId()) + visitaSSPDAO.getCount(user.getId());
                 int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
                 int requestedPage = 1;
 
@@ -160,8 +160,19 @@ public class PazienteController implements Filter {
             ArrayList<VisitaPossibile> listaVisite = null;
 
             try{
+                long count = 20;
+                int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
+                int requestedPage = 1;
+
+                //Grab the requested page value if i exist, set a default value (1) if it does not
+                if(request.getParameter("page") != null){
+                    requestedPage = Integer.parseInt(request.getParameter("page"));
+                }
+                requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
                 listaVisite = visitePossibiliDAO.getVisitePossibili(User.UserType.medico_specialista);
                 listaVisite.addAll(visitePossibiliDAO.getVisitePossibili(User.UserType.ssp));
+                request.setAttribute("page", requestedPage);
+                request.setAttribute("pagesCount", pagesCount);
                 request.setAttribute("listaVisite", listaVisite);
             }catch (DAOException e) {
                 e.printStackTrace();
@@ -199,6 +210,11 @@ public class PazienteController implements Filter {
             visitaSpecialisticaDAO = daoFactory.getDAO(VisitaSpecialisticaDAO.class);
         } catch (DAOFactoryException e) {
             throw new ServletException("Impossible to get dao factory for visitaSpecialistica storage system");
+        }
+        try {
+            visitaSSPDAO = daoFactory.getDAO(VisitaSSPDAO.class);
+        } catch (DAOFactoryException e) {
+            throw new ServletException("Impossible to get dao factory for visitaSSP storage system");
         }
         try {
             ricettaDAO = daoFactory.getDAO(RicettaDAO.class);

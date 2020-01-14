@@ -27,7 +27,7 @@ public class VisitaSSPDAO extends JDBCDAO<VisitaSSP, Integer> implements VisitaS
      * @author Stefano Chirico
      * @since 1.0.0.190406
      */
-    protected VisitaSSPDAO(Connection con) {
+    public VisitaSSPDAO(Connection con) {
         super(con);
         try {
             JDBCDAOFactory daoFactory = JDBCDAOFactory.getInstance();
