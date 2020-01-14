@@ -1,6 +1,7 @@
 package com.icecoldbier.persistence.dao.interfaces;
 
 import com.icecoldbier.persistence.entities.VisitaBase;
+import com.icecoldbier.persistence.entities.VisitaSpecialistica;
 import com.icecoldbier.utils.pagination.PaginationParameters;
 import it.unitn.disi.wp.commons.persistence.dao.DAO;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
@@ -14,4 +15,6 @@ public interface VisitaBaseDAOInterface extends DAO<VisitaBase, Integer> {
     Long getByMedicoCount(int idMedico) throws DAOException;
     Long getByPazienteCount(int idPaziente) throws DAOException;
     Long getByMedicoAndPazienteCount(int idMedico, int idPaziente) throws DAOException;
+    VisitaBase getContainingRicetta(int idRicetta) throws DAOException;
+
 }

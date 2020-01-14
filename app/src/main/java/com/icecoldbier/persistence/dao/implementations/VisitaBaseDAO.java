@@ -25,6 +25,9 @@ public class VisitaBaseDAO extends JDBCDAO<VisitaBase, Integer> implements Visit
     private static final String GET_BY_ID = "SELECT * FROM visita_base WHERE id = ? ";
     private static final String GET_VISITE_COUNT = "SELECT COUNT(*) as count FROM visita_base";
 
+    private static final String GET_VISITA_CONTAINING_RICETTA = "SELECT * FROM visita_base WHERE id_ricetta = ?";
+
+
     private UserDAO userDAO;
     private PazienteDAO pazienteDAO;
     private RicettaDAO ricettaDAO;
@@ -62,6 +65,22 @@ public class VisitaBaseDAO extends JDBCDAO<VisitaBase, Integer> implements Visit
                 return getFromResultSet(resultSet);
             }
 
+        } catch (SQLException e) {
+            throw new DAOException("Error while getting visita base", e);
+        }
+    }
+
+    @Override
+    public VisitaBase getContainingRicetta(int idRicetta) throws DAOException {
+        try (PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITA_CONTAINING_RICETTA)) {
+            preparedStatement.setInt(1, idRicetta);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if(resultSet.next()){
+                    return getFromResultSet(resultSet);
+                }else{
+                    return null;
+                }
+            }
         } catch (SQLException e) {
             throw new DAOException("Error while getting visita base", e);
         }
