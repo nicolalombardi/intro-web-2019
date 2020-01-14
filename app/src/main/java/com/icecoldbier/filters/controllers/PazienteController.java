@@ -25,6 +25,7 @@ public class PazienteController implements Filter {
     private RicettaDAO ricettaDAO;
     private VisitaSSPDAO visitaSSPDAO;
     private TicketDAO ticketDAO;
+    private VisitePossibiliDAO visitePossibiliDAO;
 
     public void destroy() {
     }
@@ -154,6 +155,26 @@ public class PazienteController implements Filter {
                 e.printStackTrace();
                 ((HttpServletResponse)resp).sendError(500, e.getMessage());
             }
+        }else if(userPath.equals("/paziente/esami-possibili")){
+
+            ArrayList<VisitaPossibile> listaVisite = null;
+
+            try{
+                listaVisite = visitePossibiliDAO.getVisitePossibili(User.UserType.medico_specialista);
+                listaVisite.addAll(visitePossibiliDAO.getVisitePossibili(User.UserType.ssp));
+                request.setAttribute("listaVisite", listaVisite);
+            }catch (DAOException e) {
+                e.printStackTrace();
+                ((HttpServletResponse)resp).sendError(500, e.getMessage());
+            }
+        }else if(userPath.equals("/paziente/profilo")){
+            Paziente paziente = null;
+            try {
+                paziente = pazienteDAO.getByPrimaryKey(user.getId());
+                request.setAttribute("paziente",paziente);
+            } catch (DAOException e) {
+                e.printStackTrace();
+            }
         }
 
         chain.doFilter(req, resp);
@@ -188,6 +209,11 @@ public class PazienteController implements Filter {
             ticketDAO = daoFactory.getDAO(TicketDAO.class);
         } catch (DAOFactoryException e) {
             throw new ServletException("Impossible to get dao factory for ticket storage system");
+        }
+        try {
+            visitePossibiliDAO = daoFactory.getDAO(VisitePossibiliDAO.class);
+        } catch (DAOFactoryException e) {
+            throw new ServletException("Impossible to get dao factory for visita possibile storage system");
         }
     }
 }

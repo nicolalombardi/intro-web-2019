@@ -224,6 +224,14 @@
         <servlet-name>Tickets</servlet-name>
         <url-pattern>/paziente/tickets</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ListaEsamiPossibili</servlet-name>
+        <jsp-file>/pages/paziente/esami_possibili.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListaEsamiPossibili</servlet-name>
+        <url-pattern>/paziente/esami-possibili</url-pattern>
+    </servlet-mapping>
 
     <session-config>
         <session-timeout>
