@@ -7,6 +7,7 @@ import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -66,12 +67,20 @@ public class MedicoBaseServlet extends HttpServlet {
                         session.setAttribute("errorMessage", "L'utente selezionato non è un tuo paziente");
                         response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/scheda-paziente?id=" + idPaziente));
                     }else{
-
                         medicoBaseDAO.erogaVisitaBase(
                                 user.getId(),
                                 idPaziente,
                                 ricetta.equals("") ? null : ricetta
                         );
+
+                        //Se è stata aggiunta una ricetta notifica il paziente per email
+                        if(!ricetta.equals("")){
+                            try {
+                                Utils.sendMail(paziente.getUsername(), "Nuova ricetta disponibile!", "E' stata prescritta una nuova ricetta, accedi al tuo account per visualizzarla.");
+                            } catch (MessagingException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         session.setAttribute("successMessage", "Visita erogata con successo");
                         response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/scheda-paziente?id=" + idPaziente));
                     }
@@ -125,7 +134,6 @@ public class MedicoBaseServlet extends HttpServlet {
 
                     VisitaPossibile visitaSpecialistica = visitePossibiliDAO.getByPrimaryKey(tipoVisitaId);
                     if(visitaSpecialistica.getPraticante() != User.UserType.medico_specialista) throw new Exception();
-
 
                 }catch (Exception e){
                     e.printStackTrace();
