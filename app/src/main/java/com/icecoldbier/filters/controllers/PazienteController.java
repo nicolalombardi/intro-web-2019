@@ -3,6 +3,8 @@ package com.icecoldbier.filters.controllers;
 import com.icecoldbier.persistence.dao.implementations.*;
 import com.icecoldbier.persistence.entities.*;
 import com.icecoldbier.utils.Utils;
+import com.icecoldbier.utils.pagination.Pagination;
+import com.icecoldbier.utils.pagination.PaginationParameters;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @WebFilter(filterName = "PazienteController", urlPatterns = {"/paziente/*"})
 public class PazienteController implements Filter {
@@ -119,7 +122,7 @@ public class PazienteController implements Filter {
                     requestedPage = Integer.parseInt(request.getParameter("page"));
                 }
                 requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
-
+                //TODO: paginazione vera
                 elencoVisiteSpecialistiche = pazienteDAO.getVisiteSpecialisticheFuture(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
                 elencoVisiteSSP = pazienteDAO.getVisiteSSPFuture(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
 
@@ -145,7 +148,7 @@ public class PazienteController implements Filter {
                     requestedPage = Integer.parseInt(request.getParameter("page"));
                 }
                 requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
-                listaTickets = pazienteDAO.getTickets(user.getId());
+                listaTickets = pazienteDAO.getTicketsPaged(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
                 request.setAttribute("page", requestedPage);
                 request.setAttribute("pagesCount", pagesCount);
                 request.setAttribute("listaTickets", listaTickets);
@@ -161,19 +164,20 @@ public class PazienteController implements Filter {
 
             try{
                 long count = 20;
-                int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
-                int requestedPage = 1;
+                String requestedPage = request.getParameter("page");
 
-                //Grab the requested page value if i exist, set a default value (1) if it does not
-                if(request.getParameter("page") != null){
-                    requestedPage = Integer.parseInt(request.getParameter("page"));
-                }
-                requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
                 listaVisite = visitePossibiliDAO.getVisitePossibili(User.UserType.medico_specialista);
                 listaVisite.addAll(visitePossibiliDAO.getVisitePossibili(User.UserType.ssp));
-                request.setAttribute("page", requestedPage);
-                request.setAttribute("pagesCount", pagesCount);
-                request.setAttribute("listaVisite", listaVisite);
+
+
+
+                PaginationParameters pageParams = Pagination.getPageParameters(requestedPage, "15", count);
+                int startIndex = (pageParams.getPage() -1) *15;
+                List visite = listaVisite.subList(startIndex,Math.min(listaVisite.size() - 1, startIndex + 15));
+
+                request.setAttribute("page", pageParams.getPage());
+                request.setAttribute("pagesCount", pageParams.getPagesCount());
+                request.setAttribute("listaVisite", visite);
             }catch (DAOException e) {
                 e.printStackTrace();
                 ((HttpServletResponse)resp).sendError(500, e.getMessage());
