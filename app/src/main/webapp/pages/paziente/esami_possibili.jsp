@@ -20,6 +20,7 @@
 <body>
 <%@ include file="navbar.html" %>
 
+<%-- TODO: fare la paginazione con numero di esami fissato--%>
 
 <div class="container">
     <h1>Lista esami possibili</h1>

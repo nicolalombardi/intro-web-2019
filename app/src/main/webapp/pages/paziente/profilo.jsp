@@ -128,6 +128,7 @@
 
 
 <%-- Modale prescrizione esame ssp--%>
+<%-- TODO: fare il modale--%>
 <div class="modal fade" id="modaleCambiaMedico" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -178,6 +179,9 @@
         </div>
     </div>
 </div>
+
+<%-- TODO: fare il modale per cambio password--%>
+
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>

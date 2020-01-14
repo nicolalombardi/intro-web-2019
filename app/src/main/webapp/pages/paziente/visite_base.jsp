@@ -38,6 +38,8 @@
         </ul>
     </nav>
 
+    <%-- TODO: aggiungere eventuali ricette--%>
+
     <div class="table-responsive-md">
         <table class="table table-striped table-hover">
             <thead class="thead-dark">

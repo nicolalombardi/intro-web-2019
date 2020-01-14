@@ -64,7 +64,7 @@
 
                     <c:choose>
                         <c:when test="${empty v.report.id}">
-                            <th><button class="btn btn-sm btn-primary btn-block" disabled="disabled" type="submit">Report</button></th>
+                            <th></th>
                         </c:when>
                         <c:otherwise>
 
