@@ -1,5 +1,6 @@
 <%@ page import="com.icecoldbier.persistence.entities.Paziente" %>
 <%@ page import="com.icecoldbier.persistence.entities.VisitaSpecialistica" %>
+<%@ page import="com.icecoldbier.persistence.entities.VisitaPossibile" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="pageParams" scope="request" type="com.icecoldbier.utils.pagination.PaginationParameters"/>
@@ -66,6 +67,7 @@
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">Data prescrizione</th>
+                    <th scope="col">Tipologia visita</th>
                     <th scope="col">Nome</th>
                     <th scope="col">Cognome</th>
                     <th scope="col">Erogata</th>
@@ -75,6 +77,7 @@
                 <c:forEach var="p" items="${visite}">
                         <tr data-href="/medico-specialista/visite/dettagli-visita?id=${p.getId()}">
                             <td scope="row">${p.getDataPrescrizione()}</td>
+                            <td>${p.getTipo_visita().getNome()}</td>
                             <td>${p.getPaziente().getNome()}</td>
                             <td>${p.getPaziente().getCognome()}</td>
                             <td>

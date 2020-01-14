@@ -1,6 +1,7 @@
 <%@ page import="com.icecoldbier.persistence.entities.Paziente" %>
 <%@ page import="com.icecoldbier.persistence.entities.VisitaSpecialistica" %>
 <%@ page import="com.icecoldbier.persistence.entities.User" %>
+<%@ page import="com.icecoldbier.persistence.entities.VisitaPossibile" %>
 <jsp:useBean id="visita" scope="request" type="com.icecoldbier.persistence.entities.VisitaSpecialistica"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -24,6 +25,14 @@
                     <div class="row">
                         <table class="table">
                             <tbody>
+                            <tr>
+                                <th><b>Tipo visita</b></th>
+                                <td>${visita.getTipo_visita().getNome()}</td>
+                            </tr>
+                            <tr>
+                                <th><b>Descrizione visita</b></th>
+                                <td>${visita.getTipo_visita().getDescrizione()}</td>
+                            </tr>
                             <tr>
                                 <th><b>Nome</b></th>
                                 <td>${visita.getPaziente().getNome()}</td>
