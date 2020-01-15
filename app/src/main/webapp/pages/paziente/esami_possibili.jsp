@@ -26,15 +26,15 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
-                <a class="page-link" href="/paziente/esami-possibili?page=${page - 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Previous</a>
+                <a class="page-link" href="/paziente/esami-possibili?page=<c:out value="${page - 1}"/>" <c:if test="${page == 1}">tabindex="-1"</c:if> >Previous</a>
             </li>
 
             <c:forEach var = "i" begin = "1" end = "${pagesCount}">
-                <li class="page-item <c:if test="${page == i}">active</c:if> "><a class="page-link" href="/paziente/esami-possibili?page=${i}">${i}</a></li>
+                <li class="page-item <c:if test="${page == i}">active</c:if> "><a class="page-link" href="/paziente/esami-possibili?page=<c:out value="${i}"/>"><c:out value="${i}"/></a></li>
             </c:forEach>
 
             <li class="page-item <c:if test="${page == pagesCount}">disabled</c:if>">
-                <a class="page-link" href="/paziente/esami-possibili?page=${page + 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Next</a>
+                <a class="page-link" href="/paziente/esami-possibili?page=<c:out value="${page + 1}"/>" <c:if test="${page == 1}">tabindex="-1"</c:if> >Next</a>
             </li>
         </ul>
     </nav>
@@ -52,15 +52,15 @@
             <tbody>
             <c:forEach var="v" items="${listaVisite}">
                 <tr>
-                    <th scope="row">${v.nome}</th>
+                    <th scope="row"><c:out value="${v.nome}"/></th>
                     <th>
                         <c:choose>
                             <c:when test="${v.praticante == 'medico_specialista'}">medico specialista</c:when>
                             <c:otherwise>ssp</c:otherwise>
                         </c:choose>
                     </th>
-                    <th>${v.costo_ticket}</th>
-                    <th>${v.descrizione}</th>
+                    <th><c:out value="${v.costo_ticket}"/></th>
+                    <th><c:out value="${v.descrizione}"/></th>
                 </tr>
             </c:forEach>
             </tbody>

@@ -24,10 +24,10 @@
             <div class="col-sm">
                 <c:choose>
                     <c:when test="${showAll}">
-                        <a class="btn btn-primary" href="lista?page=${pageParams.page}&pageSize=${pageParams.pageSize}&mostraTutti=false" role="button">Mostra solo i tuoi pazienti</a>
+                        <a class="btn btn-primary" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&mostraTutti=false" role="button">Mostra solo i tuoi pazienti</a>
                     </c:when>
                     <c:otherwise>
-                        <a class="btn btn-primary" href="lista?page=${pageParams.page}&pageSize=${pageParams.pageSize}&mostraTutti=true" role="button">Mostra tutti i pazienti</a>
+                        <a class="btn btn-primary" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&mostraTutti=true" role="button">Mostra tutti i pazienti</a>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -36,18 +36,18 @@
                     <span class="btn-group"></span>
                     <ul class="pagination justify-content-center">
                         <li class="page-item <c:if test="${pageParams.page == 1}">disabled</c:if>">
-                            <a class="page-link" href="lista?page=${pageParams.page - 1}&pageSize=${pageParams.pageSize}&mostraTutti=${showAll}"
+                            <a class="page-link" href="lista?page=<c:out value="${pageParams.page - 1}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&mostraTutti=<c:out value="${showAll}"/>"
                                <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Precedente</a>
                         </li>
 
                         <c:forEach var="i" begin="1" end="${pageParams.pagesCount}">
                             <li class="page-item <c:if test="${pageParams.page == i}">active</c:if> "><a class="page-link"
-                                                                                                      href="lista?page=${i}&pageSize=${pageParams.pageSize}&mostraTutti=${showAll}">${i}</a>
+                                                                                                      href="lista?page=${i}&pageSize=<c:out value="${pageParams.pageSize}"/>&mostraTutti=<c:out value="${showAll}"/>">${i}</a>
                             </li>
                         </c:forEach>
 
                         <li class="page-item <c:if test="${pageParams.page == pageParams.pagesCount  || pageParams.pagesCount == 0}">disabled</c:if>">
-                            <a class="page-link" href="lista?page=${pageParams.page + 1}&pageSize=${pageParams.pageSize}&mostraTutti=${showAll}"
+                            <a class="page-link" href="lista?page=<c:out value="${pageParams.page + 1}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&mostraTutti=<c:out value="${showAll}"/>"
                                <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Successiva</a>
                         </li>
                     </ul>
@@ -62,9 +62,9 @@
                     ${pageParams.pageSize}
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="lista?page=${pageParams.page}&pageSize=10&mostraTutti=${showAll}">10</a>
-                    <a class="dropdown-item" href="lista?page=${pageParams.page}&pageSize=15&mostraTutti=${showAll}">15</a>
-                    <a class="dropdown-item" href="lista?page=${pageParams.page}&pageSize=30&mostraTutti=${showAll}">30</a>
+                    <a class="dropdown-item" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=10&mostraTutti=<c:out value="${showAll}"/>">10</a>
+                    <a class="dropdown-item" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=15&mostraTutti=<c:out value="${showAll}"/>">15</a>
+                    <a class="dropdown-item" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=30&mostraTutti=<c:out value="${showAll}"/>">30</a>
                 </div>
             </div>
             </div>
@@ -87,7 +87,7 @@
             <tbody>
             <jsp:useBean id="listaPazienti" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.Paziente>"/>
             <c:forEach var="p" items="${listaPazienti}">
-                <tr data-href="/medico-base/scheda-paziente?id=${p.id}">
+                <tr data-href="/medico-base/scheda-paziente?id=<c:out value="${p.id}"/>">
                     <td>
                         <c:choose>
                             <c:when test="${user.id == p.medico.id}">
@@ -98,12 +98,12 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <td scope="row">${p.nome}</td>
-                    <td>${p.cognome}</td>
-                    <td>${p.sesso}</td>
-                    <td>${p.dataNascita}</td>
-                    <td>${p.luogoNascita}</td>
-                    <td>${p.codiceFiscale}</td>
+                    <td><c:out value="${p.nome}"/></td>
+                    <td><c:out value="${p.cognome}"/></td>
+                    <td><c:out value="${p.sesso}"/></td>
+                    <td><c:out value="${p.dataNascita}"/></td>
+                    <td><c:out value="${p.luogoNascita}"/></td>
+                    <td><c:out value="${p.codiceFiscale}"/></td>
                 </tr>
             </c:forEach>
             </tbody>

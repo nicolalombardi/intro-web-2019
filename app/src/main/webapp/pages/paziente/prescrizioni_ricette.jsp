@@ -25,15 +25,15 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
-                <a class="page-link" href="/paziente/elenco-prescrizioni-ricette?page=${page - 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Previous</a>
+                <a class="page-link" href="/paziente/elenco-prescrizioni-ricette?page=<c:out value="${page - 1}"/>" <c:if test="${page == 1}">tabindex="-1"</c:if> >Previous</a>
             </li>
 
             <c:forEach var = "i" begin = "1" end = "${pagesCount}">
-                <li class="page-item <c:if test="${page == i}">active</c:if> "><a class="page-link" href="paziente/elenco-prescrizioni-ricette?page=${i}">${i}</a></li>
+                <li class="page-item <c:if test="${page == i}">active</c:if> "><a class="page-link" href="paziente/elenco-prescrizioni-ricette?page=<c:out value="${i}"/>"><c:out value="${i}"/></a></li>
             </c:forEach>
 
             <li class="page-item <c:if test="${page == pagesCount}">disabled</c:if>">
-                <a class="page-link" href="/paziente/elenco-prescrizioni-ricette?page=${page + 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Next</a>
+                <a class="page-link" href="/paziente/elenco-prescrizioni-ricette?page=<c:out value="${page + 1}"/>" <c:if test="${page == 1}">tabindex="-1"</c:if> >Next</a>
             </li>
         </ul>
     </nav>
@@ -50,12 +50,12 @@
             <tbody>
             <c:forEach var="r" items="${elencoRicette}">
                 <tr>
-                    <th scope="row">${r.nome}</th>
+                    <th scope="row"><c:out value="${r.nome}"/></th>
                     <c:choose>
                         <c:when test="${r.prescritta}">
                             <th scope="row">SI</th>
                             <form action="stampa-ricetta" method="POST">
-                                <input hidden id="idRicetta" name="idRicetta" value=${r.id}>
+                                <input hidden id="idRicetta" name="idRicetta" value=<c:out value="${r.id}"/>>
                                 <th><button class="btn btn-sm btn-primary btn-block" type="submit">Stampa ricetta</button></th>
                             </form>
                         </c:when>

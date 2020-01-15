@@ -27,27 +27,27 @@
                             <tbody>
                             <tr>
                                 <th><b>Tipo visita</b></th>
-                                <td>${visita.getTipo_visita().getNome()}</td>
+                                <td><c:out value="${visita.getTipo_visita().getNome()}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Descrizione visita</b></th>
-                                <td>${visita.getTipo_visita().getDescrizione()}</td>
+                                <td><c:out value="${visita.getTipo_visita().getDescrizione()}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Nome</b></th>
-                                <td>${visita.getPaziente().getNome()}</td>
+                                <td><c:out value="${visita.getPaziente().getNome()}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Cognome</b></th>
-                                <td>${visita.getPaziente().getCognome()}</td>
+                                <td><c:out value="${visita.getPaziente().getCognome()}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Codice Fiscale</b></th>
-                                <td>${visita.getPaziente().getCodiceFiscale()}</td>
+                                <td><c:out value="${visita.getPaziente().getCodiceFiscale()}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Data di prescrizione</b></th>
-                                <td>${visita.getDataPrescrizione()}</td>
+                                <td><c:out value="${visita.getDataPrescrizione()}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Erogata</b></th>
@@ -87,10 +87,10 @@
                        <!--
                         <div class="row">
                             <form method="post" action="eroga">
-                                <input type="hidden" name="idPaziente" value="${visita.getPaziente().getId()}">
-                                <input type="hidden" name="idMedicoSpecialista" value="${visita.getMedicoSpecialista().getId()}">
-                                <input type="hidden" name="idMedicoBase" value="${visita.getMedicoBase().getId()}">
-                                <input type="hidden" name="idVisita" value="${visita.getId()}">
+                                <input type="hidden" name="idPaziente" value="<c:out value="${visita.getPaziente().getId()}"/>">
+                                <input type="hidden" name="idMedicoSpecialista" value="<c:out value="${visita.getMedicoSpecialista().getId()}"/>">
+                                <input type="hidden" name="idMedicoBase" value="<c:out value="${visita.getMedicoBase().getId()}"/>">
+                                <input type="hidden" name="idVisita" value="<c:out value="${visita.getId()}"/>">
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">Ricetta</label>
                                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="textRicetta"></textarea>
@@ -115,10 +115,10 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form method="post" action="eroga">
-                    <input type="hidden" name="idPaziente" value="${visita.getPaziente().getId()}">
-                    <input type="hidden" name="idMedicoSpecialista" value="${visita.getMedicoSpecialista().getId()}">
-                    <input type="hidden" name="idMedicoBase" value="${visita.getMedicoBase().getId()}">
-                    <input type="hidden" name="idVisita" value="${visita.getId()}">
+                    <input type="hidden" name="idPaziente" value="<c:out value="${visita.getPaziente().getId()}"/>">
+                    <input type="hidden" name="idMedicoSpecialista" value="<c:out value="${visita.getMedicoSpecialista().getId()}"/>">
+                    <input type="hidden" name="idMedicoBase" value="<c:out value="${visita.getMedicoBase().getId()}"/>">
+                    <input type="hidden" name="idVisita" value="<c:out value="${visita.getId()}"/>">
                     <div class="modal-header">
                         <h5 class="modal-title">Eroga una visita specialistica</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Chiudi">

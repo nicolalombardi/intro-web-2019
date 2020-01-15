@@ -25,15 +25,15 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
-                <a class="page-link" href="/paziente/elenco-visite-base?page=${page - 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Previous</a>
+                <a class="page-link" href="/paziente/elenco-visite-base?page=<c:out value="${page - 1}"/>" <c:if test="${page == 1}">tabindex="-1"</c:if> >Previous</a>
             </li>
 
             <c:forEach var = "i" begin = "1" end = "${pagesCount}">
-                <li class="page-item <c:if test="${page == i}">active</c:if> "><a class="page-link" href="paziente/elenco-visite-base?page=${i}">${i}</a></li>
+                <li class="page-item <c:if test="${page == i}">active</c:if> "><a class="page-link" href="paziente/elenco-visite-base?page=<c:out value="${i}"/>"><c:out value="${i}"/></a></li>
             </c:forEach>
 
             <li class="page-item <c:if test="${page == pagesCount}">disabled</c:if>">
-                <a class="page-link" href="/paziente/elenco-visite-base?page=${page + 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Next</a>
+                <a class="page-link" href="/paziente/elenco-visite-base?page=<c:out value="${page + 1}"/>" <c:if test="${page == 1}">tabindex="-1"</c:if> >Next</a>
             </li>
         </ul>
     </nav>
@@ -52,9 +52,9 @@
             <tbody>
             <c:forEach var="v" items="${elencoVisite}">
                 <tr>
-                    <th scope="row">${v.medicoBase.nome}</th>
-                    <th>${v.medicoBase.cognome}</th>
-                    <th>${v.dataErogazione}</th>
+                    <th scope="row"><c:out value="${v.medicoBase.nome}"/></th>
+                    <th><c:out value="${v.medicoBase.cognome}"/></th>
+                    <th><c:out value="${v.dataErogazione}"/></th>
                 </tr>
             </c:forEach>
             </tbody>

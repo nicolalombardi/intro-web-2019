@@ -24,7 +24,7 @@
             <h1>Lista visite base</h1>
         </c:when>
         <c:otherwise>
-            <h1>Lista visite base di ${paziente.nome} ${paziente.cognome}</h1>
+            <h1>Lista visite base di <c:out value="${paziente.nome} ${paziente.cognome}"/></h1>
         </c:otherwise>
     </c:choose>
     <div class="container">
@@ -36,18 +36,18 @@
                     <span class="btn-group"></span>
                     <ul class="pagination justify-content-center">
                         <li class="page-item <c:if test="${pageParams.page == 1}">disabled</c:if>">
-                            <a class="page-link" href="lista-visite-base?page=${pageParams.page - 1}&pageSize=${pageParams.pageSize}&id_paziente=${paziente.id}"
+                            <a class="page-link" href="lista-visite-base?page=<c:out value="${pageParams.page - 1}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&id_paziente=<c:out value="${paziente.id}"/>"
                                <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Precedente</a>
                         </li>
 
                         <c:forEach var="i" begin="1" end="${pageParams.pagesCount}">
                             <li class="page-item <c:if test="${pageParams.page == i}">active</c:if> "><a class="page-link"
-                                                                                                         href="lista-visite-base?page=${i}&pageSize=${pageParams.pageSize}&id_paziente=${paziente.id}">${i}</a>
+                                                                                                         href="lista-visite-base?page=<c:out value="${i}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&id_paziente=<c:out value="${paziente.id}"/>"><c:out value="${i}"/></a>
                             </li>
                         </c:forEach>
 
                         <li class="page-item <c:if test="${pageParams.page == pageParams.pagesCount || pageParams.pagesCount == 0}">disabled</c:if>">
-                            <a class="page-link" href="lista-visite-base?page=${pageParams.page + 1}&pageSize=${pageParams.pageSize}&id_paziente=${paziente.id}"
+                            <a class="page-link" href="lista-visite-base?page=<c:out value="${pageParams.page + 1}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&id_paziente=<c:out value="${paziente.id}"/>"
                                <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Successiva</a>
                         </li>
                     </ul>
@@ -59,12 +59,12 @@
                     <label class="label" for="pageSizeDropdown">Elementi: </label>
                     <button id="pageSizeDropdown" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        ${pageParams.pageSize}
+                        <c:out value="${pageParams.pageSize}"/>
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="lista-visite-base?page=${pageParams.page}&pageSize=10&id_paziente=${paziente.id}">10</a>
-                        <a class="dropdown-item" href="lista-visite-base?page=${pageParams.page}&pageSize=15&id_paziente=${paziente.id}">15</a>
-                        <a class="dropdown-item" href="lista-visite-base?page=${pageParams.page}&pageSize=30&id_paziente=${paziente.id}">30</a>
+                        <a class="dropdown-item" href="lista-visite-base?page=<c:out value="${pageParams.page}"/>&pageSize=10&id_paziente=<c:out value="${paziente.id}"/>">10</a>
+                        <a class="dropdown-item" href="lista-visite-base?page=<c:out value="${pageParams.page}"/>&pageSize=15&id_paziente=<c:out value="${paziente.id}"/>">15</a>
+                        <a class="dropdown-item" href="lista-visite-base?page=<c:out value="${pageParams.page}"/>&pageSize=30&id_paziente=<c:out value="${paziente.id}"/>">30</a>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="v" items="${listaVisite}">
-                        <tr data-toggle="modal" data-target="#modaleVisita${v.id}">
+                        <tr data-toggle="modal" data-target="#modaleVisita<c:out value="${v.id}"/>">
                             <td>
                                 <c:choose>
                                     <c:when test="${user.id == v.paziente.medico.id}">
@@ -102,16 +102,16 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td>${v.paziente.nome}</td>
-                            <td>${v.paziente.cognome}</td>
-                            <td>${v.dataErogazione}</td>
+                            <td><c:out value="${v.paziente.nome}"/></td>
+                            <td><c:out value="${v.paziente.cognome}"/></td>
+                            <td><c:out value="${v.dataErogazione}"/></td>
                             <td>
                                 <c:choose>
                                     <c:when test="${empty v.ricetta}">
                                         Nessuna ricetta
                                     </c:when>
                                     <c:otherwise>
-                                        <ct:ellipsizeTag maxLength="30">${v.ricetta.nome}</ct:ellipsizeTag>
+                                        <ct:ellipsizeTag maxLength="30"><c:out value="${v.ricetta.nome}"/></ct:ellipsizeTag>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
@@ -126,7 +126,7 @@
 </div>
 
 <c:forEach var="v" items="${listaVisite}">
-    <div class="modal fade" id="modaleVisita${v.id}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="modaleVisita<c:out value="${v.id}"/>" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -140,15 +140,15 @@
                         <tbody>
                         <tr>
                             <th>Medico</th>
-                            <td>${v.medicoBase.nome} ${v.medicoBase.cognome}</td>
+                            <td><c:out value="${v.medicoBase.nome} ${v.medicoBase.cognome}"/></td>
                         </tr>
                         <tr>
                             <th>Paziente</th>
-                            <td>${v.paziente.nome} ${v.paziente.cognome}</td>
+                            <td><c:out value="${v.paziente.nome} ${v.paziente.cognome}"/></td>
                         </tr>
                         <tr>
                             <th>Data erogazione</th>
-                            <td>${v.dataErogazione}</td>
+                            <td><c:out value="${v.dataErogazione}"/></td>
                         </tr>
                         <tr>
                             <th>Ricetta</th>
@@ -158,7 +158,7 @@
                                         Nessuna ricetta
                                     </c:when>
                                     <c:otherwise>
-                                        ${v.ricetta.nome}
+                                        <c:out value="${v.ricetta.nome}"/>
                                     </c:otherwise>
                                 </c:choose>
                             </td>

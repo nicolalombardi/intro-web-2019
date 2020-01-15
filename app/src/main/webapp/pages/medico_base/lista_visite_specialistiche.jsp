@@ -24,7 +24,7 @@
             <h1>Lista Visite Specialistiche ed Esami SSP</h1>
         </c:when>
         <c:otherwise>
-            <h1>Lista Visite Specialistiche ed Esami SSP di ${paziente.nome} ${paziente.cognome}</h1>
+            <h1>Lista Visite Specialistiche ed Esami SSP di <c:out value="${paziente.nome}"/> <c:out value="${paziente.cognome}"/></h1>
         </c:otherwise>
     </c:choose>
     <div class="container">
@@ -36,18 +36,18 @@
                     <span class="btn-group"></span>
                     <ul class="pagination justify-content-center">
                         <li class="page-item <c:if test="${pageParams.page == 1}">disabled</c:if>">
-                            <a class="page-link" href="lista-visite-specialistiche?page=${pageParams.page - 1}&pageSize=${pageParams.pageSize}&id_paziente=${paziente.id}"
+                            <a class="page-link" href="lista-visite-specialistiche?page=<c:out value="${pageParams.page - 1}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&id_paziente=<c:out value="${paziente.id}"/>"
                                <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Precedente</a>
                         </li>
 
                         <c:forEach var="i" begin="1" end="${pageParams.pagesCount}">
                             <li class="page-item <c:if test="${pageParams.page == i}">active</c:if> "><a class="page-link"
-                                                                                                         href="lista-visite-specialistiche?page=${i}&pageSize=${pageParams.pageSize}&id_paziente=${paziente.id}">${i}</a>
+                                                                                                         href="lista-visite-specialistiche?page=<c:out value="${i}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&id_paziente=<c:out value="${paziente.id}"/>"><c:out value="${i}"/></a>
                             </li>
                         </c:forEach>
 
                         <li class="page-item <c:if test="${pageParams.page == pageParams.pagesCount || pageParams.pagesCount == 0}">disabled</c:if>">
-                            <a class="page-link" href="lista-visite-specialistiche?page=${pageParams.page + 1}&pageSize=${pageParams.pageSize}&id_paziente=${paziente.id}"
+                            <a class="page-link" href="lista-visite-specialistiche?page=<c:out value="${pageParams.page + 1}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&id_paziente=<c:out value="${paziente.id}"/>"
                                <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Successiva</a>
                         </li>
                     </ul>
@@ -59,12 +59,12 @@
                     <label class="label" for="pageSizeDropdown">Elementi: </label>
                     <button id="pageSizeDropdown" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        ${pageParams.pageSize}
+                        <c:out value="${pageParams.pageSize}"/>
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="lista-visite-specialistiche?page=${pageParams.page}&pageSize=10&id_paziente=${paziente.id}">10</a>
-                        <a class="dropdown-item" href="lista-visite-specialistiche?page=${pageParams.page}&pageSize=15&id_paziente=${paziente.id}">15</a>
-                        <a class="dropdown-item" href="lista-visite-specialistiche?page=${pageParams.page}&pageSize=30&id_paziente=${paziente.id}">30</a>
+                        <a class="dropdown-item" href="lista-visite-specialistiche?page=<c:out value="${pageParams.page}"/>&pageSize=10&id_paziente=<c:out value="${paziente.id}"/>">10</a>
+                        <a class="dropdown-item" href="lista-visite-specialistiche?page=<c:out value="${pageParams.page}"/>&pageSize=15&id_paziente=<c:out value="${paziente.id}"/>">15</a>
+                        <a class="dropdown-item" href="lista-visite-specialistiche?page=<c:out value="${pageParams.page}"/>&pageSize=30&id_paziente=<c:out value="${paziente.id}"/>">30</a>
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                                 <c:set var="targetModal" value="#modaleVisitaSpecialistica-${v.visitaSpecialistica.id}"/>
                             </c:otherwise>
                         </c:choose>
-                        <tr data-toggle="modal" data-target="${targetModal}">
+                        <tr data-toggle="modal" data-target="<c:out value="${targetModal}"/>">
                             <td>
                                 <c:choose>
                                     <c:when test="${tuo}">
@@ -142,7 +142,7 @@
     <c:choose>
         <c:when test="${v.SSP}">
             <c:set var="modalId" value="modaleVisitaSSP-${v.visitaSSP.id}"/>
-            <div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="<c:out value="${modalId}"/>" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -156,31 +156,31 @@
                                 <tbody>
                                 <tr>
                                     <th>SSP</th>
-                                    <td>SSP di ${v.visitaSSP.ssp.provinciaAppartenenza}</td>
+                                    <td>SSP di <c:out value="${v.visitaSSP.ssp.provinciaAppartenenza}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Paziente</th>
-                                    <td>${v.visitaSSP.paziente.nome} ${v.visitaSSP.paziente.cognome}</td>
+                                    <td><c:out value="${v.visitaSSP.paziente.nome}"/> <c:out value="${v.visitaSSP.paziente.cognome}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Nome esame</th>
-                                    <td>${v.visitaSSP.tipo_visita.nome}</td>
+                                    <td><c:out value="${v.visitaSSP.tipo_visita.nome}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Descrizione o note</th>
-                                    <td>${v.visitaSSP.tipo_visita.descrizione}</td>
+                                    <td><c:out value="${v.visitaSSP.tipo_visita.descrizione}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Costo ticket</th>
-                                    <td>${v.visitaSSP.tipo_visita.costo_ticket} euro</td>
+                                    <td><c:out value="${v.visitaSSP.tipo_visita.costo_ticket}"/> euro</td>
                                 </tr>
                                 <tr>
                                     <th>Prescritta da</th>
-                                    <td>${v.visitaSSP.medicoBase.nome} ${v.visitaSSP.medicoBase.cognome}</td>
+                                    <td><c:out value="${v.visitaSSP.medicoBase.nome}"/> <c:out value="${v.visitaSSP.medicoBase.cognome}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Data prescrizione</th>
-                                    <td>${v.visitaSSP.dataPrescrizione}</td>
+                                    <td><c:out value="${v.visitaSSP.dataPrescrizione}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Data erogazione</th>
@@ -207,7 +207,7 @@
         </c:when>
         <c:otherwise>
             <c:set var="modalId" value="modaleVisitaSpecialistica-${v.visitaSpecialistica.id}"/>
-            <div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade" id="<c:out value="${modalId}"/>" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -221,31 +221,31 @@
                                 <tbody>
                                 <tr>
                                     <th>Medico Specialista</th>
-                                    <td>${v.visitaSpecialistica.medicoSpecialista.nome} ${v.visitaSpecialistica.medicoSpecialista.cognome}</td>
+                                    <td><c:out value="${v.visitaSpecialistica.medicoSpecialista.nome}"/> <c:out value="${v.visitaSpecialistica.medicoSpecialista.cognome}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Paziente</th>
-                                    <td>${v.visitaSpecialistica.paziente.nome} ${v.visitaSpecialistica.paziente.cognome}</td>
+                                    <td><c:out value="${v.visitaSpecialistica.paziente.nome}"/> <c:out value="${v.visitaSpecialistica.paziente.cognome}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Nome visita</th>
-                                    <td>${v.visitaSpecialistica.tipo_visita.nome}</td>
+                                    <td><c:out value="${v.visitaSpecialistica.tipo_visita.nome}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Descrizione o note</th>
-                                    <td>${v.visitaSpecialistica.tipo_visita.descrizione}</td>
+                                    <td><c:out value="${v.visitaSpecialistica.tipo_visita.descrizione}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Costo ticket</th>
-                                    <td>${v.visitaSpecialistica.tipo_visita.costo_ticket} euro</td>
+                                    <td><c:out value="${v.visitaSpecialistica.tipo_visita.costo_ticket}"/> euro</td>
                                 </tr>
                                 <tr>
                                     <th>Prescritta da</th>
-                                    <td>${v.visitaSpecialistica.medicoBase.nome} ${v.visitaSpecialistica.medicoBase.cognome}</td>
+                                    <td><c:out value="${v.visitaSpecialistica.medicoBase.nome}"/> <c:out value="${v.visitaSpecialistica.medicoBase.cognome}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Data prescrizione</th>
-                                    <td>${v.visitaSpecialistica.dataPrescrizione}</td>
+                                    <td><c:out value="${v.visitaSpecialistica.dataPrescrizione}"/></td>
                                 </tr>
                                 <c:choose>
                                     <c:when test="${empty v.visitaSpecialistica.dataErogazione}">
@@ -257,7 +257,7 @@
                                     <c:otherwise>
                                         <tr>
                                             <th>Data erogazione</th>
-                                            <td>${v.visitaSpecialistica.dataErogazione}</td>
+                                            <td><c:out value="${v.visitaSpecialistica.dataErogazione}"/></td>
                                         </tr>
                                         <tr>
                                             <th>Report</th>
@@ -267,7 +267,7 @@
                                                         Nessun report allegato
                                                     </c:when>
                                                     <c:otherwise>
-                                                        ${v.visitaSpecialistica.report.esito}
+                                                        <c:out value="${v.visitaSpecialistica.report.esito}"/>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>
@@ -280,7 +280,7 @@
                                                         Nessuna ricetta allegata al report
                                                     </c:when>
                                                     <c:otherwise>
-                                                        ${v.visitaSpecialistica.report.ricetta.nome}
+                                                        <c:out value="${v.visitaSpecialistica.report.ricetta.nome}"/>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>
@@ -295,7 +295,7 @@
                                                     <c:otherwise>
                                                         Ricetta non approvata
                                                         <form action="approva" method="post">
-                                                            <input type="hidden" name="id_ricetta" value="${v.visitaSpecialistica.report.ricetta.id}">
+                                                            <input type="hidden" name="id_ricetta" value="<c:out value="${v.visitaSpecialistica.report.ricetta.id}"/>">
                                                             <button type="submit" class="btn btn-primary">Approva</button>
                                                         </form>
                                                     </c:otherwise>

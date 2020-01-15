@@ -25,15 +25,15 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
-                <a class="page-link" href="/paziente/elenco-visite-specialistiche?page=${page - 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Previous</a>
+                <a class="page-link" href="/paziente/elenco-visite-specialistiche?page=<c:out value="${page - 1}"/>" <c:if test="${page == 1}">tabindex="-1"</c:if> >Previous</a>
             </li>
 
             <c:forEach var = "i" begin = "1" end = "${pagesCount}">
-                <li class="page-item <c:if test="${page == i}">active</c:if> "><a class="page-link" href="paziente/elenco-visite-specialistiche?page=${i}">${i}</a></li>
+                <li class="page-item <c:if test="${page == i}">active</c:if> "><a class="page-link" href="paziente/elenco-visite-specialistiche?page=<c:out value="${i}"/>"><c:out value="${i}"/></a></li>
             </c:forEach>
 
             <li class="page-item <c:if test="${page == pagesCount}">disabled</c:if>">
-                <a class="page-link" href="/paziente/elenco-visite-specialistiche?page=${page + 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Next</a>
+                <a class="page-link" href="/paziente/elenco-visite-specialistiche?page=<c:out value="${page + 1}"/>" <c:if test="${page == 1}">tabindex="-1"</c:if> >Next</a>
             </li>
         </ul>
     </nav>
@@ -54,12 +54,12 @@
             <tbody>
             <c:forEach var="v" items="${elencoVisite}">
                 <tr>
-                    <th scope="row">${v.tipo_visita.nome}</th>
-                    <th>${v.erogata}</th>
-                    <th>${v.dataPrescrizione}</th>
-                    <th>${v.dataErogazione}</th>
-                    <th>${v.medicoSpecialista.nome}</th>
-                    <th>${v.medicoSpecialista.cognome}</th>
+                    <th scope="row"><c:out value="${v.tipo_visita.nome}"/></th>
+                    <th><c:out value="${v.erogata}"/></th>
+                    <th><c:out value="${v.dataPrescrizione}"/></th>
+                    <th><c:out value="${v.dataErogazione}"/></th>
+                    <th><c:out value="${v.medicoSpecialista.nome}"/></th>
+                    <th><c:out value="${v.medicoSpecialista.cognome}"/></th>
 
 
                     <c:choose>
@@ -82,11 +82,11 @@
                                         </div>
                                         <div class="modal-body">
                                             <p>Esito report:</p>
-                                            <p>${v.report.esito}</p>
+                                            <p><c:out value="${v.report.esito}"/></p>
                                             <c:choose>
                                                 <c:when test="${v.report.ricetta.id != 0}">
                                                     <br><br>
-                                                    <p>Ricetta: ${v.report.ricetta.nome}</p>
+                                                    <p>Ricetta: <c:out value="${v.report.ricetta.nome}"/></p>
                                                     <c:choose>
                                                         <c:when test="${v.report.ricetta.prescritta}">
                                                             La ricetta è stata prescritta

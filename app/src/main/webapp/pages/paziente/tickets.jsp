@@ -24,7 +24,7 @@
 <div class="container">
     <h1>
         <form action="/paziente/tickets/pdf" method="POST">
-            <input hidden id="idPaziente" name="idPaziente" value=${idPaziente}>
+            <input hidden id="idPaziente" name="idPaziente" value=<c:out value="${idPaziente}"/>>
             Lista tickets <button class="btn btn-sm btn-dark" type="submit"><i class="material-icons md-light">print</i></button>
         </form>
     </h1>
@@ -32,15 +32,15 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
-                <a class="page-link" href="/paziente/tickets?page=${page - 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Previous</a>
+                <a class="page-link" href="/paziente/tickets?page=<c:out value="${page - 1}"/>" <c:if test="${page == 1}">tabindex="-1"</c:if> >Previous</a>
             </li>
 
             <c:forEach var = "i" begin = "1" end = "${pagesCount}">
-                <li class="page-item <c:if test="${page == i}">active</c:if> "><a class="page-link" href="paziente/tickets?page=${i}">${i}</a></li>
+                <li class="page-item <c:if test="${page == i}">active</c:if> "><a class="page-link" href="paziente/tickets?page=<c:out value="${i}"/>"><c:out value="${i}"/></a></li>
             </c:forEach>
 
             <li class="page-item <c:if test="${page == pagesCount}">disabled</c:if>">
-                <a class="page-link" href="/paziente/tickets?page=${page + 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Next</a>
+                <a class="page-link" href="/paziente/tickets?page=<c:out value="${page + 1}"/>" <c:if test="${page == 1}">tabindex="-1"</c:if> >Next</a>
             </li>
         </ul>
     </nav>
@@ -58,10 +58,10 @@
             <tbody>
             <c:forEach var="t" items="${listaTickets}">
                 <tr>
-                    <th scope="row">${t.data}</th>
-                    <th>${t.nomeVisita}</th>
-                    <th>${t.tipoVisita}</th>
-                    <th>${t.costo}</th>
+                    <th scope="row"><c:out value="${t.data}"/></th>
+                    <th><c:out value="${t.nomeVisita}"/></th>
+                    <th><c:out value="${t.tipoVisita}"/></th>
+                    <th><c:out value="${t.costo}"/></th>
                 </tr>
             </c:forEach>
             </tbody>

@@ -25,18 +25,18 @@
                         <span class="btn-group"></span>
                         <ul class="pagination justify-content-center">
                             <li class="page-item <c:if test="${pageParams.page == 1}">disabled</c:if>">
-                                <a class="page-link" href="visite?page=${pageParams.page - 1}&pageSize=${pageParams.pageSize}&"
+                                <a class="page-link" href="visite?page=<c:out value="${pageParams.page - 1}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&"
                                    <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Precedente</a>
                             </li>
 
                             <c:forEach var="i" begin="1" end="${pageParams.pagesCount}">
                                 <li class="page-item <c:if test="${pageParams.page == i}">active</c:if> "><a class="page-link"
-                                                                                                             href="visite?page=${i}&pageSize=${pageParams.pageSize}">${i}</a>
+                                                                                                             href="visite?page=<c:out value="${i}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>"><c:out value="${i}"/></a>
                                 </li>
                             </c:forEach>
 
                             <li class="page-item <c:if test="${pageParams.page == pageParams.pagesCount || pageParams.pagesCount == 0}">disabled</c:if>">
-                                <a class="page-link" href="visite?page=${pageParams.page + 1}&pageSize=${pageParams.pageSize}"
+                                <a class="page-link" href="visite?page=<c:out value="${pageParams.page + 1}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>"
                                    <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Successiva</a>
                             </li>
                         </ul>
@@ -48,12 +48,12 @@
                         <label class="label" for="pageSizeDropdown">Elementi: </label>
                         <button id="pageSizeDropdown" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            ${pageParams.pageSize}
+                            <c:out value="${pageParams.pageSize}"/>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="visite?page=${pageParams.page}&pageSize=10">10</a>
-                            <a class="dropdown-item" href="visite?page=${pageParams.page}&pageSize=15">15</a>
-                            <a class="dropdown-item" href="visite?page=${pageParams.page}&pageSize=30">30</a>
+                            <a class="dropdown-item" href="visite?page=<c:out value="${pageParams.page}"/>&pageSize=10">10</a>
+                            <a class="dropdown-item" href="visite?page=<c:out value="${pageParams.page}"/>&pageSize=15">15</a>
+                            <a class="dropdown-item" href="visite?page=<c:out value="${pageParams.page}"/>&pageSize=30">30</a>
                         </div>
                     </div>
                 </div>
@@ -75,11 +75,11 @@
                 </thead>
                 <tbody>
                 <c:forEach var="p" items="${visite}">
-                        <tr data-href="/medico-specialista/visite/dettagli-visita?id=${p.getId()}">
-                            <td scope="row">${p.getDataPrescrizione()}</td>
-                            <td>${p.getTipo_visita().getNome()}</td>
-                            <td>${p.getPaziente().getNome()}</td>
-                            <td>${p.getPaziente().getCognome()}</td>
+                        <tr data-href="/medico-specialista/visite/dettagli-visita?id=<c:out value="${p.getId()}"/>">
+                            <td scope="row"><c:out value="${p.getDataPrescrizione()}"/></td>
+                            <td><c:out value="${p.getTipo_visita().getNome()}"/></td>
+                            <td><c:out value="${p.getPaziente().getNome()}"/></td>
+                            <td><c:out value="${p.getPaziente().getCognome()}"/></td>
                             <td>
                                 <c:choose>
                                     <c:when test="${p.isErogata()==true}">Si</c:when>

@@ -28,7 +28,7 @@
                                 <td colspan="2" style="text-align: center">
                                     <c:choose>
                                         <c:when test="${not empty paziente.foto}">
-                                            <img src="${paziente.foto}" height="300px" width="300px">
+                                            <img src="<c:out value="${paziente.foto}"/>" height="300px" width="300px">
                                         </c:when>
                                         <c:otherwise>
                                             <img src="/images/profile_placeholder.svg" height="300px" width="300px">
@@ -38,39 +38,39 @@
                             </tr>
                             <tr>
                                 <th><b>Nome</b></th>
-                                <td>${paziente.nome}</td>
+                                <td><c:out value="${paziente.nome}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Cognome</b></th>
-                                <td>${paziente.cognome}</td>
+                                <td><c:out value="${paziente.cognome}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Email</b></th>
-                                <td>${paziente.username}</td>
+                                <td><c:out value="${paziente.username}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Provincia di appartenenza</b></th>
-                                <td>${paziente.provinciaAppartenenza}</td>
+                                <td><c:out value="${paziente.provinciaAppartenenza}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Data di nascita</b></th>
-                                <td>${paziente.dataNascita}</td>
+                                <td><c:out value="${paziente.dataNascita}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Luogo di nascita</b></th>
-                                <td>${paziente.luogoNascita}</td>
+                                <td><c:out value="${paziente.luogoNascita}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Codice fiscale</b></th>
-                                <td>${paziente.codiceFiscale}</td>
+                                <td><c:out value="${paziente.codiceFiscale}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Sesso</b></th>
-                                <td>${paziente.sesso}</td>
+                                <td><c:out value="${paziente.sesso}"/></td>
                             </tr>
                             <tr>
                                 <th><b>Medico di base</b></th>
-                                <td>${medico.getNome()} ${medico.getCognome()}</td>
+                                <td><c:out value="${medico.getNome()} ${medico.getCognome()}"/></td>
                             </tr>
 
                             </tbody>

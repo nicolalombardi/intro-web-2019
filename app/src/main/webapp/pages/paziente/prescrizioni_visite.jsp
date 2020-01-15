@@ -27,15 +27,15 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
-                <a class="page-link" href="/paziente/elenco-prescrizioni-visite?page=${page - 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Previous</a>
+                <a class="page-link" href="/paziente/elenco-prescrizioni-visite?page=<c:out value="${page - 1}"/>" <c:if test="${page == 1}">tabindex="-1"</c:if> >Previous</a>
             </li>
 
             <c:forEach var = "i" begin = "1" end = "${pagesCount}">
-                <li class="page-item <c:if test="${page == i}">active</c:if> "><a class="page-link" href="/paziente/elenco-prescrizioni-visite?page=${i}">${i}</a></li>
+                <li class="page-item <c:if test="${page == i}">active</c:if> "><a class="page-link" href="/paziente/elenco-prescrizioni-visite?page=<c:out value="${i}"/>"><c:out value="${i}"/></a></li>
             </c:forEach>
 
             <li class="page-item <c:if test="${page == pagesCount}">disabled</c:if>">
-                <a class="page-link" href="/paziente/elenco-prescrizioni-visite?page=${page + 1}" <c:if test="${page == 1}">tabindex="-1"</c:if> >Next</a>
+                <a class="page-link" href="/paziente/elenco-prescrizioni-visite?page=<c:out value="${page + 1}"/>" <c:if test="${page == 1}">tabindex="-1"</c:if> >Next</a>
             </li>
         </ul>
     </nav>
@@ -53,18 +53,18 @@
             <tbody>
             <c:forEach var="v" items="${elencoVisiteSpecialistiche}">
                 <tr>
-                    <th scope="row">${v.tipo_visita.nome}</th>
-                    <th scope="row">${v.dataPrescrizione}</th>
-                    <th scope="row">${v.medicoBase.toStringNomeCognome()}</th>
-                    <th scope="row">${v.medicoSpecialista.toStringNomeCognome()}</th>
+                    <th scope="row"><c:out value="${v.tipo_visita.nome}"/></th>
+                    <th scope="row"><c:out value="${v.dataPrescrizione}"/></th>
+                    <th scope="row"><c:out value="${v.medicoBase.toStringNomeCognome()}"/></th>
+                    <th scope="row"><c:out value="${v.medicoSpecialista.toStringNomeCognome()}"/></th>
                 </tr>
             </c:forEach>
             <c:forEach var="v" items="${elencoVisiteSSP}">
                 <tr>
-                    <th scope="row">${v.tipo_visita.nome}</th>
-                    <th scope="row">${v.dataPrescrizione}</th>
-                    <th scope="row">${v.medicoBase.toStringNomeCognome()}</th>
-                    <th scope="row">${v.ssp.toStringSSP()}</th>
+                    <th scope="row"><c:out value="${v.tipo_visita.nome}"/></th>
+                    <th scope="row"><c:out value="${v.dataPrescrizione}"/></th>
+                    <th scope="row"><c:out value="${v.medicoBase.toStringNomeCognome()}"/></th>
+                    <th scope="row"><c:out value="${v.ssp.toStringSSP()}"/></th>
                 </tr>
             </c:forEach>
             </tbody>

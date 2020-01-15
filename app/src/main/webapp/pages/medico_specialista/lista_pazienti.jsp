@@ -26,18 +26,18 @@
                         <span class="btn-group"></span>
                         <ul class="pagination justify-content-center">
                             <li class="page-item <c:if test="${pageParams.page == 1}">disabled</c:if>">
-                                <a class="page-link" href="lista?page=${pageParams.page - 1}&pageSize=${pageParams.pageSize}&"
+                                <a class="page-link" href="lista?page=<c:out value="${pageParams.page - 1}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&"
                                    <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Precedente</a>
                             </li>
 
                             <c:forEach var="i" begin="1" end="${pageParams.pagesCount}">
                                 <li class="page-item <c:if test="${pageParams.page == i}">active</c:if> "><a class="page-link"
-                                                                                                             href="lista?page=${i}&pageSize=${pageParams.pageSize}">${i}</a>
+                                                                                                             href="lista?page=<c:out value="${i}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>"><c:out value="${i}"/></a>
                                 </li>
                             </c:forEach>
 
                             <li class="page-item <c:if test="${pageParams.page == pageParams.pagesCount || pageParams.pagesCount == 0}">disabled</c:if>">
-                                <a class="page-link" href="lista?page=${pageParams.page + 1}&pageSize=${pageParams.pageSize}"
+                                <a class="page-link" href="lista?page=<c:out value="${pageParams.page + 1}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>"
                                    <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Successiva</a>
                             </li>
                         </ul>
@@ -49,12 +49,12 @@
                         <label class="label" for="pageSizeDropdown">Elementi: </label>
                         <button id="pageSizeDropdown" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            ${pageParams.pageSize}
+                            <c:out value="${pageParams.pageSize}"/>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="lista?page=${pageParams.page}&pageSize=10">10</a>
-                            <a class="dropdown-item" href="lista?page=${pageParams.page}&pageSize=15">15</a>
-                            <a class="dropdown-item" href="lista?page=${pageParams.page}&pageSize=30">30</a>
+                            <a class="dropdown-item" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=10">10</a>
+                            <a class="dropdown-item" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=15">15</a>
+                            <a class="dropdown-item" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=30">30</a>
                         </div>
                     </div>
                 </div>
@@ -81,13 +81,13 @@
                 </thead>
                 <tbody>
                 <c:forEach var="p" items="${listaPazientiSpecialista}">
-                        <tr data-href="/medico-specialista/scheda-paziente?id=${p.getId()}">
-                            <th scope="row">${p.getNome()}</th>
-                            <th>${p.getCognome()}</th>
-                            <th>${p.getSesso()}</th>
-                            <th>${p.getDataNascita()}</th>
-                            <th>${p.getLuogoNascita()}</th>
-                            <th>${p.getCodiceFiscale()}</th>
+                        <tr data-href="/medico-specialista/scheda-paziente?id=<c:out value="${p.getId()}"/>">
+                            <th><c:out value="${p.getNome()}"/></th>
+                            <th><c:out value="${p.getCognome()}"/></th>
+                            <th><c:out value="${p.getSesso()}"/></th>
+                            <th><c:out value="${p.getDataNascita()}"/></th>
+                            <th><c:out value="${p.getLuogoNascita()}"/></th>
+                            <th><c:out value="${p.getCodiceFiscale()}"/></th>
                         </tr>
                 </c:forEach>
                 </tbody>

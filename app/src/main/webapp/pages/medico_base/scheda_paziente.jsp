@@ -13,7 +13,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Scheda di ${paziente.nome}</title>
+    <title>Scheda di <c:out value="${paziente.nome}"/></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../css/medico_base.css">
@@ -36,7 +36,7 @@
                             <td colspan="2" style="text-align: center">
                                 <c:choose>
                                     <c:when test="${not empty paziente.foto}">
-                                        <img src="${paziente.foto}" height="300px" width="300px">
+                                        <img src="<c:out value="${paziente.foto}"/>" height="300px" width="300px">
                                     </c:when>
                                     <c:otherwise>
                                         <img src="/images/profile_placeholder.svg" height="300px" width="300px">
@@ -46,35 +46,35 @@
                         </tr>
                         <tr>
                             <th><b>Nome</b></th>
-                            <td>${paziente.nome}</td>
+                            <td><c:out value="${paziente.nome}"/></td>
                         </tr>
                         <tr>
                             <th><b>Cognome</b></th>
-                            <td>${paziente.cognome}</td>
+                            <td><c:out value="${paziente.cognome}"/></td>
                         </tr>
                         <tr>
                             <th><b>Email</b></th>
-                            <td>${paziente.username}</td>
+                            <td><c:out value="${paziente.username}"/></td>
                         </tr>
                         <tr>
                             <th><b>Provincia di appartenenza</b></th>
-                            <td>${paziente.provinciaAppartenenza}</td>
+                            <td><c:out value="${paziente.provinciaAppartenenza}"/></td>
                         </tr>
                         <tr>
                             <th><b>Data di nascita</b></th>
-                            <td>${paziente.dataNascita}</td>
+                            <td><c:out value="${paziente.dataNascita}"/></td>
                         </tr>
                         <tr>
                             <th><b>Luogo di nascita</b></th>
-                            <td>${paziente.luogoNascita}</td>
+                            <td><c:out value="${paziente.luogoNascita}"/></td>
                         </tr>
                         <tr>
                             <th><b>Codice fiscale</b></th>
-                            <td>${paziente.codiceFiscale}</td>
+                            <td><c:out value="${paziente.codiceFiscale}"/></td>
                         </tr>
                         <tr>
                             <th><b>Sesso</b></th>
-                            <td>${paziente.sesso}</td>
+                            <td><c:out value="${paziente.sesso}"/></td>
                         </tr>
                         <tr>
                             <th><b>Medico di base</b></th>
@@ -83,7 +83,7 @@
                                     <td>Non ancora scelto.</td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td>${medico.nome} ${medico.cognome}</td>
+                                    <td><c:out value="${medico.nome}"/> <c:out value="${medico.cognome}"/></td>
                                 </c:otherwise>
                             </c:choose>
 
@@ -161,7 +161,7 @@
                         <div class="card-body text-dark">
                             <p class="card-text">Visualizza l'elenco delle visite base erogate per questo paziente</p>
                             <a class="btn btn-primary stretched-link <c:if test="${not isMedicoAssociato}">disabled</c:if>"
-                               role="button"  <c:if test="${isMedicoAssociato}">href="lista-visite-base?id_paziente=${paziente.id}"</c:if>
+                               role="button"  <c:if test="${isMedicoAssociato}">href="lista-visite-base?id_paziente=<c:out value="${paziente.id}"/>"</c:if>
                                <c:if test="${not isMedicoAssociato}">disabled</c:if>>
                                 Vai
                             </a>
@@ -176,7 +176,7 @@
                             <p class="card-text">Visualizza l'elenco degli esami specialistici erogati per questo
                                 paziente</p>
                             <a class="btn btn-primary stretched-link <c:if test="${not isMedicoAssociato}">disabled</c:if>"
-                               role="button" <c:if test="${isMedicoAssociato}">href="lista-visite-specialistiche?id_paziente=${paziente.id}"</c:if>
+                               role="button" <c:if test="${isMedicoAssociato}">href="lista-visite-specialistiche?id_paziente=<c:out value="${paziente.id}"/>"</c:if>
                                <c:if test="${not isMedicoAssociato}">disabled</c:if>>
                                 Vai
                             </a>
@@ -195,7 +195,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <form method="post" action="eroga">
-                <input type="hidden" name="idPaziente" value="${paziente.id}">
+                <input type="hidden" name="idPaziente" value="<c:out value="${paziente.id}"/>">
                 <div class="modal-header">
                     <h5 class="modal-title">Eroga una visita base</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Chiudi">
@@ -225,7 +225,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <form method="post" action="prescrivi-specialistica">
-                <input type="hidden" name="idPaziente" value="${paziente.id}">
+                <input type="hidden" name="idPaziente" value="<c:out value="${paziente.id}"/>">
                 <div class="modal-header">
                     <h5 class="modal-title">Prescrivi una visita specialistica</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Chiudi">
@@ -238,17 +238,17 @@
                         <label for="visitaSpecialistica">Seleziona tipo visita</label>
                         <select class="form-control" name="visitaSpecialistica" id="visitaSpecialistica">
                             <c:forEach var="v" items="${visitePossibili}">
-                                <option value="${v.id}">${v.nome}</option>
+                                <option value="<c:out value="${v.id}"/>"><c:out value="${v.nome}"/></option>
                             </c:forEach>
                         </select>
                     </div>
                     <div id="visitaSpecialisticaDescriptionContainer">
                         <c:forEach var="v" items="${visitePossibili}">
-                            <div id="descrizioneVisitaSpecialistica-${v.id}" class="card border-dark mb-3"
+                            <div id="descrizioneVisitaSpecialistica-<c:out value="${v.id}"/>" class="card border-dark mb-3"
                                  style="display: none;">
                                 <div class="card-header">Descrizione/Note</div>
                                 <div class="card-body text-dark">
-                                    <p class="card-text">${v.descrizione}</p>
+                                    <p class="card-text"><c:out value="${v.descrizione}"/></p>
                                 </div>
                             </div>
 
@@ -259,7 +259,7 @@
                         <label for="medicoSpecialista">Seleziona il medico</label>
                         <select class="form-control" name="medicoSpecialista" id="medicoSpecialista">
                             <c:forEach var="m" items="${mediciSpecialisti}">
-                                <option value="${m.id}">${m.nome} ${m.cognome}</option>
+                                <option value="<c:out value="${m.id}"/>"><c:out value="${m.nome} ${m.cognome}"/></option>
                             </c:forEach>
                         </select>
                     </div>
@@ -279,7 +279,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <form method="post" action="prescrivi-ssp">
-                <input type="hidden" name="idPaziente" value="${paziente.id}">
+                <input type="hidden" name="idPaziente" value="<c:out value="${paziente.id}"/>">
                 <div class="modal-header">
                     <h5 class="modal-title">Prescrivi un esame specialistico</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Chiudi">
@@ -292,16 +292,16 @@
                         <label for="esameSpecialistico">Seleziona tipo esame</label>
                         <select class="form-control" name="esameSpecialistico" id="esameSpecialistico">
                             <c:forEach var="e" items="${esamiPossibili}">
-                                <option value="${e.id}">${e.nome}</option>
+                                <option value="<c:out value="${e.id}"/>"><c:out value="${e.nome}"/></option>
                             </c:forEach>
                         </select>
                     </div>
                     <div id="visitaSSPDescriptionContainer">
                         <c:forEach var="e" items="${esamiPossibili}">
-                            <div id="descrizioneEsameSSP-${e.id}" class="card border-dark mb-3" style="display: none;">
+                            <div id="descrizioneEsameSSP-<c:out value="${e.id}"/>" class="card border-dark mb-3" style="display: none;">
                                 <div class="card-header">Descrizione/Note</div>
                                 <div class="card-body text-dark">
-                                    <p class="card-text">${e.descrizione}</p>
+                                    <p class="card-text"><c:out value="${e.descrizione}"/></p>
                                 </div>
                             </div>
 
@@ -311,7 +311,7 @@
                         <label for="ssp">Seleziona l'SSP</label>
                         <select class="form-control" name="ssp" id="ssp">
                             <c:forEach var="s" items="${ssp}">
-                                <option value="${s.id}">SSP di ${s.provinciaAppartenenza}</option>
+                                <option value="<c:out value="${s.id}"/>">SSP di <c:out value="${s.provinciaAppartenenza}"/></option>
                             </c:forEach>
                         </select>
                     </div>
