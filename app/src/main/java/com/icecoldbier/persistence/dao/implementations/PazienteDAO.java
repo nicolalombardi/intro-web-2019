@@ -1,5 +1,6 @@
 package com.icecoldbier.persistence.dao.implementations;
 
+import com.icecoldbier.filters.controllers.MedicoBaseController;
 import com.icecoldbier.persistence.dao.exceptions.ProvincieNotMatchingException;
 import com.icecoldbier.persistence.dao.interfaces.PazienteDAOInterface;
 import com.icecoldbier.persistence.entities.*;
@@ -29,7 +30,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     private static final String CHANGE_MEDICO_BASE = "UPDATE paziente SET id_medico = ? WHERE id_user = ?";
     private static final String GET_VISITE_SPECIALISTICHE_FUTURE= "SELECT v.id, v.id_visita AS tipo, v.erogata, v.id_medico, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione, v.id_report FROM visita_specialistica v WHERE v.erogata = 'false' AND v.id_paziente = ? LIMIT ? OFFSET ?";
     private static final String GET_VISITE_SSP_FUTURE= "SELECT v.id, v.id_visita AS tipo, v.erogata, v.id_ssp, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione FROM visita_ssp v WHERE v.erogata = 'false' AND v.id_paziente = ? LIMIT ? OFFSET ?";
-
+    private static final String GET_ALL_MEDICI_BASE= "SELECT m.id FROM users p, users m WHERE p.id = ? AND p.provincia_appartenenza = m.provincia_appartenenza;";
 
 
     private UserDAO userDAO;
@@ -441,4 +442,23 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                 medico
         );
     }
+
+    @Override
+    public ArrayList<User> getAllMediciBase(int idp) throws DAOException {
+        ArrayList<User> medici = new ArrayList<>();
+
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_ALL_MEDICI_BASE)){
+            preparedStatement.setInt(1, idp);
+
+            try (ResultSet rs = preparedStatement.executeQuery()){
+                while (rs.next()){
+                    medici.add(userDAO.getByPrimaryKey(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Error while getting list of medici base associati", e);
+        }
+        return medici;
+    }
+
 }
