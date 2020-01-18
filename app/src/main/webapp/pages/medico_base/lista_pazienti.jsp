@@ -81,6 +81,7 @@
                 <th scope="col">Sesso</th>
                 <th scope="col">Data di nascita</th>
                 <th scope="col">Luogo di nascita</th>
+                <th scope="col">Provincia</th>
                 <th scope="col">Codice fiscale</th>
             </tr>
             </thead>
@@ -103,6 +104,7 @@
                     <td><c:out value="${p.sesso}"/></td>
                     <td><c:out value="${p.dataNascita}"/></td>
                     <td><c:out value="${p.luogoNascita}"/></td>
+                    <td><c:out value="${p.provinciaAppartenenza}"/></td>
                     <td><c:out value="${p.codiceFiscale}"/></td>
                 </tr>
             </c:forEach>
