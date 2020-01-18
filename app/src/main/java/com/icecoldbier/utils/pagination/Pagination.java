@@ -27,7 +27,7 @@ public class Pagination {
 
 
         int pagesCount = (int)Math.ceil(((rowsCount * 1.0f)/ pageSize));
-        page = Utils.coerceInt(1, pagesCount, page);
+        page = pagesCount == 0 ? 1 : Utils.coerceInt(1, pagesCount, page);
 
         return new PaginationParameters(page, pageSize, pagesCount);
     }
