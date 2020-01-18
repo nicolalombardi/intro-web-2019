@@ -46,8 +46,7 @@
                 <th scope="col">Erogata</th>
                 <th scope="col">Data Prescrizione</th>
                 <th scope="col">Data Erogazione</th>
-                <th scope="col">Nome Medico</th>
-                <th scope="col">Cognome Medico</th>
+                <th scope="col">Medico specialista</th>
                 <th scope="col">Report</th>
             </tr>
             </thead>
@@ -58,8 +57,7 @@
                     <th><c:out value="${v.erogata}"/></th>
                     <th><c:out value="${v.dataPrescrizione}"/></th>
                     <th><c:out value="${v.dataErogazione}"/></th>
-                    <th><c:out value="${v.medicoSpecialista.nome}"/></th>
-                    <th><c:out value="${v.medicoSpecialista.cognome}"/></th>
+                    <th><c:out value="${v.medicoSpecialista.toStringNomeCognome()}"/></th>
 
 
                     <c:choose>

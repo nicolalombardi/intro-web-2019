@@ -44,16 +44,14 @@
         <table class="table table-striped table-hover">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Nome Medico</th>
-                <th scope="col">Cognome Medico</th>
+                <th scope="col">Medico base</th>
                 <th scope="col">Data erogazione</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach var="v" items="${elencoVisite}">
                 <tr>
-                    <th scope="row"><c:out value="${v.medicoBase.nome}"/></th>
-                    <th><c:out value="${v.medicoBase.cognome}"/></th>
+                    <th scope="row"><c:out value="${v.medicoBase.toStringNomeCognome()}"/></th>
                     <th><c:out value="${v.dataErogazione}"/></th>
                 </tr>
             </c:forEach>

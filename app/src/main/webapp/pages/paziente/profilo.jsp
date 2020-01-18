@@ -16,6 +16,8 @@
 <body>
 <%@ include file="navbar.html" %>
 
+<%-- TODO: modifica foto e modifica medico con matita, cambio password nell'elenco--%>
+
 <div class="container">
     <h1>Profilo</h1>
     <div class="container">
@@ -131,7 +133,7 @@
 
 
 <%-- Modale prescrizione esame ssp--%>
-<%-- TODO: fare il modale--%>
+
 <div class="modal fade" id="modaleCambiaMedico" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
