@@ -159,12 +159,12 @@
     
 <!--    SSP-->
     <servlet>
-        <servlet-name>SSPHome</servlet-name>
-        <jsp-file>/pages/ssp/home.jsp</jsp-file>
+        <servlet-name>SSPListaEsami</servlet-name>
+        <jsp-file>/pages/ssp/lista_esami.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>SSPHome</servlet-name>
-        <url-pattern>/ssp/home</url-pattern>
+        <servlet-name>SSPListaEsami</servlet-name>
+        <url-pattern>/ssp/lista-esami</url-pattern>
     </servlet-mapping>
 
 <!--    PAZIENTE-->

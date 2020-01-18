@@ -113,7 +113,7 @@ public class PazienteController implements Filter {
             ArrayList<VisitaSpecialistica> elencoVisiteSpecialistiche = null;
             ArrayList<VisitaSSP> elencoVisiteSSP = null;
             try{
-                long count = visitaSpecialisticaDAO.getCount(user.getId()) + visitaSSPDAO.getCount(user.getId());
+                long count = visitaSpecialisticaDAO.getCount(user.getId()) + visitaSSPDAO.getVisiteByPazienteCount(user.getId());
                 int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
                 int requestedPage = 1;
 

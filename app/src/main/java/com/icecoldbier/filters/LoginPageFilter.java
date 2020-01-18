@@ -33,7 +33,7 @@ public class LoginPageFilter implements Filter {
                         servletResponse.sendRedirect("/paziente/elenco-visite-base");
                         break;
                     case ssp:
-                        servletResponse.sendRedirect("/ssp/home");
+                        servletResponse.sendRedirect("/ssp/lista-esami");
                         break;
                     default:
                         //Unexpected user type, invalidate session and continue to login page
