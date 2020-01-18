@@ -22,7 +22,7 @@
         <div class="modal-content status-modal-content">
             <div class="modal-header error-modal-header status-modal-header">
                 <div class="icon-box">
-                    <i class="material-icons">clear</i>
+                    <i class="material-icons modal-icon">clear</i>
                 </div>
             </div>
             <div class="modal-body status-modal-body">
