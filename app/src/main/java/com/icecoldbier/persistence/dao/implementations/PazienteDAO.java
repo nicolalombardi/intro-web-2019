@@ -30,7 +30,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     private static final String CHANGE_MEDICO_BASE = "UPDATE paziente SET id_medico = ? WHERE id_user = ?";
     private static final String GET_VISITE_SPECIALISTICHE_FUTURE= "SELECT v.id, v.id_visita AS tipo, v.erogata, v.id_medico, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione, v.id_report FROM visita_specialistica v WHERE v.erogata = 'false' AND v.id_paziente = ? LIMIT ? OFFSET ?";
     private static final String GET_VISITE_SSP_FUTURE= "SELECT v.id, v.id_visita AS tipo, v.erogata, v.id_ssp, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione FROM visita_ssp v WHERE v.erogata = 'false' AND v.id_paziente = ? LIMIT ? OFFSET ?";
-    private static final String GET_ALL_MEDICI_BASE= "SELECT m.id FROM users p, users m WHERE p.id = ? AND p.provincia_appartenenza = m.provincia_appartenenza;";
+    private static final String GET_ALL_MEDICI_BASE= "SELECT m.id FROM users p, users m WHERE p.id = ? AND p.provincia_appartenenza = m.provincia_appartenenza AND m.typ = 'medico_base';;";
 
 
     private UserDAO userDAO;
