@@ -54,63 +54,24 @@
             <c:forEach var="v" items="${elencoVisite}">
                 <tr>
                     <th scope="row"><c:out value="${v.tipo_visita.nome}"/></th>
-                    <th><c:out value="${v.erogata}"/></th>
+                    <th>
+                        <c:choose>
+                            <c:when test="${v.erogata}">SI</c:when>
+                            <c:otherwise>NO</c:otherwise>
+                        </c:choose>
+                    </th>
+
                     <th><c:out value="${v.dataPrescrizione}"/></th>
                     <th><c:out value="${v.dataErogazione}"/></th>
                     <th><c:out value="${v.medicoSpecialista.toStringNomeCognome()}"/></th>
-
-
                     <c:choose>
                         <c:when test="${empty v.report.id}">
                             <th></th>
                         </c:when>
                         <c:otherwise>
-
-                            <!-- Trigger the modal with a button -->
-                            <th><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Report</button></th>
-
-                            <!-- Modal -->
-                            <div id="myModal" class="modal fade" role="dialog">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Report</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Esito report:</p>
-                                            <p><c:out value="${v.report.esito}"/></p>
-                                            <c:choose>
-                                                <c:when test="${v.report.ricetta.id != 0}">
-                                                    <br><br>
-                                                    <p>Ricetta: <c:out value="${v.report.ricetta.nome}"/></p>
-                                                    <c:choose>
-                                                        <c:when test="${v.report.ricetta.prescritta}">
-                                                            La ricetta è stata prescritta
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            La ricetta non è ancora stata prescritta
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <p> Nessuna ricetta associata a questo report</p>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-
+                            <th><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modaleReport<c:out value="${v.report.id}"/>">Report</button></th>
                         </c:otherwise>
                     </c:choose>
-
                 </tr>
             </c:forEach>
             </tbody>
@@ -118,7 +79,55 @@
     </div>
 </div>
 
-
+<c:forEach var="v" items="${elencoVisite}">
+    <div class="modal fade" id="modaleReport<c:out value="${v.report.id}"/>" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Report</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Esito report</th>
+                            <td><c:out value="${v.report.esito}"/></td>
+                        </tr>
+                        <tr>
+                            <th>Ricetta</th>
+                            <c:choose>
+                                <c:when test="${empty v.report.ricetta.id}">
+                                    <td>Nessuna ricetta associata a questo report</td></tr>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><c:out value="${v.report.ricetta.nome}"/></td></tr>
+                                    <tr>
+                                        <th>Erogata</th>
+                                        <c:choose>
+                                            <c:when test="${v.report.ricetta.prescritta}">
+                                                <td>SI</td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td>NO</td>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </tr>
+                                </c:otherwise>
+                            </c:choose>
+                        <!-- tr già presente nel c:choose -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</c:forEach>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
