@@ -12,5 +12,5 @@ import java.util.ArrayList;
 
 public interface SSPDAOInterface extends DAO<SSP, Integer> {
     void erogaVisitaPrescritta(int id) throws DAOException;
-    public ArrayList<InfoRicetta> getListaRicette(Date data, SSP ssp) throws DAOException;
+    ArrayList<InfoRicetta> getListaRicette(Date data, SSP ssp) throws DAOException;
 }

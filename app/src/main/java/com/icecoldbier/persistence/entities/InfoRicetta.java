@@ -5,14 +5,14 @@ import java.sql.Date;
 public class InfoRicetta {
     private Date data;
     private String farmaco;
-    private Integer idm;
-    private Integer idp;
+    private User medicoBase;
+    private Paziente paziente;
 
-    public InfoRicetta(Date data, String farmaco, Integer idm, Integer idp) {
+    public InfoRicetta(Date data, String farmaco, User medicoBase, Paziente paziente) {
         this.data = data;
         this.farmaco = farmaco;
-        this.idm = idm;
-        this.idp = idp;
+        this.medicoBase = medicoBase;
+        this.paziente = paziente;
     }
 
     public Date getData() {
@@ -31,19 +31,19 @@ public class InfoRicetta {
         this.farmaco = farmaco;
     }
 
-    public Integer getIdm() {
-        return idm;
+    public User getMedicoBase() {
+        return medicoBase;
     }
 
-    public void setIdm(Integer idm) {
-        this.idm = idm;
+    public void setMedicoBase(User medicoBase) {
+        this.medicoBase = medicoBase;
     }
 
-    public Integer getIdp() {
-        return idp;
+    public Paziente getPaziente() {
+        return paziente;
     }
 
-    public void setIdp(Integer idp) {
-        this.idp = idp;
+    public void setPaziente(Paziente paziente) {
+        this.paziente = paziente;
     }
 }
