@@ -11,17 +11,19 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../css/medico_base.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+<style>
+    #BottoneFoto {
+        vertical-align: bottom;
+    }
+</style>
 </head>
 <body>
 <%@ include file="navbar.html" %>
 
-<%-- TODO: modifica foto e modifica medico con matita, cambio password nell'elenco--%>
+<%-- TODO: cambio password nell'elenco--%>
 
 <div class="container">
     <h1>Profilo</h1>
-    <div class="container">
-        <div class="row">
             <%--            Dati paziente--%>
             <div class="col">
                 <div class="row">
@@ -29,12 +31,13 @@
                         <tbody>
                         <tr>
                             <td colspan="2" style="text-align: center">
+                                <%-- TODO: implementare modifica foto--%>
                                 <c:choose>
                                     <c:when test="${not empty paziente.foto}">
-                                        <img src="<c:out value="${paziente.foto}"/>" height="300px" width="300px">
+                                        <img src="<c:out value="${paziente.foto}"/>" height="300px" width="300px"><button type="button" class="btn btn-xs btn-dark" id= "BottoneFoto" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button>
                                     </c:when>
                                     <c:otherwise>
-                                        <img src="/images/profile_placeholder.svg" height="300px" width="300px">
+                                        <img src="/images/profile_placeholder.svg" height="300px" width="300px"><button type="button" class="btn btn-xs btn-dark" data-toggle="modal" id= "BottoneFoto" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
@@ -75,59 +78,22 @@
                             <th><b>Medico di base</b></th>
                             <c:choose>
                                 <c:when test="${empty paziente.medico}">
-                                    <td>Non ancora scelto.</td>
+                                    <td>Non ancora scelto.   <button type="button" class="btn btn-xs btn-dark" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button></td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td><c:out value="${paziente.medico.nome}"/> <c:out value="${paziente.medico.cognome}"/></td>
+                                    <td><c:out value="${paziente.medico.nome}"/> <c:out value="${paziente.medico.cognome}   "/><button type="button" class="btn btn-xs btn-dark" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button></td>
                                 </c:otherwise>
                             </c:choose>
-
+                        </tr>
+                        <tr>
+                            <th><b>Password:</b></th>
+                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modaleCambioPassword">Cambia password</button></td>
                         </tr>
                         </tbody>
                     </table>
 
                 </div>
-
-
-
-
             </div>
-            <%--            Funzioni--%>
-            <div class="col funzioni-col">
-                <h2>Funzioni</h2>
-
-                <div class="card-deck">
-
-                    <div class="card border-dark mb-3" style="max-width: 100rem;">
-                        <div class="card-header">
-                            <c:choose>
-                                <c:when test="${empty paziente.medico}">
-                                    Scegli medico
-                                </c:when>
-                                <c:otherwise>
-                                    Cambia medico
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                        <div class="card-body text-dark">
-                            <button type="button" class="btn btn-primary stretched-link" data-toggle="modal" data-target="#modaleCambiaMedico">
-                                Apri
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card border-dark mb-3" style="max-width: 100rem;">
-                        <div class="card-header">Cambia password</div>
-                        <div class="card-body text-dark">
-                            <button type="button" class="btn btn-primary stretched-link" data-toggle="modal" data-target="#modaleCambioPassword">
-                                Apri
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 
