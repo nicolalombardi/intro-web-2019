@@ -18,6 +18,7 @@ public class UserDAO extends JDBCDAO<User, Integer> implements UserDAOInterface 
     private static final String GET_ALL = "SELECT * FROM users ORDER BY cognome";
     private static final String REGISTER_QUERY = "INSERT INTO users(typ, username, pass, nome, cognome, provincia_appartenenza) VALUES(?,?,?,?,?,?)";
     private static final String GET_USER_BY_USERNAME_QUERY = "SELECT * FROM users WHERE username = ?";
+    private static final String CHANGE_PASSWORD = "UPDATE users SET pass = ? WHERE id = ?";
 
     /**
      * The base constructor for all the JDBC DAOs.
@@ -138,5 +139,16 @@ public class UserDAO extends JDBCDAO<User, Integer> implements UserDAOInterface 
         }
 
         return users;
+    }
+
+    @Override
+    public void changePassword(int id, String psw) throws DAOException {
+        try(PreparedStatement preparedStatement = CON.prepareStatement(CHANGE_PASSWORD)){
+            preparedStatement.setString(1, psw);
+            preparedStatement.setInt(2, id);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new DAOException("Error while changing user's password", e);
+        }
     }
 }
