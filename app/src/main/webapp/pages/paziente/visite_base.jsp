@@ -46,6 +46,7 @@
             <tr>
                 <th scope="col">Medico base</th>
                 <th scope="col">Data erogazione</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -53,6 +54,14 @@
                 <tr>
                     <th scope="row"><c:out value="${v.medicoBase.toStringNomeCognome()}"/></th>
                     <th><c:out value="${v.dataErogazione}"/></th>
+                    <c:choose>
+                        <c:when test="${empty v.ricetta.id}">
+                            <th></th>
+                        </c:when>
+                        <c:otherwise>
+                            <th><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modaleRicetta<c:out value="${v.ricetta.id}"/>">Ricetta</button></th>
+                        </c:otherwise>
+                    </c:choose>
                 </tr>
             </c:forEach>
             </tbody>
@@ -60,6 +69,50 @@
     </div>
 </div>
 
+<c:forEach var="v" items="${elencoVisite}">
+    <div class="modal fade" id="modaleRicetta<c:out value="${v.ricetta.id}"/>" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ricetta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Medico</th>
+                            <td><c:out value="${v.medicoBase.nome} ${v.medicoBase.cognome}"/></td>
+                        </tr>
+                        <tr>
+                            <th>Nome ricetta</th>
+                            <td><c:out value="${v.ricetta.nome}"/></td>
+                        </tr>
+                        <tr>
+                            <th>Erogata</th>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${v.ricetta.prescritta}">
+                                        SI
+                                    </c:when>
+                                    <c:otherwise>
+                                        NO
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</c:forEach>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

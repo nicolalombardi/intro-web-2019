@@ -20,85 +20,78 @@
 <body>
 <%@ include file="navbar.html" %>
 
-<%-- TODO: cambio password nell'elenco--%>
-
 <div class="container">
     <h1>Profilo</h1>
-            <%--            Dati paziente--%>
-            <div class="col">
-                <div class="row">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <td colspan="2" style="text-align: center">
-                                <%-- TODO: implementare modifica foto--%>
-                                <c:choose>
-                                    <c:when test="${not empty paziente.foto}">
-                                        <img src="<c:out value="${paziente.foto}"/>" height="300px" width="300px"><button type="button" class="btn btn-xs btn-dark" id= "BottoneFoto" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <img src="/images/profile_placeholder.svg" height="300px" width="300px"><button type="button" class="btn btn-xs btn-dark" data-toggle="modal" id= "BottoneFoto" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><b>Nome</b></th>
-                            <td><c:out value="${paziente.nome}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Cognome</b></th>
-                            <td><c:out value="${paziente.cognome}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Email</b></th>
-                            <td><c:out value="${paziente.username}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Provincia di appartenenza</b></th>
-                            <td><c:out value="${paziente.provinciaAppartenenza}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Data di nascita</b></th>
-                            <td><c:out value="${paziente.dataNascita}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Luogo di nascita</b></th>
-                            <td><c:out value="${paziente.luogoNascita}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Codice fiscale</b></th>
-                            <td><c:out value="${paziente.codiceFiscale}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Sesso</b></th>
-                            <td><c:out value="${paziente.sesso}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Medico di base</b></th>
-                            <c:choose>
-                                <c:when test="${empty paziente.medico}">
-                                    <td>Non ancora scelto.   <button type="button" class="btn btn-xs btn-dark" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button></td>
-                                </c:when>
-                                <c:otherwise>
-                                    <td><c:out value="${paziente.medico.nome}"/> <c:out value="${paziente.medico.cognome}   "/><button type="button" class="btn btn-xs btn-dark" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button></td>
-                                </c:otherwise>
-                            </c:choose>
-                        </tr>
-                        <tr>
-                            <th><b>Password:</b></th>
-                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modaleCambioPassword">Cambia password</button></td>
-                        </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
+    <div class="col">
+        <div class="row">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td colspan="2" style="text-align: center">
+                        <%-- TODO: implementare modifica foto--%>
+                        <c:choose>
+                            <c:when test="${not empty paziente.foto}">
+                                <img src="<c:out value="${paziente.foto}"/>" height="300px" width="300px"><button type="button" class="btn btn-xs btn-dark" id= "BottoneFoto" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button>
+                            </c:when>
+                            <c:otherwise>
+                                <img src="/images/profile_placeholder.svg" height="300px" width="300px"><button type="button" class="btn btn-xs btn-dark" data-toggle="modal" id= "BottoneFoto" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
+                <tr>
+                    <th><b>Nome</b></th>
+                    <td><c:out value="${paziente.nome}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Cognome</b></th>
+                    <td><c:out value="${paziente.cognome}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Email</b></th>
+                    <td><c:out value="${paziente.username}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Provincia di appartenenza</b></th>
+                    <td><c:out value="${paziente.provinciaAppartenenza}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Data di nascita</b></th>
+                    <td><c:out value="${paziente.dataNascita}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Luogo di nascita</b></th>
+                    <td><c:out value="${paziente.luogoNascita}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Codice fiscale</b></th>
+                    <td><c:out value="${paziente.codiceFiscale}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Sesso</b></th>
+                    <td><c:out value="${paziente.sesso}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Medico di base</b></th>
+                    <c:choose>
+                        <c:when test="${empty paziente.medico}">
+                            <td>Non ancora scelto.   <button type="button" class="btn btn-xs btn-dark" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button></td>
+                        </c:when>
+                        <c:otherwise>
+                            <td><c:out value="${paziente.medico.nome}"/> <c:out value="${paziente.medico.cognome}   "/><button type="button" class="btn btn-xs btn-dark" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button></td>
+                        </c:otherwise>
+                    </c:choose>
+                </tr>
+                <tr>
+                    <th><b>Password:</b></th>
+                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modaleCambioPassword">Cambia password</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-
-
-<%-- Modale prescrizione esame ssp--%>
 
 <div class="modal fade" id="modaleCambiaMedico" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -112,7 +105,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
                     <div class="form-group">
                         <label for="changeMedico">Seleziona nuovo medico</label>
                         <select class="form-control" name="changeMedico" id="changeMedico">
@@ -128,7 +120,6 @@
                             </c:forEach>
                         </select>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
@@ -138,8 +129,6 @@
         </div>
     </div>
 </div>
-
-<%-- TODO: fare il modale per cambio password--%>
 
 <div class="modal fade" id="modaleCambioPassword" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
