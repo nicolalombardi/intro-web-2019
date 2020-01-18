@@ -186,7 +186,9 @@ public class PazienteController implements Filter {
             Paziente paziente = null;
             try {
                 paziente = pazienteDAO.getByPrimaryKey(user.getId());
+                ArrayList<User> listaMediciSceglibili = pazienteDAO.getAllMediciBase(paziente.getId());
                 request.setAttribute("paziente",paziente);
+                request.setAttribute("listaMediciSceglibili", listaMediciSceglibili);
             } catch (DAOException e) {
                 e.printStackTrace();
             }
