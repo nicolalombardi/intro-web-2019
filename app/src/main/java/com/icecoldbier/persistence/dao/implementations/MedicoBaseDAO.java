@@ -189,7 +189,7 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
 
             try (ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()) {
-                    VisitaSpecialisticaOrSSP visita = getFromResultSet(resultSet);
+                    VisitaSpecialisticaOrSSP visita = getVisitaSpecialisticaOrSSPFromResultSet(resultSet);
                     visite.add(visita);
                 }
             }
@@ -215,7 +215,7 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
 
             try (ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()) {
-                    VisitaSpecialisticaOrSSP visita = getFromResultSet(resultSet);
+                    VisitaSpecialisticaOrSSP visita = getVisitaSpecialisticaOrSSPFromResultSet(resultSet);
                     visite.add(visita);
                 }
             }
@@ -294,7 +294,7 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
     public List<User> getAll() throws DAOException {
         return null;
     }
-    private VisitaSpecialisticaOrSSP getFromResultSet(ResultSet resultSet) throws SQLException, DAOException {
+    private VisitaSpecialisticaOrSSP getVisitaSpecialisticaOrSSPFromResultSet(ResultSet resultSet) throws SQLException, DAOException {
         if(resultSet.getString("tipo").equals("specialistica")){
             Report report = reportDAO.getByPrimaryKey(resultSet.getInt("id_report"));
             Paziente paziente = pazienteDAO.getByPrimaryKey(resultSet.getInt("id_paziente"));
