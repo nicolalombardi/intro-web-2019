@@ -19,33 +19,33 @@
 <div class="container">
 
     <form class="form-login" action="dologin" method="POST">
-        <input hidden id="inputEmail" name="inputEmail" value="progettoweb0+mb.antonio.santoro@gmail.com">
+        <input hidden name="inputEmail" value="progettoweb0+mb.antonio.santoro@gmail.com">
 
-        <input hidden id="inputPassword" name="inputPassword" value="pass123">
+        <input hidden name="inputPassword" value="pass123">
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Log in as medico di base</button>
     </form>
 
     <form class="form-login" action="dologin" method="POST">
-        <input hidden id="inputEmail" name="inputEmail" value="progettoweb0+ms.tommaso.mariani@gmail.com">
+        <input hidden  name="inputEmail" value="progettoweb0+ms.tommaso.mariani@gmail.com">
 
-        <input hidden id="inputPassword" name="inputPassword" value="pass123">
+        <input hidden  name="inputPassword" value="pass123">
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Log in as medico specialista</button>
     </form>
 
     <form class="form-login" action="dologin" method="POST">
-        <input hidden id="inputEmail" name="inputEmail" value="progettoweb0+p.ludovica.bianco@gmail.com">
+        <input hidden  name="inputEmail" value="progettoweb0+p.ludovica.bianco@gmail.com">
 
-        <input hidden id="inputPassword" name="inputPassword" value="pass456">
+        <input hidden  name="inputPassword" value="pass456">
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Log in as paziente</button>
     </form>
 
     <form class="form-login" action="dologin" method="POST">
-        <input hidden id="inputEmail" name="inputEmail" value="progettoweb0+ssp.milano@gmail.com">
+        <input hidden  name="inputEmail" value="progettoweb0+ssp.milano@gmail.com">
 
-        <input hidden id="inputPassword" name="inputPassword" value="passssp">
+        <input hidden  name="inputPassword" value="passssp">
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Log in as ssp</button>
     </form>
