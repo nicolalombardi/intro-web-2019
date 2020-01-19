@@ -15,13 +15,11 @@
     <%@ include file="navbar.html" %>
     
     <div class="container">
-        
-        
         <div class="container">
             <div class="row">
-                <div class="col-sm">
+                <div class="col-lg-4">
                 </div>
-                <div class="col-sm">
+                <div class="col-lg-4">
                     <nav aria-label="Navigazione lista pazienti">
                         <span class="btn-group"></span>
                         <ul class="pagination justify-content-center">
@@ -44,17 +42,19 @@
 
                     </nav>
                 </div>
-                <div class="col-sm">
-                    <div class="btn-group">
+                <div class="col-lg-4 mb-1 mb-lg-0">
+                    <div class="div-centered">
                         <label class="label" for="pageSizeDropdown">Elementi: </label>
-                        <button id="pageSizeDropdown" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <c:out value="${pageParams.pageSize}"/>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=10">10</a>
-                            <a class="dropdown-item" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=15">15</a>
-                            <a class="dropdown-item" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=30">30</a>
+                        <div class="btn-group">
+                            <button id="pageSizeDropdown" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <c:out value="${pageParams.pageSize}"/>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=10">10</a>
+                                <a class="dropdown-item" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=15">15</a>
+                                <a class="dropdown-item" href="lista?page=<c:out value="${pageParams.page}"/>&pageSize=30">30</a>
+                            </div>
                         </div>
                     </div>
                 </div>
