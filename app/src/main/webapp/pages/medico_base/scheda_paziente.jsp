@@ -110,10 +110,19 @@
                 <h2>Funzioni</h2>
 
                 <c:if test="${not isMedicoAssociato}">
-                    <p class="info-text">
-                        <i class="material-icons info-icon">info_outline</i>
-                        <small>Funzioni disabilitate perchè non è un tuo paziente</small>
-                    </p>
+                    <div>
+                        <div class="row justify-content-center">
+                            <div class="col-auto info-col">
+                                <i class="material-icons info-icon">info_outline</i>
+                            </div>
+                            <div class="col-auto info-col">
+                                <p class="info-text">
+                                    Funzioni disabilitate perchè non è un tuo paziente
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                 </c:if>
 
                 <div class="card-deck">

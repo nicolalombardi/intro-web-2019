@@ -50,15 +50,20 @@ td{
     margin: -4px 0 0 -4px;
 }
 
+.info-col{
+    padding: 0 1px 0 1px;
+}
 .info-text{
     font-size: smaller;
     color: #3e3e3e;
+    margin-top: 2px;
 }
 
 .info-icon{
     font-size: 1.5em;
     color: #3e3e3e;
 }
+
 
 .icon-box{
     color: #fff;
