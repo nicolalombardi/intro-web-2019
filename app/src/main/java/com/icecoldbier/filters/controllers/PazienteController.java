@@ -86,6 +86,29 @@ public class PazienteController implements Filter {
                 ((HttpServletResponse)resp).sendError(500, e.getMessage());
                 e.printStackTrace();
             }
+        }else if(userPath.equals("/paziente/elenco-visite-ssp")){
+            ArrayList<VisitaSSP> elencoVisiteSSP = null;
+            try{
+                long count = visitaSSPDAO.getVisiteByPazienteCount(user.getId());
+                int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
+                int requestedPage = 1;
+
+                //Grab the requested page value if i exist, set a default value (1) if it does not
+                if(request.getParameter("page") != null){
+                    requestedPage = Integer.parseInt(request.getParameter("page"));
+                }
+                requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
+
+                elencoVisiteSSP = pazienteDAO.getVisiteSSP(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
+
+                request.setAttribute("page", requestedPage);
+                request.setAttribute("pagesCount", pagesCount);
+                request.setAttribute("elencoVisiteSSP", elencoVisiteSSP);
+
+            }catch (DAOException | DAOFactoryException e) {
+                ((HttpServletResponse)resp).sendError(500, e.getMessage());
+                e.printStackTrace();
+            }
         }else if (userPath.equals("/paziente/elenco-prescrizioni-ricette")){
             ArrayList<Ricetta> elencoRicette = null;
             try{

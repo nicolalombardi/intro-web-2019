@@ -201,6 +201,14 @@
         <url-pattern>/paziente/elenco-visite-specialistiche</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>ElencoVisiteSSP</servlet-name>
+        <jsp-file>/pages/paziente/visite_ssp.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ElencoVisiteSSP</servlet-name>
+        <url-pattern>/paziente/elenco-visite-ssp</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>ElencoPrescrizioniRicette</servlet-name>
         <jsp-file>/pages/paziente/prescrizioni_ricette.jsp</jsp-file>
     </servlet>

@@ -23,6 +23,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     private static final String SEARCH_PAZIENTI = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id  WHERE LOWER(users.username) LIKE ? OR LOWER(users.nome) LIKE ? OR LOWER(users.cognome) LIKE ? ORDER BY users.nome LIMIT 5";
     private static final String GET_VISITE_BASE= "SELECT v.id, v.id_medico, v.id_paziente, v.id_ricetta, v.data_erogazione, users.nome AS nome_medico, users.cognome AS cognome_medico FROM visita_base v INNER JOIN users ON v.id_medico = users.id WHERE v.id_paziente = ? LIMIT ? OFFSET ?";
     private static final String GET_VISITE_SPECIALISTICHE= "SELECT v.id, v.id_visita AS tipo, erogata, v.id_medico, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione, v.id_report FROM visita_specialistica v INNER JOIN users ON v.id_medico = users.id WHERE v.id_paziente = ? LIMIT ? OFFSET ?";
+    private static final String GET_VISITE_SSP= "SELECT * FROM visita_ssp WHERE visita_ssp.id_paziente = ? LIMIT ? OFFSET ?";
     private static final String GET_ALL_TICKETS_PAGED = "(SELECT visita_specialistica.data_erogazione AS data, 'visita specialistica' as type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_specialistica LEFT JOIN elenco_visite_possibili ON visita_specialistica.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL UNION SELECT visita_ssp.data_erogazione, 'visita ssp' AS type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_ssp LEFT JOIN elenco_visite_possibili ON visita_ssp.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL) LIMIT ? OFFSET ? ;";
     private static final String GET_ALL_TICKETS = "SELECT visita_specialistica.data_erogazione AS data, 'visita specialistica' as type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_specialistica LEFT JOIN elenco_visite_possibili ON visita_specialistica.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL UNION SELECT visita_ssp.data_erogazione, 'visita ssp' AS type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_ssp LEFT JOIN elenco_visite_possibili ON visita_ssp.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL ;";
     private static final String GET_ALL_RICETTE = "SELECT ricetta.id, ricetta.farmaco, ricetta.prescritta FROM ricetta, visita_base WHERE ricetta.id = visita_base.id_ricetta AND visita_base.id_paziente = ? UNION SELECT ricetta.id, ricetta.farmaco, ricetta.prescritta FROM ricetta, Visita_specialistica, report WHERE ricetta.id = report.id_ricetta AND report.id = visita_specialistica.id_report AND visita_specialistica.id_paziente = ? LIMIT ? OFFSET ?;";
@@ -239,6 +240,43 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                             report,
                             medicoBase);
                     visite.add(visitaSpecialistica);
+                }
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return visite;
+    }
+
+    @Override
+    public ArrayList<VisitaSSP> getVisiteSSP(Integer idp, int pageSize, int page) throws DAOException, DAOFactoryException {
+        ArrayList<VisitaSSP> visite = new ArrayList<>();
+        User medicoBase;
+        SSP ssp;
+        Paziente paziente;
+        VisitaPossibile tipoVisita;
+
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_SSP)){
+            preparedStatement.setInt(1, idp);
+            preparedStatement.setInt(2, pageSize);
+            preparedStatement.setInt(3, (page-1)*pageSize);
+            try (ResultSet rs = preparedStatement.executeQuery()){
+                while (rs.next()){
+                    paziente = getByPrimaryKey(rs.getInt("id_paziente"));
+                    ssp = sspDao.getByPrimaryKey(rs.getInt("id_ssp"));
+                    medicoBase = userDAO.getByPrimaryKey(rs.getInt("id_medico_base"));
+                    tipoVisita = visitePossibiliDAO.getByPrimaryKey(rs.getInt("id_visita"));
+
+                    VisitaSSP visitaSSP = new VisitaSSP(
+                            rs.getInt("id"),
+                            paziente,
+                            rs.getDate("data_erogazione"),
+                            tipoVisita,
+                            rs.getBoolean("erogata"),
+                            rs.getDate("data_prescrizione"),
+                            ssp,
+                            medicoBase);
+                    visite.add(visitaSSP);
                 }
             }
         } catch(SQLException e){
