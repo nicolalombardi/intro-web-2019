@@ -19,11 +19,6 @@
 <%@ include file="navbar.html" %>
 
 <div class="container">
-    <form action="report-ricette" method="get">
-        <input type="hidden" name="idssp" value="<c:out value="${user.id}"/>"/>
-        <input type="hidden" name="date" value="2020-01-18"/>
-        <button type="submit" class="btn btn-primary">Scarica report ricette</button>
-    </form>
     <h1>Lista Esami SSP</h1>
     <div class="container">
         <div class="row">

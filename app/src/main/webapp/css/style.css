@@ -71,3 +71,12 @@ td{
     padding: 15px;
     text-align: center;
 }
+
+.div-centered{
+    text-align: center;
+    text-align: -webkit-center;
+}
+
+.calendar{
+    margin-bottom: 20px;
+}

@@ -167,6 +167,15 @@
         <url-pattern>/ssp/lista-esami</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SSPReportRicette</servlet-name>
+        <jsp-file>/pages/ssp/report_ricette.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SSPReportRicette</servlet-name>
+        <url-pattern>/ssp/report-ricette</url-pattern>
+    </servlet-mapping>
+
 <!--    PAZIENTE-->
     <servlet>
         <servlet-name>PazienteHome</servlet-name>
