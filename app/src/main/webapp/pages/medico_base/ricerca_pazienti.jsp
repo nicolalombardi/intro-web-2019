@@ -20,7 +20,7 @@
     <h1>Ricerca pazienti</h1>
 
     <form>
-        <input type="text" id="ricercaPazienti" placeholder="Cerca..." autocomplete="off" class="form-control basicAutoSelect">
+        <input type="text" id="ricercaPazienti" placeholder="Cerca..." autocomplete="off" class="form-control basicAutoSelect" autofocus>
     </form>
 </div>
 
