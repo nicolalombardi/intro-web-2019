@@ -85,3 +85,7 @@ td{
 .calendar{
     margin-bottom: 20px;
 }
+
+.inl-form{
+    display: inline;
+}

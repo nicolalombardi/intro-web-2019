@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
 
 </head>
@@ -20,25 +21,26 @@
 %>
 
 <div class="container div-centered">
-    <h1>Generazione report ricette</h1>
-    <p>Seleziona una data per generare un report Excel delle ricette erogate in quella data nella tua regione</p>
+    <h1>Generazione report</h1>
+    <p>Seleziona una data per cui venga generato il report relativo alla tua provincia</p>
 
     <div class="div-centered calendar" id="datepicker" data-date="<c:out value="${today}"/>"></div>
-    <form action="genera-report-ricette" method="get">
-        <input type="hidden" id="date" name="date" value="<c:out value="${today}"/>">
-        <button type="submit" class="btn btn-primary">Scarica report ricette</button>
-    </form>
-</div>
 
-<div class="container div-centered">
-    <h1>Generazione report visite</h1>
-    <p>Seleziona una data per generare un report Excel delle visite erogate in quella data</p>
-
-    <div class="div-centered calendar" id="datepicker2" data-date="<c:out value="${today}"/>"></div>
-    <form action="genera-report-visite" method="get">
-        <input type="hidden" id="data" name="data" value="<c:out value="${today}"/>">
-        <button type="submit" class="btn btn-primary">Scarica report visite</button>
-    </form>
+    <p>Clicca sul bottone relativo al report che vuoi scaricare.</p>
+    <div>
+        <form action="genera-report-ricette" method="get" class="inl-form">
+            <input type="hidden" id="data-ricette" name="date" value="<c:out value="${today}"/>">
+            <button type="submit" class="btn btn-primary">
+                <i class="material-icons">cloud_download</i> Report ricette
+            </button>
+        </form>
+        <form action="genera-report-visite" method="get" class="inl-form">
+            <input type="hidden" id="data-visite" name="data" value="<c:out value="${today}"/>">
+            <button type="submit" class="btn btn-primary">
+                <i class="material-icons">cloud_download</i> Report visite
+            </button>
+        </form>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -58,7 +60,10 @@ crossorigin="anonymous"></script>
         language: "it"
     });
     $('#datepicker').on('changeDate', function() {
-        $('#date').val(
+        $('#data-ricette').val(
+            $('#datepicker').datepicker('getFormattedDate')
+        );
+        $('#data-visite').val(
             $('#datepicker').datepicker('getFormattedDate')
         );
     });
