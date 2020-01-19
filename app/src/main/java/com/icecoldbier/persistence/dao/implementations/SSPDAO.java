@@ -1,10 +1,7 @@
 package com.icecoldbier.persistence.dao.implementations;
 
 import com.icecoldbier.persistence.dao.interfaces.SSPDAOInterface;
-import com.icecoldbier.persistence.entities.InfoRicetta;
-import com.icecoldbier.persistence.entities.Paziente;
-import com.icecoldbier.persistence.entities.SSP;
-import com.icecoldbier.persistence.entities.User;
+import com.icecoldbier.persistence.entities.*;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.jdbc.JDBCDAOFactory;
@@ -26,14 +23,16 @@ public class SSPDAO extends JDBCDAO<SSP, Integer> implements SSPDAOInterface {
             "FROM ricetta r, visita_specialistica vs, report rep, users p\n" +
             "WHERE r.id = rep.id_ricetta AND vs.id_report = rep.id AND vs.id_paziente = p.id AND data_erogazione = ? AND p.provincia_appartenenza = ?";
     private static final String GET_SSP_BY_ID = "SELECT * FROM users WHERE id = ?";
-
+    private static final String GET_VISITE_BY_DATA = "SELECT v.id FROM visita_ssp v WHERE v.id_ssp = ? AND v.data_erogazione = ? ";
     private UserDAO userDAO;
+    private VisitaSSPDAO visitaSSPDAO;
 
     public SSPDAO(Connection con) {
         super(con);
         try {
             JDBCDAOFactory daoFactory = JDBCDAOFactory.getInstance();
             userDAO = daoFactory.getDAO(UserDAO.class);
+            visitaSSPDAO = daoFactory.getDAO(VisitaSSPDAO.class);
         } catch (DAOFactoryException e) {
             e.printStackTrace();
         }
@@ -124,4 +123,20 @@ public class SSPDAO extends JDBCDAO<SSP, Integer> implements SSPDAOInterface {
         return ssp;
     }
 
+    @Override
+    public ArrayList<VisitaSSP> getListaVisite(Date data, SSP ssp) throws DAOException {
+        ArrayList<VisitaSSP> listaVisite = new ArrayList<>();
+        try (PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_BY_DATA)) {
+            preparedStatement.setInt(1, ssp.getId());
+            preparedStatement.setDate(2, data);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                listaVisite.add(visitaSSPDAO.getByPrimaryKey(resultSet.getInt("id")));
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Error while getting lista ricette erogate in un giorno e per una provincia ", e);
+        }
+        return listaVisite;
     }
+}
