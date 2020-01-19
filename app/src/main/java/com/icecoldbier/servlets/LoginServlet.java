@@ -39,6 +39,9 @@ public class LoginServlet extends HttpServlet {
 
         String inputEmail = request.getParameter("inputEmail");
         String inputPassword = request.getParameter("inputPassword");
+        String rememberMeS = request.getParameter("rememberMe");
+
+        boolean rememberMe = rememberMeS == null ? false : rememberMeS.equals("on");
 
         String contextPath = Utils.getServletContextPath(getServletContext());
 
