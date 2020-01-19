@@ -16,11 +16,12 @@ public class ContextListener implements ServletContextListener {
             JDBCDAOFactory.configure(DBConf.DBURL);
             DAOFactory daoFactory = JDBCDAOFactory.getInstance();
             sce.getServletContext().setAttribute("daoFactory", daoFactory);
-            String photosFolderPath = sce.getServletContext().getInitParameter("photosFolder");
-            photosFolderPath = sce.getServletContext().getRealPath(photosFolderPath);
-            File photosFolder = new File(photosFolderPath);
-            if (! photosFolder.exists()){
-                photosFolder.mkdir();
+            //Create the photos folder and the thumbs folder if they don't exist
+            String resizedPhotosFolderPath = sce.getServletContext().getInitParameter("resizedPhotosFolder");
+            resizedPhotosFolderPath = sce.getServletContext().getRealPath(resizedPhotosFolderPath);
+            File resizedPhotosFolder = new File(resizedPhotosFolderPath);
+            if (! resizedPhotosFolder.exists()){
+                resizedPhotosFolder.mkdirs();
             }
         } catch (DAOFactoryException ex) {
             throw new RuntimeException(ex);

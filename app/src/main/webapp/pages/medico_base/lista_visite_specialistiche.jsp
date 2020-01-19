@@ -95,7 +95,7 @@
                     <c:forEach var="v" items="${listaVisite}">
                         <c:choose>
                             <c:when test="${v.SSP}">
-                                <c:set var="foto" value="${v.visitaSSP.paziente.foto}"/>
+                                <c:set var="foto" value="${v.visitaSSP.paziente.fotoThumb}"/>
                                 <c:set var="nome_e_cognome" value="${v.visitaSSP.paziente.nome} ${v.visitaSSP.paziente.cognome}"/>
                                 <c:set var="dataPrescrizione" value="${v.visitaSSP.dataPrescrizione}"/>
                                 <c:set var="tipo" value="Esame SSP"/>
@@ -104,7 +104,7 @@
                                 <c:set var="targetModal" value="#modaleVisitaSSP-${v.visitaSSP.id}"/>
                             </c:when>
                             <c:otherwise>
-                                <c:set var="foto" value="${v.visitaSpecialistica.paziente.foto}"/>
+                                <c:set var="foto" value="${v.visitaSpecialistica.paziente.fotoThumb}"/>
                                 <c:set var="nome_e_cognome" value="${v.visitaSpecialistica.paziente.nome} ${v.visitaSpecialistica.paziente.cognome}"/>
                                 <c:set var="dataPrescrizione" value="${v.visitaSpecialistica.dataPrescrizione}"/>
                                 <c:set var="tipo" value="Visita specialistica"/>

@@ -1,8 +1,13 @@
 package com.icecoldbier.utils;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.mail.*;
 import javax.mail.internet.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -65,6 +70,40 @@ public class Utils {
         emailExecutor.shutdown();
     }
 
+    public static BufferedImage resize(String inputImagePath, int maxDimension)
+            throws IOException {
+        // reads input image
+        File inputFile = new File(inputImagePath);
+        BufferedImage inputImage = ImageIO.read(inputFile);
+
+        //Compute new dimensions
+        int scaledWidth, scaledHeight;
+        if(inputImage.getHeight() > inputImage.getWidth()){
+            scaledHeight = maxDimension;
+            scaledWidth = inputImage.getWidth() / (inputImage.getHeight()/maxDimension);
+        }else{
+            scaledWidth = maxDimension;
+            scaledHeight = inputImage.getHeight() / (inputImage.getWidth()/maxDimension);
+        }
+
+        // creates output image
+        BufferedImage outputImage = new BufferedImage(scaledWidth,
+                scaledHeight, inputImage.getType());
+
+        // scales the input image to the output image
+        Graphics2D g2d = outputImage.createGraphics();
+        g2d.drawImage(inputImage, 0, 0, scaledWidth, scaledHeight, null);
+        g2d.dispose();
+        return outputImage;
+    }
+
+    /***
+     * This method is used to coerce an integer value to the boundaries passed as parameters
+     * @param min lower limit
+     * @param max upper limit
+     * @param value value to coerce
+     * @return Coerced int
+     */
     public static int coerceInt(int min, int max, int value){
         if(value <= min) return min;
         if(value > max) return max;

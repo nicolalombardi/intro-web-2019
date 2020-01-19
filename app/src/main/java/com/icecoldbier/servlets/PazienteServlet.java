@@ -10,10 +10,12 @@ import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -115,12 +117,18 @@ public class PazienteServlet extends HttpServlet {
                 }
             }
         }else if(userPath.equals("/paziente/cambia-foto")){
-            //Ottieni il percorso di storage
+            //Ottieni i percorsi per il salvataggio delle foto
             String photosFolderPath = getServletContext().getInitParameter("photosFolder");
-            if (photosFolderPath == null) {
+            String resizedPhotosFolderPath = getServletContext().getInitParameter("resizedPhotosFolder");
+
+            if (photosFolderPath == null || resizedPhotosFolderPath == null) {
                 throw new ServletException("Photos folder not configured");
             }
+
+            //Impostali correttamente
             photosFolderPath = getServletContext().getRealPath(photosFolderPath);
+            resizedPhotosFolderPath = getServletContext().getRealPath(resizedPhotosFolderPath);
+
             File photosFolder = new File(photosFolderPath);
 
             Part filePart = req.getPart("photo");
@@ -135,11 +143,18 @@ public class PazienteServlet extends HttpServlet {
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             fileName = new Date().getTime() + "_" + fileName;
 
-
             File photo = new File(photosFolder, fileName);
 
+            //Salva la foto
             try (InputStream input = filePart.getInputStream()) {
                 Files.copy(input, photo.toPath());
+
+                //Salva la copia ridimensionata
+                File resizedPhotoFile = new File(resizedPhotosFolderPath, fileName);
+                BufferedImage resizedImage = Utils.resize(photo.toPath().toString(), 128);
+                String formatName = fileName.substring(fileName
+                        .lastIndexOf(".") + 1);
+                ImageIO.write(resizedImage, formatName, resizedPhotoFile);
             }
             try {
                 pazienteDAO.changeProfilePicture(user.getId(), "/photos/" + fileName);

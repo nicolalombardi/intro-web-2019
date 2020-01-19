@@ -114,8 +114,8 @@
                     </td>
                     <td>
                         <c:choose>
-                            <c:when test="${not empty p.foto}">
-                                <img class="profile-picture" src="<c:out value="${p.foto}"/>" height="48" width="48">
+                            <c:when test="${not empty p.fotoThumb}">
+                                <img class="profile-picture" src="<c:out value="${p.fotoThumb}"/>" height="48" width="48">
                             </c:when>
                             <c:otherwise>
                                 <img src="/images/profile_placeholder.svg" height="48" width="48">

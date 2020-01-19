@@ -88,7 +88,7 @@
                         <tr data-toggle="modal" data-target="<c:out value="${targetModal}"/>">
                             <td>
                                 <c:choose>
-                                    <c:when test="${not empty v.paziente.foto}">
+                                    <c:when test="${not empty v.paziente.fotoThumb}">
                                         <img class="profile-picture" src="<c:out value="${v.paziente.foto}"/>" height="48" width="48">
                                     </c:when>
                                     <c:otherwise>

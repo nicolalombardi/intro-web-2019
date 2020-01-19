@@ -20,15 +20,6 @@
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
-
-    <servlet>
-        <servlet-name>DummyRestricted</servlet-name>
-        <jsp-file>/pages/dummy_restricted.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DummyRestricted</servlet-name>
-        <url-pattern>/dummy_restricted.html</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>LoginPage</servlet-name>
         <jsp-file>/pages/login.jsp</jsp-file>
@@ -259,5 +250,11 @@
         <description>The folder where the uploaded profile pictures are stored</description>
         <param-name>photosFolder</param-name>
         <param-value>WEB-INF/photos</param-value>
+    </context-param>
+
+    <context-param>
+        <description>The folder where the resized profile pictures are stored</description>
+        <param-name>resizedPhotosFolder</param-name>
+        <param-value>WEB-INF/photos/thumbs</param-value>
     </context-param>
 </web-app>

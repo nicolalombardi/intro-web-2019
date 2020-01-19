@@ -8,7 +8,9 @@ public class Paziente extends User{
     private String codiceFiscale;
     private char sesso;
     private String foto;
+    private String fotoThumb;
     private User medico;
+
 
     public Paziente(Integer id, UserType typ, String username, String password, String nome, String cognome, String provinciaAppartenenza, Date dataNascita, String luogoNascita, String codiceFiscale, char sesso, String foto, User medico) {
         super(id, typ, username, password, nome, cognome, provinciaAppartenenza);
@@ -17,6 +19,7 @@ public class Paziente extends User{
         this.codiceFiscale = codiceFiscale;
         this.sesso = sesso;
         this.foto = foto;
+        this.fotoThumb = foto == null ? null : foto + "?size=thumbnail";
         this.medico = medico;
     }
 
@@ -58,6 +61,14 @@ public class Paziente extends User{
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public String getFotoThumb() {
+        return fotoThumb;
+    }
+
+    public void setFotoThumb(String fotoThumb) {
+        this.fotoThumb = fotoThumb;
     }
 
     public User getMedico() {

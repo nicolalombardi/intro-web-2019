@@ -4,7 +4,7 @@ $('.basicAutoSelect').autoComplete({
     },
     formatResult: function (item) {
         console.log(item);
-        if(item.image.length === 0){
+        if(!item.image || item.image.length === 0){
             item.image = "/images/profile_placeholder.svg";
         }
         return {
@@ -22,7 +22,7 @@ $('.basicAutoSelect').autoComplete({
             resultFromServer.forEach((item) => {
                 formattedResults.push({
                     id : item.id,
-                    image: item.foto,
+                    image: item.fotoThumb,
                     text : item.nome + " " + item.cognome
                 });
             });
