@@ -11,18 +11,20 @@ import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Date;
 
-@WebServlet(name = "PazienteServlet", urlPatterns = {"/paziente/cambia-medico", "/paziente/cambia-password"})
-
-
+@WebServlet(name = "PazienteServlet", urlPatterns = {"/paziente/cambia-medico", "/paziente/cambia-password", "/paziente/cambia-foto"})
+@MultipartConfig(maxFileSize = 1024 * 1024 * 10)
 public class PazienteServlet extends HttpServlet {
 
     private PazienteDAO pazienteDAO;
@@ -112,6 +114,40 @@ public class PazienteServlet extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+        }else if(userPath.equals("/paziente/cambia-foto")){
+            //Ottieni il percorso di storage
+            String photosFolderPath = getServletContext().getInitParameter("photosFolder");
+            if (photosFolderPath == null) {
+                throw new ServletException("Photos folder not configured");
+            }
+            photosFolderPath = getServletContext().getRealPath(photosFolderPath);
+            File photosFolder = new File(photosFolderPath);
+
+            Part filePart = req.getPart("photo");
+
+            //Controllo dimesione foto
+            long maxSizeInBytes = 1024 * 1024 * 10;
+            if(filePart.getSize() > maxSizeInBytes){
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "La dimensione dell'immagine deve essere inferiore a 10MB");
+                return;
+            }
+
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            fileName = new Date().getTime() + "_" + fileName;
+
+
+            File photo = new File(photosFolder, fileName);
+
+            try (InputStream input = filePart.getInputStream()) {
+                Files.copy(input, photo.toPath());
+            }
+            try {
+                pazienteDAO.changeProfilePicture(user.getId(), "/photos/" + fileName);
+            } catch (DAOException e) {
+                e.printStackTrace();
+            }
+            resp.sendRedirect(resp.encodeRedirectURL(contextPath + "paziente/profilo"));
+
         }
     }
 }
