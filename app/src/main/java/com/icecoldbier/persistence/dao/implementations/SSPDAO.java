@@ -25,14 +25,12 @@ public class SSPDAO extends JDBCDAO<SSP, Integer> implements SSPDAOInterface {
     private static final String GET_SSP_BY_ID = "SELECT * FROM users WHERE id = ?";
     private static final String GET_VISITE_BY_DATA = "SELECT v.id FROM visita_ssp v WHERE v.id_ssp = ? AND v.data_erogazione = ? ";
     private UserDAO userDAO;
-    private VisitaSSPDAO visitaSSPDAO;
 
     public SSPDAO(Connection con) {
         super(con);
         try {
             JDBCDAOFactory daoFactory = JDBCDAOFactory.getInstance();
             userDAO = daoFactory.getDAO(UserDAO.class);
-            visitaSSPDAO = daoFactory.getDAO(VisitaSSPDAO.class);
         } catch (DAOFactoryException e) {
             e.printStackTrace();
         }
@@ -132,9 +130,9 @@ public class SSPDAO extends JDBCDAO<SSP, Integer> implements SSPDAOInterface {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
-                listaVisite.add(visitaSSPDAO.getByPrimaryKey(resultSet.getInt("id")));
+                listaVisite.add(JDBCDAOFactory.getInstance().getDAO(VisitaSSPDAO.class).getByPrimaryKey(resultSet.getInt("id")));
             }
-        } catch (SQLException e) {
+        } catch (SQLException | DAOFactoryException e) {
             throw new DAOException("Error while getting lista ricette erogate in un giorno e per una provincia ", e);
         }
         return listaVisite;
