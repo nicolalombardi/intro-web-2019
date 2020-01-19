@@ -12,6 +12,7 @@ import be.quodlibet.boxable.Row;
 import be.quodlibet.boxable.utils.PDStreamUtils;
 import com.icecoldbier.persistence.dao.implementations.PazienteDAO;
 import com.icecoldbier.persistence.entities.Ticket;
+import com.icecoldbier.persistence.entities.User;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
@@ -51,33 +52,15 @@ public class ListaTicketsPDF extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String pdfFolder = getServletContext().getInitParameter("pdfFolder");
-        if (pdfFolder == null) {
-            throw new ServletException("PDFs folder not configured");
-        }
-
-        //TODO: probabilmente da cambiare quando si farà l'autenticazione nel modo giusto, bisognerà controllare che solo i pazienti possano accedere a questa pagina
-//        User user;
-//        HttpSession session = request.getSession(false);
-//        if (session != null) {
-//            user = (User) session.getAttribute("user");
-//        }else{
-//            throw new ServletException("User not logged in");
-//        }
-
-        //Per ora passare un id
-        int id = Integer.parseInt(request.getParameter("idPaziente"));
+        User u = (User) request.getSession().getAttribute("user");
 
 
         ArrayList<Ticket> tickets;
         try {
-            tickets = pazienteDAO.getTickets(id);
+            tickets = pazienteDAO.getTickets(u.getId());
         } catch (DAOException e) {
             throw new ServletException("Error while accessing DAO");
         }
-
-        pdfFolder = getServletContext().getRealPath(pdfFolder);
-
 
         try (PDDocument doc = new PDDocument()) {
             PDPage page = new PDPage();
@@ -87,8 +70,7 @@ public class ListaTicketsPDF extends HttpServlet {
 
                 PDStreamUtils.write(
                         contents,
-                        "Tickets list for patient " + "Nome" + " " + "Cognome",
-//                        "Tickets list for patient " + user.getCognome() + " " + user.getNome(),
+                        "Lista dei ticket di " + u.getNome() + " " + u.getCognome(),
                         PDType1Font.TIMES_ROMAN,
                         22,
                         80,
@@ -96,7 +78,7 @@ public class ListaTicketsPDF extends HttpServlet {
                         Color.BLACK);
                 PDStreamUtils.write(
                         contents,
-                        "The following table lists all the tickets paid by the patient",
+                        "La seguente tabella contiene i dettagli dei ticket pagati dal paziente",
                         PDType1Font.TIMES_ROMAN,
                         14,
                         80,
@@ -116,10 +98,10 @@ public class ListaTicketsPDF extends HttpServlet {
 
                 Row<PDPage> header = table.createRow(20);
                 header.createCell(4, "#");
-                header.createCell(15, "Date");
-                header.createCell(15, "Type");
-                header.createCell(72, "Visit");
-                header.createCell(10, "Cost");
+                header.createCell(15, "Data");
+                header.createCell(15, "Tipo");
+                header.createCell(72, "Visita");
+                header.createCell(10, "Costo");
                 for (Cell<PDPage> cell : header.getCells()) {
                     cell.setFont(PDType1Font.TIMES_BOLD);
                 }
@@ -145,18 +127,9 @@ public class ListaTicketsPDF extends HttpServlet {
                 table.draw();
             }
 
-            doc.save(new File(pdfFolder, "user-" + "prova" + "-" + Calendar.getInstance().getTimeInMillis() + ".pdf"));
-
             response.setContentType("application/pdf");
-            response.setHeader("Content-disposition", "attachment; filename=prova.pdf");
+            response.setHeader("Content-disposition", "attachment; filename=lista_tickets.pdf");
             doc.save(response.getOutputStream());
         }
-
-        String contextPath = getServletContext().getContextPath();
-        if (!contextPath.endsWith("/")) {
-            contextPath += "/";
-        }
-
-        response.sendRedirect(response.encodeRedirectURL(contextPath + "test"));
     }
 }

@@ -25,7 +25,6 @@
 <div class="container">
     <h1>
         <form action="/paziente/tickets/pdf" method="POST">
-            <input hidden id="idPaziente" name="idPaziente" value=<c:out value="${idPaziente}"/>>
             Lista tickets <button class="btn btn-sm btn-dark" type="submit"><i class="material-icons md-light">print</i></button>
         </form>
     </h1>

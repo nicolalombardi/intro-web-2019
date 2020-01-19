@@ -54,7 +54,7 @@
                     <th scope="row"><c:out value="${r.nome}"/></th>
                     <c:choose>
                         <c:when test="${r.prescritta}">
-                            <th scope="row">SI</th>
+                            <th scope="row">Si</th>
                             <form action="stampa-ricetta" method="POST">
                                 <input hidden id="idRicetta" name="idRicetta" value=<c:out value="${r.id}"/>>
                                 <th><button class="btn btn-sm btn-primary btn-block" type="submit">Stampa ricetta</button></th>

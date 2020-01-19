@@ -76,9 +76,6 @@ public class DettaglioRicettaPDF extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        //TODO: probabilmente da cambiare quando si farà l'autenticazione nel modo giusto, bisognerà controllare che solo i pazienti possano accedere a questa pagina
-
-        //Per ora passare un id
         int idRicetta = Integer.parseInt(request.getParameter("idRicetta"));
 
         try (PDDocument doc = new PDDocument()) {
@@ -169,7 +166,7 @@ public class DettaglioRicettaPDF extends HttpServlet {
             }
 
             response.setContentType("application/pdf");
-            response.setHeader("Content-disposition", "attachment; filename=prova.pdf");
+            response.setHeader("Content-disposition", "attachment; filename=dettaglio_ricetta.pdf");
             doc.save(response.getOutputStream());
         } catch (Exception ex) {
             ex.printStackTrace();
