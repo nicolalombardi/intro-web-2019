@@ -115,14 +115,9 @@
                         </c:choose>
                         <tr data-toggle="modal" data-target="<c:out value="${targetModal}"/>">
                             <td>
-                                <c:choose>
-                                    <c:when test="${tuo}">
-                                        <i class="material-icons info-icon">check_box</i>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <i class="material-icons info-icon">check_box_outline_blank</i>
-                                    </c:otherwise>
-                                </c:choose>
+                                <c:if test="${tuo}">
+                                    <i class="material-icons info-icon">check</i>
+                                </c:if>
                             </td>
                             <td>
                                 <c:choose>

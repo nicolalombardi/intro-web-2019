@@ -103,14 +103,9 @@
             <c:forEach var="p" items="${listaPazienti}">
                 <tr data-href="/medico-base/scheda-paziente?id=<c:out value="${p.id}"/>">
                     <td>
-                        <c:choose>
-                            <c:when test="${user.id == p.medico.id}">
-                                <i class="material-icons info-icon">check_box</i>
-                            </c:when>
-                            <c:otherwise>
-                                <i class="material-icons info-icon">check_box_outline_blank</i>
-                            </c:otherwise>
-                        </c:choose>
+                        <c:if test="${user.id == p.medico.id}">
+                            <i class="material-icons info-icon">check</i>
+                        </c:if>
                     </td>
                     <td>
                         <c:choose>

@@ -95,14 +95,9 @@
                     <c:forEach var="v" items="${listaVisite}">
                         <tr data-toggle="modal" data-target="#modaleVisita<c:out value="${v.id}"/>">
                             <td>
-                                <c:choose>
-                                    <c:when test="${user.id == v.paziente.medico.id}">
-                                        <i class="material-icons info-icon">check_box</i>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <i class="material-icons info-icon">check_box_outline_blank</i>
-                                    </c:otherwise>
-                                </c:choose>
+                                <c:if test="${user.id == v.paziente.medico.id}">
+                                    <i class="material-icons info-icon">check</i>
+                                </c:if>
                             </td>
                             <td>
                                 <c:choose>
