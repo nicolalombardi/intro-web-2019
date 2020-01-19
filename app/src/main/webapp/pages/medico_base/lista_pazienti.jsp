@@ -88,8 +88,8 @@
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Tuo</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Cognome</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Nome e cognome</th>
                 <th scope="col">Sesso</th>
                 <th scope="col">Data di nascita</th>
                 <th scope="col">Luogo di nascita</th>
@@ -112,8 +112,17 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <td><c:out value="${p.nome}"/></td>
-                    <td><c:out value="${p.cognome}"/></td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${not empty p.foto}">
+                                <img class="profile-picture" src="<c:out value="${p.foto}"/>" height="48" width="48">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="/images/profile_placeholder.svg" height="48" width="48">
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td><c:out value="${p.nome} ${p.cognome}"/></td>
                     <td><c:out value="${p.sesso}"/></td>
                     <td><c:out value="${p.dataNascita}"/></td>
                     <td><c:out value="${p.luogoNascita}"/></td>

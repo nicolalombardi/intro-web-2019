@@ -38,6 +38,13 @@ public class PazienteController implements Filter {
         HttpSession session = request.getSession(false);
         String userPath = request.getServletPath();
         User user = (User)session.getAttribute("user");
+        Paziente paziente = null;
+        try {
+            paziente = pazienteDAO.getByPrimaryKey(user.getId());
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+        request.setAttribute("paziente",paziente);
 
         if(userPath.equals("/paziente/elenco-visite-base")){
             ArrayList<VisitaBase> elencoVisite = null;
@@ -206,11 +213,8 @@ public class PazienteController implements Filter {
                 ((HttpServletResponse)resp).sendError(500, e.getMessage());
             }
         }else if(userPath.equals("/paziente/profilo")){
-            Paziente paziente = null;
             try {
-                paziente = pazienteDAO.getByPrimaryKey(user.getId());
                 ArrayList<User> listaMediciSceglibili = pazienteDAO.getAllMediciBase(paziente.getId());
-                request.setAttribute("paziente",paziente);
                 request.setAttribute("listaMediciSceglibili", listaMediciSceglibili);
             } catch (DAOException e) {
                 e.printStackTrace();

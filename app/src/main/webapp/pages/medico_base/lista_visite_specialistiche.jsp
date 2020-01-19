@@ -77,8 +77,8 @@
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Tuo</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Cognome</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Paziente</th>
                 <th scope="col">Data prescrizione</th>
                 <th scope="col">Tipo</th>
                 <th scope="col">Descrizione</th>
@@ -95,8 +95,8 @@
                     <c:forEach var="v" items="${listaVisite}">
                         <c:choose>
                             <c:when test="${v.SSP}">
-                                <c:set var="nome" value="${v.visitaSSP.paziente.nome}"/>
-                                <c:set var="cognome" value="${v.visitaSSP.paziente.cognome}"/>
+                                <c:set var="foto" value="${v.visitaSSP.paziente.foto}"/>
+                                <c:set var="nome_e_cognome" value="${v.visitaSSP.paziente.nome} ${v.visitaSSP.paziente.cognome}"/>
                                 <c:set var="dataPrescrizione" value="${v.visitaSSP.dataPrescrizione}"/>
                                 <c:set var="tipo" value="Esame SSP"/>
                                 <c:set var="descrizione" value="${v.visitaSSP.tipo_visita.nome}"/>
@@ -104,8 +104,8 @@
                                 <c:set var="targetModal" value="#modaleVisitaSSP-${v.visitaSSP.id}"/>
                             </c:when>
                             <c:otherwise>
-                                <c:set var="nome" value="${v.visitaSpecialistica.paziente.nome}"/>
-                                <c:set var="cognome" value="${v.visitaSpecialistica.paziente.cognome}"/>
+                                <c:set var="foto" value="${v.visitaSpecialistica.paziente.foto}"/>
+                                <c:set var="nome_e_cognome" value="${v.visitaSpecialistica.paziente.nome} ${v.visitaSpecialistica.paziente.cognome}"/>
                                 <c:set var="dataPrescrizione" value="${v.visitaSpecialistica.dataPrescrizione}"/>
                                 <c:set var="tipo" value="Visita specialistica"/>
                                 <c:set var="descrizione" value="${v.visitaSpecialistica.tipo_visita.nome}"/>
@@ -124,8 +124,17 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td><c:out value="${nome}"/></td>
-                            <td><c:out value="${cognome}"/></td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${not empty foto}">
+                                        <img class="profile-picture" src="<c:out value="${foto}"/>" height="48" width="48">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="/images/profile_placeholder.svg" height="48" width="48">
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td><c:out value="${nome_e_cognome}"/></td>
                             <td><c:out value="${dataPrescrizione}"/></td>
                             <td><c:out value="${tipo}"/></td>
                             <td><c:out value="${descrizione}"/></td>

@@ -38,7 +38,14 @@
         <div class="nav-item dropdown">
             <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
                id="navbarDropdown" role="button">
-                <img height="48" src="/images/profile_placeholder.svg" width="48">
+                <c:choose>
+                    <c:when test="${not empty paziente.foto}">
+                        <img class="profile-picture" src="<c:out value="${paziente.foto}"/>" height="48" width="48">
+                    </c:when>
+                    <c:otherwise>
+                        <img src="/images/profile_placeholder.svg" height="48" width="48">
+                    </c:otherwise>
+                </c:choose>
             </a>
             <div aria-labelledby="navbarDropdown" class="dropdown-menu">
                 <a class="dropdown-item" href="/paziente/profilo">Profilo</a>

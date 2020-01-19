@@ -34,14 +34,14 @@
                         <tbody>
                         <tr>
                             <td colspan="2" style="text-align: center">
-                                <c:choose>
-                                    <c:when test="${not empty paziente.foto}">
-                                        <img src="<c:out value="${paziente.foto}"/>" height="300px" width="300px">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <img src="/images/profile_placeholder.svg" height="300px" width="300px">
-                                    </c:otherwise>
-                                </c:choose>
+                                    <c:choose>
+                                        <c:when test="${not empty paziente.foto}">
+                                            <img class="profile-picture" src="<c:out value="${paziente.foto}"/>" height="300px" width="300px">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="/images/profile_placeholder.svg" height="300px" width="300px">
+                                        </c:otherwise>
+                                    </c:choose>
                             </td>
                         </tr>
                         <tr>

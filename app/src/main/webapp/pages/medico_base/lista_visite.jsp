@@ -78,8 +78,8 @@
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Tuo</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Cognome</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Paziente</th>
                 <th scope="col">Data erogazione</th>
                 <th scope="col">Ricetta</th>
             </tr>
@@ -104,8 +104,17 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td><c:out value="${v.paziente.nome}"/></td>
-                            <td><c:out value="${v.paziente.cognome}"/></td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${not empty v.paziente.foto}">
+                                        <img class="profile-picture" src="<c:out value="${v.paziente.foto}"/>" height="48" width="48">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="/images/profile_placeholder.svg" height="48" width="48">
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td><c:out value="${v.paziente.nome} ${v.paziente.cognome}"/></td>
                             <td><c:out value="${v.dataErogazione}"/></td>
                             <td>
                                 <c:choose>

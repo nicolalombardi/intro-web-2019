@@ -3,14 +3,15 @@ $('.basicAutoSelect').autoComplete({
         url: '/rest/pazienti-service'
     },
     formatResult: function (item) {
-        if(item.image || item.image.length === 0){
+        console.log(item);
+        if(item.image.length === 0){
             item.image = "/images/profile_placeholder.svg";
         }
         return {
             value: item.id,
             text: item.text,
             html: [
-                $('<img>').attr('src', item.image).css("height", 36), ' ',
+                $('<img>').attr('src', item.image).css("height", 36).addClass("profile-picture"), ' ',
                 item.text
             ]
         };
