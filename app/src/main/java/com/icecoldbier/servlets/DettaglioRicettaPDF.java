@@ -75,20 +75,11 @@ public class DettaglioRicettaPDF extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String pdfFolder = getServletContext().getInitParameter("pdfFolder");
-        if (pdfFolder == null) {
-            throw new ServletException("PDFs folder not configured");
-        }
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         //TODO: probabilmente da cambiare quando si farà l'autenticazione nel modo giusto, bisognerà controllare che solo i pazienti possano accedere a questa pagina
 
         //Per ora passare un id
         int idRicetta = Integer.parseInt(request.getParameter("idRicetta"));
-
-
-        pdfFolder = getServletContext().getRealPath(pdfFolder);
-
 
         try (PDDocument doc = new PDDocument()) {
             PDPage page = new PDPage();
@@ -176,8 +167,6 @@ public class DettaglioRicettaPDF extends HttpServlet {
                     return;
                 }
             }
-
-            doc.save(new File(pdfFolder, "user-" + "prova" + "-" + Calendar.getInstance().getTimeInMillis() + ".pdf"));
 
             response.setContentType("application/pdf");
             response.setHeader("Content-disposition", "attachment; filename=prova.pdf");

@@ -45,12 +45,6 @@ public class ReportRicetteXLS extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String xlsFolder = getServletContext().getInitParameter("xlsFolder");
-        if (xlsFolder == null) {
-            throw new ServletException("XLSs folder not configured");
-        }
-        xlsFolder = getServletContext().getRealPath(xlsFolder);
-
         HttpSession session = req.getSession();
         User u = (User) session.getAttribute("user");
         String dateS = req.getParameter("date");
@@ -139,13 +133,10 @@ public class ReportRicetteXLS extends HttpServlet {
             sheet.autoSizeColumn(i);
         }
 
-        File fold = new File(xlsFolder);
         String name = "Report" + data.toString() + ".xls";
-        File result = new File(fold, name);
         resp.setContentType("application/vnd.ms-excel");
         resp.setHeader("Content-disposition", "attachment; filename=" + name + "");
-        try (FileOutputStream outputStream = new FileOutputStream(result)) {
-            workbook.write(outputStream);
+        try {
             workbook.write(resp.getOutputStream());
         } catch (Exception e) {
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
