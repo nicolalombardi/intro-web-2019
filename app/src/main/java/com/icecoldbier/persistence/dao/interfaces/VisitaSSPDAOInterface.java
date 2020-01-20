@@ -11,4 +11,5 @@ public interface VisitaSSPDAOInterface extends DAO<VisitaSSP, Integer> {
     public Long getVisiteByPazienteCount(int idp) throws DAOException;
     ArrayList<VisitaSSP> getVisiteBySSPPaged(int idSSP, PaginationParameters pageParams) throws DAOException;
     Long getVisiteBySSPCount(int idSSP) throws DAOException;
+    Long getCountVisiteFutureByPaziente(int idp) throws DAOException;
 }

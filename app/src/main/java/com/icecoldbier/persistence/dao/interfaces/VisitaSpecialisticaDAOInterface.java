@@ -7,4 +7,5 @@ import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 public interface VisitaSpecialisticaDAOInterface extends DAO<VisitaSpecialistica, Integer> {
     public Long getCount(int idp) throws DAOException;
     VisitaSpecialistica getContainingRicetta(int idRicetta) throws DAOException;
+    Long getCountVisiteFutureByPaziente(int idp) throws DAOException;
 }

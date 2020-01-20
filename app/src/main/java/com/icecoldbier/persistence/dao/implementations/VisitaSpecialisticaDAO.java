@@ -17,6 +17,7 @@ public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer
     private static final String GET_BY_ID = "SELECT * FROM visita_specialistica WHERE id = ?";
     private static final String GET_VISITE_COUNT = "SELECT COUNT(id) as count FROM visita_specialistica v WHERE v.id_paziente = ?";
     private static final String GET_VISITA_CONTAINING_RICETTA = "SELECT * FROM visita_specialistica WHERE id_report = (SELECT id FROM report WHERE id_ricetta = ?)";
+    private static final String GET_VISITE_FUTURE_COUNT = "SELECT COUNT(id) as count FROM visita_specialistica v WHERE v.id_paziente = ? AND v.erogata = 'false'";
 
 
 
@@ -112,4 +113,16 @@ public class VisitaSpecialisticaDAO extends JDBCDAO<VisitaSpecialistica, Integer
                 medicoBase);
     }
 
+    @Override
+    public Long getCountVisiteFutureByPaziente(int idp) throws DAOException {
+        try (PreparedStatement preparedStatement = CON.prepareStatement((GET_VISITE_FUTURE_COUNT))){
+            preparedStatement.setInt(1,idp);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                return resultSet.getLong("count");
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the count of visitaSpecialistica future", ex);
+        }
+    }
 }

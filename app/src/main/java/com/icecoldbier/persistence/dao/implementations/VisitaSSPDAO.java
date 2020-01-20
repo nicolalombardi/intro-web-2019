@@ -22,7 +22,7 @@ public class VisitaSSPDAO extends JDBCDAO<VisitaSSP, Integer> implements VisitaS
     private static final String GET_COUNT_VISITE_BY_SSP = "SELECT COUNT(*) FROM visita_ssp WHERE id_ssp = ?";
 
     private static final String GET_VISITE_BY_PAZIENTE_COUNT = "SELECT COUNT(id) as count FROM visita_ssp v WHERE v.id_paziente = ?";
-
+    private static final String GET_VISITE_FUTURE_COUNT = "SELECT COUNT(id) as count FROM visita_ssp v WHERE v.id_paziente = ? AND v.erogata = 'false'";
 
     private UserDAO userDAO;
     private PazienteDAO pazienteDAO;
@@ -139,5 +139,18 @@ public class VisitaSSPDAO extends JDBCDAO<VisitaSSP, Integer> implements VisitaS
                 ssp,
                 medicoBase
         );
+    }
+
+    @Override
+    public Long getCountVisiteFutureByPaziente(int idp) throws DAOException {
+        try (PreparedStatement preparedStatement = CON.prepareStatement((GET_VISITE_FUTURE_COUNT))){
+            preparedStatement.setInt(1,idp);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                return resultSet.getLong("count");
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Impossible to get the count of visitaSSP", ex);
+        }
     }
 }

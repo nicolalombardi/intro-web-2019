@@ -7,10 +7,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="elencoVisiteSpecialistiche" scope="request"
-             type="java.util.List<com.icecoldbier.persistence.entities.VisitaSpecialistica>"/>
-<jsp:useBean id="elencoVisiteSSP" scope="request"
-             type="java.util.List<com.icecoldbier.persistence.entities.VisitaSSP>"/>
+<jsp:useBean id="elencoVisiteFuture" scope="request"
+             type="java.util.List<com.icecoldbier.persistence.entities.VisitaSpecialisticaOrSSP>"/>
 <html>
 <head>
     <title>Elenco Prescrizioni Visite</title>
@@ -52,21 +50,25 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="v" items="${elencoVisiteSpecialistiche}">
-                <tr>
-                    <th scope="row"><c:out value="${v.tipo_visita.nome}"/></th>
-                    <th scope="row"><c:out value="${v.dataPrescrizione}"/></th>
-                    <th scope="row"><c:out value="${v.medicoBase.toStringNomeCognome()}"/></th>
-                    <th scope="row"><c:out value="${v.medicoSpecialista.toStringNomeCognome()}"/></th>
-                </tr>
-            </c:forEach>
-            <c:forEach var="v" items="${elencoVisiteSSP}">
-                <tr>
-                    <th scope="row"><c:out value="${v.tipo_visita.nome}"/></th>
-                    <th scope="row"><c:out value="${v.dataPrescrizione}"/></th>
-                    <th scope="row"><c:out value="${v.medicoBase.toStringNomeCognome()}"/></th>
-                    <th scope="row"><c:out value="${v.ssp.toStringSSP()}"/></th>
-                </tr>
+            <c:forEach var="v" items="${elencoVisiteFuture}">
+                <c:choose>
+                    <c:when test="${v.SSP}">
+                        <tr>
+                            <th scope="row"><c:out value="${v.visitaSSP.tipo_visita.nome}"/></th>
+                            <th scope="row"><c:out value="${v.visitaSSP.dataPrescrizione}"/></th>
+                            <th scope="row"><c:out value="${v.visitaSSP.medicoBase.toStringNomeCognome()}"/></th>
+                            <th scope="row"><c:out value="${v.visitaSSP.ssp.toStringSSP()}"/></th>
+                        </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <tr>
+                            <th scope="row"><c:out value="${v.visitaSpecialistica.tipo_visita.nome}"/></th>
+                            <th scope="row"><c:out value="${v.visitaSpecialistica.dataPrescrizione}"/></th>
+                            <th scope="row"><c:out value="${v.visitaSpecialistica.medicoBase.toStringNomeCognome()}"/></th>
+                            <th scope="row"><c:out value="${v.visitaSpecialistica.medicoSpecialista.toStringNomeCognome()}"/></th>
+                        </tr>
+                    </c:otherwise>
+                </c:choose>
             </c:forEach>
             </tbody>
         </table>

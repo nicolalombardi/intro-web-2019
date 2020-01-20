@@ -140,28 +140,24 @@ public class PazienteController implements Filter {
                 e.printStackTrace();
             }
         }else if(userPath.equals("/paziente/elenco-prescrizioni-visite")){
-            ArrayList<VisitaSpecialistica> elencoVisiteSpecialistiche = null;
-            ArrayList<VisitaSSP> elencoVisiteSSP = null;
+            ArrayList<VisitaSpecialisticaOrSSP> elencoVisiteFuture = null;
             try{
-                long count = visitaSpecialisticaDAO.getCount(user.getId()) + visitaSSPDAO.getVisiteByPazienteCount(user.getId());
+                long count = visitaSpecialisticaDAO.getCountVisiteFutureByPaziente(user.getId()) + visitaSSPDAO.getCountVisiteFutureByPaziente(user.getId());
                 int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
                 int requestedPage = 1;
 
-                //Grab the requested page value if i exist, set a default value (1) if it does not
                 if(request.getParameter("page") != null){
                     requestedPage = Integer.parseInt(request.getParameter("page"));
                 }
                 requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
-                //TODO: paginazione vera
-                elencoVisiteSpecialistiche = pazienteDAO.getVisiteSpecialisticheFuture(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
-                elencoVisiteSSP = pazienteDAO.getVisiteSSPFuture(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
+
+                elencoVisiteFuture = pazienteDAO.getVisiteFuture(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
 
                 request.setAttribute("page", requestedPage);
                 request.setAttribute("pagesCount", pagesCount);
-                request.setAttribute("elencoVisiteSpecialistiche", elencoVisiteSpecialistiche);
-                request.setAttribute("elencoVisiteSSP", elencoVisiteSSP);
+                request.setAttribute("elencoVisiteFuture", elencoVisiteFuture);
 
-            }catch (DAOException | DAOFactoryException e) {
+            }catch (DAOException e) {
                 ((HttpServletResponse)resp).sendError(500, e.getMessage());
                 e.printStackTrace();
             }
