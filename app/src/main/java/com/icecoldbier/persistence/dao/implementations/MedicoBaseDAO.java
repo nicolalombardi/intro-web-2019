@@ -2,7 +2,6 @@ package com.icecoldbier.persistence.dao.implementations;
 
 import com.icecoldbier.persistence.dao.interfaces.MedicoBaseDAOInterface;
 import com.icecoldbier.persistence.entities.*;
-import com.icecoldbier.utils.pagination.PaginationParameters;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.jdbc.JDBCDAOFactory;
@@ -22,12 +21,12 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
 
     private static final String APPROVA_RICETTA = "UPDATE ricetta SET prescritta=true WHERE id = ?";
 
-    private static final String GET_VISITE_ESAMI_BY_MEDICO_PAZIENTE_PAGED =
+    private static final String GET_VISITE_ESAMI_BY_MEDICO_PAZIENTE =
             "SELECT * FROM (\n" +
                     "SELECT id, id_visita, erogata, data_prescrizione, data_erogazione, id_medico, id_paziente, id_medico_base, id_report, NULL AS id_ssp, 'specialistica' AS tipo from visita_specialistica WHERE id_medico_base = ? AND id_paziente = ?\n" +
                     "UNION\n" +
                     "SELECT id, id_visita, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_paziente, id_medico_base, NULL AS id_report, id_ssp, 'ssp' AS tipo from visita_ssp WHERE id_medico_base = ? AND id_paziente = ?\n" +
-                    ")as visite ORDER BY data_prescrizione LIMIT ? OFFSET ?";
+                    ")as visite ORDER BY data_prescrizione";
     private static final String GET_COUNT_VISITE_ESAMI_BY_MEDICO_PAZIENTE =
             "SELECT COUNT(*) FROM (\n" +
                     "SELECT id, id_visita, erogata, data_prescrizione, data_erogazione, id_medico, id_paziente, id_medico_base, id_report, NULL AS id_ssp, 'specialistica' AS tipo from visita_specialistica WHERE id_medico_base = ? AND id_paziente = ?\n" +
@@ -35,12 +34,12 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
                     "SELECT id, id_visita, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_paziente, id_medico_base, NULL AS id_report, id_ssp, 'ssp' AS tipo from visita_ssp WHERE id_medico_base = ? AND id_paziente = ?\n" +
                     ")as visite";
 
-    private static final String GET_VISITE_ESAMI_BY_MEDICO_PAGED =
+    private static final String GET_VISITE_ESAMI_BY_MEDICO =
             "SELECT * FROM (\n" +
                     "SELECT id, id_visita, erogata, data_prescrizione, data_erogazione, id_medico, id_paziente, id_medico_base, id_report, NULL AS id_ssp, 'specialistica' AS tipo from visita_specialistica WHERE id_medico_base = ?\n" +
                     "UNION\n" +
                     "SELECT id, id_visita, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_paziente, id_medico_base, NULL AS id_report, id_ssp, 'ssp' AS tipo from visita_ssp WHERE id_medico_base = ?\n" +
-                    ")as visite ORDER BY data_prescrizione LIMIT ? OFFSET ?";
+                    ")as visite ORDER BY data_prescrizione";
     private static final String GET_COUNT_VISITE_ESAMI_BY_MEDICO =
             "SELECT COUNT(*) FROM (\n" +
                     "SELECT id, id_visita, erogata, data_prescrizione, data_erogazione, id_medico, id_paziente, id_medico_base, id_report, NULL AS id_ssp, 'specialistica' AS tipo from visita_specialistica WHERE id_medico_base = ?\n" +
@@ -177,15 +176,13 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
     }
 
     @Override
-    public ArrayList<VisitaSpecialisticaOrSSP> getVisiteEsamiByMedicoPaged(int idMedico, PaginationParameters pageParams) throws DAOException {
+    public ArrayList<VisitaSpecialisticaOrSSP> getVisiteEsamiByMedico(int idMedico) throws DAOException {
         ArrayList<VisitaSpecialisticaOrSSP> visite = new ArrayList<>();
 
 
-        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_ESAMI_BY_MEDICO_PAGED)){
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_ESAMI_BY_MEDICO)){
             preparedStatement.setInt(1, idMedico);
             preparedStatement.setInt(2, idMedico);
-            preparedStatement.setInt(3, pageParams.getPageSize());
-            preparedStatement.setInt(4, (pageParams.getPage()-1)*pageParams.getPageSize());
 
             try (ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()) {
@@ -201,17 +198,15 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
     }
 
     @Override
-    public ArrayList<VisitaSpecialisticaOrSSP> getVisiteEsamiByMedicoAndPazientePaged(int idMedico, int idPaziente, PaginationParameters pageParams) throws DAOException {
+    public ArrayList<VisitaSpecialisticaOrSSP> getVisiteEsamiByMedicoAndPaziente(int idMedico, int idPaziente) throws DAOException {
         ArrayList<VisitaSpecialisticaOrSSP> visite = new ArrayList<>();
 
 
-        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_ESAMI_BY_MEDICO_PAZIENTE_PAGED)){
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_ESAMI_BY_MEDICO_PAZIENTE)){
             preparedStatement.setInt(1, idMedico);
             preparedStatement.setInt(2, idPaziente);
             preparedStatement.setInt(3, idMedico);
             preparedStatement.setInt(4, idPaziente);
-            preparedStatement.setInt(5, pageParams.getPageSize());
-            preparedStatement.setInt(6, (pageParams.getPage()-1)*pageParams.getPageSize());
 
             try (ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()) {

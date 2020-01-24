@@ -3,7 +3,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <jsp:useBean id="listaVisite" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.VisitaSpecialisticaOrSSP>"/>
-<jsp:useBean id="pageParams" scope="request" type="com.icecoldbier.utils.pagination.PaginationParameters"/>
 
 
 <html>
@@ -11,6 +10,7 @@
     <title>Medico Base - Lista Visite Specialistiche ed Esami SSP</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -27,53 +27,9 @@
             <h1>Lista Visite Specialistiche ed Esami SSP di <c:out value="${paziente.nome}"/> <c:out value="${paziente.cognome}"/></h1>
         </c:otherwise>
     </c:choose>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4">
-            </div>
-            <div class="col-lg-4">
-                <nav aria-label="Navigazione lista visite base">
-                    <span class="btn-group"></span>
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item <c:if test="${pageParams.page == 1}">disabled</c:if>">
-                            <a class="page-link" href="lista-visite-specialistiche?page=<c:out value="${pageParams.page - 1}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&id_paziente=<c:out value="${paziente.id}"/>"
-                               <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Precedente</a>
-                        </li>
 
-                        <c:forEach var="i" begin="1" end="${pageParams.pagesCount}">
-                            <li class="page-item <c:if test="${pageParams.page == i}">active</c:if> "><a class="page-link"
-                                                                                                         href="lista-visite-specialistiche?page=<c:out value="${i}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&id_paziente=<c:out value="${paziente.id}"/>"><c:out value="${i}"/></a>
-                            </li>
-                        </c:forEach>
-
-                        <li class="page-item <c:if test="${pageParams.page == pageParams.pagesCount || pageParams.pagesCount == 0}">disabled</c:if>">
-                            <a class="page-link" href="lista-visite-specialistiche?page=<c:out value="${pageParams.page + 1}"/>&pageSize=<c:out value="${pageParams.pageSize}"/>&id_paziente=<c:out value="${paziente.id}"/>"
-                               <c:if test="${pageParams.page == 1}">tabindex="-1"</c:if> >Successiva</a>
-                        </li>
-                    </ul>
-
-                </nav>
-            </div>
-            <div class="col-lg-4 mb-1 mb-lg-0">
-                <div class="div-centered">
-                    <label class="label" for="pageSizeDropdown">Elementi: </label>
-                    <div class="btn-group">
-                        <button id="pageSizeDropdown" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <c:out value="${pageParams.pageSize}"/>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="lista-visite-specialistiche?page=<c:out value="${pageParams.page}"/>&pageSize=10&id_paziente=<c:out value="${paziente.id}"/>">10</a>
-                            <a class="dropdown-item" href="lista-visite-specialistiche?page=<c:out value="${pageParams.page}"/>&pageSize=15&id_paziente=<c:out value="${paziente.id}"/>">15</a>
-                            <a class="dropdown-item" href="lista-visite-specialistiche?page=<c:out value="${pageParams.page}"/>&pageSize=30&id_paziente=<c:out value="${paziente.id}"/>">30</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="table-responsive-md">
-        <table class="table table-striped table-hover">
+        <table class="datatable table table-striped table-hover">
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Tuo</th>
@@ -347,11 +303,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-<script src="../js/clickable_row.js"></script>
-
-<script src="../js/toggle_modal_hash.js"></script>
-
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.0/dist/latest/bootstrap-autocomplete.min.js"></script>
+
+<script src="../js/clickable_row.js"></script>
+<script src="../js/init_datatables.js"></script>
+<script src="../js/toggle_modal_hash.js"></script>
 <script src="../js/ricerca_pazienti.js"></script>
 
 <%--These are the success and error modals--%>

@@ -10,8 +10,6 @@ import it.unitn.disi.wp.commons.persistence.dao.jdbc.JDBCDAO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements MedicoSpecialistaDAOInterface{
 
@@ -41,16 +39,8 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
     private static final String INSERT_REPORT_RICETTA =    "INSERT INTO report (esito,id_ricetta) VALUES (?,?) RETURNING id";
     private static final String GET_PAZIENTI_COUNT = "SELECT COUNT(*) as count FROM (SELECT DISTINCT id_paziente FROM visita_specialistica "
             + "WHERE id_medico = ?) AS A";
-    private static final String GET_LISTA_PAZIENTI_PAGED = "SELECT DISTINCT paziente.id_user, users.typ,users.username,users.pass,users.nome, "
-            + "users.cognome, paziente.data_nascita, paziente.luogo_nascita, paziente.codice_fiscale,paziente.sesso,"
-            + " users.provincia_appartenenza, paziente.foto, paziente.id_medico "
-            + "FROM visita_specialistica, users, paziente "
-            + "WHERE visita_specialistica.id_medico = ? AND paziente.id_user = users.id AND visita_specialistica.id_paziente = paziente.id_user LIMIT ? OFFSET ?";
     private static final String GET_VISITE_COUNT = "SELECT COUNT(*) as count FROM visita_specialistica WHERE id_medico = ?";
-    private static final String GET_LISTA_VISITE_PAGED = "SELECT * \n" +
-        "FROM visita_specialistica\n" +
-        "WHERE id_medico = ?\n" +
-        "ORDER BY data_prescrizione DESC LIMIT ? OFFSET ?";
+
     private static final String CREATE_RICETTA = "INSERT INTO ricetta(farmaco, prescritta) VALUES(?,?) RETURNING id";
     
     private UserDAO userDAO;
@@ -281,27 +271,6 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
         }
     }
 
-    @Override
-    public ArrayList<Paziente> getListaPazientiAssociatiPaged(int id, int pageSize, int page) throws DAOException {
-        ArrayList<Paziente> pazienti = new ArrayList<>();
-
-        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_LISTA_PAZIENTI_PAGED)){
-            preparedStatement.setInt(1, id);
-            preparedStatement.setInt(2, pageSize);
-            preparedStatement.setInt(3, (page-1)*pageSize);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()){
-                while (resultSet.next()) {
-                    Paziente paziente = getPazienteFromResultSet(resultSet);
-                    pazienti.add(paziente);
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DAOException("Impossible to get the list of pazienti", ex);
-        }
-
-        return pazienti;
-    }
 
     @Override
     public Long getCountVisite(int idMedico) throws DAOException {
@@ -316,25 +285,5 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
         } catch (SQLException ex) {
             throw new DAOException("Impossible to get the count of visite", ex);
         }
-    }
-
-    @Override
-    public ArrayList<VisitaSpecialistica> getListaVisitePazientiPaged(int id, int pageSize, int page) throws DAOException {
-        ArrayList<VisitaSpecialistica> visite = new ArrayList<>();
-        try {
-            PreparedStatement preparedStatement = CON.prepareStatement(GET_LISTA_VISITE_PAGED);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setInt(2, pageSize);
-            preparedStatement.setInt(3, (page-1)*pageSize);
-            try (ResultSet resultSet = preparedStatement.executeQuery()){
-                while (resultSet.next()) {
-                    VisitaSpecialistica visita = getVisitaSpecialisticaFromResultSet(resultSet);
-                    visite.add(visita);
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DAOException("Impossible to get the list of visite of pazienti", ex);
-        }
-        return visite;
     }
 }

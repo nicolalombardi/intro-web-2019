@@ -2,7 +2,6 @@ package com.icecoldbier.persistence.dao.implementations;
 
 import com.icecoldbier.persistence.dao.interfaces.VisitaSSPDAOInterface;
 import com.icecoldbier.persistence.entities.*;
-import com.icecoldbier.utils.pagination.PaginationParameters;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.jdbc.JDBCDAOFactory;
@@ -18,7 +17,7 @@ import java.util.List;
 public class VisitaSSPDAO extends JDBCDAO<VisitaSSP, Integer> implements VisitaSSPDAOInterface {
     private static final String GET_VISITA_BY_ID = "SELECT * FROM visita_ssp WHERE id = ?";
 
-    private static final String GET_VISITE_BY_SSP_PAGED = "SELECT * FROM visita_ssp WHERE id_ssp = ? LIMIT ? OFFSET ?";
+    private static final String GET_VISITE_BY_SSP = "SELECT * FROM visita_ssp WHERE id_ssp = ?";
     private static final String GET_COUNT_VISITE_BY_SSP = "SELECT COUNT(*) FROM visita_ssp WHERE id_ssp = ?";
 
     private static final String GET_VISITE_BY_PAZIENTE_COUNT = "SELECT COUNT(id) as count FROM visita_ssp v WHERE v.id_paziente = ?";
@@ -86,14 +85,12 @@ public class VisitaSSPDAO extends JDBCDAO<VisitaSSP, Integer> implements VisitaS
     }
 
     @Override
-    public ArrayList<VisitaSSP> getVisiteBySSPPaged(int idSSP, PaginationParameters pageParams) throws DAOException {
+    public ArrayList<VisitaSSP> getVisiteBySSP(int idSSP) throws DAOException {
         ArrayList<VisitaSSP> visite = new ArrayList<>();
 
 
-        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_BY_SSP_PAGED)){
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_BY_SSP)){
             preparedStatement.setInt(1, idSSP);
-            preparedStatement.setInt(2, pageParams.getPageSize());
-            preparedStatement.setInt(3, (pageParams.getPage()-1)*pageParams.getPageSize());
 
             try (ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()) {

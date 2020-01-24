@@ -2,8 +2,6 @@ package com.icecoldbier.filters.controllers;
 
 import com.icecoldbier.persistence.dao.implementations.*;
 import com.icecoldbier.persistence.entities.*;
-import com.icecoldbier.utils.pagination.Pagination;
-import com.icecoldbier.utils.pagination.PaginationParameters;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
@@ -45,19 +43,14 @@ public class MedicoBaseController implements Filter {
 
                 long count = showAll ? pazienteDAO.getCount() : pazienteDAO.getAssociatiCount(user.getId());
 
-                PaginationParameters pageParams = Pagination.getPageParameters(
-                        request.getParameter("page"),
-                        request.getParameter("pageSize"),
-                        count
-                );
+
 
                 if(showAll){
-                    listaPazienti = pazienteDAO.getPazientiPaged(pageParams.getPageSize(), pageParams.getPage());
+                    listaPazienti = pazienteDAO.getPazienti();
                 }else{
-                    listaPazienti = pazienteDAO.getPazientiAssociatiPaged(user.getId(), pageParams.getPageSize(), pageParams.getPage());
+                    listaPazienti = pazienteDAO.getPazientiAssociati(user.getId());
                 }
 
-                request.setAttribute("pageParams", pageParams);
                 request.setAttribute("showAll", showAll);
                 request.setAttribute("listaPazienti", listaPazienti);
             }catch (DAOException e) {
@@ -87,16 +80,10 @@ public class MedicoBaseController implements Filter {
                 }else {
                     count = visitaBaseDAO.getByMedicoAndPazienteCount(idMedico, idPaziente);
                 }
-                PaginationParameters pageParams = Pagination.getPageParameters(
-                        request.getParameter("page"),
-                        request.getParameter("pageSize"),
-                        count
-                );
-
                 ArrayList<VisitaBase> listaVisite;
 
                 if(idPaziente == -1){
-                    listaVisite = visitaBaseDAO.getByMedicoPaged(idMedico, pageParams);
+                    listaVisite = visitaBaseDAO.getByMedico(idMedico);
                 }else {
                     Paziente paziente = pazienteDAO.getByPrimaryKey(idPaziente);
                     //Se il paziente non è tuo
@@ -104,10 +91,9 @@ public class MedicoBaseController implements Filter {
                         response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Il paziente non è tuo");
                     }
                     request.setAttribute("paziente", paziente);
-                    listaVisite = visitaBaseDAO.getByMedicoAndPazientePaged(idMedico, idPaziente, pageParams);
+                    listaVisite = visitaBaseDAO.getByMedicoAndPaziente(idMedico, idPaziente);
                 }
 
-                request.setAttribute("pageParams", pageParams);
                 request.setAttribute("listaVisite", listaVisite);
 
             }catch (DAOException e) {
@@ -137,17 +123,12 @@ public class MedicoBaseController implements Filter {
                 }else {
                     count = medicoBaseDAO.getVisiteEsamiByMedicoAndPazienteCount(idMedico, idPaziente);
                 }
-                PaginationParameters pageParams = Pagination.getPageParameters(
-                        request.getParameter("page"),
-                        request.getParameter("pageSize"),
-                        count
-                );
 
                 ArrayList<VisitaSpecialisticaOrSSP> listaVisite = new ArrayList<>();
 
 
                 if(idPaziente == -1){
-                    listaVisite = medicoBaseDAO.getVisiteEsamiByMedicoPaged(idMedico, pageParams);
+                    listaVisite = medicoBaseDAO.getVisiteEsamiByMedico(idMedico);
                 }else {
                     Paziente paziente = pazienteDAO.getByPrimaryKey(idPaziente);
                     //Se il paziente non è tuo
@@ -155,10 +136,9 @@ public class MedicoBaseController implements Filter {
                         response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Il paziente non è tuo");
                     }
                     request.setAttribute("paziente", paziente);
-                    listaVisite =  medicoBaseDAO.getVisiteEsamiByMedicoAndPazientePaged(idMedico, idPaziente, pageParams);
+                    listaVisite =  medicoBaseDAO.getVisiteEsamiByMedicoAndPaziente(idMedico, idPaziente);
                 }
 
-                request.setAttribute("pageParams", pageParams);
                 request.setAttribute("listaVisite", listaVisite);
 
             }catch (DAOException e) {

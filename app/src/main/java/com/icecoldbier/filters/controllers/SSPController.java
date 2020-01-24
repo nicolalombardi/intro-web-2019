@@ -2,8 +2,6 @@ package com.icecoldbier.filters.controllers;
 
 import com.icecoldbier.persistence.dao.implementations.*;
 import com.icecoldbier.persistence.entities.*;
-import com.icecoldbier.utils.pagination.Pagination;
-import com.icecoldbier.utils.pagination.PaginationParameters;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
@@ -37,21 +35,10 @@ public class SSPController implements Filter {
             int idSSP = user.getId();
 
             try{
-                long count = 0;
-                count = visitaSSPDAO.getVisiteBySSPCount(idSSP);
-
-                PaginationParameters pageParams = Pagination.getPageParameters(
-                        request.getParameter("page"),
-                        request.getParameter("pageSize"),
-                        count
-                );
-
                 ArrayList<VisitaSSP> listaVisite = new ArrayList<>();
 
-                listaVisite = visitaSSPDAO.getVisiteBySSPPaged(idSSP, pageParams);
+                listaVisite = visitaSSPDAO.getVisiteBySSP(idSSP);
 
-
-                request.setAttribute("pageParams", pageParams);
                 request.setAttribute("listaVisite", listaVisite);
 
             }catch (DAOException e) {

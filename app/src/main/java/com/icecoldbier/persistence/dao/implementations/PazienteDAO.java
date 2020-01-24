@@ -1,6 +1,5 @@
 package com.icecoldbier.persistence.dao.implementations;
 
-import com.icecoldbier.filters.controllers.MedicoBaseController;
 import com.icecoldbier.persistence.dao.exceptions.ProvincieNotMatchingException;
 import com.icecoldbier.persistence.dao.interfaces.PazienteDAOInterface;
 import com.icecoldbier.persistence.entities.*;
@@ -17,22 +16,21 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     private static final String GET_PAZIENTE_BY_ID = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id WHERE id_user = ?";
     private static final String GET_PAZIENTI_COUNT = "SELECT COUNT(*) as count FROM paziente";
     private static final String GET_PAZIENTI_ASSOCIATI_COUNT = "SELECT COUNT(*) as count FROM paziente WHERE paziente.id_medico = ? ";
-    private static final String GET_PAZIENTI_PAGED = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id ORDER BY users.nome LIMIT ? OFFSET ?";
-    private static final String GET_PAZIENTI_ASSOCIATI_PAGED = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id WHERE paziente.id_medico = ? ORDER BY users.nome LIMIT ? OFFSET ?";
+    private static final String GET_PAZIENTI = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id ORDER BY users.nome";
+    private static final String GET_PAZIENTI_ASSOCIATI= "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id WHERE paziente.id_medico = ? ORDER BY users.nome";
     private static final String GET_ALL_PAZIENTI = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id ORDER BY users.nome";
     private static final String SEARCH_PAZIENTI = "SELECT * FROM paziente INNER JOIN users ON paziente.id_user = users.id  WHERE LOWER(users.username) LIKE ? OR LOWER(users.nome) LIKE ? OR LOWER(users.cognome) LIKE ? ORDER BY users.nome LIMIT 5";
-    private static final String GET_VISITE_BASE= "SELECT v.id, v.id_medico, v.id_paziente, v.id_ricetta, v.data_erogazione, users.nome AS nome_medico, users.cognome AS cognome_medico FROM visita_base v INNER JOIN users ON v.id_medico = users.id WHERE v.id_paziente = ? LIMIT ? OFFSET ?";
-    private static final String GET_VISITE_SPECIALISTICHE= "SELECT v.id, v.id_visita AS tipo, erogata, v.id_medico, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione, v.id_report FROM visita_specialistica v INNER JOIN users ON v.id_medico = users.id WHERE v.id_paziente = ? LIMIT ? OFFSET ?";
-    private static final String GET_VISITE_SSP= "SELECT * FROM visita_ssp WHERE visita_ssp.id_paziente = ? LIMIT ? OFFSET ?";
-    private static final String GET_ALL_TICKETS_PAGED = "(SELECT visita_specialistica.data_erogazione AS data, 'visita specialistica' as type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_specialistica LEFT JOIN elenco_visite_possibili ON visita_specialistica.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL UNION SELECT visita_ssp.data_erogazione, 'visita ssp' AS type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_ssp LEFT JOIN elenco_visite_possibili ON visita_ssp.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL) LIMIT ? OFFSET ? ;";
-    private static final String GET_ALL_TICKETS = "SELECT visita_specialistica.data_erogazione AS data, 'visita specialistica' as type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_specialistica LEFT JOIN elenco_visite_possibili ON visita_specialistica.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL UNION SELECT visita_ssp.data_erogazione, 'visita ssp' AS type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_ssp LEFT JOIN elenco_visite_possibili ON visita_ssp.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL ;";
-    private static final String GET_ALL_RICETTE = "SELECT ricetta.id, ricetta.farmaco, ricetta.prescritta FROM ricetta, visita_base WHERE ricetta.id = visita_base.id_ricetta AND visita_base.id_paziente = ? UNION SELECT ricetta.id, ricetta.farmaco, ricetta.prescritta FROM ricetta, Visita_specialistica, report WHERE ricetta.id = report.id_ricetta AND report.id = visita_specialistica.id_report AND visita_specialistica.id_paziente = ? LIMIT ? OFFSET ?;";
+    private static final String GET_VISITE_BASE= "SELECT v.id, v.id_medico, v.id_paziente, v.id_ricetta, v.data_erogazione, users.nome AS nome_medico, users.cognome AS cognome_medico FROM visita_base v INNER JOIN users ON v.id_medico = users.id WHERE v.id_paziente = ?";
+    private static final String GET_VISITE_SPECIALISTICHE= "SELECT v.id, v.id_visita AS tipo, erogata, v.id_medico, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione, v.id_report FROM visita_specialistica v INNER JOIN users ON v.id_medico = users.id WHERE v.id_paziente = ?";
+    private static final String GET_VISITE_SSP= "SELECT * FROM visita_ssp WHERE visita_ssp.id_paziente = ?";
+    private static final String GET_ALL_TICKETS = "(SELECT visita_specialistica.data_erogazione AS data, 'visita specialistica' as type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_specialistica LEFT JOIN elenco_visite_possibili ON visita_specialistica.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL UNION SELECT visita_ssp.data_erogazione, 'visita ssp' AS type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_ssp LEFT JOIN elenco_visite_possibili ON visita_ssp.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL) ;";
+    private static final String GET_ALL_RICETTE = "SELECT ricetta.id, ricetta.farmaco, ricetta.prescritta FROM ricetta, visita_base WHERE ricetta.id = visita_base.id_ricetta AND visita_base.id_paziente = ? UNION SELECT ricetta.id, ricetta.farmaco, ricetta.prescritta FROM ricetta, Visita_specialistica, report WHERE ricetta.id = report.id_ricetta AND report.id = visita_specialistica.id_report AND visita_specialistica.id_paziente = ?;";
     private static final String CHANGE_PROFILE_PICTURE = "UPDATE paziente SET foto = ? WHERE id_user = ?";
     private static final String CHANGE_MEDICO_BASE = "UPDATE paziente SET id_medico = ? WHERE id_user = ?";
-    private static final String GET_VISITE_SPECIALISTICHE_FUTURE= "SELECT v.id, v.id_visita AS tipo, v.erogata, v.id_medico, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione, v.id_report FROM visita_specialistica v WHERE v.erogata = 'false' AND v.id_paziente = ? LIMIT ? OFFSET ?";
-    private static final String GET_VISITE_SSP_FUTURE= "SELECT v.id, v.id_visita AS tipo, v.erogata, v.id_ssp, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione FROM visita_ssp v WHERE v.erogata = 'false' AND v.id_paziente = ? LIMIT ? OFFSET ?";
+    private static final String GET_VISITE_SPECIALISTICHE_FUTURE= "SELECT v.id, v.id_visita AS tipo, v.erogata, v.id_medico, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione, v.id_report FROM visita_specialistica v WHERE v.erogata = 'false' AND v.id_paziente = ?";
+    private static final String GET_VISITE_SSP_FUTURE= "SELECT v.id, v.id_visita AS tipo, v.erogata, v.id_ssp, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione FROM visita_ssp v WHERE v.erogata = 'false' AND v.id_paziente = ?";
     private static final String GET_ALL_MEDICI_BASE= "SELECT m.id FROM users p, users m WHERE p.id = ? AND p.provincia_appartenenza = m.provincia_appartenenza AND m.typ = 'medico_base';;";
-    private static final String GET_ALL_VISITE_FUTURE = "SELECT 'specialistica' as type, id, id_visita AS tipo, erogata, data_prescrizione, data_erogazione, id_medico, id_medico_base, id_paziente, id_report, NULL AS id_ssp FROM visita_specialistica WHERE id_paziente = ? AND erogata = 'false' UNION SELECT 'ssp' AS type, id, id_visita AS tipo, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_medico_base, id_paziente, NULL AS id_report, id_ssp FROM visita_ssp WHERE id_paziente = ? AND erogata = 'false' LIMIT ? OFFSET ?;";
+    private static final String GET_ALL_VISITE_FUTURE = "SELECT 'specialistica' as type, id, id_visita AS tipo, erogata, data_prescrizione, data_erogazione, id_medico, id_medico_base, id_paziente, id_report, NULL AS id_ssp FROM visita_specialistica WHERE id_paziente = ? AND erogata = 'false' UNION SELECT 'ssp' AS type, id, id_visita AS tipo, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_medico_base, id_paziente, NULL AS id_report, id_ssp FROM visita_ssp WHERE id_paziente = ? AND erogata = 'false';";
 
     private UserDAO userDAO;
     private ReportDAO reportDAO;
@@ -114,12 +112,10 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     }
 
     @Override
-    public ArrayList<Paziente> getPazientiPaged(int pageSize, int page) throws DAOException {
+    public ArrayList<Paziente> getPazienti() throws DAOException {
         ArrayList<Paziente> pazienti = new ArrayList<>();
 
-        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_PAZIENTI_PAGED)){
-            preparedStatement.setInt(1, pageSize);
-            preparedStatement.setInt(2, (page-1)*pageSize);
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_PAZIENTI)){
 
             try (ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()) {
@@ -135,13 +131,11 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     }
 
     @Override
-    public ArrayList<Paziente> getPazientiAssociatiPaged(int idMedico, int pageSize, int page) throws DAOException {
+    public ArrayList<Paziente> getPazientiAssociati(int idMedico) throws DAOException {
         ArrayList<Paziente> pazienti = new ArrayList<>();
 
-        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_PAZIENTI_ASSOCIATI_PAGED)){
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_PAZIENTI_ASSOCIATI)){
             preparedStatement.setInt(1, idMedico);
-            preparedStatement.setInt(2, pageSize);
-            preparedStatement.setInt(3, (page-1)*pageSize);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()) {
@@ -180,12 +174,10 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     }
 
     @Override
-    public ArrayList<VisitaBase> getVisiteBase(Integer id, int pageSize, int page) throws DAOException {
+    public ArrayList<VisitaBase> getVisiteBase(Integer id) throws DAOException {
         ArrayList<VisitaBase> visite = new ArrayList<>();
         try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_BASE)){
             preparedStatement.setInt(1, id);
-            preparedStatement.setInt(2, pageSize);
-            preparedStatement.setInt(3, (page-1)*pageSize);
             try (ResultSet rs = preparedStatement.executeQuery()){
                 while (rs.next()){
                     User medico = userDAO.getByPrimaryKey(rs.getInt("id_medico"));
@@ -209,7 +201,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     }
 
     @Override
-    public ArrayList<VisitaSpecialistica> getVisiteSpecialistiche(Integer id, int pageSize, int page) throws DAOException {
+    public ArrayList<VisitaSpecialistica> getVisiteSpecialistiche(Integer id) throws DAOException {
         ArrayList<VisitaSpecialistica> visite = new ArrayList<>();
         Report report;
         User medicoBase;
@@ -219,8 +211,6 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
 
         try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_SPECIALISTICHE)){
             preparedStatement.setInt(1, id);
-            preparedStatement.setInt(2, pageSize);
-            preparedStatement.setInt(3, (page-1)*pageSize);
             try (ResultSet rs = preparedStatement.executeQuery()){
                 while (rs.next()){
                     report = reportDAO.getByPrimaryKey(rs.getInt("id_report"));
@@ -249,7 +239,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     }
 
     @Override
-    public ArrayList<VisitaSSP> getVisiteSSP(Integer idp, int pageSize, int page) throws DAOException, DAOFactoryException {
+    public ArrayList<VisitaSSP> getVisiteSSP(Integer idp) throws DAOException, DAOFactoryException {
         ArrayList<VisitaSSP> visite = new ArrayList<>();
         User medicoBase;
         SSP ssp;
@@ -258,8 +248,6 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
 
         try(PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITE_SSP)){
             preparedStatement.setInt(1, idp);
-            preparedStatement.setInt(2, pageSize);
-            preparedStatement.setInt(3, (page-1)*pageSize);
             try (ResultSet rs = preparedStatement.executeQuery()){
                 while (rs.next()){
                     paziente = getByPrimaryKey(rs.getInt("id_paziente"));
@@ -286,13 +274,11 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     }
 
     @Override
-    public ArrayList<Ricetta> getRicette(Integer id, int pageSize, int page) throws DAOException {
+    public ArrayList<Ricetta> getRicette(Integer id) throws DAOException {
         ArrayList<Ricetta> ricette = new ArrayList<>();
         try(PreparedStatement preparedStatement = CON.prepareStatement(GET_ALL_RICETTE)){
             preparedStatement.setInt(1, id);
             preparedStatement.setInt(2,id);
-            preparedStatement.setInt(3, pageSize);
-            preparedStatement.setInt(4, (page-1)*pageSize);
             try(ResultSet rs = preparedStatement.executeQuery()){
                 while(rs.next()){
                     ricette.add(new Ricetta(
@@ -334,15 +320,12 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     }
 
     @Override
-    public ArrayList<Ticket> getTicketsPaged(Integer pazienteId, int pageSize, int page) throws DAOException {
+    public ArrayList<Ticket> getTicketsPaged(Integer pazienteId) throws DAOException {
         ArrayList<Ticket> tickets = new ArrayList<>();
 
-        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_ALL_TICKETS_PAGED)){
+        try(PreparedStatement preparedStatement = CON.prepareStatement(GET_ALL_TICKETS)){
             preparedStatement.setInt(1, pazienteId);
             preparedStatement.setInt(2, pazienteId);
-            preparedStatement.setInt(3, pageSize);
-            preparedStatement.setInt(4, (page-1)*pageSize);
-
             try (ResultSet rs = preparedStatement.executeQuery()){
                 while (rs.next()){
                     Ticket t = new Ticket(
@@ -422,7 +405,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
         return medici;
     }
 
-    public ArrayList<VisitaSpecialisticaOrSSP> getVisiteFuture(Integer id, int pageSize, int page) throws DAOException {
+    public ArrayList<VisitaSpecialisticaOrSSP> getVisiteFuture(Integer id) throws DAOException {
         ArrayList<VisitaSpecialisticaOrSSP> visite = new ArrayList<>();
         Paziente paziente;
         SSP ssp;
@@ -434,9 +417,6 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
         try(PreparedStatement preparedStatement = CON.prepareStatement(GET_ALL_VISITE_FUTURE)){
             preparedStatement.setInt(1, id);
             preparedStatement.setInt(2, id);
-            preparedStatement.setInt(3, pageSize);
-            preparedStatement.setInt(4, (page-1)*pageSize);
-
             try (ResultSet rs = preparedStatement.executeQuery()){
                 while (rs.next()){
                     String type = rs.getString("type");

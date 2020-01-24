@@ -7,9 +7,6 @@ import com.icecoldbier.persistence.dao.implementations.VisitaSpecialisticaDAO;
 import com.icecoldbier.persistence.entities.Paziente;
 import com.icecoldbier.persistence.entities.User;
 import com.icecoldbier.persistence.entities.VisitaSpecialistica;
-import com.icecoldbier.utils.Utils;
-import com.icecoldbier.utils.pagination.Pagination;
-import com.icecoldbier.utils.pagination.PaginationParameters;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
@@ -21,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @WebFilter(filterName = "MedicoSpecialistaController", urlPatterns = {"/medico-specialista/*"})
 public class MedicoSpecialistaController implements Filter {
@@ -48,17 +43,8 @@ public class MedicoSpecialistaController implements Filter {
             ArrayList<Paziente> listaPazientiSpecialista = null;
             try {
                 long count = medicoSpecialistaDAO.getCountPazienti(user.getId());
-                
-                PaginationParameters pageParams = Pagination.getPageParameters(
-                        request.getParameter("page"),
-                        request.getParameter("pageSize"),
-                        count
-                );
-                listaPazientiSpecialista = medicoSpecialistaDAO.getListaPazientiAssociatiPaged(user.getId(), pageParams.getPageSize(), pageParams.getPage());
-                //listaPazientiSpecialista = medicoSpecialistaDAO.getListaPazientiAssociati(user.getId());
-                System.out.println(count);
-                System.out.println(pageParams.getPage() + " " + pageParams.getPageSize() + " " + pageParams.getPagesCount());
-                request.setAttribute("pageParams", pageParams);
+
+                listaPazientiSpecialista = medicoSpecialistaDAO.getListaPazientiAssociati(user.getId());
                 request.setAttribute("listaPazientiSpecialista", listaPazientiSpecialista);
             } catch (DAOException ex) {
                 error = true;
@@ -69,14 +55,7 @@ public class MedicoSpecialistaController implements Filter {
             ArrayList<VisitaSpecialistica> visite = null;
             try {
                 long count = medicoSpecialistaDAO.getCountVisite(user.getId());
-                PaginationParameters pageParams = Pagination.getPageParameters(
-                        request.getParameter("page"),
-                        request.getParameter("pageSize"),
-                        count
-                );
-                visite = medicoSpecialistaDAO.getListaVisitePazientiPaged(user.getId(), pageParams.getPageSize(), pageParams.getPage());
-                //visite = medicoSpecialistaDAO.getListaVisitePazienti(user.getId());
-                request.setAttribute("pageParams", pageParams);
+                visite = medicoSpecialistaDAO.getListaVisitePazienti(user.getId());
                 request.setAttribute("visite", visite);
             } catch (DAOException ex) {
                 ((HttpServletResponse)resp).sendError(500, ex.getMessage());

@@ -16,6 +16,4 @@ public interface MedicoSpecialistaDAOInterface extends DAO<User, Integer> {
     public void erogaVisitaConRicetta(int idVisita,int idPaziente, int idMedicoBase, Report report, Ricetta ricetta) throws DAOException;
     public Long getCountPazienti(int idMedico) throws DAOException;
     public Long getCountVisite(int idMedico) throws DAOException;
-    public ArrayList <Paziente> getListaPazientiAssociatiPaged(int id, int pageSize, int page) throws DAOException;
-    public ArrayList <VisitaSpecialistica> getListaVisitePazientiPaged(int id, int pageSize, int page) throws DAOException;
 }

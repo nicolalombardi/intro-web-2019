@@ -3,8 +3,6 @@ package com.icecoldbier.filters.controllers;
 import com.icecoldbier.persistence.dao.implementations.*;
 import com.icecoldbier.persistence.entities.*;
 import com.icecoldbier.utils.Utils;
-import com.icecoldbier.utils.pagination.Pagination;
-import com.icecoldbier.utils.pagination.PaginationParameters;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOException;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
@@ -49,21 +47,8 @@ public class PazienteController implements Filter {
         if(userPath.equals("/paziente/elenco-visite-base")){
             ArrayList<VisitaBase> elencoVisite = null;
             try{
-                long count = visitaBaseDAO.getByPazienteCount(user.getId());
-                int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
-                int requestedPage = 1;
+                elencoVisite = pazienteDAO.getVisiteBase(user.getId());
 
-                //Grab the requested page value if i exist, set a default value (1) if it does not
-                if(request.getParameter("page") != null){
-                    requestedPage = Integer.parseInt(request.getParameter("page"));
-                }
-
-                requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
-
-                elencoVisite = pazienteDAO.getVisiteBase(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
-
-                request.setAttribute("page", requestedPage);
-                request.setAttribute("pagesCount", pagesCount);
                 request.setAttribute("elencoVisite", elencoVisite);
 
             }catch (DAOException e) {
@@ -73,20 +58,8 @@ public class PazienteController implements Filter {
         }else if(userPath.equals("/paziente/elenco-visite-specialistiche")){
             ArrayList<VisitaSpecialistica> elencoVisite = null;
             try{
-                long count = visitaSpecialisticaDAO.getCount(user.getId());
-                int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
-                int requestedPage = 1;
+                elencoVisite = pazienteDAO.getVisiteSpecialistiche(user.getId());
 
-                //Grab the requested page value if i exist, set a default value (1) if it does not
-                if(request.getParameter("page") != null){
-                    requestedPage = Integer.parseInt(request.getParameter("page"));
-                }
-                requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
-
-                elencoVisite = pazienteDAO.getVisiteSpecialistiche(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
-
-                request.setAttribute("page", requestedPage);
-                request.setAttribute("pagesCount", pagesCount);
                 request.setAttribute("elencoVisite", elencoVisite);
 
             }catch (DAOException e) {
@@ -96,20 +69,8 @@ public class PazienteController implements Filter {
         }else if(userPath.equals("/paziente/elenco-visite-ssp")){
             ArrayList<VisitaSSP> elencoVisiteSSP = null;
             try{
-                long count = visitaSSPDAO.getVisiteByPazienteCount(user.getId());
-                int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
-                int requestedPage = 1;
+                elencoVisiteSSP = pazienteDAO.getVisiteSSP(user.getId());
 
-                //Grab the requested page value if i exist, set a default value (1) if it does not
-                if(request.getParameter("page") != null){
-                    requestedPage = Integer.parseInt(request.getParameter("page"));
-                }
-                requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
-
-                elencoVisiteSSP = pazienteDAO.getVisiteSSP(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
-
-                request.setAttribute("page", requestedPage);
-                request.setAttribute("pagesCount", pagesCount);
                 request.setAttribute("elencoVisiteSSP", elencoVisiteSSP);
 
             }catch (DAOException | DAOFactoryException e) {
@@ -119,20 +80,8 @@ public class PazienteController implements Filter {
         }else if (userPath.equals("/paziente/elenco-prescrizioni-ricette")){
             ArrayList<Ricetta> elencoRicette = null;
             try{
-                long count = ricettaDAO.getCount(user.getId());
-                int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
-                int requestedPage = 1;
+                elencoRicette = pazienteDAO.getRicette(user.getId());
 
-                //Grab the requested page value if i exist, set a default value (1) if it does not
-                if(request.getParameter("page") != null){
-                    requestedPage = Integer.parseInt(request.getParameter("page"));
-                }
-                requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
-
-                elencoRicette = pazienteDAO.getRicette(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
-
-                request.setAttribute("page", requestedPage);
-                request.setAttribute("pagesCount", pagesCount);
                 request.setAttribute("elencoRicette", elencoRicette);
 
             }catch (DAOException e) {
@@ -142,19 +91,8 @@ public class PazienteController implements Filter {
         }else if(userPath.equals("/paziente/elenco-prescrizioni-visite")){
             ArrayList<VisitaSpecialisticaOrSSP> elencoVisiteFuture = null;
             try{
-                long count = visitaSpecialisticaDAO.getCountVisiteFutureByPaziente(user.getId()) + visitaSSPDAO.getCountVisiteFutureByPaziente(user.getId());
-                int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
-                int requestedPage = 1;
+                elencoVisiteFuture = pazienteDAO.getVisiteFuture(user.getId());
 
-                if(request.getParameter("page") != null){
-                    requestedPage = Integer.parseInt(request.getParameter("page"));
-                }
-                requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
-
-                elencoVisiteFuture = pazienteDAO.getVisiteFuture(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
-
-                request.setAttribute("page", requestedPage);
-                request.setAttribute("pagesCount", pagesCount);
                 request.setAttribute("elencoVisiteFuture", elencoVisiteFuture);
 
             }catch (DAOException e) {
@@ -165,18 +103,8 @@ public class PazienteController implements Filter {
             ArrayList<Ticket> listaTickets = null;
 
             try{
-                long count = ticketDAO.getCount(user.getId());
-                int pagesCount = (int)Math.ceil(count/DEFAULT_PAGE_COUNT);
-                int requestedPage = 1;
+                listaTickets = pazienteDAO.getTicketsPaged(user.getId());
 
-                //Grab the requested page value if i exist, set a default value (1) if it does not
-                if(request.getParameter("page") != null){
-                    requestedPage = Integer.parseInt(request.getParameter("page"));
-                }
-                requestedPage = Utils.coerceInt(1, pagesCount, requestedPage);
-                listaTickets = pazienteDAO.getTicketsPaged(user.getId(), (int)DEFAULT_PAGE_COUNT, requestedPage);
-                request.setAttribute("page", requestedPage);
-                request.setAttribute("pagesCount", pagesCount);
                 request.setAttribute("listaTickets", listaTickets);
                 request.setAttribute("idPaziente", user.getId());
 
@@ -189,21 +117,11 @@ public class PazienteController implements Filter {
             ArrayList<VisitaPossibile> listaVisite = null;
 
             try{
-                long count = 20;
-                String requestedPage = request.getParameter("page");
 
                 listaVisite = visitePossibiliDAO.getVisitePossibili(User.UserType.medico_specialista);
                 listaVisite.addAll(visitePossibiliDAO.getVisitePossibili(User.UserType.ssp));
 
-
-
-                PaginationParameters pageParams = Pagination.getPageParameters(requestedPage, "15", count);
-                int startIndex = (pageParams.getPage() -1) *15;
-                List visite = listaVisite.subList(startIndex,Math.min(listaVisite.size() - 1, startIndex + 15));
-
-                request.setAttribute("page", pageParams.getPage());
-                request.setAttribute("pagesCount", pageParams.getPagesCount());
-                request.setAttribute("listaVisite", visite);
+                request.setAttribute("listaVisite", listaVisite);
             }catch (DAOException e) {
                 e.printStackTrace();
                 ((HttpServletResponse)resp).sendError(500, e.getMessage());
