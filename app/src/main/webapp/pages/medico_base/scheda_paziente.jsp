@@ -13,6 +13,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Scheda di <c:out value="${paziente.nome}"/></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -25,172 +26,168 @@
 
 <div class="container">
     <h1>Scheda del paziente</h1>
-    <div class="container">
-        <div class="row">
-            <%--            Dati paziente--%>
-            <div class="col">
-                <div class="row">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <td colspan="2" style="text-align: center">
-                                    <c:choose>
-                                        <c:when test="${not empty paziente.foto}">
-                                            <img class="profile-picture" src="<c:out value="${paziente.foto}"/>" height="300px" width="300px">
-                                        </c:when>
-                                        <c:otherwise>
-                                            <img src="/images/profile_placeholder.svg" height="300px" width="300px">
-                                        </c:otherwise>
-                                    </c:choose>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><b>Nome</b></th>
-                            <td><c:out value="${paziente.nome}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Cognome</b></th>
-                            <td><c:out value="${paziente.cognome}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Email</b></th>
-                            <td><c:out value="${paziente.username}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Provincia di appartenenza</b></th>
-                            <td><c:out value="${paziente.provinciaAppartenenza}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Data di nascita</b></th>
-                            <td><c:out value="${paziente.dataNascita}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Luogo di nascita</b></th>
-                            <td><c:out value="${paziente.luogoNascita}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Codice fiscale</b></th>
-                            <td><c:out value="${paziente.codiceFiscale}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Sesso</b></th>
-                            <td><c:out value="${paziente.sesso}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Medico di base</b></th>
+    <div class="row">
+        <%--            Dati paziente--%>
+        <div class="col-12 col-lg-6">
+            <table class="table profile-table">
+                <tbody>
+                <tr>
+                    <td colspan="2" style="text-align: center">
                             <c:choose>
-                                <c:when test="${empty medico}">
-                                    <td>Non ancora scelto.</td>
+                                <c:when test="${not empty paziente.foto}">
+                                    <img class="profile-picture" src="<c:out value="${paziente.foto}"/>" height="300px" width="300px">
                                 </c:when>
                                 <c:otherwise>
-                                    <td><c:out value="${medico.nome}"/> <c:out value="${medico.cognome}"/></td>
+                                    <img class="profile-picture" src="/images/profile_placeholder.svg">
                                 </c:otherwise>
                             </c:choose>
+                    </td>
+                </tr>
+                <tr>
+                    <th><b>Nome</b></th>
+                    <td><c:out value="${paziente.nome}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Cognome</b></th>
+                    <td><c:out value="${paziente.cognome}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Email</b></th>
+                    <td><c:out value="${paziente.username}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Provincia di appartenenza</b></th>
+                    <td><c:out value="${paziente.provinciaAppartenenza}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Data di nascita</b></th>
+                    <td><c:out value="${paziente.dataNascita}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Luogo di nascita</b></th>
+                    <td><c:out value="${paziente.luogoNascita}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Codice fiscale</b></th>
+                    <td><c:out value="${paziente.codiceFiscale}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Sesso</b></th>
+                    <td><c:out value="${paziente.sesso}"/></td>
+                </tr>
+                <tr>
+                    <th><b>Medico di base</b></th>
+                    <c:choose>
+                        <c:when test="${empty medico}">
+                            <td>Non ancora scelto.</td>
+                        </c:when>
+                        <c:otherwise>
+                            <td><c:out value="${medico.nome}"/> <c:out value="${medico.cognome}"/></td>
+                        </c:otherwise>
+                    </c:choose>
 
-                        </tr>
-                        </tbody>
-                    </table>
+                </tr>
+                </tbody>
+            </table>
 
+
+            <%--                Calcola se è il tuo paziente--%>
+            <%
+                boolean isMedicoAssociato = false;
+                User user = (User) session.getAttribute("user");
+                if (medico.getId().equals(user.getId())) {
+                    isMedicoAssociato = true;
+                }
+                request.setAttribute("isMedicoAssociato", isMedicoAssociato);
+            %>
+
+
+        </div>
+        <%--            Funzioni--%>
+        <div class="col-12 col-lg-6  funzioni-col">
+            <h2>Funzioni</h2>
+
+            <c:if test="${not isMedicoAssociato}">
+                <div>
+                    <div class="row justify-content-center">
+                        <div class="col-auto info-col">
+                            <i class="material-icons info-icon">info_outline</i>
+                        </div>
+                        <div class="col-auto info-col">
+                            <p class="info-text">
+                                Funzioni disabilitate perchè non è un tuo paziente
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
-                <%--                Calcola se è il tuo paziente--%>
-                <%
-                    boolean isMedicoAssociato = false;
-                    User user = (User) session.getAttribute("user");
-                    if (medico.getId().equals(user.getId())) {
-                        isMedicoAssociato = true;
-                    }
-                    request.setAttribute("isMedicoAssociato", isMedicoAssociato);
-                %>
+            </c:if>
 
+            <div class="card-deck">
 
+                <div class="card border-dark mb-3" style="max-width: 100rem;">
+                    <div class="card-header">Eroga visita base</div>
+                    <div class="card-body text-dark">
+                        <p class="card-text">Eroga una visita base con la possibilità di associare una ricetta.</p>
+                        <button type="button" class="btn btn-primary stretched-link" data-toggle="modal"
+                                data-target="#modaleErogaVisita"
+                                <c:if test="${not isMedicoAssociato}">disabled</c:if>>
+                            Apri
+                        </button>
+                    </div>
+                </div>
+                <div class="card border-dark mb-3" style="max-width: 100rem;">
+                    <div class="card-header">Prescrivi visita specialistica
+                    </div>
+                    <div class="card-body text-dark">
+                        <p class="card-text">Prescrivi una visita specialistica selezionando visita e medico</p>
+                        <button type="button" class="btn btn-primary stretched-link" data-toggle="modal"
+                                data-target="#modalePrescriviVisitaSpecialistica"
+                                <c:if test="${not isMedicoAssociato}">disabled</c:if>>
+                            Apri
+                        </button>
+                    </div>
+                </div>
             </div>
-            <%--            Funzioni--%>
-            <div class="col funzioni-col">
-                <h2>Funzioni</h2>
+            <div class="card-deck">
 
-                <c:if test="${not isMedicoAssociato}">
-                    <div>
-                        <div class="row justify-content-center">
-                            <div class="col-auto info-col">
-                                <i class="material-icons info-icon">info_outline</i>
-                            </div>
-                            <div class="col-auto info-col">
-                                <p class="info-text">
-                                    Funzioni disabilitate perchè non è un tuo paziente
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="card border-dark mb-3" style="max-width: 100rem;">
+                    <div class="card-header">Prescrivi esame SSP</div>
+                    <div class="card-body text-dark">
+                        <p class="card-text">Prescrivi un'esame specialistico selezionando esame e ssp</p>
+                        <button type="button" class="btn btn-primary stretched-link" data-toggle="modal"
+                                data-target="#modalePrescriviEsameSSP"
+                                <c:if test="${not isMedicoAssociato}">disabled</c:if>>
+                            Apri
+                        </button>
 
-                </c:if>
-
-                <div class="card-deck">
-
-                    <div class="card border-dark mb-3" style="max-width: 100rem;">
-                        <div class="card-header">Eroga visita base</div>
-                        <div class="card-body text-dark">
-                            <p class="card-text">Eroga una visita base con la possibilità di associare una ricetta.</p>
-                            <button type="button" class="btn btn-primary stretched-link" data-toggle="modal"
-                                    data-target="#modaleErogaVisita"
-                                    <c:if test="${not isMedicoAssociato}">disabled</c:if>>
-                                Apri
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card border-dark mb-3" style="max-width: 100rem;">
-                        <div class="card-header">Prescrivi visita specialistica
-                        </div>
-                        <div class="card-body text-dark">
-                            <p class="card-text">Prescrivi una visita specialistica selezionando visita e medico</p>
-                            <button type="button" class="btn btn-primary stretched-link" data-toggle="modal"
-                                    data-target="#modalePrescriviVisitaSpecialistica"
-                                    <c:if test="${not isMedicoAssociato}">disabled</c:if>>
-                                Apri
-                            </button>
-                        </div>
                     </div>
                 </div>
-                <div class="card-deck">
-
-                    <div class="card border-dark mb-3" style="max-width: 100rem;">
-                        <div class="card-header">Prescrivi esame SSP</div>
-                        <div class="card-body text-dark">
-                            <p class="card-text">Prescrivi un'esame specialistico selezionando esame e ssp</p>
-                            <button type="button" class="btn btn-primary stretched-link" data-toggle="modal"
-                                    data-target="#modalePrescriviEsameSSP"
-                                    <c:if test="${not isMedicoAssociato}">disabled</c:if>>
-                                Apri
-                            </button>
-
-                        </div>
-                    </div>
-                    <div class="card border-dark mb-3" style="max-width: 100rem;">
-                        <div class="card-header">Elenco visite base</div>
-                        <div class="card-body text-dark">
-                            <p class="card-text">Visualizza l'elenco delle visite base erogate per questo paziente</p>
-                            <a class="btn btn-primary stretched-link <c:if test="${not isMedicoAssociato}">disabled</c:if>"
-                               role="button"  <c:if test="${isMedicoAssociato}">href="lista-visite-base?id_paziente=<c:out value="${paziente.id}"/>"</c:if>
-                               <c:if test="${not isMedicoAssociato}">disabled</c:if>>
-                                Vai
-                            </a>
-                        </div>
+                <div class="card border-dark mb-3" style="max-width: 100rem;">
+                    <div class="card-header">Elenco visite base</div>
+                    <div class="card-body text-dark">
+                        <p class="card-text">Visualizza l'elenco delle visite base erogate per questo paziente</p>
+                        <a class="btn btn-primary stretched-link <c:if test="${not isMedicoAssociato}">disabled</c:if>"
+                           role="button"  <c:if test="${isMedicoAssociato}">href="lista-visite-base?id_paziente=<c:out value="${paziente.id}"/>"</c:if>
+                           <c:if test="${not isMedicoAssociato}">disabled</c:if>>
+                            Vai
+                        </a>
                     </div>
                 </div>
-                <div class="card-deck">
+            </div>
+            <div class="card-deck">
 
-                    <div class="card border-dark mb-3" style="max-width: 100rem;">
-                        <div class="card-header">Elenco esami specialistici</div>
-                        <div class="card-body text-dark">
-                            <p class="card-text">Visualizza l'elenco degli esami specialistici erogati per questo
-                                paziente</p>
-                            <a class="btn btn-primary stretched-link <c:if test="${not isMedicoAssociato}">disabled</c:if>"
-                               role="button" <c:if test="${isMedicoAssociato}">href="lista-visite-specialistiche?id_paziente=<c:out value="${paziente.id}"/>"</c:if>
-                               <c:if test="${not isMedicoAssociato}">disabled</c:if>>
-                                Vai
-                            </a>
+                <div class="card border-dark mb-3" style="max-width: 100rem;">
+                    <div class="card-header">Elenco esami specialistici</div>
+                    <div class="card-body text-dark">
+                        <p class="card-text">Visualizza l'elenco degli esami specialistici erogati per questo
+                            paziente</p>
+                        <a class="btn btn-primary stretched-link <c:if test="${not isMedicoAssociato}">disabled</c:if>"
+                           role="button" <c:if test="${isMedicoAssociato}">href="lista-visite-specialistiche?id_paziente=<c:out value="${paziente.id}"/>"</c:if>
+                           <c:if test="${not isMedicoAssociato}">disabled</c:if>>
+                            Vai
+                        </a>
 
-                        </div>
                     </div>
                 </div>
             </div>

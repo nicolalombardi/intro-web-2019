@@ -1,6 +1,16 @@
 $(document).ready(function() {
     $('.datatable').DataTable({
-        dom: "<'row'<'col-sm-4'l><'col-sm-4 pag-fix'p><'col-sm-4'f>>" +
+        responsive: {
+            breakpoints: [
+                { name: 'xl', width: Infinity },
+                { name: 'lg',  width: 1200 },
+                { name: 'md',  width: 992 },
+                { name: 'sm',  width: 768 },
+                { name: 'xs',   width: 576 }
+            ]
+        },
+        noWrap: true,
+        dom: "<'row'<'col-lg-4 mb-2 mb-lg-0'l><'col-lg-4 pag-fix mb-2 mb-lg-0'p><'col-lg-4'f>>" +
     "<'row'<'col-sm-12'tr>>",
         language:{
             "decimal":        ",",

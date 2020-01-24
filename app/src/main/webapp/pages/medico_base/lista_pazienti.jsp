@@ -6,10 +6,11 @@
 
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Medico Base - Lista Pazienti</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -32,52 +33,53 @@
                role="button">Mostra tutti i pazienti</a>
         </c:otherwise>
     </c:choose>
-
-    <div class="table-responsive-md">
-        <table class="datatable table table-striped table-hover">
-            <thead class="thead-dark">
+    <table class="datatable table table-striped table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th class="all" scope="col">Foto</th>
+            <th class="all" scope="col">Nome e cognome</th>
+            <th class="min-sm" scope="col">Sesso</th>
+            <th class="min-md" scope="col">Data di nascita</th>
+            <th class="min-md" scope="col">Luogo di nascita</th>
+            <th class="min-lg" scope="col">Provincia</th>
+            <th class="min-lg" scope="col">Codice fiscale</th>
+            <th class="min-lg" scope="col">Scheda</th>
+        </tr>
+        </thead>
+        <tbody>
+        <jsp:useBean id="listaPazienti" scope="request"
+                     type="java.util.List<com.icecoldbier.persistence.entities.Paziente>"/>
+        <c:forEach var="p" items="${listaPazienti}">
             <tr>
-                <th scope="col">Tuo</th>
-                <th scope="col">Foto</th>
-                <th scope="col">Nome e cognome</th>
-                <th scope="col">Sesso</th>
-                <th scope="col">Data di nascita</th>
-                <th scope="col">Luogo di nascita</th>
-                <th scope="col">Provincia</th>
-                <th scope="col">Codice fiscale</th>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty p.fotoThumb}">
+                            <img class="profile-picture" src="<c:out value="${p.fotoThumb}"/>" height="48" width="48">
+                        </c:when>
+                        <c:otherwise>
+                            <img src="/images/profile_placeholder.svg" height="48" width="48">
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:out value="${p.nome} ${p.cognome}"/>
+                    <c:if test="${user.id == p.medico.id}"><br>
+                        <span class="badge badge-success"><i class="material-icons badge-icon">check</i></span>
+                    </c:if>
+                </td>
+                <td><c:out value="${p.sesso}"/></td>
+                <td><c:out value="${p.dataNascita}"/></td>
+                <td><c:out value="${p.luogoNascita}"/></td>
+                <td><c:out value="${p.provinciaAppartenenza}"/></td>
+                <td><c:out value="${p.codiceFiscale}"/></td>
+                <td><a class="btn btn-primary mb-3 icon-white"
+                       href="scheda-paziente?id=<c:out value="${p.id}"/>"
+                       role="button"><i class="material-icons">open_in_new</i></a></td>
+
             </tr>
-            </thead>
-            <tbody>
-            <jsp:useBean id="listaPazienti" scope="request"
-                         type="java.util.List<com.icecoldbier.persistence.entities.Paziente>"/>
-            <c:forEach var="p" items="${listaPazienti}">
-                <tr data-href="/medico-base/scheda-paziente?id=<c:out value="${p.id}"/>">
-                    <td>
-                        <c:if test="${user.id == p.medico.id}">
-                            <i class="material-icons info-icon">check</i>
-                        </c:if>
-                    </td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${not empty p.fotoThumb}">
-                                <img class="profile-picture" src="<c:out value="${p.fotoThumb}"/>" height="48" width="48">
-                            </c:when>
-                            <c:otherwise>
-                                <img src="/images/profile_placeholder.svg" height="48" width="48">
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td><c:out value="${p.nome} ${p.cognome}"/></td>
-                    <td><c:out value="${p.sesso}"/></td>
-                    <td><c:out value="${p.dataNascita}"/></td>
-                    <td><c:out value="${p.luogoNascita}"/></td>
-                    <td><c:out value="${p.provinciaAppartenenza}"/></td>
-                    <td><c:out value="${p.codiceFiscale}"/></td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
+        </c:forEach>
+        </tbody>
+    </table>
 </div>
 
 
@@ -90,11 +92,10 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.0/dist/latest/bootstrap-autocomplete.min.js"></script>
 
-<script src="../js/clickable_row.js"></script>
+<%--<script src="../js/clickable_row.js"></script>--%>
 <script src="../js/init_datatables.js"></script>
 <script src="../js/ricerca_pazienti.js"></script>
 </body>

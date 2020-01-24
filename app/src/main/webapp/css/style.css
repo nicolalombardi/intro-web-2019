@@ -61,9 +61,30 @@ td{
     margin-top: 2px;
 }
 
-.info-icon{
+
+.info-icon {
     font-size: 1.5em;
     color: #3e3e3e;
+}
+
+.badge-icon{
+    font-size: 18px !important;
+    color: white;
+}
+
+.white{
+    color: white;
+}
+
+.datatable{
+    width: 100% !important;
+}
+.dataTables_filter{
+    text-align: center!important;
+}
+
+.dataTables_length{
+    text-align: center;
 }
 
 
@@ -93,6 +114,8 @@ td{
 }
 .profile-picture{
     border-radius: 100% !important;
+    width: 100%;
+    max-width: 300px;
 }
 
 .pag-fix{
@@ -102,4 +125,12 @@ td{
 .approva{
     display: inline;
     float: right;
+}
+
+.profile-table{
+    word-break: break-word;
+}
+
+.pagination{
+    justify-content: center!important;
 }
