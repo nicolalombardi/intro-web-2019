@@ -40,6 +40,7 @@ public class LoginServlet extends HttpServlet {
         String inputEmail = request.getParameter("inputEmail");
         String inputPassword = request.getParameter("inputPassword");
         String rememberMeS = request.getParameter("rememberMe");
+        String changePassword = request.getParameter("changePassword");
 
         boolean rememberMe = rememberMeS == null ? false : rememberMeS.equals("on");
 
@@ -54,8 +55,14 @@ public class LoginServlet extends HttpServlet {
                 logger.print("Incorrect user or password.");
             } else {
                 request.getSession().setAttribute("user", u);
-                response.sendRedirect(response.encodeRedirectURL(contextPath + "login"));
-                logger.print("User " + u.getUsername() + " successfully logged in.");
+                if(Integer.parseInt(changePassword) == 1){
+                    request.getSession().setAttribute("changePassword", true);
+                    response.sendRedirect(response.encodeRedirectURL(contextPath + "paziente/profilo#modaleCambioPassword"));
+                }else{
+                    response.sendRedirect(response.encodeRedirectURL(contextPath + "login"));
+                    logger.print("User " + u.getUsername() + " successfully logged in.");
+                }
+
             }
         } catch (DAOException e) {
             response.sendRedirect(response.encodeRedirectURL(contextPath + "login?error=true&error_message=Incorrect email or password"));

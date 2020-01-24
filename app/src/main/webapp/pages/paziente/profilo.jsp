@@ -89,7 +89,19 @@
                 </tr>
                 <tr>
                     <th><b>Password:</b></th>
-                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modaleCambioPassword">Cambia password</button></td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${empty changePassword}">
+                                <form method="POST" action="cambia-password">
+                                    <input type="hidden" name="cambiaPassword" value=1>
+                                    <button type="submit" class="btn btn-primary">Cambia password</button>
+                                </form>
+                            </c:when>
+                            <c:otherwise>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modaleCambioPassword">Cambia password</button>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -164,6 +176,7 @@
         <div class="modal-content">
             <form method="post" action="cambia-password">
                 <input type="hidden" name="idPaziente" value="<c:out value="${paziente.id}"/>">
+                <input type="hidden" name="cambiaPassword" value=0>
                 <div class="modal-header">
                     <h5 class="modal-title">Cambia password</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Chiudi">
@@ -171,7 +184,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                Inserire nuova password: <input type="password" name="password">
+                    Inserire nuova password: <input type="password" name="password">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
@@ -193,6 +206,7 @@
         crossorigin="anonymous"></script>
 
 <script src="../js/scheda_paziente.js"></script>
+<script src="../js/toggle_modal_hash.js"></script>
 
 <%--These are the success and error modals--%>
 <%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>

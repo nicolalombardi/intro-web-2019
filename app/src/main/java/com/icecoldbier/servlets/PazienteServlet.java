@@ -85,37 +85,50 @@ public class PazienteServlet extends HttpServlet {
             }
         }
         if(userPath.equals("/paziente/cambia-password")){
-            String idp = req.getParameter("idPaziente");
-            String psw = req.getParameter("password");
+            String changePassword = req.getParameter("cambiaPassword");
 
-            if(idp == null){
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Id paziente mancante");
+            if(changePassword == null){
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Parametro mancante");
             }
-            if(psw == null){
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Password nuova mancante");
-            }
-            int idPaziente = Integer.parseInt(idp);
-            if(idPaziente != user.getId()){
-                session.setAttribute("errorMessage", "Non puoi modificare la password di un altro paziente");
-                resp.sendRedirect(resp.encodeRedirectURL(contextPath + "paziente/profilo"));
+
+            if(Integer.parseInt(changePassword) == 1){
+                session.invalidate();
+
+                resp.sendRedirect(contextPath + "login?changepassword=true");
             }else{
-                String hashedSaltedPassword = null;
-                try {
-                    hashedSaltedPassword = Password.generatePasswordHash(psw);
-
-                } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-                    e.printStackTrace();
+                String idp = req.getParameter("idPaziente");
+                String psw = req.getParameter("password");
+                if(idp == null){
+                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Id paziente mancante");
                 }
-                try {
-                    User p = userDAO.getByPrimaryKey(idPaziente);
-                    userDAO.changePassword(idPaziente, hashedSaltedPassword);
-                    session.setAttribute("successMessage", "Password aggiornata");
+                if(psw == null){
+                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Password nuova mancante");
+                }
+                int idPaziente = Integer.parseInt(idp);
+                if(idPaziente != user.getId()){
+                    session.setAttribute("errorMessage", "Non puoi modificare la password di un altro paziente");
                     resp.sendRedirect(resp.encodeRedirectURL(contextPath + "paziente/profilo"));
-                } catch (DAOException e) {
-                    session.setAttribute("errorMessage", "Errore nel cambiare la password, riprova più tardi");
-                    e.printStackTrace();
+                }else{
+                    String hashedSaltedPassword = null;
+                    try {
+                        hashedSaltedPassword = Password.generatePasswordHash(psw);
+
+                    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        User p = userDAO.getByPrimaryKey(idPaziente);
+                        userDAO.changePassword(idPaziente, hashedSaltedPassword);
+                        session.setAttribute("successMessage", "Password aggiornata");
+                        resp.sendRedirect(resp.encodeRedirectURL(contextPath + "paziente/profilo"));
+                    } catch (DAOException e) {
+                        session.setAttribute("errorMessage", "Errore nel cambiare la password, riprova più tardi");
+                        e.printStackTrace();
+                    }
                 }
             }
+
+
         }else if(userPath.equals("/paziente/cambia-foto")){
             //Ottieni i percorsi per il salvataggio delle foto
             String photosFolderPath = getServletContext().getInitParameter("photosFolder");
