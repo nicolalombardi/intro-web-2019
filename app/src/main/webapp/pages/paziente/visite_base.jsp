@@ -51,14 +51,14 @@
             <tbody>
             <c:forEach var="v" items="${elencoVisite}">
                 <tr>
-                    <th scope="row"><c:out value="${v.medicoBase.toStringNomeCognome()}"/></th>
-                    <th><c:out value="${v.dataErogazione}"/></th>
+                    <td scope="row"><c:out value="${v.medicoBase.toStringNomeCognome()}"/></td>
+                    <td><c:out value="${v.dataErogazione}"/></td>
                     <c:choose>
                         <c:when test="${empty v.ricetta.id}">
-                            <th></th>
+                            <td></td>
                         </c:when>
                         <c:otherwise>
-                            <th><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modaleRicetta<c:out value="${v.ricetta.id}"/>">Ricetta</button></th>
+                            <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modaleRicetta<c:out value="${v.ricetta.id}"/>">Ricetta</button></td>
                         </c:otherwise>
                     </c:choose>
                 </tr>

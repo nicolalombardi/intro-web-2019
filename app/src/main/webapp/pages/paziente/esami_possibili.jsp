@@ -53,15 +53,15 @@
             <tbody>
             <c:forEach var="v" items="${listaVisite}">
                 <tr>
-                    <th scope="row"><c:out value="${v.nome}"/></th>
-                    <th>
+                    <td><c:out value="${v.nome}"/></td>
+                    <td>
                         <c:choose>
                             <c:when test="${v.praticante == 'medico_specialista'}">medico specialista</c:when>
                             <c:otherwise>ssp</c:otherwise>
                         </c:choose>
-                    </th>
-                    <th><c:out value="${v.costo_ticket}"/></th>
-                    <th><c:out value="${v.descrizione}"/></th>
+                    </td>
+                    <td><c:out value="${v.costo_ticket}"/></td>
+                    <td><c:out value="${v.descrizione}"/></td>
                 </tr>
             </c:forEach>
             </tbody>

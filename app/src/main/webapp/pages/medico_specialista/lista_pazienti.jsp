@@ -82,12 +82,12 @@
                 <tbody>
                 <c:forEach var="p" items="${listaPazientiSpecialista}">
                         <tr data-href="/medico-specialista/scheda-paziente?id=<c:out value="${p.getId()}"/>">
-                            <th><c:out value="${p.getNome()}"/></th>
-                            <th><c:out value="${p.getCognome()}"/></th>
-                            <th><c:out value="${p.getSesso()}"/></th>
-                            <th><c:out value="${p.getDataNascita()}"/></th>
-                            <th><c:out value="${p.getLuogoNascita()}"/></th>
-                            <th><c:out value="${p.getCodiceFiscale()}"/></th>
+                            <td><c:out value="${p.getNome()}"/></td>
+                            <td><c:out value="${p.getCognome()}"/></td>
+                            <td><c:out value="${p.getSesso()}"/></td>
+                            <td><c:out value="${p.getDataNascita()}"/></td>
+                            <td><c:out value="${p.getLuogoNascita()}"/></td>
+                            <td><c:out value="${p.getCodiceFiscale()}"/></td>
                         </tr>
                 </c:forEach>
                 </tbody>

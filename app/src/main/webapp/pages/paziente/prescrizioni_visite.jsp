@@ -54,18 +54,18 @@
                 <c:choose>
                     <c:when test="${v.SSP}">
                         <tr>
-                            <th scope="row"><c:out value="${v.visitaSSP.tipo_visita.nome}"/></th>
-                            <th scope="row"><c:out value="${v.visitaSSP.dataPrescrizione}"/></th>
-                            <th scope="row"><c:out value="${v.visitaSSP.medicoBase.toStringNomeCognome()}"/></th>
-                            <th scope="row"><c:out value="${v.visitaSSP.ssp.toStringSSP()}"/></th>
+                            <td><c:out value="${v.visitaSSP.tipo_visita.nome}"/></td>
+                            <td><c:out value="${v.visitaSSP.dataPrescrizione}"/></td>
+                            <td><c:out value="${v.visitaSSP.medicoBase.toStringNomeCognome()}"/></td>
+                            <td><c:out value="${v.visitaSSP.ssp.toStringSSP()}"/></td>
                         </tr>
                     </c:when>
                     <c:otherwise>
                         <tr>
-                            <th scope="row"><c:out value="${v.visitaSpecialistica.tipo_visita.nome}"/></th>
-                            <th scope="row"><c:out value="${v.visitaSpecialistica.dataPrescrizione}"/></th>
-                            <th scope="row"><c:out value="${v.visitaSpecialistica.medicoBase.toStringNomeCognome()}"/></th>
-                            <th scope="row"><c:out value="${v.visitaSpecialistica.medicoSpecialista.toStringNomeCognome()}"/></th>
+                            <td><c:out value="${v.visitaSpecialistica.tipo_visita.nome}"/></td>
+                            <td><c:out value="${v.visitaSpecialistica.dataPrescrizione}"/></td>
+                            <td><c:out value="${v.visitaSpecialistica.medicoBase.toStringNomeCognome()}"/></td>
+                            <td><c:out value="${v.visitaSpecialistica.medicoSpecialista.toStringNomeCognome()}"/></td>
                         </tr>
                     </c:otherwise>
                 </c:choose>

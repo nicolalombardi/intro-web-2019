@@ -58,10 +58,10 @@
             <tbody>
             <c:forEach var="t" items="${listaTickets}">
                 <tr>
-                    <th scope="row"><c:out value="${t.data}"/></th>
-                    <th><c:out value="${t.nomeVisita}"/></th>
-                    <th><c:out value="${t.tipoVisita}"/></th>
-                    <th><c:out value="${t.costo}"/></th>
+                    <td><c:out value="${t.data}"/></td>
+                    <td><c:out value="${t.nomeVisita}"/></td>
+                    <td><c:out value="${t.tipoVisita}"/></td>
+                    <td><c:out value="${t.costo}"/></td>
                 </tr>
             </c:forEach>
             </tbody>

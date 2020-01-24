@@ -54,17 +54,17 @@
 
             <c:forEach var="v" items="${elencoVisiteSSP}">
                 <tr>
-                    <th scope="row"><c:out value="${v.tipo_visita.nome}"/></th>
-                    <th>
+                    <td><c:out value="${v.tipo_visita.nome}"/></td>
+                    <td>
                         <c:choose>
                             <c:when test="${v.erogata}">SI</c:when>
                             <c:otherwise>NO</c:otherwise>
                         </c:choose>
-                    </th>
-                    <th scope="row"><c:out value="${v.dataPrescrizione}"/></th>
-                    <th><c:out value="${v.dataErogazione}"/></th>
-                    <th scope="row"><c:out value="${v.medicoBase.toStringNomeCognome()}"/></th>
-                    <th scope="row"><c:out value="${v.ssp.toStringSSP()}"/></th>
+                    </td>
+                    <td><c:out value="${v.dataPrescrizione}"/></td>
+                    <td><c:out value="${v.dataErogazione}"/></td>
+                    <td><c:out value="${v.medicoBase.toStringNomeCognome()}"/></td>
+                    <td><c:out value="${v.ssp.toStringSSP()}"/></td>
                 </tr>
             </c:forEach>
             </tbody>

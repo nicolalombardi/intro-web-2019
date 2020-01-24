@@ -54,23 +54,23 @@
             <tbody>
             <c:forEach var="v" items="${elencoVisite}">
                 <tr>
-                    <th scope="row"><c:out value="${v.tipo_visita.nome}"/></th>
-                    <th>
+                    <td><c:out value="${v.tipo_visita.nome}"/></td>
+                    <td>
                         <c:choose>
                             <c:when test="${v.erogata}">SI</c:when>
                             <c:otherwise>NO</c:otherwise>
                         </c:choose>
-                    </th>
+                    </td>
 
-                    <th><c:out value="${v.dataPrescrizione}"/></th>
-                    <th><c:out value="${v.dataErogazione}"/></th>
-                    <th><c:out value="${v.medicoSpecialista.toStringNomeCognome()}"/></th>
+                    <td><c:out value="${v.dataPrescrizione}"/></td>
+                    <td><c:out value="${v.dataErogazione}"/></td>
+                    <td><c:out value="${v.medicoSpecialista.toStringNomeCognome()}"/></td>
                     <c:choose>
                         <c:when test="${empty v.report.id}">
-                            <th></th>
+                            <td></td>
                         </c:when>
                         <c:otherwise>
-                            <th><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modaleReport<c:out value="${v.report.id}"/>">Report</button></th>
+                            <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modaleReport<c:out value="${v.report.id}"/>">Report</button></td>
                         </c:otherwise>
                     </c:choose>
                 </tr>

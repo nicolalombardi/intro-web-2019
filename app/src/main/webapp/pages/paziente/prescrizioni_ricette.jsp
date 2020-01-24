@@ -51,16 +51,16 @@
             <tbody>
             <c:forEach var="r" items="${elencoRicette}">
                 <tr>
-                    <th scope="row"><c:out value="${r.nome}"/></th>
+                    <td><c:out value="${r.nome}"/></td>
                     <c:choose>
                         <c:when test="${r.prescritta}">
-                            <th scope="row">Si</th>
+                            <td>Si</td>
                             <form action="stampa-ricetta" method="POST">
                                 <input hidden id="idRicetta" name="idRicetta" value=<c:out value="${r.id}"/>>
-                                <th><button class="btn btn-sm btn-primary btn-block" type="submit">Stampa ricetta</button></th>
+                                <td><button class="btn btn-sm btn-primary btn-block" type="submit">Stampa ricetta</button></td>
                             </form>
                         </c:when>
-                        <c:otherwise><th scope="row">NO</th><th></th></c:otherwise>
+                        <c:otherwise><td>NO</td><td></td></c:otherwise>
                     </c:choose>
 
                 </tr>
