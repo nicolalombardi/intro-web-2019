@@ -120,6 +120,7 @@ public class PazienteServlet extends HttpServlet {
                         User p = userDAO.getByPrimaryKey(idPaziente);
                         userDAO.changePassword(idPaziente, hashedSaltedPassword);
                         session.setAttribute("successMessage", "Password aggiornata");
+                        session.removeAttribute("changePassword");
                         resp.sendRedirect(resp.encodeRedirectURL(contextPath + "paziente/profilo"));
                     } catch (DAOException e) {
                         session.setAttribute("errorMessage", "Errore nel cambiare la password, riprova più tardi");
