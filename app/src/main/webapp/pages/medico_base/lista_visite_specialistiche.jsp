@@ -82,6 +82,7 @@
                 <th scope="col">Data prescrizione</th>
                 <th scope="col">Tipo</th>
                 <th scope="col">Descrizione</th>
+                <th scope="col">Stato</th>
             </tr>
             </thead>
             <tbody>
@@ -100,6 +101,7 @@
                                 <c:set var="dataPrescrizione" value="${v.visitaSSP.dataPrescrizione}"/>
                                 <c:set var="tipo" value="Esame SSP"/>
                                 <c:set var="descrizione" value="${v.visitaSSP.tipo_visita.nome}"/>
+                                <c:set var="erogata" value="${not empty v.visitaSSP.dataErogazione}"/>
                                 <c:set var="tuo" value="${user.id == v.visitaSSP.paziente.medico.id}"/>
                                 <c:set var="targetModal" value="#modaleVisitaSSP-${v.visitaSSP.id}"/>
                             </c:when>
@@ -109,6 +111,7 @@
                                 <c:set var="dataPrescrizione" value="${v.visitaSpecialistica.dataPrescrizione}"/>
                                 <c:set var="tipo" value="Visita specialistica"/>
                                 <c:set var="descrizione" value="${v.visitaSpecialistica.tipo_visita.nome}"/>
+                                <c:set var="erogata" value="${not empty v.visitaSpecialistica.dataErogazione}"/>
                                 <c:set var="tuo" value="${user.id == v.visitaSpecialistica.paziente.medico.id}"/>
                                 <c:set var="targetModal" value="#modaleVisitaSpecialistica-${v.visitaSpecialistica.id}"/>
                             </c:otherwise>
@@ -133,7 +136,16 @@
                             <td><c:out value="${dataPrescrizione}"/></td>
                             <td><c:out value="${tipo}"/></td>
                             <td><c:out value="${descrizione}"/></td>
-
+                            <td>
+                                <c:choose>
+                                    <c:when test="${erogata}">
+                                        <c:out value="Erogata"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:out value="Non ancora erogata"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                         </tr>
                     </c:forEach>
                 </c:otherwise>
