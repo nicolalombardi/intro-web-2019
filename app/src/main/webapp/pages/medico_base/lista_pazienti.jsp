@@ -63,7 +63,7 @@
                 </td>
                 <td>
                     <c:out value="${p.nome} ${p.cognome}"/>
-                    <c:if test="${user.id == p.medico.id}"><br>
+                    <c:if test="${user.id == p.medico.id}">
                         <span class="badge badge-success"><i class="material-icons badge-icon">check</i></span>
                     </c:if>
                 </td>
