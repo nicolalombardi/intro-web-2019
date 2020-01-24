@@ -300,7 +300,7 @@
                                                     </c:when>
                                                     <c:otherwise>
                                                         Ricetta non approvata
-                                                        <form action="approva" method="post">
+                                                        <form action="approva" method="post" class="approva">
                                                             <input type="hidden" name="id_ricetta" value="<c:out value="${v.visitaSpecialistica.report.ricetta.id}"/>">
                                                             <button type="submit" class="btn btn-primary">Approva</button>
                                                         </form>

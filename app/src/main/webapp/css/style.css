@@ -1,7 +1,9 @@
 h1{
     margin: 20px 0px 20px 0px;
 }
-
+.container{
+    margin-bottom: 30px;
+}
 .label{
     margin-right: 10px;
 }
@@ -91,4 +93,13 @@ td{
 }
 .profile-picture{
     border-radius: 100% !important;
+}
+
+.pag-fix{
+    margin-top: -6px;
+}
+
+.approva{
+    display: inline;
+    float: right;
 }
