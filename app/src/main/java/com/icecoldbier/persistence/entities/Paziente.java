@@ -19,7 +19,7 @@ public class Paziente extends User{
         this.codiceFiscale = codiceFiscale;
         this.sesso = sesso;
         this.foto = foto;
-        this.fotoThumb = foto == null ? null : foto + "?size=thumbnail";
+        this.fotoThumb = (foto == null || foto.equals("")) ? null : foto + "?size=thumbnail";
         this.medico = medico;
     }
 

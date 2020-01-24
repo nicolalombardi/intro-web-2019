@@ -22,8 +22,7 @@ public class PhotosServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-
-        boolean thumbnail = (request.getParameter("size") != null && request.getParameter("size").equals("thumbnail"));
+        boolean thumbnail = request.getParameter("size").equals("thumbnail");
 
         String folderPath;
         if(thumbnail){
