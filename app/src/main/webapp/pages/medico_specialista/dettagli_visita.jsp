@@ -135,7 +135,7 @@
                         <div class="form-group">
                             <label for="testoReport">Report</label>
                             <textarea class="form-control" name="textReport" id="textReport" rows="3"
-                                      placeholder="Inserisci qua l'esito del report. Si prega di compilarlo"></textarea>
+                                      placeholder="Inserisci qua l'esito del report. Si prega di compilarlo" required></textarea>
 
                         </div>
                     </div>
