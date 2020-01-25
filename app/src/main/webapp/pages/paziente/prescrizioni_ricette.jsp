@@ -37,8 +37,8 @@
                         <c:when test="${r.acquistabile}">
                             <td>Si</td>
                             <form action="stampa-ricetta" method="POST">
-                                <input hidden id="idRicetta" name="idRicetta" value=<c:out value="${r.id}"/>>
-                                <td><button class="btn btn-sm btn-primary btn-block" type="submit">Stampa ricetta</button></td>
+                                <input type="hidden" name="idRicetta" value=<c:out value="${r.id}"/>>
+                                <td><button class="btn btn-sm btn-primary btn-block" type="submit">Stampa ricetta <c:out value="${r.id}"/></button></td>
                             </form>
                         </c:when>
                         <c:otherwise><td>NO</td><td></td></c:otherwise>
