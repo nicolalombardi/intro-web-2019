@@ -183,6 +183,7 @@
         <servlet-name>ElencoVisiteBase</servlet-name>
         <url-pattern>/paziente/elenco-visite-base</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>ElencoVisiteSpecialistiche</servlet-name>
         <jsp-file>/pages/paziente/visite_specialistiche.jsp</jsp-file>
@@ -191,6 +192,7 @@
         <servlet-name>ElencoVisiteSpecialistiche</servlet-name>
         <url-pattern>/paziente/elenco-visite-specialistiche</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>ElencoVisiteSSP</servlet-name>
         <jsp-file>/pages/paziente/visite_ssp.jsp</jsp-file>
@@ -199,6 +201,7 @@
         <servlet-name>ElencoVisiteSSP</servlet-name>
         <url-pattern>/paziente/elenco-visite-ssp</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>ElencoPrescrizioniRicette</servlet-name>
         <jsp-file>/pages/paziente/prescrizioni_ricette.jsp</jsp-file>
@@ -207,6 +210,7 @@
         <servlet-name>ElencoPrescrizioniRicette</servlet-name>
         <url-pattern>/paziente/elenco-prescrizioni-ricette</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>ElencoPrescrizioniVisite</servlet-name>
         <jsp-file>/pages/paziente/prescrizioni_visite.jsp</jsp-file>
@@ -215,6 +219,7 @@
         <servlet-name>ElencoPrescrizioniVisite</servlet-name>
         <url-pattern>/paziente/elenco-prescrizioni-visite</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>Tickets</servlet-name>
         <jsp-file>/pages/paziente/tickets.jsp</jsp-file>
@@ -223,6 +228,7 @@
         <servlet-name>Tickets</servlet-name>
         <url-pattern>/paziente/tickets</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>ListaEsamiPossibili</servlet-name>
         <jsp-file>/pages/paziente/esami_possibili.jsp</jsp-file>
@@ -257,4 +263,65 @@
         <param-name>resizedPhotosFolder</param-name>
         <param-value>WEB-INF/photos/thumbs</param-value>
     </context-param>
+
+
+<!--    FILTERS-->
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>com.icecoldbier.filters.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/medico-base/*</url-pattern>
+        <url-pattern>/medico-specialista/*</url-pattern>
+        <url-pattern>/paziente/*</url-pattern>
+        <url-pattern>/profile</url-pattern>
+        <url-pattern>/rest/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>LoginPageFilter</filter-name>
+        <filter-class>com.icecoldbier.filters.LoginPageFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginPageFilter</filter-name>
+        <url-pattern>/login</url-pattern>
+    </filter-mapping>
+
+<!--    CONTROLLERS-->
+    <filter>
+        <filter-name>MedicoBaseController</filter-name>
+        <filter-class>com.icecoldbier.filters.controllers.MedicoBaseController</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>MedicoBaseController</filter-name>
+        <url-pattern>/medico-base/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>MedicoSpecialistaController</filter-name>
+        <filter-class>com.icecoldbier.filters.controllers.MedicoSpecialistaController</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>MedicoSpecialistaController</filter-name>
+        <url-pattern>/medico-specialista/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>PazienteController</filter-name>
+        <filter-class>com.icecoldbier.filters.controllers.PazienteController</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PazienteController</filter-name>
+        <url-pattern>/paziente/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>SSPController</filter-name>
+        <filter-class>com.icecoldbier.filters.controllers.SSPController</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SSPController</filter-name>
+        <url-pattern>/ssp/*</url-pattern>
+    </filter-mapping>
 </web-app>

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "RedirectFilter", urlPatterns = {"/login"})
 public class LoginPageFilter implements Filter {
     public void destroy() {
     }

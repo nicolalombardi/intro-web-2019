@@ -7,14 +7,12 @@ import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebFilter(filterName = "MedicoBaseController", urlPatterns = {"/medico-base/*"})
 public class MedicoBaseController implements Filter {
     private PazienteDAO pazienteDAO;
     private MedicoBaseDAO medicoBaseDAO;
