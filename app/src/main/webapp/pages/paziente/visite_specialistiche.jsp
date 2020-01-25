@@ -41,11 +41,20 @@
                     </td>
 
                     <td><c:out value="${v.dataPrescrizione}"/></td>
-                    <td><c:out value="${v.dataErogazione}"/></td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${empty v.dataErogazione}">
+                                non erogata
+                            </c:when>
+                            <c:otherwise>
+                                <c:out value="${v.dataErogazione}"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                     <td><c:out value="${v.medicoSpecialista.toStringNomeCognome()}"/></td>
                     <c:choose>
                         <c:when test="${empty v.report.id}">
-                            <td></td>
+                            <td>assente</td>
                         </c:when>
                         <c:otherwise>
                             <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modaleReport<c:out value="${v.report.id}"/>">Report</button></td>

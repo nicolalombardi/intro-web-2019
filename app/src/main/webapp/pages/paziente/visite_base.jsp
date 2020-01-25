@@ -33,7 +33,7 @@
                     <td><c:out value="${v.dataErogazione}"/></td>
                     <c:choose>
                         <c:when test="${empty v.ricetta.id}">
-                            <td></td>
+                            <td>assente</td>
                         </c:when>
                         <c:otherwise>
                             <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modaleRicetta<c:out value="${v.ricetta.id}"/>">Ricetta</button></td>

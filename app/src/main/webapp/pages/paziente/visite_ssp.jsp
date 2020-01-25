@@ -40,7 +40,16 @@
                         </c:choose>
                     </td>
                     <td><c:out value="${v.dataPrescrizione}"/></td>
-                    <td><c:out value="${v.dataErogazione}"/></td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${empty v.dataErogazione}">
+                                non erogata
+                            </c:when>
+                            <c:otherwise>
+                                <c:out value="${v.dataErogazione}"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                     <td><c:out value="${v.medicoBase.toStringNomeCognome()}"/></td>
                     <td><c:out value="${v.ssp.toStringSSP()}"/></td>
                 </tr>
