@@ -16,7 +16,7 @@ public interface PazienteDAOInterface extends DAO<Paziente, Integer> {
     ArrayList<VisitaBase> getVisiteBase(Integer id) throws DAOException, DAOFactoryException;
     ArrayList<VisitaSpecialistica> getVisiteSpecialistiche(Integer id) throws DAOException, DAOFactoryException;
     ArrayList<VisitaSSP> getVisiteSSP(Integer id) throws DAOException, DAOFactoryException;
-    ArrayList<Ricetta> getRicette(Integer id) throws DAOException;
+    ArrayList<InfoRicetta> getRicette(Integer id) throws DAOException;
     void changeProfilePicture(Integer pazienteId, String newPath) throws DAOException;
     void changeMedicoBase(User paziente, User newMedicoBase) throws DAOException, ProvincieNotMatchingException;
     ArrayList<Ticket> getTicketsPaged(Integer pazienteId) throws DAOException;

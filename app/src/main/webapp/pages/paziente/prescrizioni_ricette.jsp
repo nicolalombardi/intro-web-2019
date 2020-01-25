@@ -13,7 +13,7 @@
 <body>
 <%@ include file="navbar.html" %>
 <jsp:useBean id="elencoRicette" scope="request"
-             type="java.util.List<com.icecoldbier.persistence.entities.Ricetta>"/>
+             type="java.util.List<com.icecoldbier.persistence.entities.InfoRicetta>"/>
 
 
 <div class="container">
@@ -23,6 +23,7 @@
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Farmaco prescritto</th>
+                <th scope="col">Data prescrizione</th>
                 <th scope="col">Acquistabile</th>
                 <th scope="col">Azione</th>
             </tr>
@@ -30,9 +31,10 @@
             <tbody>
             <c:forEach var="r" items="${elencoRicette}">
                 <tr>
-                    <td><c:out value="${r.nome}"/></td>
+                    <td><c:out value="${r.farmaco}"/></td>
+                    <td><c:out value="${r.data}"/></td>
                     <c:choose>
-                        <c:when test="${r.prescritta}">
+                        <c:when test="${r.acquistabile}">
                             <td>Si</td>
                             <form action="stampa-ricetta" method="POST">
                                 <input hidden id="idRicetta" name="idRicetta" value=<c:out value="${r.id}"/>>

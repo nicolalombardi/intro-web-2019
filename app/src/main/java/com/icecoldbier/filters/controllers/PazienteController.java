@@ -78,7 +78,7 @@ public class PazienteController implements Filter {
                 e.printStackTrace();
             }
         }else if (userPath.equals("/paziente/elenco-prescrizioni-ricette")){
-            ArrayList<Ricetta> elencoRicette = null;
+            ArrayList<InfoRicetta> elencoRicette = null;
             try{
                 elencoRicette = pazienteDAO.getRicette(user.getId());
 

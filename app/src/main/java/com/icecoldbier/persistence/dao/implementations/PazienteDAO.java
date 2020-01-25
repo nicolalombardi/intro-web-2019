@@ -23,14 +23,14 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     private static final String GET_VISITE_BASE= "SELECT v.id, v.id_medico, v.id_paziente, v.id_ricetta, v.data_erogazione, users.nome AS nome_medico, users.cognome AS cognome_medico FROM visita_base v INNER JOIN users ON v.id_medico = users.id WHERE v.id_paziente = ?";
     private static final String GET_VISITE_SPECIALISTICHE= "SELECT v.id, v.id_visita AS tipo, erogata, v.id_medico, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione, v.id_report FROM visita_specialistica v INNER JOIN users ON v.id_medico = users.id WHERE v.id_paziente = ?";
     private static final String GET_VISITE_SSP= "SELECT * FROM visita_ssp WHERE visita_ssp.id_paziente = ?";
-    private static final String GET_ALL_TICKETS = "(SELECT visita_specialistica.data_erogazione AS data, 'visita specialistica' as type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_specialistica LEFT JOIN elenco_visite_possibili ON visita_specialistica.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL UNION SELECT visita_ssp.data_erogazione, 'visita ssp' AS type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_ssp LEFT JOIN elenco_visite_possibili ON visita_ssp.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL) ;";
-    private static final String GET_ALL_RICETTE = "SELECT ricetta.id, ricetta.farmaco, ricetta.prescritta FROM ricetta, visita_base WHERE ricetta.id = visita_base.id_ricetta AND visita_base.id_paziente = ? UNION SELECT ricetta.id, ricetta.farmaco, ricetta.prescritta FROM ricetta, Visita_specialistica, report WHERE ricetta.id = report.id_ricetta AND report.id = visita_specialistica.id_report AND visita_specialistica.id_paziente = ?;";
+    private static final String GET_ALL_TICKETS = "(SELECT visita_specialistica.data_erogazione AS data, 'visita specialistica' AS type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_specialistica LEFT JOIN elenco_visite_possibili ON visita_specialistica.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL UNION SELECT visita_ssp.data_erogazione, 'visita ssp' AS type, elenco_visite_possibili.nome AS nome, elenco_visite_possibili.costo_ticket AS costo FROM visita_ssp LEFT JOIN elenco_visite_possibili ON visita_ssp.id_visita = elenco_visite_possibili.id WHERE id_paziente = ? AND data_erogazione IS NOT NULL) ;";
+    private static final String GET_ALL_RICETTE = "SELECT ricetta.id AS id, ricetta.farmaco, ricetta.prescritta, visita_base.data_erogazione AS data FROM ricetta, visita_base WHERE ricetta.id = visita_base.id_ricetta AND visita_base.id_paziente = ? UNION SELECT ricetta.id AS id, ricetta.farmaco, ricetta.prescritta, visita_specialistica.data_erogazione AS data FROM ricetta, Visita_specialistica, report WHERE ricetta.id = report.id_ricetta AND report.id = visita_specialistica.id_report AND visita_specialistica.id_paziente = ?;";
     private static final String CHANGE_PROFILE_PICTURE = "UPDATE paziente SET foto = ? WHERE id_user = ?";
     private static final String CHANGE_MEDICO_BASE = "UPDATE paziente SET id_medico = ? WHERE id_user = ?";
     private static final String GET_VISITE_SPECIALISTICHE_FUTURE= "SELECT v.id, v.id_visita AS tipo, v.erogata, v.id_medico, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione, v.id_report FROM visita_specialistica v WHERE v.erogata = 'false' AND v.id_paziente = ?";
     private static final String GET_VISITE_SSP_FUTURE= "SELECT v.id, v.id_visita AS tipo, v.erogata, v.id_ssp, v.id_medico_base, v.id_paziente, v.data_prescrizione, v.data_erogazione FROM visita_ssp v WHERE v.erogata = 'false' AND v.id_paziente = ?";
     private static final String GET_ALL_MEDICI_BASE= "SELECT m.id FROM users p, users m WHERE p.id = ? AND p.provincia_appartenenza = m.provincia_appartenenza AND m.typ = 'medico_base';;";
-    private static final String GET_ALL_VISITE_FUTURE = "SELECT 'specialistica' as type, id, id_visita AS tipo, erogata, data_prescrizione, data_erogazione, id_medico, id_medico_base, id_paziente, id_report, NULL AS id_ssp FROM visita_specialistica WHERE id_paziente = ? AND erogata = 'false' UNION SELECT 'ssp' AS type, id, id_visita AS tipo, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_medico_base, id_paziente, NULL AS id_report, id_ssp FROM visita_ssp WHERE id_paziente = ? AND erogata = 'false';";
+    private static final String GET_ALL_VISITE_FUTURE = "SELECT 'specialistica' AS type, id, id_visita AS tipo, erogata, data_prescrizione, data_erogazione, id_medico, id_medico_base, id_paziente, id_report, NULL AS id_ssp FROM visita_specialistica WHERE id_paziente = ? AND erogata = 'false' UNION SELECT 'ssp' AS type, id, id_visita AS tipo, erogata, data_prescrizione, data_erogazione, NULL AS id_medico, id_medico_base, id_paziente, NULL AS id_report, id_ssp FROM visita_ssp WHERE id_paziente = ? AND erogata = 'false';";
 
     private UserDAO userDAO;
     private ReportDAO reportDAO;
@@ -274,22 +274,23 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
     }
 
     @Override
-    public ArrayList<Ricetta> getRicette(Integer id) throws DAOException {
-        ArrayList<Ricetta> ricette = new ArrayList<>();
+    public ArrayList<InfoRicetta> getRicette(Integer id) throws DAOException {
+        ArrayList<InfoRicetta> ricette = new ArrayList<>();
         try(PreparedStatement preparedStatement = CON.prepareStatement(GET_ALL_RICETTE)){
             preparedStatement.setInt(1, id);
             preparedStatement.setInt(2,id);
             try(ResultSet rs = preparedStatement.executeQuery()){
                 while(rs.next()){
-                    ricette.add(new Ricetta(
-                            rs.getInt("id"),
+                    ricette.add(new InfoRicetta(
+                            rs.getDate("data"),
                             rs.getString("farmaco"),
-                            rs.getBoolean("prescritta")
+                            rs.getBoolean("prescritta"),
+                            rs.getInt("id")
                     ));
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException("Error while getting ricette", e);
+            throw new DAOException("Error while getting InfoRicetta", e);
         }
         return ricette;
     }
