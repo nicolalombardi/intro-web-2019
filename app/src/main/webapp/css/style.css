@@ -114,8 +114,12 @@ td{
 }
 .profile-picture{
     border-radius: 100% !important;
-    width: 100%;
-    max-width: 300px;
+    width: 250px;
+    height: 250px;
+}
+
+.profile-picture-thumbnail{
+    border-radius: 100% !important;
 }
 
 .pag-fix{

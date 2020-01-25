@@ -11,7 +11,7 @@ $('.basicAutoSelect').autoComplete({
             value: item.id,
             text: item.text,
             html: [
-                $('<img>').attr('src', item.image).css("height", 36).addClass("profile-picture"), ' ',
+                $('<img>').attr('src', item.image).css("height", 36).css("width", 36).addClass("profile-picture-thumbnail"), ' ',
                 item.text
             ]
         };
