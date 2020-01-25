@@ -25,7 +25,7 @@
                 <th scope="col">Farmaco prescritto</th>
                 <th scope="col">Data prescrizione</th>
                 <th scope="col">Acquistabile</th>
-                <th scope="col">Azione</th>
+                <th scope="col" width="16%">Azione</th>
             </tr>
             </thead>
             <tbody>
@@ -38,7 +38,7 @@
                             <td>Si</td>
                             <form action="stampa-ricetta" method="POST">
                                 <input type="hidden" name="idRicetta" value=<c:out value="${r.id}"/>>
-                                <td><button class="btn btn-sm btn-primary btn-block" type="submit">Stampa ricetta <c:out value="${r.id}"/></button></td>
+                                <td><button class="btn btn-sm btn-primary" type="submit">Stampa ricetta</button></td>
                             </form>
                         </c:when>
                         <c:otherwise><td>NO</td><td></td></c:otherwise>
