@@ -6,6 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Profilo</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -24,19 +25,19 @@
     <h1>Profilo</h1>
     <div class="col">
         <div class="row">
-            <table class="table">
+            <table class="table profile-table">
                 <tbody>
                 <tr>
                     <td colspan="2" style="text-align: center">
                         <c:choose>
                             <c:when test="${not empty paziente.foto}">
-                                <img class="profile-picture" src="<c:out value="${paziente.foto}"/>" height="300px" width="300px">
+                                <img class="profile-picture" src="<c:out value="${paziente.foto}"/>">
                                 <button type="button" class="btn btn-xs btn-dark" id= "BottoneFoto" data-toggle="modal" data-target="#modaleCambiaFoto" >
                                     <i class="material-icons md-light">create</i>
                                 </button>
                             </c:when>
                             <c:otherwise>
-                                <img src="/images/profile_placeholder.svg" height="300px" width="300px">
+                                <img class="profile-picture" src="/images/profile_placeholder.svg">
                                 <button type="button" class="btn btn-xs btn-dark" data-toggle="modal" id= "BottoneFoto" data-target="#modaleCambiaFoto" >
                                     <i class="material-icons md-light">create</i>
                                 </button>

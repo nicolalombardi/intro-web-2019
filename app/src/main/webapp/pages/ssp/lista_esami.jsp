@@ -7,10 +7,11 @@
 
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>SSP - Lista Esami SSP</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -21,49 +22,41 @@
 <div class="container">
     <h1>Lista Esami SSP</h1>
 
-    <div class="table-responsive-md">
         <table class="datatable table table-striped table-hover">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Foto</th>
-                <th scope="col">Paziente</th>
-                <th scope="col">Data prescrizione</th>
-                <th scope="col">Descrizione</th>
+                <th class="all" scope="col">Foto</th>
+                <th class="all" scope="col">Paziente</th>
+                <th class="min-sm" scope="col">Data prescrizione</th>
+                <th class="min-md" scope="col">Descrizione</th>
+                <th class="min-md" scope="col">Dettagli</th>
             </tr>
             </thead>
             <tbody>
-            <c:choose>
-                <c:when test="${listaVisite.size() == 0}">
-                    <tr style="text-align: center">
-                        <td colspan="6">Nessuna visita presente</td>
-                    </tr>
-                </c:when>
-                <c:otherwise>
-                    <c:forEach var="v" items="${listaVisite}">
-                        <c:set var="targetModal" value="#modaleVisitaSSP-${v.id}"/>
-                        <tr data-toggle="modal" data-target="<c:out value="${targetModal}"/>">
-                            <td>
-                                <c:choose>
-                                    <c:when test="${not empty v.paziente.fotoThumb}">
-                                        <img class="profile-picture" src="<c:out value="${v.paziente.foto}"/>" height="48" width="48">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <img src="/images/profile_placeholder.svg" height="48" width="48">
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                            <td><c:out value="${v.paziente.nome} ${v.paziente.cognome}"/></td>
-                            <td><c:out value="${v.dataPrescrizione}"/></td>
-                            <td><c:out value="${v.tipo_visita.nome}"/></td>
+            <c:forEach var="v" items="${listaVisite}">
+                <c:set var="targetModal" value="#modaleVisitaSSP-${v.id}"/>
+                <tr>
+                    <td>
+                        <c:choose>
+                            <c:when test="${not empty v.paziente.fotoThumb}">
+                                <img class="profile-picture" src="<c:out value="${v.paziente.foto}"/>" height="48" width="48">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="/images/profile_placeholder.svg" height="48" width="48">
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td><c:out value="${v.paziente.nome} ${v.paziente.cognome}"/></td>
+                    <td><c:out value="${v.dataPrescrizione}"/></td>
+                    <td><c:out value="${v.tipo_visita.nome}"/></td>
+                    <td><a class="btn btn-primary mb-3 icon-white" data-toggle="modal" data-target="<c:out value="${targetModal}"/>" href="#"
+                           role="button"><i class="material-icons">open_in_new</i></a></td>
 
-                        </tr>
-                    </c:forEach>
-                </c:otherwise>
-            </c:choose>
+                </tr>
+            </c:forEach>
 
             </tbody>
         </table>
-    </div>
 </div>
 
 <c:forEach var="v" items="${listaVisite}">
@@ -146,11 +139,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
 
 <script src="../js/init_datatables.js"></script>
-<script src="../js/clickable_row.js"></script>
 <script src="../js/toggle_modal_hash.js"></script>
 
 <%--These are the success and error modals--%>

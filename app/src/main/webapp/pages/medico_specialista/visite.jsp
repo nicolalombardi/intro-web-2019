@@ -5,11 +5,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Medico Specialista - Lista visite</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.css"/>
         <link rel="stylesheet" type="text/css" href="../css/style.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <body>
     <%@ include file="navbar.html" %>
@@ -18,21 +20,21 @@
 
         <h1>Lista visite</h1>
 
-        <div class="table-responsive-md">
             <table class="datatable table table-striped table-hover">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Data prescrizione</th>
-                    <th scope="col">Tipologia visita</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Cognome</th>
-                    <th scope="col">Erogata</th>
+                    <th class="all" scope="col">Data prescrizione</th>
+                    <th class="all" scope="col">Tipologia visita</th>
+                    <th class="min-sm" scope="col">Nome</th>
+                    <th class="min-md" scope="col">Cognome</th>
+                    <th class="min-md" scope="col">Erogata</th>
+                    <th class="min-lg" scope="col">Dettagli</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="p" items="${visite}">
-                        <tr data-href="/medico-specialista/visite/dettagli-visita?id=<c:out value="${p.getId()}"/>">
-                            <td scope="row"><c:out value="${p.getDataPrescrizione()}"/></td>
+                        <tr>
+                            <td><c:out value="${p.getDataPrescrizione()}"/></td>
                             <td><c:out value="${p.getTipo_visita().getNome()}"/></td>
                             <td><c:out value="${p.getPaziente().getNome()}"/></td>
                             <td><c:out value="${p.getPaziente().getCognome()}"/></td>
@@ -42,11 +44,12 @@
                                     <c:when test="${p.isErogata()==false}">No</c:when>
                                 </c:choose>
                             </td>
+                            <td><a class="btn btn-primary mb-3 icon-white"  href="visite/dettagli-visita?id=<c:out value="${p.getId()}"/>"
+                                   role="button"><i class="material-icons">open_in_new</i></a></td>
                         </tr>
                 </c:forEach>
                 </tbody>
             </table>
-        </div>
     </div>
 
 
@@ -59,10 +62,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
 
     <script src="../js/init_datatables.js"></script>
-    <script src="../js/clickable_row.js"></script>
     </body>
 </html>

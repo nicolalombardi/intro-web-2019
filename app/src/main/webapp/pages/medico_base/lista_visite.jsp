@@ -140,7 +140,6 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.0/dist/latest/bootstrap-autocomplete.min.js"></script>
 
-<script src="../js/clickable_row.js"></script>
 <script src="../js/init_datatables.js"></script>
 <script src="../js/ricerca_pazienti.js"></script>
 </body>

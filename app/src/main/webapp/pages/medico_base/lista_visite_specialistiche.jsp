@@ -42,73 +42,63 @@
             </tr>
             </thead>
             <tbody>
-            <c:choose>
-                <c:when test="${listaVisite.size() == 0}">
-                    <tr style="text-align: center">
-                        <td colspan="6">Nessuna visita presente</td>
-                    </tr>
-                </c:when>
-                <c:otherwise>
-                    <c:forEach var="v" items="${listaVisite}">
+            <c:forEach var="v" items="${listaVisite}">
+                <c:choose>
+                    <c:when test="${v.SSP}">
+                        <c:set var="foto" value="${v.visitaSSP.paziente.fotoThumb}"/>
+                        <c:set var="nome_e_cognome" value="${v.visitaSSP.paziente.nome} ${v.visitaSSP.paziente.cognome}"/>
+                        <c:set var="dataPrescrizione" value="${v.visitaSSP.dataPrescrizione}"/>
+                        <c:set var="tipo" value="Esame SSP"/>
+                        <c:set var="descrizione" value="${v.visitaSSP.tipo_visita.nome}"/>
+                        <c:set var="erogata" value="${not empty v.visitaSSP.dataErogazione}"/>
+                        <c:set var="tuo" value="${user.id == v.visitaSSP.paziente.medico.id}"/>
+                        <c:set var="targetModal" value="#modaleVisitaSSP-${v.visitaSSP.id}"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="foto" value="${v.visitaSpecialistica.paziente.fotoThumb}"/>
+                        <c:set var="nome_e_cognome" value="${v.visitaSpecialistica.paziente.nome} ${v.visitaSpecialistica.paziente.cognome}"/>
+                        <c:set var="dataPrescrizione" value="${v.visitaSpecialistica.dataPrescrizione}"/>
+                        <c:set var="tipo" value="Visita specialistica"/>
+                        <c:set var="descrizione" value="${v.visitaSpecialistica.tipo_visita.nome}"/>
+                        <c:set var="erogata" value="${not empty v.visitaSpecialistica.dataErogazione}"/>
+                        <c:set var="tuo" value="${user.id == v.visitaSpecialistica.paziente.medico.id}"/>
+                        <c:set var="targetModal" value="#modaleVisitaSpecialistica-${v.visitaSpecialistica.id}"/>
+                    </c:otherwise>
+                </c:choose>
+                <tr>
+                    <td>
                         <c:choose>
-                            <c:when test="${v.SSP}">
-                                <c:set var="foto" value="${v.visitaSSP.paziente.fotoThumb}"/>
-                                <c:set var="nome_e_cognome" value="${v.visitaSSP.paziente.nome} ${v.visitaSSP.paziente.cognome}"/>
-                                <c:set var="dataPrescrizione" value="${v.visitaSSP.dataPrescrizione}"/>
-                                <c:set var="tipo" value="Esame SSP"/>
-                                <c:set var="descrizione" value="${v.visitaSSP.tipo_visita.nome}"/>
-                                <c:set var="erogata" value="${not empty v.visitaSSP.dataErogazione}"/>
-                                <c:set var="tuo" value="${user.id == v.visitaSSP.paziente.medico.id}"/>
-                                <c:set var="targetModal" value="#modaleVisitaSSP-${v.visitaSSP.id}"/>
+                            <c:when test="${not empty foto}">
+                                <img class="profile-picture" src="<c:out value="${foto}"/>" height="48" width="48">
                             </c:when>
                             <c:otherwise>
-                                <c:set var="foto" value="${v.visitaSpecialistica.paziente.fotoThumb}"/>
-                                <c:set var="nome_e_cognome" value="${v.visitaSpecialistica.paziente.nome} ${v.visitaSpecialistica.paziente.cognome}"/>
-                                <c:set var="dataPrescrizione" value="${v.visitaSpecialistica.dataPrescrizione}"/>
-                                <c:set var="tipo" value="Visita specialistica"/>
-                                <c:set var="descrizione" value="${v.visitaSpecialistica.tipo_visita.nome}"/>
-                                <c:set var="erogata" value="${not empty v.visitaSpecialistica.dataErogazione}"/>
-                                <c:set var="tuo" value="${user.id == v.visitaSpecialistica.paziente.medico.id}"/>
-                                <c:set var="targetModal" value="#modaleVisitaSpecialistica-${v.visitaSpecialistica.id}"/>
+                                <img src="/images/profile_placeholder.svg" height="48" width="48">
                             </c:otherwise>
                         </c:choose>
-                        <tr>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${not empty foto}">
-                                        <img class="profile-picture" src="<c:out value="${foto}"/>" height="48" width="48">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <img src="/images/profile_placeholder.svg" height="48" width="48">
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                            <td>
-                                <c:out value="${nome_e_cognome}"/>
-                                <c:if test="${tuo}">
-                                    <span class="badge badge-success"><i class="material-icons badge-icon">check</i></span>
-                                </c:if>
-                            </td>
-                            <td><c:out value="${dataPrescrizione}"/></td>
-                            <td><c:out value="${tipo}"/></td>
-                            <td><c:out value="${descrizione}"/></td>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${erogata}">
-                                        <c:out value="Erogata"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:out value="Non ancora erogata"/>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                            <td><a class="btn btn-primary mb-3" href="#"  data-toggle="modal" data-target="<c:out value="${targetModal}"/>"
-                                   role="button"><i class="material-icons">open_in_new</i></a></td>
-                        </tr>
-                    </c:forEach>
-                </c:otherwise>
-            </c:choose>
-
+                    </td>
+                    <td>
+                        <c:out value="${nome_e_cognome}"/>
+                        <c:if test="${tuo}">
+                            <span class="badge badge-success"><i class="material-icons badge-icon">check</i></span>
+                        </c:if>
+                    </td>
+                    <td><c:out value="${dataPrescrizione}"/></td>
+                    <td><c:out value="${tipo}"/></td>
+                    <td><c:out value="${descrizione}"/></td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${erogata}">
+                                <c:out value="Erogata"/>
+                            </c:when>
+                            <c:otherwise>
+                                <c:out value="Non ancora erogata"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td><a class="btn btn-primary mb-3" href="#"  data-toggle="modal" data-target="<c:out value="${targetModal}"/>"
+                           role="button"><i class="material-icons">open_in_new</i></a></td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
 </div>
@@ -307,7 +297,6 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.0/dist/latest/bootstrap-autocomplete.min.js"></script>
 
-<script src="../js/clickable_row.js"></script>
 <script src="../js/init_datatables.js"></script>
 <script src="../js/toggle_modal_hash.js"></script>
 <script src="../js/ricerca_pazienti.js"></script>
