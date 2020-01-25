@@ -141,7 +141,7 @@ public class ReportVisiteXLS extends HttpServlet {
         }
 
         resp.setContentType("application/vnd.ms-excel");
-        resp.setHeader("Content-disposition", "attachment; filename=" + name + "");
+        resp.setHeader("Content-disposition", "attachment; filename=" + name);
         try{
             workbook.write(resp.getOutputStream());
         } catch (Exception e) {

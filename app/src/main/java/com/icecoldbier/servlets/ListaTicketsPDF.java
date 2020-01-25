@@ -127,8 +127,9 @@ public class ListaTicketsPDF extends HttpServlet {
                 table.draw();
             }
 
+            String name = "Lista_tickets_" + u.getNome() + "_" + u.getCognome() + ".xls";
             response.setContentType("application/pdf");
-            response.setHeader("Content-disposition", "attachment; filename=lista_tickets.pdf");
+            response.setHeader("Content-disposition", "attachment; filename=" + name);
             doc.save(response.getOutputStream());
         }
     }

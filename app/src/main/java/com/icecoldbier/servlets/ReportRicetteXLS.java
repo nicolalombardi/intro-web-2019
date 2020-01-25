@@ -133,9 +133,9 @@ public class ReportRicetteXLS extends HttpServlet {
             sheet.autoSizeColumn(i);
         }
 
-        String name = "Report" + data.toString() + ".xls";
+        String name = "Report_ricette_" + data.toString() + ".xls";
         resp.setContentType("application/vnd.ms-excel");
-        resp.setHeader("Content-disposition", "attachment; filename=" + name + "");
+        resp.setHeader("Content-disposition", "attachment; filename=" + name);
         try {
             workbook.write(resp.getOutputStream());
         } catch (Exception e) {
