@@ -157,3 +157,19 @@ td{
 .popover{
     max-width: 100%;
 }
+
+@media only screen and (max-width: 390px) {
+    .paginate_button.page-item{
+        display: none;
+    }
+    .paginate_button.page-item.active{
+        display: list-item;
+    }
+    .paginate_button.page-item.previous{
+        display: list-item;
+    }
+    .paginate_button.page-item.next{
+        display: list-item;
+    }
+}
+

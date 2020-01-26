@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $.fn.DataTable.ext.pager.numbers_length = 5;
     let table = $('.datatable').DataTable({
         responsive: {
             breakpoints: [
@@ -37,6 +38,5 @@ $(document).ready(function() {
             }
         }
     });
-
     table.$('[data-toggle="popover"]').popover();
 } );
