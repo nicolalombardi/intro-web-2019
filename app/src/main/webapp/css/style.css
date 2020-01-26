@@ -75,6 +75,9 @@ td{
 .white{
     color: white;
 }
+.white:hover{
+    color: white;
+}
 
 .datatable{
     width: 100% !important;
@@ -156,6 +159,14 @@ td{
 
 .popover{
     max-width: 100%;
+}
+
+.dropdown-menu{
+    min-width: 1rem!important;
+}
+
+.dropdown-item{
+    margin-block-end: 0;
 }
 
 @media only screen and (max-width: 390px) {
