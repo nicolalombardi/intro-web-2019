@@ -14,6 +14,8 @@
 <body>
 <%@ include file="navbar.html" %>
 
+<% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); %>
+
 <div class="container">
     <h1>Elenco visite SSP</h1>
 

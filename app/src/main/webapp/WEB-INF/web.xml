@@ -31,15 +31,6 @@
 
 <!--    MEDICO DI BASE-->
     <servlet>
-        <servlet-name>MedicoBaseHome</servlet-name>
-        <jsp-file>/pages/medico_base/home.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>MedicoBaseHome</servlet-name>
-        <url-pattern>/medico-base/home</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>MedicoBaseLista</servlet-name>
         <jsp-file>/pages/medico_base/lista_pazienti.jsp</jsp-file>
     </servlet>
@@ -85,15 +76,6 @@
     </servlet-mapping>
 
 <!--    MEDICO SPECIALISTA-->
-    <servlet>
-        <servlet-name>MedicoSpecialistaHome</servlet-name>
-        <jsp-file>/pages/medico_specialista/home.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>MedicoSpecialistaHome</servlet-name>
-        <url-pattern>/medico-specialista/home</url-pattern>
-    </servlet-mapping>
-    
     <servlet>
         <servlet-name>MedicoSpecialistaProfilo</servlet-name>
         <jsp-file>/pages/medico_specialista/profilo.jsp</jsp-file>
@@ -159,14 +141,6 @@
     </servlet-mapping>
 
 <!--    PAZIENTE-->
-    <servlet>
-        <servlet-name>PazienteHome</servlet-name>
-        <jsp-file>/pages/paziente/home.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>PazienteHome</servlet-name>
-        <url-pattern>/paziente/home</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>PazienteProfilo</servlet-name>
         <jsp-file>/pages/paziente/profilo.jsp</jsp-file>

@@ -15,6 +15,9 @@
 </head>
 <body>
 <%@ include file="navbar.html" %>
+
+<% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); %>
+
 <%
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     String today = sdf.format(new Date());

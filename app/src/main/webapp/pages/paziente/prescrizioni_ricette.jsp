@@ -15,6 +15,7 @@
 <jsp:useBean id="elencoRicette" scope="request"
              type="java.util.List<com.icecoldbier.persistence.entities.InfoRicetta>"/>
 
+<% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); %>
 
 <div class="container">
     <h1>Elenco ricette prescritte</h1>
