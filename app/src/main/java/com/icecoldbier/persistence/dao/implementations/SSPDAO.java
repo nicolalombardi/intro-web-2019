@@ -92,6 +92,7 @@ public class SSPDAO extends JDBCDAO<SSP, Integer> implements SSPDAOInterface {
                 resultSet.next();
                 ssp = new SSP(
                         resultSet.getInt("id"),
+                        resultSet.getString("username"),
                         resultSet.getString("provincia_appartenenza")
                 );
             }
@@ -110,6 +111,7 @@ public class SSPDAO extends JDBCDAO<SSP, Integer> implements SSPDAOInterface {
             while (rs.next()){
                 SSP s = new SSP(
                         rs.getInt("id"),
+                        rs.getString("username"),
                         rs.getString("provincia_appartenenza")
                 );
                 ssp.add(s);
