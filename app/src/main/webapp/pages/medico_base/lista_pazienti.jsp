@@ -25,18 +25,21 @@
 
 <div class="container">
     <h1>Lista pazienti</h1>
-    <c:choose>
-        <c:when test="${showAll}">
-            <a class="btn btn-primary mb-3"
-               href="lista?mostraTutti=false"
-               role="button">Mostra solo i tuoi pazienti</a>
-        </c:when>
-        <c:otherwise>
-            <a class="btn btn-primary mb-3"
-               href="lista?mostraTutti=true"
-               role="button">Mostra tutti i pazienti</a>
-        </c:otherwise>
-    </c:choose>
+    <div class="div-centered">
+        <c:choose>
+            <c:when test="${showAll}">
+                <a class="btn btn-primary mb-3"
+                   href="lista?mostraTutti=false"
+                   role="button">Mostra solo i tuoi pazienti</a>
+            </c:when>
+            <c:otherwise>
+                <a class="btn btn-primary mb-3"
+                   href="lista?mostraTutti=true"
+                   role="button">Mostra tutti i pazienti</a>
+            </c:otherwise>
+        </c:choose>
+    </div>
+
     <table class="datatable table table-striped">
         <thead class="thead-dark">
         <tr>
