@@ -45,7 +45,7 @@ public class MedicoSpecialistaController implements Filter {
                 request.setAttribute("listaPazientiSpecialista", listaPazientiSpecialista);
             } catch (DAOException ex) {
                 error = true;
-                ((HttpServletResponse)resp).sendError(500, ex.getMessage());
+                ((HttpServletResponse)resp).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
                 ex.printStackTrace();
             }
         }else if(userPath.equals(("/medico-specialista/visite"))){
@@ -55,7 +55,7 @@ public class MedicoSpecialistaController implements Filter {
                 visite = medicoSpecialistaDAO.getListaVisitePazienti(user.getId());
                 request.setAttribute("visite", visite);
             } catch (DAOException ex) {
-                ((HttpServletResponse)resp).sendError(500, ex.getMessage());
+                ((HttpServletResponse)resp).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
                 ex.printStackTrace();
             }
         }else if(userPath.equals("/medico-specialista/visite/dettagli-visita")){
@@ -67,7 +67,7 @@ public class MedicoSpecialistaController implements Filter {
                     visita = visitaSpecialisticaDAO.getByPrimaryKey(id);
                     request.setAttribute("visita", visita);
                 } catch (DAOException ex) {
-                    ((HttpServletResponse)resp).sendError(500, ex.getMessage());
+                    ((HttpServletResponse)resp).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
                     ex.printStackTrace();
                 }
             }
@@ -84,7 +84,7 @@ public class MedicoSpecialistaController implements Filter {
                     request.setAttribute("paziente", paziente);
                     request.setAttribute("medico", medico);
                 } catch (DAOException ex) {
-                    ((HttpServletResponse)resp).sendError(500, ex.getMessage());
+                    ((HttpServletResponse)resp).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
                     ex.printStackTrace();
                 }
             }

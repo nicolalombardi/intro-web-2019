@@ -51,7 +51,7 @@ public class PazienteController implements Filter {
                 request.setAttribute("elencoVisite", elencoVisite);
 
             }catch (DAOException e) {
-                ((HttpServletResponse)resp).sendError(500, e.getMessage());
+                ((HttpServletResponse)resp).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
                 e.printStackTrace();
             }
         }else if(userPath.equals("/paziente/elenco-visite-specialistiche")){
@@ -62,7 +62,7 @@ public class PazienteController implements Filter {
                 request.setAttribute("elencoVisite", elencoVisite);
 
             }catch (DAOException e) {
-                ((HttpServletResponse)resp).sendError(500, e.getMessage());
+                ((HttpServletResponse)resp).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
                 e.printStackTrace();
             }
         }else if(userPath.equals("/paziente/elenco-visite-ssp")){
@@ -73,7 +73,7 @@ public class PazienteController implements Filter {
                 request.setAttribute("elencoVisiteSSP", elencoVisiteSSP);
 
             }catch (DAOException | DAOFactoryException e) {
-                ((HttpServletResponse)resp).sendError(500, e.getMessage());
+                ((HttpServletResponse)resp).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
                 e.printStackTrace();
             }
         }else if (userPath.equals("/paziente/elenco-prescrizioni-ricette")){
@@ -84,7 +84,7 @@ public class PazienteController implements Filter {
                 request.setAttribute("elencoRicette", elencoRicette);
 
             }catch (DAOException e) {
-                ((HttpServletResponse)resp).sendError(500, e.getMessage());
+                ((HttpServletResponse)resp).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
                 e.printStackTrace();
             }
         }else if(userPath.equals("/paziente/elenco-prescrizioni-visite")){
@@ -95,7 +95,7 @@ public class PazienteController implements Filter {
                 request.setAttribute("elencoVisiteFuture", elencoVisiteFuture);
 
             }catch (DAOException e) {
-                ((HttpServletResponse)resp).sendError(500, e.getMessage());
+                ((HttpServletResponse)resp).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
                 e.printStackTrace();
             }
         }else if(userPath.equals("/paziente/tickets")){
@@ -109,7 +109,7 @@ public class PazienteController implements Filter {
 
             }catch (DAOException e) {
                 e.printStackTrace();
-                ((HttpServletResponse)resp).sendError(500, e.getMessage());
+                ((HttpServletResponse)resp).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
             }
         }else if(userPath.equals("/paziente/esami-possibili")){
 
@@ -123,7 +123,7 @@ public class PazienteController implements Filter {
                 request.setAttribute("listaVisite", listaVisite);
             }catch (DAOException e) {
                 e.printStackTrace();
-                ((HttpServletResponse)resp).sendError(500, e.getMessage());
+                ((HttpServletResponse)resp).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
             }
         }else if(userPath.equals("/paziente/profilo")){
             try {

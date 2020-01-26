@@ -84,7 +84,7 @@ public class PazientiService {
                     return JSON.toJSONString(pazienti);
                 } catch (DAOException e) {
                     try {
-                        response.sendError(500, "Impossible to access the persistence layer: " + e.getMessage());
+                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Impossible to access the persistence layer: " + e.getMessage());
                     } catch (IOException ex) {
                         ex.printStackTrace();
                         //Too bad i guess
