@@ -105,7 +105,7 @@ public class MedicoBaseServlet extends HttpServlet {
                     }else{
                         medicoBaseDAO.approvaRicetta(idRicetta);
                         session.setAttribute("successMessage", "Ricetta approvata con successo");
-                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/lista-visite-specialistiche?id_paziente=" + visitaSpecialistica.getPaziente().getId() + "#modaleVisitaSpecialistica-" + visitaSpecialistica.getId()));
+                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/lista-visite-specialistiche?id_paziente=" + visitaSpecialistica.getPaziente().getId()));
                     }
                 } catch (DAOException e) {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore durante l'approvazione della ricetta");
