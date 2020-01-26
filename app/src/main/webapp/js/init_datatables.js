@@ -1,5 +1,6 @@
+
 $(document).ready(function() {
-    $('.datatable').DataTable({
+    let table = $('.datatable').DataTable({
         responsive: {
             breakpoints: [
                 { name: 'xl', width: Infinity },
@@ -37,4 +38,6 @@ $(document).ready(function() {
             }
         }
     });
+
+    table.$('[data-toggle="popover"]').popover();
 } );

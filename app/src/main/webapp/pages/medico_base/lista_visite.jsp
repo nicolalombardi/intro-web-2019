@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="/WEB-INF/customTags/ellipsizeTag.tld" prefix="ct" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <jsp:useBean id="listaVisite" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.VisitaBase>"/>
@@ -32,7 +33,7 @@
     </c:choose>
 
 
-        <table class="datatable table table-striped table-hover">
+        <table class="datatable table table-striped">
             <thead class="thead-dark">
             <tr>
                 <th class="all" scope="col">Foto</th>
@@ -56,7 +57,7 @@
                         </c:choose>
                     </td>
                     <td>
-                        <c:out value="${v.paziente.nome} ${v.paziente.cognome}"/>
+                        <mp:miniProfileTag paziente="${v.paziente}"/>
                         <c:if test="${user.id == v.paziente.medico.id}">
                             <span class="badge badge-success"><i class="material-icons badge-icon">check</i></span>
                         </c:if>
@@ -95,11 +96,11 @@
                         <tbody>
                         <tr>
                             <th>Medico</th>
-                            <td><c:out value="${v.medicoBase.nome} ${v.medicoBase.cognome}"/></td>
+                            <td><mp:miniProfileTag user="${v.medicoBase}"/></td>
                         </tr>
                         <tr>
                             <th>Paziente</th>
-                            <td><c:out value="${v.paziente.nome} ${v.paziente.cognome}"/></td>
+                            <td><mp:miniProfileTag paziente="${v.paziente}"/></td>
                         </tr>
                         <tr>
                             <th>Data erogazione</th>
@@ -143,6 +144,7 @@
 <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.0/dist/latest/bootstrap-autocomplete.min.js"></script>
 
 <script src="../js/init_datatables.js"></script>
+<script src="../js/init_non_datatable_popover.js"></script>
 <script src="../js/ricerca_pazienti.js"></script>
 </body>
 </html>

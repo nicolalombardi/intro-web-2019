@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="/WEB-INF/customTags/ellipsizeTag.tld" prefix="ct" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <jsp:useBean id="listaVisite" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.VisitaSpecialisticaOrSSP>"/>
@@ -27,11 +28,11 @@
             <h1>Lista Visite Specialistiche ed Esami SSP</h1>
         </c:when>
         <c:otherwise>
-            <h1>Lista Visite Specialistiche ed Esami SSP di <c:out value="${paziente.nome}"/> <c:out value="${paziente.cognome}"/></h1>
+            <h1>Lista Visite Specialistiche ed Esami SSP di <mp:miniProfileTag paziente="${paziente}"/></h1>
         </c:otherwise>
     </c:choose>
 
-        <table class="datatable table table-striped table-hover">
+        <table class="datatable table table-striped">
             <thead class="thead-dark">
             <tr>
                 <th class="all" scope="col">Foto</th>
@@ -48,7 +49,7 @@
                 <c:choose>
                     <c:when test="${v.SSP}">
                         <c:set var="foto" value="${v.visitaSSP.paziente.fotoThumb}"/>
-                        <c:set var="nome_e_cognome" value="${v.visitaSSP.paziente.nome} ${v.visitaSSP.paziente.cognome}"/>
+                        <c:set var="paziente" value="${v.visitaSSP.paziente}"/>
                         <c:set var="dataPrescrizione" value="${v.visitaSSP.dataPrescrizione}"/>
                         <c:set var="tipo" value="Esame SSP"/>
                         <c:set var="descrizione" value="${v.visitaSSP.tipo_visita.nome}"/>
@@ -58,7 +59,7 @@
                     </c:when>
                     <c:otherwise>
                         <c:set var="foto" value="${v.visitaSpecialistica.paziente.fotoThumb}"/>
-                        <c:set var="nome_e_cognome" value="${v.visitaSpecialistica.paziente.nome} ${v.visitaSpecialistica.paziente.cognome}"/>
+                        <c:set var="paziente" value="${v.visitaSpecialistica.paziente}"/>
                         <c:set var="dataPrescrizione" value="${v.visitaSpecialistica.dataPrescrizione}"/>
                         <c:set var="tipo" value="Visita specialistica"/>
                         <c:set var="descrizione" value="${v.visitaSpecialistica.tipo_visita.nome}"/>
@@ -79,7 +80,7 @@
                         </c:choose>
                     </td>
                     <td>
-                        <c:out value="${nome_e_cognome}"/>
+                        <mp:miniProfileTag paziente="${paziente}"/>
                         <c:if test="${tuo}">
                             <span class="badge badge-success"><i class="material-icons badge-icon">check</i></span>
                         </c:if>
@@ -123,11 +124,11 @@
                                 <tbody>
                                 <tr>
                                     <th>SSP</th>
-                                    <td>SSP di <c:out value="${v.visitaSSP.ssp.provinciaAppartenenza}"/></td>
+                                    <td><mp:miniProfileTag ssp="${v.visitaSSP.ssp}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Paziente</th>
-                                    <td><c:out value="${v.visitaSSP.paziente.nome}"/> <c:out value="${v.visitaSSP.paziente.cognome}"/></td>
+                                    <td><mp:miniProfileTag paziente="${v.visitaSSP.paziente}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Nome esame</th>
@@ -143,7 +144,7 @@
                                 </tr>
                                 <tr>
                                     <th>Prescritta da</th>
-                                    <td><c:out value="${v.visitaSSP.medicoBase.nome}"/> <c:out value="${v.visitaSSP.medicoBase.cognome}"/></td>
+                                    <td><mp:miniProfileTag user="${v.visitaSSP.medicoBase}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Data prescrizione</th>
@@ -188,11 +189,11 @@
                                 <tbody>
                                 <tr>
                                     <th>Medico Specialista</th>
-                                    <td><c:out value="${v.visitaSpecialistica.medicoSpecialista.nome}"/> <c:out value="${v.visitaSpecialistica.medicoSpecialista.cognome}"/></td>
+                                    <td><mp:miniProfileTag user="${v.visitaSpecialistica.medicoSpecialista}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Paziente</th>
-                                    <td><c:out value="${v.visitaSpecialistica.paziente.nome}"/> <c:out value="${v.visitaSpecialistica.paziente.cognome}"/></td>
+                                    <td><mp:miniProfileTag paziente="${v.visitaSpecialistica.paziente}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Nome visita</th>
@@ -208,7 +209,7 @@
                                 </tr>
                                 <tr>
                                     <th>Prescritta da</th>
-                                    <td><c:out value="${v.visitaSpecialistica.medicoBase.nome}"/> <c:out value="${v.visitaSpecialistica.medicoBase.cognome}"/></td>
+                                    <td><mp:miniProfileTag user="${v.visitaSpecialistica.medicoBase}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Data prescrizione</th>
@@ -300,6 +301,7 @@
 <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.0/dist/latest/bootstrap-autocomplete.min.js"></script>
 
 <script src="../js/init_datatables.js"></script>
+<script src="../js/init_non_datatable_popover.js"></script>
 <script src="../js/toggle_modal_hash.js"></script>
 <script src="../js/ricerca_pazienti.js"></script>
 

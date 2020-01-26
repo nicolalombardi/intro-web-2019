@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <jsp:useBean id="showAll" scope="request" type="java.lang.Boolean"/>
@@ -36,7 +37,7 @@
                role="button">Mostra tutti i pazienti</a>
         </c:otherwise>
     </c:choose>
-    <table class="datatable table table-striped table-hover">
+    <table class="datatable table table-striped">
         <thead class="thead-dark">
         <tr>
             <th class="all" scope="col">Foto</th>
@@ -65,7 +66,7 @@
                     </c:choose>
                 </td>
                 <td>
-                    <c:out value="${p.nome} ${p.cognome}"/>
+                    <mp:miniProfileTag paziente="${p}"/>
                     <c:if test="${user.id == p.medico.id}">
                         <span class="badge badge-success"><i class="material-icons badge-icon">check</i></span>
                     </c:if>

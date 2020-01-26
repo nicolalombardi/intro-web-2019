@@ -9,6 +9,7 @@
 <jsp:useBean id="mediciSpecialisti" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.User>"/>
 <jsp:useBean id="ssp" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.SSP>"/>
 
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -84,7 +85,7 @@
                             <td>Non ancora scelto.</td>
                         </c:when>
                         <c:otherwise>
-                            <td><c:out value="${medico.nome}"/> <c:out value="${medico.cognome}"/></td>
+                            <td><mp:miniProfileTag user="${medico}"/></td>
                         </c:otherwise>
                     </c:choose>
 
@@ -343,10 +344,10 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.0/dist/latest/bootstrap-autocomplete.min.js"></script>
 
 <script src="../js/scheda_paziente.js"></script>
-
-<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.0/dist/latest/bootstrap-autocomplete.min.js"></script>
+<script src="../js/init_non_datatable_popover.js"></script>
 <script src="../js/ricerca_pazienti.js"></script>
 
 <%--These are the success and error modals--%>

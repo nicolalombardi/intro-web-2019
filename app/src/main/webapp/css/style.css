@@ -118,6 +118,12 @@ td{
     height: 250px;
 }
 
+.profile-picture-popover{
+    border-radius: 100% !important;
+    width: 128px;
+    height: 128px;
+}
+
 .profile-picture-thumbnail{
     border-radius: 100% !important;
 }
@@ -137,4 +143,13 @@ td{
 
 .pagination{
     justify-content: center!important;
+}
+
+.divider{
+    padding-right: 15%;
+    padding-left: 15%;
+    margin-bottom: 3px;
+    margin-top: 3px;
+    background-color: #d7d7d7;
+    height: 1px;
 }
