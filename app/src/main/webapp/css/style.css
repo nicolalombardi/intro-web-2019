@@ -153,3 +153,7 @@ td{
     background-color: #d7d7d7;
     height: 1px;
 }
+
+.popover{
+    max-width: 100%;
+}

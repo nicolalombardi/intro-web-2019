@@ -43,7 +43,7 @@ public class MiniProfileTag extends BodyTagSupport {
         try{
             JspWriter out = pageContext.getOut();
             //Tag config
-            out.print("<a data-toggle='popover' data-trigger='hover' data-placement='auto' title='Profilo' data-html='true' data-content=\"");
+            out.print("<a data-toggle='popover' data-container='body' data-trigger='hover' data-placement='auto' title='Profilo' data-html='true' data-content=\"");
 
             //If user profile
             if(user != null){
