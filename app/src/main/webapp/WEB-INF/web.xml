@@ -218,12 +218,7 @@
         </session-timeout>
     </session-config>
     <error-page>
-        <error-code>500</error-code>
-        <location>/pages/error_500.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>404</error-code>
-        <location>/pages/error_404.jsp</location>
+        <location>/pages/error.jsp</location>
     </error-page>
 
     <context-param>
