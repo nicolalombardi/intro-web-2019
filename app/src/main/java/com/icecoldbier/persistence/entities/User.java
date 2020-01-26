@@ -43,7 +43,7 @@ public class User {
     }
 
     public String getUsername() {
-        return username;
+        return username.substring(username.indexOf(".") + 1);
     }
 
     public void setUsername(String username) {
@@ -84,6 +84,10 @@ public class User {
 
     public String toStringNomeCognome(){
         return nome + " " + cognome;
+    }
+
+    public String getFullUsername(){
+        return username;
     }
 
     @Override

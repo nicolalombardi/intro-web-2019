@@ -76,7 +76,7 @@ public class MedicoBaseServlet extends HttpServlet {
                         //Se è stata aggiunta una ricetta notifica il paziente per email
                         if(!ricetta.equals("")){
                             try {
-                                Utils.sendMail(paziente.getUsername(), "Nuova ricetta disponibile!", "E' stata prescritta una nuova ricetta, accedi al tuo account per visualizzarla.");
+                                Utils.sendMail(paziente, "Nuova ricetta disponibile!", "E' stata prescritta una nuova ricetta, accedi al tuo account per visualizzarla.");
                             } catch (MessagingException e) {
                                 e.printStackTrace();
                             }

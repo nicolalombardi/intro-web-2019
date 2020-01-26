@@ -1,5 +1,7 @@
 package com.icecoldbier.utils;
 
+import com.icecoldbier.persistence.entities.User;
+
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.mail.*;
@@ -29,7 +31,7 @@ public class Utils {
      * @param text Testo della mail
      * @throws MessagingException
      */
-    public static void sendMail(final String to, final String subject, final String text) throws MessagingException {
+    public static void sendMail(final User to, final String subject, final String text) throws MessagingException {
         final String accountEmail = "progettoweb0@gmail.com";
         final String accountPassword = "icecoldbier";
         final String senderAddress = "progettoweb0+admin@gmail.com";
@@ -53,7 +55,7 @@ public class Utils {
                     };
 
                     Session session = Session.getInstance(prop, auth);
-                    InternetAddress[] mailTo = InternetAddress.parse(to);
+                    InternetAddress[] mailTo = InternetAddress.parse(to.getFullUsername());
                     Message message = new MimeMessage(session);
                     message.setFrom(new InternetAddress(senderAddress));
                     message.setRecipients(Message.RecipientType.TO, mailTo);
