@@ -1,0 +1,810 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.6 (Ubuntu 11.6-1.pgdg19.04+1)
+-- Dumped by pg_dump version 11.6 (Ubuntu 11.6-1.pgdg19.04+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: user_type; Type: TYPE; Schema: public; Owner: nicola
+--
+
+CREATE TYPE public.user_type AS ENUM (
+    'paziente',
+    'medico_base',
+    'medico_specialista',
+    'ssp'
+);
+
+
+ALTER TYPE public.user_type OWNER TO nicola;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: elenco_visite_possibili; Type: TABLE; Schema: public; Owner: nicola
+--
+
+CREATE TABLE public.elenco_visite_possibili (
+    id integer NOT NULL,
+    praticante public.user_type NOT NULL,
+    nome text NOT NULL,
+    descrizione text NOT NULL,
+    costo_ticket integer NOT NULL
+);
+
+
+ALTER TABLE public.elenco_visite_possibili OWNER TO nicola;
+
+--
+-- Name: elenco_visite_possibili_id_seq; Type: SEQUENCE; Schema: public; Owner: nicola
+--
+
+CREATE SEQUENCE public.elenco_visite_possibili_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.elenco_visite_possibili_id_seq OWNER TO nicola;
+
+--
+-- Name: elenco_visite_possibili_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nicola
+--
+
+ALTER SEQUENCE public.elenco_visite_possibili_id_seq OWNED BY public.elenco_visite_possibili.id;
+
+
+--
+-- Name: paziente; Type: TABLE; Schema: public; Owner: nicola
+--
+
+CREATE TABLE public.paziente (
+    id_user integer NOT NULL,
+    data_nascita date NOT NULL,
+    luogo_nascita character varying(40) NOT NULL,
+    codice_fiscale character varying(16) NOT NULL,
+    sesso character(1) NOT NULL,
+    foto text,
+    id_medico integer NOT NULL,
+    email text NOT NULL
+);
+
+
+ALTER TABLE public.paziente OWNER TO nicola;
+
+--
+-- Name: report; Type: TABLE; Schema: public; Owner: nicola
+--
+
+CREATE TABLE public.report (
+    id integer NOT NULL,
+    esito text NOT NULL,
+    id_ricetta integer
+);
+
+
+ALTER TABLE public.report OWNER TO nicola;
+
+--
+-- Name: report_id_seq; Type: SEQUENCE; Schema: public; Owner: nicola
+--
+
+CREATE SEQUENCE public.report_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.report_id_seq OWNER TO nicola;
+
+--
+-- Name: report_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nicola
+--
+
+ALTER SEQUENCE public.report_id_seq OWNED BY public.report.id;
+
+
+--
+-- Name: ricetta; Type: TABLE; Schema: public; Owner: nicola
+--
+
+CREATE TABLE public.ricetta (
+    id integer NOT NULL,
+    farmaco character varying(100) NOT NULL,
+    prescritta boolean NOT NULL
+);
+
+
+ALTER TABLE public.ricetta OWNER TO nicola;
+
+--
+-- Name: ricetta_id_seq; Type: SEQUENCE; Schema: public; Owner: nicola
+--
+
+CREATE SEQUENCE public.ricetta_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ricetta_id_seq OWNER TO nicola;
+
+--
+-- Name: ricetta_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nicola
+--
+
+ALTER SEQUENCE public.ricetta_id_seq OWNED BY public.ricetta.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: nicola
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    typ public.user_type,
+    username character varying(128),
+    pass character varying(256),
+    nome character varying(40),
+    cognome character varying(40),
+    provincia_appartenenza character varying(64) NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO nicola;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: nicola
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO nicola;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nicola
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: visita_base; Type: TABLE; Schema: public; Owner: nicola
+--
+
+CREATE TABLE public.visita_base (
+    id integer NOT NULL,
+    id_medico integer NOT NULL,
+    id_paziente integer NOT NULL,
+    id_visita_specialistica integer,
+    id_ricetta integer,
+    data_erogazione timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.visita_base OWNER TO nicola;
+
+--
+-- Name: visita_base_id_seq; Type: SEQUENCE; Schema: public; Owner: nicola
+--
+
+CREATE SEQUENCE public.visita_base_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.visita_base_id_seq OWNER TO nicola;
+
+--
+-- Name: visita_base_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nicola
+--
+
+ALTER SEQUENCE public.visita_base_id_seq OWNED BY public.visita_base.id;
+
+
+--
+-- Name: visita_specialistica; Type: TABLE; Schema: public; Owner: nicola
+--
+
+CREATE TABLE public.visita_specialistica (
+    id integer NOT NULL,
+    id_visita integer NOT NULL,
+    erogata boolean NOT NULL,
+    data_prescrizione timestamp without time zone NOT NULL,
+    data_erogazione timestamp without time zone,
+    id_medico integer NOT NULL,
+    id_paziente integer NOT NULL,
+    id_medico_base integer NOT NULL,
+    id_report integer
+);
+
+
+ALTER TABLE public.visita_specialistica OWNER TO nicola;
+
+--
+-- Name: visita_specialistica_id_seq; Type: SEQUENCE; Schema: public; Owner: nicola
+--
+
+CREATE SEQUENCE public.visita_specialistica_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.visita_specialistica_id_seq OWNER TO nicola;
+
+--
+-- Name: visita_specialistica_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nicola
+--
+
+ALTER SEQUENCE public.visita_specialistica_id_seq OWNED BY public.visita_specialistica.id;
+
+
+--
+-- Name: visita_ssp; Type: TABLE; Schema: public; Owner: nicola
+--
+
+CREATE TABLE public.visita_ssp (
+    id integer NOT NULL,
+    id_visita integer NOT NULL,
+    erogata boolean NOT NULL,
+    data_prescrizione timestamp without time zone NOT NULL,
+    data_erogazione timestamp without time zone,
+    id_ssp integer NOT NULL,
+    id_paziente integer NOT NULL,
+    id_medico_base integer NOT NULL
+);
+
+
+ALTER TABLE public.visita_ssp OWNER TO nicola;
+
+--
+-- Name: visita_ssp_id_seq; Type: SEQUENCE; Schema: public; Owner: nicola
+--
+
+CREATE SEQUENCE public.visita_ssp_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.visita_ssp_id_seq OWNER TO nicola;
+
+--
+-- Name: visita_ssp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nicola
+--
+
+ALTER SEQUENCE public.visita_ssp_id_seq OWNED BY public.visita_ssp.id;
+
+
+--
+-- Name: elenco_visite_possibili id; Type: DEFAULT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.elenco_visite_possibili ALTER COLUMN id SET DEFAULT nextval('public.elenco_visite_possibili_id_seq'::regclass);
+
+
+--
+-- Name: report id; Type: DEFAULT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.report ALTER COLUMN id SET DEFAULT nextval('public.report_id_seq'::regclass);
+
+
+--
+-- Name: ricetta id; Type: DEFAULT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.ricetta ALTER COLUMN id SET DEFAULT nextval('public.ricetta_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Name: visita_base id; Type: DEFAULT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_base ALTER COLUMN id SET DEFAULT nextval('public.visita_base_id_seq'::regclass);
+
+
+--
+-- Name: visita_specialistica id; Type: DEFAULT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_specialistica ALTER COLUMN id SET DEFAULT nextval('public.visita_specialistica_id_seq'::regclass);
+
+
+--
+-- Name: visita_ssp id; Type: DEFAULT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_ssp ALTER COLUMN id SET DEFAULT nextval('public.visita_ssp_id_seq'::regclass);
+
+
+--
+-- Data for Name: elenco_visite_possibili; Type: TABLE DATA; Schema: public; Owner: nicola
+--
+
+COPY public.elenco_visite_possibili (id, praticante, nome, descrizione, costo_ticket) FROM stdin;
+1	medico_specialista	Estrazione di dente deciduo	Inclusa anestesia	50
+2	medico_specialista	Estrazione di dente permanente	Estrazione di altro dente NAS. Inclusa anestesia	50
+3	medico_specialista	Ricostruzione di dente mediante otturazione	Fino a due superfici. Incluso: Otturazione carie, Otturazione carie con incappucciamento indiretto della polpa	50
+4	medico_specialista	Applicazione di corona in lega aurea	Trattamento per applicazione di corona faccettata in lega aurea e resina o corona di 3/4 lega aurea o in lega aurea fusa	50
+5	medico_specialista	Inserzione di protesi removibile	Trattamento per applicazione protesi rimovibile completa (per arcata)	50
+6	medico_specialista	Gengivoplastica [Chirurgia paradontale]	Lembo di Widman modificato con levigatura radici e curettage tasche infraossee, applicazione di osso o membrane, osteoplastica (per sestante)	50
+7	medico_specialista	Tomografia computerizzata (TC) del rachide e dello speco vertebrale senza e con contrasto	TC del rachide [cervicale, toracico, lombosacrale], spinale. Incluso: lo studio di 3 metameri e due spazi intersomatici in caso di estensione della prestazione ad un ulteriore spazio intersomatico o metamero	50
+8	medico_specialista	Risonanza magnetica nucleare (RM) della colonna cervicale, toracica, lombosacrale	Nessuna descrizione	50
+9	medico_specialista	Asportazione di lesione o tessuto della gengiva	Asportazione di epulidi. Escluso: biopsia della gengiva, asportazione di lesione odontogena	50
+10	medico_specialista	Trattamento ortodontico con apparecchi ortopedico funzionali	Incluso: trattamento con placca di svincolo	50
+11	ssp	Acido 5 idrossi 3 indolacetico [dU]	Diagnosi di carcinoidi	11
+12	ssp	Ala deidrasi eritrocitaria	Diagnosi e monitoraggio delle porfirie o delle intossicazioni da Piombo	11
+13	ssp	Albumina [S/U/dU]	Indagine di primo livello in caso di sospetta malnutrizione o di patologie epatiche e/o renali	11
+14	ssp	Androstenediolo glucoronide	Diagnosi dell'irsutismo	11
+15	ssp	Creatina clearance	Indagine di secondo livello per il monitoraggio delle patologie renali croniche	11
+16	ssp	Cromo	Portatori di protesi impiantabili metallo su metallo	11
+17	ssp	Tipizzazione genomica HLA-B mediante sequenziamento diretto	A scopo di trapianto e, per le patologie/condizioni riportate nell'allegato Genetica (colonna D), su prescrizione del genetista medico	11
+18	ssp	Campylobacter antibiogramma	In caso di controllo dopo coprocoltura positiva Campylobacter	11
+19	ssp	Virus epatite delta [HDV] antigene HDVAg	Contestualmente all'esito positivo dell'HBsAg	11
+20	ssp	Immunizzazione per malattia autoimmune	Erogabile solo a seguito i visita allergologica o dermatologica	11
+\.
+
+
+--
+-- Data for Name: paziente; Type: TABLE DATA; Schema: public; Owner: nicola
+--
+
+COPY public.paziente (id_user, data_nascita, luogo_nascita, codice_fiscale, sesso, foto, id_medico, email) FROM stdin;
+14	1990-02-21	Milano	GRSCRS90B21F205O	M		1	progettoweb0+p.christian.grasso@gmail.com
+15	1992-02-16	Brescia	BNCLVC92B56B157D	F		2	progettoweb0+p.ludovica.bianco@gmail.com
+16	1988-12-29	Brescia	VLNRCR88T29B157L	M		1	progettoweb0+p.riccardo.valentini@gmail.com
+17	1979-03-22	Milano	MRNGPP79C22F205K	M		1	progettoweb0+p.giuseppe.marini@gmail.com
+18	2000-09-10	Brescia	PRSGRG00P50B157H	F		2	progettoweb0+p.giorgia.parisi@gmail.com
+19	1951-10-21	Milano	RZZNDR51R21F205K	M		1	progettoweb0+p.andrea.rizzo@gmail.com
+20	1968-01-14	Brescia	RSSLVC68A54B157S	F		1	progettoweb0+p.ludovica.russo@gmail.com
+21	2008-05-05	Roma	MRNGAI08E45H501V	F		1	progettoweb0+p.gaia.marino@gmail.com
+22	1943-07-26	Brescia	GLLMTT43L26B157B	M		2	progettoweb0+p.matteo.galli@gmail.com
+23	1991-04-22	Roma	FRRFNC91D22H501R	M		2	progettoweb0+p.francesco.ferraro@gmail.com
+24	1953-09-05	Brescia	RSSRRT53P45B157L	F		1	progettoweb0+p.roberta.rossi@gmail.com
+25	1980-01-26	Roma	CPPSML80A26H501X	M		2	progettoweb0+p.samuele.coppola@gmail.com
+26	1936-02-07	Milano	CRSNDR36B07F205U	M		2	progettoweb0+p.andrea.caruso@gmail.com
+27	1957-01-11	Brescia	CSTBPP57A11B157X	M		2	progettoweb0+p.beppe.costa@gmail.com
+28	2011-06-17	Milano	MRNDGI11H17F205K	M		3	progettoweb0+p.diego.marino@gmail.com
+29	1929-02-22	Milano	GRSBRC29B62F205Z	F		4	progettoweb0+p.beatrice.grasso@gmail.com
+30	1926-02-19	Roma	MRTDVD26B19H501O	M		2	progettoweb0+p.davide.moretti@gmail.com
+31	1954-12-09	Roma	BRBGNN54T49H501C	F		3	progettoweb0+p.giovanna.barbieri@gmail.com
+32	1940-12-18	Brescia	MNCMTT40T18B157R	M		3	progettoweb0+p.matteo.mancini@gmail.com
+33	1958-09-05	Roma	LMBNCL58P05H501Y	M		3	progettoweb0+p.nicolo.lombardi@gmail.com
+34	1949-06-02	Roma	MRNRRA49H42H501O	F		1	progettoweb0+p.aurora.mariani@gmail.com
+35	1930-11-15	Milano	LNGNMO30S55F205H	F		4	progettoweb0+p.noemi.longo@gmail.com
+36	1941-08-10	Brescia	BRBRLA41M10B157N	M		2	progettoweb0+p.aurelio.barbieri@gmail.com
+37	2003-01-15	Milano	FRRLNZ03A15F205G	M		3	progettoweb0+p.lorenzo.ferri@gmail.com
+38	1994-01-28	Roma	DSNMRC94A28H501E	M		2	progettoweb0+p.marco.desantis@gmail.com
+39	1958-12-20	Roma	RSSDGI58T20H501S	M		1	progettoweb0+p.diego.russo@gmail.com
+40	1988-12-12	Roma	MRNBPP88T12H501L	M		3	progettoweb0+p.beppe.mariani@gmail.com
+41	1922-02-24	Roma	SRRLSN22B24H501H	M		3	progettoweb0+p.alessandro.serra@gmail.com
+42	1938-01-23	Milano	LMBCRS38A23F205O	M		3	progettoweb0+p.christian.lombardi@gmail.com
+43	1952-10-09	Brescia	GRCLSN52R09B157K	M		1	progettoweb0+p.alessandro.greco@gmail.com
+44	1934-01-16	Brescia	LMBNNA34A56B157A	F		4	progettoweb0+p.anna.lombardi@gmail.com
+45	1921-05-14	Roma	BNCLSS21E54H501E	F		4	progettoweb0+p.alessia.bianchi@gmail.com
+46	1927-07-12	Roma	FRRCHR27L52H501Q	F		4	progettoweb0+p.chiara.ferrara@gmail.com
+47	1983-12-29	Milano	GLLCHR83T69F205W	F		4	progettoweb0+p.chiara.gallo@gmail.com
+48	1938-02-03	Brescia	MRNRRT38B43B157S	F		4	progettoweb0+p.roberta.marino@gmail.com
+49	1943-08-22	Milano	MRTGRT43M62F205Q	F		3	progettoweb0+p.greta.moretti@gmail.com
+50	1947-02-22	Roma	MRNNMO47B62H501R	F		5	progettoweb0+p.noemi.marini@gmail.com
+51	1962-03-25	Roma	SRRRCR62C25H501D	M		4	progettoweb0+p.riccardo.serra@gmail.com
+52	1997-12-16	Milano	LNGMHL97T56F205B	F		5	progettoweb0+p.michela.longo@gmail.com
+53	1956-07-21	Brescia	FRRTMS56L21B157L	M		4	progettoweb0+p.tommaso.ferri@gmail.com
+54	1949-12-01	Milano	GLLGVR49T41F205S	F		5	progettoweb0+p.ginevra.galli@gmail.com
+55	1998-02-05	Roma	FBBNCL98B05H501B	M		5	progettoweb0+p.nicola.fabbri@gmail.com
+56	1959-06-05	Brescia	MRNRRT59H45B157W	F		4	progettoweb0+p.roberta.marino@gmail.com
+57	1944-04-02	Milano	DSNCRS44D02F205R	M		5	progettoweb0+p.christian.desantis@gmail.com
+58	1947-03-31	Brescia	VLNGRT47C71B157V	F		5	progettoweb0+p.greta.valentini@gmail.com
+59	1957-01-15	Brescia	BRNGNN57A15B157E	M		3	progettoweb0+p.giovanni.bruno@gmail.com
+60	1930-07-19	Roma	DSNLRD30L19H501Q	M		5	progettoweb0+p.leonardo.desantis@gmail.com
+61	1960-10-25	Brescia	LMBFNC60R25B157A	M		5	progettoweb0+p.francesco.lombardo@gmail.com
+62	1924-08-26	Roma	MRTLRD24M26H501F	M		5	progettoweb0+p.leonardo.moretti@gmail.com
+63	1930-07-21	Roma	MRCMME30L61H501H	F		5	progettoweb0+p.emma.marchetti@gmail.com
+\.
+
+
+--
+-- Data for Name: report; Type: TABLE DATA; Schema: public; Owner: nicola
+--
+
+COPY public.report (id, esito, id_ricetta) FROM stdin;
+\.
+
+
+--
+-- Data for Name: ricetta; Type: TABLE DATA; Schema: public; Owner: nicola
+--
+
+COPY public.ricetta (id, farmaco, prescritta) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: nicola
+--
+
+COPY public.users (id, typ, username, pass, nome, cognome, provincia_appartenenza) FROM stdin;
+1	medico_base	progettoweb0+mb.noemi.marchetti@gmail.com	10000:129e9b574c87da54:d99f9c5033956065c058b236497ab831b9cedb554e5a426762b040cc8e059729dbed66778ac75a4c8c89cc7edf6a0dbc4a3a5d4a956946fa92e5752b5f43940e	Noemi	Marchetti	Brescia
+2	medico_base	progettoweb0+mb.antonio.santoro@gmail.com	10000:a4a4551be53e1107:38e949573d0a8508b3c72af68fe5632a6b083aaca9ad873538dcc3b6f93bce84462ad690439d8231ae7727ade81b1284e673d0847fdbb28627de640c55c561b1	Antonio	Santoro	Milano
+3	medico_base	progettoweb0+mb.greta.desantis@gmail.com	10000:eb6fb148de5339b3:85a7b0e6fa5c4dfba280ff7d775b6068d2457444d1308762a47526fa0da5b7e73b1e49838bada6703d6b62ce096f3d44ff921ca10050c1ea4fe67ba472a16d24	Greta	De Santis	Roma
+4	medico_base	progettoweb0+mb.lorenzo.valentini@gmail.com	10000:fb9395d94f51e80d:efc3e38d10c96bd512e40dd9cd219696db4095e6acebf611e327f13b56626f7350d508bc82ce939d97c38343e1bf1685e5d86e0825048a9b4dfc997bba04557e	Lorenzo	Valentini	Brescia
+5	medico_base	progettoweb0+mb.leonardo.longo@gmail.com	10000:5b296a187016ee30:d0beb22b5326f95779c576bee315411c9aeada1f4669f64f2565854ba16c48beebe74286f585758a2fe4b738d935d4951d87ad217c77bedf34a8e9b028bdbbfd	Leonardo	Longo	Milano
+6	medico_specialista	progettoweb0+ms.noemi.marino@gmail.com	10000:34b30e4aec1076e1:6604b5bd813e940276833e6101adec57125e4dfefb88cbca457ba5849eb040367e56779bf6dca1cc24329966e9131f047a72ab2d856b35b203d2fae9129127eb	Noemi	Marino	Brescia
+7	medico_specialista	progettoweb0+ms.tommaso.mariani@gmail.com	10000:f7937395777d236d:997b3065ea0e0ef62ee4983e045be8fe5634647b1491997d5b56180e5b962e6d624ef0fb8d6f8176051a23f87fb85b1d041eb2af14f11f53ff84c05a0b8df95a	Tommaso	Mariani	Milano
+8	medico_specialista	progettoweb0+ms.noemi.desantis@gmail.com	10000:6522d4fbad68ff2c:d2fc9d14125828fe69a8eb45469b837a617df7545ccf82a09923da5a9ecc620b9dd99934846b898fcf94648e52becb2f71508ff0a0ca9fb2baceb500c0032e34	Noemi	De Santis	Roma
+9	medico_specialista	progettoweb0+ms.nicola.gallo@gmail.com	10000:2bae4a569707b10f:57da354e10ea7d6a1d052430df9052495185b8c55737253be3b51397a16d78566e459513651ba708255f375e69efa2530a2ae61527d9d3c00902be7006fd112a	Nicola	Gallo	Brescia
+10	medico_specialista	progettoweb0+ms.sara.ricci@gmail.com	10000:1985008543a4b5eb:1057757b79b07181f45bffe379a3325689e2badd2cf5482d44c40f4eced6d22162358991ce795872276f9743da505a3186b5f1e4c10bb592238ef1a835cc2d76	Sara	Ricci	Milano
+11	ssp	progettoweb0+ssp.brescia@gmail.com	10000:d1c808532e9b2bce:9419880703421407a23a502dedc86acb0b5b6d60fcca63d1816fa05d117a8d4181afe100d7f84453015dd06d4fc1b0c7062c7b3148e13a96f19dda290d25480f	\N	\N	Brescia
+12	ssp	progettoweb0+ssp.milano@gmail.com	10000:851e414b0ec4bda9:d6be77e4c1c79a9f7f875db0aac0f5303376d6552cfe6c4f80d00eb098033d056463c11747c9115ba35ba874ecc6cb9966d0f32237faf40172819e114e4b9c4b	\N	\N	Milano
+13	ssp	progettoweb0+ssp.roma@gmail.com	10000:e468179f352bd422:daafb88048349c3af3af935ee99258dabc8034466411c2ad55b949cbab4e83983fb21a04a7419c7921b62995229056d372ca5f9d36e94fea93b9d5c6e2ce70e5	\N	\N	Roma
+14	paziente	progettoweb0+p.christian.grasso@gmail.com	10000:9510bf1f6b3f99d4:9d812d7a64e5c122da0ceb28ad7c54769b5ed3d9f7aec52cf9feb983e6a306b55a8c0c8fdfd016fff6baec7010ee1fe6205b094ab8a12e19ddaaf47097900f30	Christian	Grasso	Brescia
+15	paziente	progettoweb0+p.ludovica.bianco@gmail.com	10000:1043ed2c526426fa:64e3c92888c4d73c8b2941a8ad82f977fa67a01323f0bdff14d63c3229fd651e245b47eb021fbed2bb3bc2b4b750c2bdd826d818b1951163e98885702eed183a	Ludovica	Bianco	Milano
+16	paziente	progettoweb0+p.riccardo.valentini@gmail.com	10000:1941608698f23691:4d0901c27f633584b8a9e601241a6f926c778942fb9fcb0e5e5495dee7fc057ae7f03c06918f8e4ee5551d407895a632091af72a6c53503010aca577db103f12	Riccardo	Valentini	Brescia
+17	paziente	progettoweb0+p.giuseppe.marini@gmail.com	10000:697d444a10ca353e:15034c3f63d0f1751950f0b4f73816e73122187f63c76f8fea0dfcae9a4c3ddf8bf4aca239d81421b98a9610ed835f5ef38939f68a8659bd9cf39fcb1b95158f	Giuseppe	Marini	Brescia
+18	paziente	progettoweb0+p.giorgia.parisi@gmail.com	10000:18bfb7e8acc269db:50a4d71f6f0e7d034b9cda9351e1d9c6a37663566b7896d8789b265acfdcf215d826003cfa705f021091765b90eda970807f79139c9d04b4f748bdcb82d3e3ac	Giorgia	Parisi	Milano
+19	paziente	progettoweb0+p.andrea.rizzo@gmail.com	10000:859a38e3d1897ffe:aa48024567bf7d8cf0cbbaf008be3d586ced45701cfe66f82ffbbd4f405bd7d16781360d71def4267a12c618bc861763b8a5a8640245310a8da02224f1e480bb	Andrea	Rizzo	Brescia
+20	paziente	progettoweb0+p.ludovica.russo@gmail.com	10000:cb3f6752c328a030:263caa4e23b3b817d9f18e7d7a63b41e8cee911722820278265ea38cbce3767c62b2f49d3a5ff8fdb42f67961063dc95ce7bc1f5cbf7a753a629945fedf8889a	Ludovica	Russo	Brescia
+21	paziente	progettoweb0+p.gaia.marino@gmail.com	10000:e2653ba7a943f086:9c01d0c1b8002ef13e6455bd936bf22665cc2756bd23ed7f125f0e6658e52f9c4a7dc37e18c03c71ce73d3bd8b07ffe8567575157cedfef75f8ffcffc242ccfa	Gaia	Marino	Brescia
+22	paziente	progettoweb0+p.matteo.galli@gmail.com	10000:77dd22456f7c5864:246eb8649b14cb34c05a7b5bcb3d8208e7ad89fa1c3ad8855083f5f129704ef3ac5c656e6252f95cb8c048fd7c4e670c31976f36cc1adf8076b2508d4c6131a7	Matteo	Galli	Milano
+23	paziente	progettoweb0+p.francesco.ferraro@gmail.com	10000:6415af5139cd3e38:715c11ad0f5dcf2ff31f5bb374d04a4cb72426aa423a170b51ede67903c6a57a084109ce549e179cd4e17aaba5122be086f93fb4aaecb80bab6e348fb76cf328	Francesco	Ferraro	Milano
+24	paziente	progettoweb0+p.roberta.rossi@gmail.com	10000:1cedd6a8dcae8737:1c4a7e3e1bf4bad4a4be2e98b802760c6a39dd593a5f006eca88d35e118fa7b02581653c3c765b7a38f25670d5ce2ae894d3b59f68081f58a3be3e6e72804712	Roberta	Rossi	Brescia
+25	paziente	progettoweb0+p.samuele.coppola@gmail.com	10000:43773f71da112210:5b6c23b0fe9ab335e8d9a6b6bf4d55b5822981f8e88b83b0f4ec6fe1bd9c6dcb636699bab99d051f1aee7b326d3169f5a949dbacca21d2fd7fd6a39f2acfd35b	Samuele	Coppola	Milano
+26	paziente	progettoweb0+p.andrea.caruso@gmail.com	10000:447ce532186968ec:1d1cd04e75fc8d5839f8258fa2694791bdd1aeb3c346af1eca5523e24e07dab78a01c768fcd2c612908054f45c8b1f7092aede2e18223667636e52ec00d35cc5	Andrea	Caruso	Milano
+27	paziente	progettoweb0+p.beppe.costa@gmail.com	10000:f27893c914115020:edc2dc3ccd5d0403c5729bb4183c083ef90754426ed81d2d5338a21e3151d0f66518f684dd132567d04bc38167f7513226a134b7be1d8e5858d3e28ed317b6cf	Beppe	Costa	Milano
+28	paziente	progettoweb0+p.diego.marino@gmail.com	10000:d254cc4660f8aee3:19b1cbd412794e283582026e2c152cb8ad87e786929a596e80848a5a0b6fcb27b70102818d03f0b551000a3a490b72cbf92edfb33e83c6c7e91134429ac32e47	Diego	Marino	Roma
+29	paziente	progettoweb0+p.beatrice.grasso@gmail.com	10000:5547e83da4de0904:6ac1610077d50c52cb481a1b0a41d155d8e02fe519fb44d9ce9457c9328eb7ba96a4a1d99f084065ccf35e2788f8751bac30614dfbc5b9616324a1dec55b9f39	Beatrice	Grasso	Brescia
+30	paziente	progettoweb0+p.davide.moretti@gmail.com	10000:1a926c861b57f14b:c636322cb77800c909c8e0ef7c7a5aebc8747bae0a46ef984cbf1e42ca91b3d623e6cc91cb3b00a8881af279b333980c210051df61f3ddad5812c864e13532ed	Davide	Moretti	Milano
+31	paziente	progettoweb0+p.giovanna.barbieri@gmail.com	10000:2fd7867b0cd4a659:ac112514c2e1de95b8f933e555792549a2d32d30c1d7db84333f2af3be4f4ca50d0a3c06e5be4fbcb8f417cc1c4bd6d20f0014b19d0aa25dad2a14c57df99304	Giovanna	Barbieri	Roma
+32	paziente	progettoweb0+p.matteo.mancini@gmail.com	10000:1fbcbd4e303ba241:007ea65712a430bcd0903e33bac390771f171795898f507939cb64573d79c3a5cc2fbcf5cbceb328c2a8f8d83aaf37ddd843cc3f94ecd92ef25f4b624c284d9d	Matteo	Mancini	Roma
+33	paziente	progettoweb0+p.nicolo.lombardi@gmail.com	10000:66ec7e0825b0f810:b25645004a113798af0c36dfab482b0fdbc05861d2753858194c35658c7593a73782effc383d5741bc3726898c1371397c332386699f21833e48f3446594e83f	Nicolo	Lombardi	Roma
+34	paziente	progettoweb0+p.aurora.mariani@gmail.com	10000:d7356a1e5f56a66a:5c75bac7c013ad8f3699587bb0bceab6298cba1b7af6d45e54b7605a3bf7c016a6ea2465d2597a6fff14031b59576c4beadf7a7179331d99f061108f0a7fdfbe	Aurora	Mariani	Brescia
+35	paziente	progettoweb0+p.noemi.longo@gmail.com	10000:477faf3f627c96ca:47b24f2db53adacb027592ca2a23ff8bb229ea6b6a75b9a73003ac666e0b7a43bea98eb5eab8bfb50c0ea6458572cadad11d4343decab8700ca43b91674926c5	Noemi	Longo	Brescia
+36	paziente	progettoweb0+p.aurelio.barbieri@gmail.com	10000:9218b7510522185b:266d398a69eb97c33367be41ea8f690becbe5baae153dad31a2215ddce69af96499c0cd971e23cc28be7af45b47d63ebef5dc874420c9f3edec1ad549edef449	Aurelio	Barbieri	Milano
+37	paziente	progettoweb0+p.lorenzo.ferri@gmail.com	10000:10920f986546d59e:0322197dd18b68d097ebde27d75cae39a32f3e88ade486d2806bff0f0780d46785c836696686623c2ce2771b2e07e542bdda52d6cbd5734424a164e4c8c16ffd	Lorenzo	Ferri	Roma
+38	paziente	progettoweb0+p.marco.desantis@gmail.com	10000:5556fb87197d684d:de0d18f9e2230dccf0830566806afec4b231285c527acd7da8ead1573865ffde1c8bf47b585f574ec4fa3902170cf8844fa83243f465c36bbf2409f6b1718410	Marco	De Santis	Milano
+39	paziente	progettoweb0+p.diego.russo@gmail.com	10000:b7495e5e3c911c2f:88a478f1eb9ebc67b2e255404ca142cf87aaab905e014f6b1ecc33ef5aa10570957072725a181e364e623932cf4de97c80d636c0b7bb25c6d8bbed97b7072617	Diego	Russo	Brescia
+40	paziente	progettoweb0+p.beppe.mariani@gmail.com	10000:5b8db499728dcb3d:122543b275736184074f173c6fec18dde2ce5b89bde18449a2b2a0521eed3085c803fc11857100bb10084faa747acb8da9fd19d0de98667686d7fe51093dc1a4	Beppe	Mariani	Roma
+41	paziente	progettoweb0+p.alessandro.serra@gmail.com	10000:1d50b497f0c286c7:1795bc7e1fa31ab057678f049d1fb12528dbbc3a08c50d8425fd6939a09cbdb65b4ae0e9ad1029513cc7399e3cecff3b491eff1bc9f696d13b20dae571286c81	Alessandro	Serra	Roma
+42	paziente	progettoweb0+p.christian.lombardi@gmail.com	10000:050836dce00e8048:4d42516d13c70a0cd10b3687a1f47bff90cf1a183ea05cb712714318a4115494c95071b59b1b2eddf713c221fe468b9efdf118e0fecbc5db810a06ba28a70fd6	Christian	Lombardi	Roma
+43	paziente	progettoweb0+p.alessandro.greco@gmail.com	10000:eddfb016db943b40:422bfb8632d2d78ea50951670364882704ddacd0354411b739fda66efc929abacd342b547a501a963c37cf3abf3278d40f6da64beffae8c292ff400ee1ab519b	Alessandro	Greco	Brescia
+44	paziente	progettoweb0+p.anna.lombardi@gmail.com	10000:cce12dd82f70cf2f:2e825e847db3e3bfea7c414cac4d8c688bb61436a81ff993d9b77a823b85d85f2739992e88029cfdd25879b8f3d041b451e75b1f1cab42930858d25cfff512c9	Anna	Lombardi	Brescia
+45	paziente	progettoweb0+p.alessia.bianchi@gmail.com	10000:40326bccf3b78d38:f447464a40874c813c36326ac6bbde37f0e91f969491f1ed662922056e9c3f03250c1feafbc384c31d986c54f56865f33ec52ab8e95a690d38e4cde208a67a03	Alessia	Bianchi	Brescia
+46	paziente	progettoweb0+p.chiara.ferrara@gmail.com	10000:bd9c348b4af46a13:15ac5cd21a8b3a3c6a4b7a3746dc09c279abcd8970cf8745536e815a561305480609915876c5d76cc0cda67ca2809f68c2ed318810d67ba5971801f169865dd2	Chiara	Ferrara	Brescia
+47	paziente	progettoweb0+p.chiara.gallo@gmail.com	10000:e469625f35981fbd:105652d147239be54607db41ca12fc072387c5a83f5f4b54d811bec1d64f88223b7f48670bed3cf4f7cd741495770cc9aabef2234d74ea0d73cdb028b2709bd6	Chiara	Gallo	Brescia
+48	paziente	progettoweb0+p.roberta.marino@gmail.com	10000:17178948ec90ed5a:4c1c56425789410c570544c3e1f41434de7806209cf9135233f76400e99bd3eefab41536511d7bc78d796f2a94a4bd5c7175fbf75ab8de7a4d141bf79ba6db2d	Roberta	Marino	Brescia
+49	paziente	progettoweb0+p.greta.moretti@gmail.com	10000:acca76d73f459ff9:f3123b068aab97fcc1b1189de267af4b548a3bb749111970084ec96774ead2dbb0ae9fe8b439bd183a8f3a32ffa81f26ff7a0804b0a54215a4f5582efdef7696	Greta	Moretti	Roma
+50	paziente	progettoweb0+p.noemi.marini@gmail.com	10000:fae8d5483e233510:2c1057036129c76866edd9f7b0b4ee85a28e52cd294d23f6eee39f7979bd40fbb4e4865c6160ea9d08c7581e2664e68da8f033d1570ee42c92590e3785e56b33	Noemi	Marini	Milano
+51	paziente	progettoweb0+p.riccardo.serra@gmail.com	10000:26290c0b8bc8e3a9:a4e857a24c71b22f645543a0368d29e920e9faaebcbb3b59647d4f262f599a3cdc2de3407098d612b5e3a5cd69ee762e04ad8d89e3c2be2d06b59c4b2c45f899	Riccardo	Serra	Brescia
+52	paziente	progettoweb0+p.michela.longo@gmail.com	10000:61ede6bf3f8b414d:941d4e12fb47a08661f337e87ac7bf4426f2a380fe99226f745489aac1168a4438d9c5cb53a8c80cbd63cb4bc081d5cc70b1eba37e93cd6513933b255c909505	Michela	Longo	Milano
+53	paziente	progettoweb0+p.tommaso.ferri@gmail.com	10000:08cc36ed38ee7c4e:cb630dc62df945fbf572e8b8ef3f4223a24f74b4bc998e6c5812de929cf2bc7e3cd5ced66aa61be9c6aaf7ceda0fc2462549301fdd64d5fdd23dd5110acef6e2	Tommaso	Ferri	Brescia
+54	paziente	progettoweb0+p.ginevra.galli@gmail.com	10000:4ba777c30309f829:5f3cb6ea0ddaedd898a9e070240a6f02c6100127944d9b307f8301290b9d7124c105d612db8066783ffa583d06b9848bf16558d295126b5b05c970858debb8dc	Ginevra	Galli	Milano
+55	paziente	progettoweb0+p.nicola.fabbri@gmail.com	10000:44e74f391179907e:e95693ebf4d174dbbab0b5e7bdd16a911fda65beef6bd7983e2bea8f894b72a5e35ff59f6d334aab23a0b8fd6e1743ded98ab6528fc6f76b562ae1a1627fb393	Nicola	Fabbri	Milano
+56	paziente	progettoweb0+p.roberta.marino@gmail.com	10000:ec9e415c76250233:91952380575f0d6fdeb119f8199b8f34201c6090db679c48935bbbdc014334815663998d139a8a661ee72827b9d6d512c46500b89f2af06bd712061b8ee4f66d	Roberta	Marino	Brescia
+57	paziente	progettoweb0+p.christian.desantis@gmail.com	10000:65d6217eb9eab7af:5f9bb628a66a71c558d60b8b548034d36f292864a56c15e42d1d1ab252d8e95aa7428d9be580388085ad43848c57d6a1415fd51f336d76ac9b60197ea984daa2	Christian	De Santis	Milano
+58	paziente	progettoweb0+p.greta.valentini@gmail.com	10000:42cbac2afc55ba6c:5cc112b1036343fc3f5bebf8673520939b7d9e33e758ef27dcfc6d0debc7e6270a0b041f9d4ee3438afea6039167c03ee1531e0fcd909073732153f1525fa5cb	Greta	Valentini	Milano
+59	paziente	progettoweb0+p.giovanni.bruno@gmail.com	10000:5cd4398deab1f17f:2998df80fac6d9d4d32da4dfb4fef2d1e426738fd42cbc9b9937b4a2ba5f5d0feeb065172b1ec0af9d94b1aca6274dbd62e3d247080b4121bb1dd7da339e8fb9	Giovanni	Bruno	Roma
+60	paziente	progettoweb0+p.leonardo.desantis@gmail.com	10000:89231d655d70ae3e:11045b013e3c4fb8b71c82bc6b24de24cc1fe392692a30ac04720ef3335075c40bb5d6c0274b81536a5923698a968ed9234a8fdfd9430eb982936f8beac20477	Leonardo	De Santis	Milano
+61	paziente	progettoweb0+p.francesco.lombardo@gmail.com	10000:3402b4f0c63e1bbf:0c2f01857790a7a73e21bb0da1c3708f11ff43b0025cf16e8d54d8d23c8fb96a5e120a1eaca29c335fb348f38ebf59e33240be59aee030ad62c32cb294f38de9	Francesco	Lombardo	Milano
+62	paziente	progettoweb0+p.leonardo.moretti@gmail.com	10000:f36bb5574770a2d4:a5af1387dd61b285a435d5fb6e70cd535f5a67bbbcd411ec4f1b3bfe4176f25b2361cb6dad3e12d650fa7254de3b733d818b23b63024d8757656077181bfcbb1	Leonardo	Moretti	Milano
+63	paziente	progettoweb0+p.emma.marchetti@gmail.com	10000:ca106b72487abead:e94ca75caf67b9f876911c0895369d95f0af426d5544fc19190f57edf3f00d76b698f6c0ce595d9b979e7f3cc5aea8149156a46afe07657aa74dfe816dc827df	Emma	Marchetti	Milano
+\.
+
+
+--
+-- Data for Name: visita_base; Type: TABLE DATA; Schema: public; Owner: nicola
+--
+
+COPY public.visita_base (id, id_medico, id_paziente, id_visita_specialistica, id_ricetta, data_erogazione) FROM stdin;
+\.
+
+
+--
+-- Data for Name: visita_specialistica; Type: TABLE DATA; Schema: public; Owner: nicola
+--
+
+COPY public.visita_specialistica (id, id_visita, erogata, data_prescrizione, data_erogazione, id_medico, id_paziente, id_medico_base, id_report) FROM stdin;
+\.
+
+
+--
+-- Data for Name: visita_ssp; Type: TABLE DATA; Schema: public; Owner: nicola
+--
+
+COPY public.visita_ssp (id, id_visita, erogata, data_prescrizione, data_erogazione, id_ssp, id_paziente, id_medico_base) FROM stdin;
+\.
+
+
+--
+-- Name: elenco_visite_possibili_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nicola
+--
+
+SELECT pg_catalog.setval('public.elenco_visite_possibili_id_seq', 20, true);
+
+
+--
+-- Name: report_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nicola
+--
+
+SELECT pg_catalog.setval('public.report_id_seq', 1, false);
+
+
+--
+-- Name: ricetta_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nicola
+--
+
+SELECT pg_catalog.setval('public.ricetta_id_seq', 1, false);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nicola
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 63, true);
+
+
+--
+-- Name: visita_base_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nicola
+--
+
+SELECT pg_catalog.setval('public.visita_base_id_seq', 1, false);
+
+
+--
+-- Name: visita_specialistica_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nicola
+--
+
+SELECT pg_catalog.setval('public.visita_specialistica_id_seq', 1, false);
+
+
+--
+-- Name: visita_ssp_id_seq; Type: SEQUENCE SET; Schema: public; Owner: nicola
+--
+
+SELECT pg_catalog.setval('public.visita_ssp_id_seq', 1, false);
+
+
+--
+-- Name: elenco_visite_possibili elenco_visite_possibili_pkey; Type: CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.elenco_visite_possibili
+    ADD CONSTRAINT elenco_visite_possibili_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: paziente paziente_pkey; Type: CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.paziente
+    ADD CONSTRAINT paziente_pkey PRIMARY KEY (id_user);
+
+
+--
+-- Name: report report_pkey; Type: CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.report
+    ADD CONSTRAINT report_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ricetta ricetta_pkey; Type: CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.ricetta
+    ADD CONSTRAINT ricetta_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: visita_base visita_base_pkey; Type: CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_base
+    ADD CONSTRAINT visita_base_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: visita_specialistica visita_specialistica_pkey; Type: CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_specialistica
+    ADD CONSTRAINT visita_specialistica_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: visita_ssp visita_ssp_pkey; Type: CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_ssp
+    ADD CONSTRAINT visita_ssp_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: paziente paziente_id_medico_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.paziente
+    ADD CONSTRAINT paziente_id_medico_fkey FOREIGN KEY (id_medico) REFERENCES public.users(id);
+
+
+--
+-- Name: paziente paziente_id_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.paziente
+    ADD CONSTRAINT paziente_id_user_fkey FOREIGN KEY (id_user) REFERENCES public.users(id);
+
+
+--
+-- Name: report report_id_ricetta_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.report
+    ADD CONSTRAINT report_id_ricetta_fkey FOREIGN KEY (id_ricetta) REFERENCES public.ricetta(id);
+
+
+--
+-- Name: visita_base visita_base_id_medico_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_base
+    ADD CONSTRAINT visita_base_id_medico_fkey FOREIGN KEY (id_medico) REFERENCES public.users(id);
+
+
+--
+-- Name: visita_base visita_base_id_paziente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_base
+    ADD CONSTRAINT visita_base_id_paziente_fkey FOREIGN KEY (id_paziente) REFERENCES public.paziente(id_user);
+
+
+--
+-- Name: visita_base visita_base_id_ricetta_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_base
+    ADD CONSTRAINT visita_base_id_ricetta_fkey FOREIGN KEY (id_ricetta) REFERENCES public.ricetta(id);
+
+
+--
+-- Name: visita_base visita_base_id_visita_specialistica_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_base
+    ADD CONSTRAINT visita_base_id_visita_specialistica_fkey FOREIGN KEY (id_visita_specialistica) REFERENCES public.visita_specialistica(id);
+
+
+--
+-- Name: visita_specialistica visita_specialistica_id_medico_base_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_specialistica
+    ADD CONSTRAINT visita_specialistica_id_medico_base_fkey FOREIGN KEY (id_medico_base) REFERENCES public.users(id);
+
+
+--
+-- Name: visita_specialistica visita_specialistica_id_medico_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_specialistica
+    ADD CONSTRAINT visita_specialistica_id_medico_fkey FOREIGN KEY (id_medico) REFERENCES public.users(id);
+
+
+--
+-- Name: visita_specialistica visita_specialistica_id_paziente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_specialistica
+    ADD CONSTRAINT visita_specialistica_id_paziente_fkey FOREIGN KEY (id_paziente) REFERENCES public.paziente(id_user);
+
+
+--
+-- Name: visita_specialistica visita_specialistica_id_report_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_specialistica
+    ADD CONSTRAINT visita_specialistica_id_report_fkey FOREIGN KEY (id_report) REFERENCES public.report(id);
+
+
+--
+-- Name: visita_specialistica visita_specialistica_id_visita_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_specialistica
+    ADD CONSTRAINT visita_specialistica_id_visita_fkey FOREIGN KEY (id_visita) REFERENCES public.elenco_visite_possibili(id);
+
+
+--
+-- Name: visita_ssp visita_ssp_id_medico_base_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_ssp
+    ADD CONSTRAINT visita_ssp_id_medico_base_fkey FOREIGN KEY (id_medico_base) REFERENCES public.users(id);
+
+
+--
+-- Name: visita_ssp visita_ssp_id_paziente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_ssp
+    ADD CONSTRAINT visita_ssp_id_paziente_fkey FOREIGN KEY (id_paziente) REFERENCES public.paziente(id_user);
+
+
+--
+-- Name: visita_ssp visita_ssp_id_ssp_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_ssp
+    ADD CONSTRAINT visita_ssp_id_ssp_fkey FOREIGN KEY (id_ssp) REFERENCES public.users(id);
+
+
+--
+-- Name: visita_ssp visita_ssp_id_visita_fkey; Type: FK CONSTRAINT; Schema: public; Owner: nicola
+--
+
+ALTER TABLE ONLY public.visita_ssp
+    ADD CONSTRAINT visita_ssp_id_visita_fkey FOREIGN KEY (id_visita) REFERENCES public.elenco_visite_possibili(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
