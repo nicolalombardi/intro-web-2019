@@ -45,9 +45,7 @@ public class ReportDAO extends JDBCDAO<Report, Integer> implements ReportDAOInte
                 //Se presente un risultato, processalo. Altrimenti null
                 if(resultSet.next()){
                     try (PreparedStatement preparedStatement1 = CON.prepareStatement(GET_RICETTA_BY_ID)) {
-                        System.out.println("Prima");
                         preparedStatement1.setInt(1, resultSet.getInt("id_ricetta"));
-                        System.out.println("Dopo");
                         try (ResultSet resultSet1 = preparedStatement1.executeQuery()) {
                             if(resultSet1.next()){
                                 ricetta = new Ricetta(
