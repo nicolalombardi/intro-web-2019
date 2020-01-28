@@ -118,9 +118,6 @@ public class ListaTicketsPDF extends HttpServlet {
                     row.createCell(String.valueOf(t.getCosto()));
                     for (Cell<PDPage> cell : row.getCells()) {
                         cell.setFont(PDType1Font.TIMES_ROMAN);
-                        if (i % 2 == 0) {
-                            cell.setFillColor(oddBG);
-                        }
                     }
                 }
 
