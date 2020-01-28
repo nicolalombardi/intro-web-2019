@@ -51,7 +51,6 @@ public class MedicoSpecialistaController implements Filter {
         }else if(userPath.equals(("/medico-specialista/visite"))){
             ArrayList<VisitaSpecialistica> visite = null;
             try {
-                long count = medicoSpecialistaDAO.getCountVisite(user.getId());
                 visite = medicoSpecialistaDAO.getListaVisitePazienti(user.getId());
                 request.setAttribute("visite", visite);
             } catch (DAOException ex) {

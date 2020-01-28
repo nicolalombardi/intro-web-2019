@@ -39,10 +39,6 @@ public class MedicoBaseController implements Filter {
                 String showAllS = request.getParameter("mostraTutti");
                 boolean showAll = showAllS == null ? true : Boolean.parseBoolean(showAllS);
 
-                long count = showAll ? pazienteDAO.getCount() : pazienteDAO.getAssociatiCount(user.getId());
-
-
-
                 if(showAll){
                     listaPazienti = pazienteDAO.getPazienti();
                 }else{
@@ -72,12 +68,6 @@ public class MedicoBaseController implements Filter {
             }
 
             try{
-                long count = 0;
-                if(idPaziente == -1){
-                    count = visitaBaseDAO.getByMedicoCount(idMedico);
-                }else {
-                    count = visitaBaseDAO.getByMedicoAndPazienteCount(idMedico, idPaziente);
-                }
                 ArrayList<VisitaBase> listaVisite;
 
                 if(idPaziente == -1){
@@ -115,13 +105,6 @@ public class MedicoBaseController implements Filter {
             }
 
             try{
-                long count = 0;
-                if(idPaziente == -1){
-                    count = medicoBaseDAO.getVisiteEsamiByMedicoCount(idMedico);
-                }else {
-                    count = medicoBaseDAO.getVisiteEsamiByMedicoAndPazienteCount(idMedico, idPaziente);
-                }
-
                 ArrayList<VisitaSpecialisticaOrSSP> listaVisite = new ArrayList<>();
 
 
