@@ -99,14 +99,10 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-<<<<<<< Updated upstream
+
 <script src="../js/init_non_datatable_popover.js"></script>
-=======
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.0/dist/latest/bootstrap-autocomplete.min.js"></script>
-
-<script src="../js/init_datatables.js"></script>
 <script src="../js/ricerca_pazienti.js"></script>
->>>>>>> Stashed changes
 </body>
 </html>
