@@ -105,10 +105,10 @@ public class ReportRicetteXLS extends HttpServlet {
         c1.setCellValue("FARMACO");
         c1.setCellStyle(cellStyle);
         Cell c2 = r0.createCell(2);
-        c2.setCellValue("ID MEDICO");
+        c2.setCellValue("MEDICO");
         c2.setCellStyle(cellStyle);
         Cell c3 = r0.createCell(3);
-        c3.setCellValue("ID PAZIENTE");
+        c3.setCellValue("PAZIENTE");
         c3.setCellStyle(cellStyle);
 
         CreationHelper createHelper = workbook.getCreationHelper();
