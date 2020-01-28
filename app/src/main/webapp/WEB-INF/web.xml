@@ -4,6 +4,10 @@
         <description>ContextListener</description>
         <listener-class>com.icecoldbier.listeners.ContextListener</listener-class>
     </listener>
+    
+    <welcome-file-list>
+        <welcome-file>/pages/home.html</welcome-file>
+    </welcome-file-list>
 
     <servlet>
         <servlet-name>Pazienti Service</servlet-name>
@@ -19,15 +23,7 @@
         <servlet-name>Pazienti Service</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
-
-    <servlet>
-        <servlet-name>Homepage</servlet-name>
-        <jsp-file>/pages/home.html</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Homepage</servlet-name>
-        <url-pattern>/home</url-pattern>
-    </servlet-mapping>
+    
     <servlet>
         <servlet-name>LoginPage</servlet-name>
         <jsp-file>/pages/login.jsp</jsp-file>
