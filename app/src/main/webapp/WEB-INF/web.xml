@@ -33,6 +33,15 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DebugLoginPage</servlet-name>
+        <jsp-file>/pages/debug_login.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DebugLoginPage</servlet-name>
+        <url-pattern>/logindebug</url-pattern>
+    </servlet-mapping>
+
 <!--    MEDICO DI BASE-->
     <servlet>
         <servlet-name>MedicoBaseLista</servlet-name>
