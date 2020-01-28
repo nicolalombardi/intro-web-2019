@@ -54,9 +54,17 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect(response.encodeRedirectURL(contextPath + "login?error=true&error_message=Incorrect email or password"));
                 logger.print("Incorrect user or password.");
             } else {
-                request.getSession().setAttribute("user", u);
+                request.getSession(true).setAttribute("user", u);
+                //Set session duration
+                if(rememberMe){
+                    //30 minutes
+                    request.getSession(false).setMaxInactiveInterval(60 * 30);
+                }else{
+                    //30 days
+                    request.getSession(false).setMaxInactiveInterval(60 * 60 * 24 * 30);
+                }
                 if(Integer.parseInt(changePassword) == 1){
-                    request.getSession().setAttribute("changePassword", true);
+                    request.getSession(false).setAttribute("changePassword", true);
                     response.sendRedirect(response.encodeRedirectURL(contextPath + "paziente/profilo#modaleCambioPassword"));
                 }else{
                     response.sendRedirect(response.encodeRedirectURL(contextPath + "login"));

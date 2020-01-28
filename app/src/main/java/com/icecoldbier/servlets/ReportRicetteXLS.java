@@ -45,7 +45,7 @@ public class ReportRicetteXLS extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         User u = (User) session.getAttribute("user");
         String dateS = req.getParameter("date");
         System.out.println(dateS);

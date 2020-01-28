@@ -213,9 +213,12 @@
     </servlet-mapping>
 
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+<!--        minutes-->
+        <session-timeout>60</session-timeout>
+        <cookie-config>
+<!--            seconds-->
+            <max-age>172800</max-age> <!-- 48hrs -->
+        </cookie-config>
     </session-config>
     <error-page>
         <location>/pages/error.jsp</location>

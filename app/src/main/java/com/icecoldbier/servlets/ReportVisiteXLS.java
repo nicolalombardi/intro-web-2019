@@ -47,7 +47,7 @@ public class ReportVisiteXLS extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         User u = (User) session.getAttribute("user");
         String dateS = req.getParameter("data");
         System.out.println(dateS);

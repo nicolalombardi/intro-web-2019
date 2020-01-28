@@ -46,7 +46,7 @@ public class ListaTicketsPDF extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User u = (User) request.getSession().getAttribute("user");
+        User u = (User) request.getSession(false).getAttribute("user");
 
 
         ArrayList<Ticket> tickets;
