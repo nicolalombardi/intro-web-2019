@@ -40,7 +40,6 @@
                 <th class="all" scope="col">Paziente</th>
                 <th class="min-sm default-sort" scope="col">Data erogazione</th>
                 <th class="min-md" scope="col">Ricetta</th>
-                <th class="min-md" scope="col">Dettagli</th>
             </tr>
             </thead>
             <tbody>
@@ -73,62 +72,11 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <td><a class="btn btn-primary mb-3" href="#" data-toggle="modal" data-target="#modaleVisita<c:out value="${v.id}"/>"
-                           role="button"><i class="material-icons">open_in_new</i></a></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
 </div>
-
-<c:forEach var="v" items="${listaVisite}">
-    <div class="modal fade" id="modaleVisita<c:out value="${v.id}"/>" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Dettagli visita</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <th>Medico</th>
-                            <td><mp:miniProfileTag user="${v.medicoBase}"/></td>
-                        </tr>
-                        <tr>
-                            <th>Paziente</th>
-                            <td><mp:miniProfileTag paziente="${v.paziente}"/></td>
-                        </tr>
-                        <tr>
-                            <th>Data erogazione</th>
-                            <td><c:out value="${v.prettyDataErogazione}"/></td>
-                        </tr>
-                        <tr>
-                            <th>Ricetta</th>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${empty v.ricetta}">
-                                        Nessuna ricetta
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:out value="${v.ricetta.nome}"/>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</c:forEach>
 
 <script>
     var specialista = false;
@@ -147,7 +95,6 @@
 <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.0/dist/latest/bootstrap-autocomplete.min.js"></script>
 
 <script src="../js/init_datatables.js"></script>
-<script src="../js/init_non_datatable_popover.js"></script>
 <script src="../js/ricerca_pazienti.js"></script>
 </body>
 </html>
