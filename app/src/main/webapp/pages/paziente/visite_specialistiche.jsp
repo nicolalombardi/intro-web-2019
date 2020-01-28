@@ -10,6 +10,7 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 <%@ include file="navbar.html" %>
@@ -23,11 +24,11 @@
             <thead class="thead-dark">
             <tr>
                 <th class="all" scope="col">Tipo Visita</th>
-                <th class="all" scope="col">Erogata</th>
+                <th class="min-lg" scope="col">Erogata</th>
                 <th class="min-sm default-sort" scope="col">Data Prescrizione</th>
-                <th class="min-md" scope="col">Data Erogazione</th>
-                <th class="min-md" scope="col">Medico specialista</th>
+                <th class="min-md" scope="col">Medico erogante</th>
                 <th class="min-lg" scope="col">Report</th>
+                <th class="min-lg" scope="col">Dettagli</th>
             </tr>
             </thead>
             <tbody>
@@ -36,22 +37,12 @@
                     <td><c:out value="${v.tipo_visita.nome}"/></td>
                     <td>
                         <c:choose>
-                            <c:when test="${v.erogata}">SI</c:when>
-                            <c:otherwise>NO</c:otherwise>
+                            <c:when test="${v.erogata}">Sì</c:when>
+                            <c:otherwise>No</c:otherwise>
                         </c:choose>
                     </td>
 
                     <td><c:out value="${v.prettyDataPrescrizione}"/></td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${empty v.dataErogazione}">
-                                non erogata
-                            </c:when>
-                            <c:otherwise>
-                                <c:out value="${v.prettyDataErogazione}"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
                     <td><c:out value="${v.medicoSpecialista.toStringNomeCognome()}"/></td>
                     <c:choose>
                         <c:when test="${empty v.report.id}">
@@ -61,6 +52,9 @@
                             <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modaleReport<c:out value="${v.report.id}"/>">Report</button></td>
                         </c:otherwise>
                     </c:choose>
+                    <td>
+                        <a class="btn btn-primary mb-3" href="#"  data-toggle="modal" data-target="#modaleVisitaSpecialistica${v.id}" role="button"><i class="material-icons">open_in_new</i></a>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -106,6 +100,68 @@
                                 </c:otherwise>
                             </c:choose>
                         <!-- tr già presente nel c:choose -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</c:forEach>
+
+<c:forEach var="v" items="${elencoVisite}">
+    <div class="modal fade" id="modaleVisitaSpecialistica<c:out value="${v.id}"/>" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dettagli visita</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Tipo visita</th>
+                            <td><c:out value="${v.tipo_visita.nome}"/></td>
+                        </tr>
+                        <tr>
+                            <th>Descrizione visita</th>
+                            <td><c:out value="${v.tipo_visita.descrizione}"/></td>
+                        </tr>
+                        <tr>
+                            <th>Data prescrizione</th>
+                            <td><c:out value="${v.prettyDataPrescrizione}"/></td>
+                        </tr>
+                        <c:choose>
+                            <c:when test="${v.erogata == true}">
+                                <tr>
+                                    <th>Erogata</th>
+                                    <td>Sì</td>
+                                </tr>
+                                <tr>
+                                    <th>Data erogazione</th>
+                                    <td><c:out value="${v.prettyDataErogazione}"/></td>
+                                </tr>
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                                    <th>Erogata</th>
+                                    <td>No</td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
+                        <tr>
+                            <th>Prescritta da</th>
+                            <td><c:out value="${v.medicoBase.toStringNomeCognome()}"/></td>
+                        </tr>
+                        <tr>
+                            <th>Medico erogante</th>
+                            <td><c:out value="${v.medicoSpecialista.toStringNomeCognome()}"/></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
