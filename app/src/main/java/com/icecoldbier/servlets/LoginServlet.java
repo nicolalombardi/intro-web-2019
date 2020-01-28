@@ -57,11 +57,11 @@ public class LoginServlet extends HttpServlet {
                 request.getSession(true).setAttribute("user", u);
                 //Set session duration
                 if(rememberMe){
-                    //30 minutes
-                    request.getSession(false).setMaxInactiveInterval(60 * 30);
-                }else{
                     //30 days
                     request.getSession(false).setMaxInactiveInterval(60 * 60 * 24 * 30);
+                }else{
+                    //120 minutes
+                    request.getSession(false).setMaxInactiveInterval(60 * 60 * 2);
                 }
                 if(Integer.parseInt(changePassword) == 1){
                     request.getSession(false).setAttribute("changePassword", true);

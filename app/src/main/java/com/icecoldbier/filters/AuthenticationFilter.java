@@ -21,34 +21,27 @@ public class AuthenticationFilter implements Filter {
         boolean authenticated = false;
         String basePath = request.getServletPath().split("/")[1];
 
-        System.out.println("Called authentication filter");
         HttpServletResponse servletResponse = (HttpServletResponse) resp;
         if (session != null) {
             final User user = (User) session.getAttribute("user");
             if (user != null){
                 switch (basePath) {
                     case "medico-base":
-                        System.out.println("User is authenticated as a medico di base");
                         authenticated = user.getTyp() == UserType.medico_base;
                         break;
                     case "medico-specialista":
-                        System.out.println("User is authenticated as a medico specialista");
                         authenticated = user.getTyp() == UserType.medico_specialista;
                         break;
                     case "ssp":
-                        System.out.println("User is authenticated as a ssp");
                         authenticated = user.getTyp() == UserType.ssp;
                         break;
                     case "paziente":
-                        System.out.println("User is authenticated as a paziente");
                         authenticated = user.getTyp() == UserType.paziente;
                         break;
                     case "profile":
-                        System.out.println("User is authenticated as a user");
                         authenticated = true;
                         break;
                     case "rest":
-                        System.out.println("User is authenticated as a medico di base or medico specialista");
                         authenticated = user.getTyp() == UserType.medico_base || user.getTyp() == UserType.medico_specialista;
                         break;
                 }
