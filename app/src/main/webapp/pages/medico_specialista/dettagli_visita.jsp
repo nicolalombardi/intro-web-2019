@@ -17,75 +17,81 @@
 
 <div class="container">
     <h1>Visita di</h1>
-    <div class="container">
-        <div class="row">
-            <%--            Dati paziente--%>
-            <div class="col">
-                <div class="row">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <th><b>Tipo visita</b></th>
-                            <td><c:out value="${visita.tipo_visita.nome}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Descrizione visita</b></th>
-                            <td><c:out value="${visita.tipo_visita.nome}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Nome</b></th>
-                            <td><c:out value="${visita.paziente.nome}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Cognome</b></th>
-                            <td><c:out value="${visita.paziente.cognome}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Codice Fiscale</b></th>
-                            <td><c:out value="${visita.paziente.codiceFiscale}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Data di prescrizione</b></th>
-                            <td><c:out value="${visita.dataPrescrizione}"/></td>
-                        </tr>
-                        <tr>
-                            <th><b>Erogata</b></th>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${visita.erogata}">Si</c:when>
-                                    <c:otherwise>No</c:otherwise>
-                                </c:choose>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><b>Medico di base</b></th>
-                            <td><c:out value="${visita.paziente.medico.nome} ${visita.paziente.medico.cognome}"/></td>
-                        </tr>
+    <div class="row">
+        <%--            Dati paziente--%>
+        <div class="col-12 col-lg-6">
+            <table class="table profile-table">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="text-align: center">
+                            <c:choose>
+                                <c:when test="${not empty paziente.foto}">
+                                    <img class="profile-picture" src="<c:out value="${paziente.foto}"/>">
+                                </c:when>
+                                <c:otherwise>
+                                    <img class="profile-picture" src="/images/profile_placeholder.svg">
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
 
-                        </tbody>
-                    </table>
-                </div>
-                <c:if test="${not visita.erogata}">
-                    <div class="col funzioni-col">
-                        <h2>Funzioni</h2>
-
-                        <div class="card-deck">
-                            <div class="card border-dark mb-3" style="max-width: 100rem;">
-                                <div class="card-header">Eroga visita specialistica</div>
-                                <div class="card-body text-dark">
-                                    <p class="card-text">Eroga una visita specialistica con la possibilità di associare
-                                        una ricetta.</p>
-                                    <button type="button" class="btn btn-primary stretched-link" data-toggle="modal"
-                                            data-target="#modaleErogaVisitaSpecialistica">
-                                        Apri
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <tr>
+                        <th><b>Tipo visita</b></th>
+                        <td><c:out value="${visita.tipo_visita.nome}"/></td>
+                    </tr>
+                    <tr>
+                        <th><b>Descrizione visita</b></th>
+                        <td><c:out value="${visita.tipo_visita.nome}"/></td>
+                    </tr>
+                    <tr>
+                        <th><b>Nome</b></th>
+                        <td><c:out value="${visita.paziente.nome}"/></td>
+                    </tr>
+                    <tr>
+                        <th><b>Cognome</b></th>
+                        <td><c:out value="${visita.paziente.cognome}"/></td>
+                    </tr>
+                    <tr>
+                        <th><b>Codice Fiscale</b></th>
+                        <td><c:out value="${visita.paziente.codiceFiscale}"/></td>
+                    </tr>
+                    <tr>
+                        <th><b>Data di prescrizione</b></th>
+                        <td><c:out value="${visita.dataPrescrizione}"/></td>
+                    </tr>
+                    <tr>
+                        <th><b>Erogata</b></th>
+                        <td>
+                            <c:choose>
+                                <c:when test="${visita.erogata}">Si</c:when>
+                                <c:otherwise>No</c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><b>Medico di base</b></th>
+                        <td><c:out value="${visita.paziente.medico.nome} ${visita.paziente.medico.cognome}"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12 col-lg-6  funzioni-col">
+            <h2>Funzioni</h2>
+            <div class="card-deck">
+                <div class="card border-dark mb-3" style="max-width: 100rem;">
+                    <div class="card-header">Eroga visita specialistica</div>
+                    <div class="card-body text-dark">
+                        <p class="card-text">Eroga una visita specialistica con la possibilità di associare
+                            una ricetta.</p>
+                        <button type="button" class="btn btn-primary stretched-link" data-toggle="modal"
+                                data-target="#modaleErogaVisitaSpecialistica" <c:if test="${visita.erogata}">disabled</c:if> >
+                            Apri
+                        </button>
                     </div>
-                </c:if>
+                </div>
             </div>
         </div>
+        
     </div>
 </div>
 
@@ -97,6 +103,7 @@
                 <input type="hidden" name="idMedicoSpecialista" value="<c:out value="${visita.medicoSpecialista.id}"/>">
                 <input type="hidden" name="idMedicoBase" value="<c:out value="${visita.medicoBase.id}"/>">
                 <input type="hidden" name="idVisita" value="<c:out value="${visita.id}"/>">
+                <input type="hidden" name="usernamePaziente" value="<c:out value="${visita.paziente.username}"/>">
                 <div class="modal-header">
                     <h5 class="modal-title">Eroga una visita specialistica</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Chiudi">
