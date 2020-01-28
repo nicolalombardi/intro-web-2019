@@ -62,7 +62,7 @@ public class SSPServlet extends HttpServlet {
                         sspDAO.erogaVisitaPrescritta(idVisitaSSP);
 
                         session.setAttribute("successMessage", "Visita erogata con successo");
-                        response.sendRedirect(response.encodeRedirectURL(contextPath + "ssp/lista-esami" + "#modaleVisitaSSP-" + idVisitaSSP));
+                        response.sendRedirect(response.encodeRedirectURL(contextPath + "ssp/lista-esami"));
                     }
                 } catch (DAOException e) {
                     session.setAttribute("errorMessage", "Errore nell'erogare la visita, riprova più tardi");
