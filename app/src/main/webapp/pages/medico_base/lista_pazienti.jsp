@@ -75,7 +75,7 @@
                     </c:if>
                 </td>
                 <td><c:out value="${p.sesso}"/></td>
-                <td><c:out value="${p.dataNascita}"/></td>
+                <td><c:out value="${p.prettyDataNascita}"/></td>
                 <td><c:out value="${p.luogoNascita}"/></td>
                 <td><c:out value="${p.provinciaAppartenenza}"/></td>
                 <td><c:out value="${p.codiceFiscale}"/></td>

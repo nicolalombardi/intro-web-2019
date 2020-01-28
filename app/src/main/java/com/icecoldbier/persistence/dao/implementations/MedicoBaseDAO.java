@@ -147,35 +147,6 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
     }
 
     @Override
-    public InfoVisita getInfoVisita(int idv) throws DAOException {
-        InfoVisita infoVisita = new InfoVisita();
-        int id_visita=-1;
-        int id_report=-1;
-        try (PreparedStatement preparedStatement = CON.prepareStatement(GET_VISITA_SPECIALISTICA)) {
-            preparedStatement.setInt(1, idv);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            resultSet.next();
-            id_visita = resultSet.getInt("id_visita");
-            id_report = resultSet.getInt("id_report");
-
-            VisitePossibiliDAO vis = new VisitePossibiliDAO(CON);
-            if(id_report > 0){
-                ReportDAO rep = new ReportDAO(CON);
-                Report report = rep.getByPrimaryKey(id_report);
-                infoVisita.setReport(report);
-            }
-            VisitaPossibile visitaPossibile = vis.getByPrimaryKey(id_visita);
-            infoVisita.setNome(visitaPossibile.getNome());
-            infoVisita.setDescrizione(visitaPossibile.getDescrizione());
-        } catch (SQLException e) {
-            throw new DAOException("Error while getting a visita_specialistica", e);
-        }
-        return infoVisita;
-
-    }
-
-    @Override
     public ArrayList<VisitaSpecialisticaOrSSP> getVisiteEsamiByMedico(int idMedico) throws DAOException {
         ArrayList<VisitaSpecialisticaOrSSP> visite = new ArrayList<>();
 
@@ -300,10 +271,10 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
             VisitaSpecialistica visitaSpecialistica =  new VisitaSpecialistica(
                     resultSet.getInt("id"),
                     paziente,
-                    resultSet.getDate("data_erogazione"),
+                    resultSet.getTimestamp("data_erogazione"),
                     tipoVisita,
                     resultSet.getBoolean("erogata"),
-                    resultSet.getDate("data_prescrizione"),
+                    resultSet.getTimestamp("data_prescrizione"),
                     medicoSpecialista,
                     report,
                     medicoBase);
@@ -318,10 +289,10 @@ public class MedicoBaseDAO extends JDBCDAO<User, Integer> implements MedicoBaseD
             VisitaSSP visitaSSP = new VisitaSSP(
                     resultSet.getInt("id"),
                     paziente,
-                    resultSet.getDate("data_erogazione"),
+                    resultSet.getTimestamp("data_erogazione"),
                     tipoVisita,
                     resultSet.getBoolean("erogata"),
-                    resultSet.getDate("data_prescrizione"),
+                    resultSet.getTimestamp("data_prescrizione"),
                     ssp,
                     medicoBase
             );

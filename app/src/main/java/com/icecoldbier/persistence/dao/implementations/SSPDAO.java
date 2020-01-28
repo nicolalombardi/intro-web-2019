@@ -62,7 +62,7 @@ public class SSPDAO extends JDBCDAO<SSP, Integer> implements SSPDAOInterface {
                 User medicoBase = userDAO.getByPrimaryKey(resultSet.getInt("medico_base"));
                 Paziente paziente = JDBCDAOFactory.getInstance().getDAO(PazienteDAO.class).getByPrimaryKey(resultSet.getInt("paziente"));
                 InfoRicetta infoRicetta =  new InfoRicetta(
-                        resultSet.getDate("data_erogazione"),
+                        resultSet.getTimestamp("data_erogazione"),
                         resultSet.getString("farmaco"),
                         medicoBase,
                         paziente

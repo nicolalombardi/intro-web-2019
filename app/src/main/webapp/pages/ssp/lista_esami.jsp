@@ -50,7 +50,7 @@
                         </c:choose>
                     </td>
                     <td><c:out value="${v.paziente.nome} ${v.paziente.cognome}"/></td>
-                    <td><c:out value="${v.dataPrescrizione}"/></td>
+                    <td><c:out value="${v.prettyDataPrescrizione}"/></td>
                     <td><c:out value="${v.tipo_visita.nome}"/></td>
                     <td>
                         <c:choose>
@@ -112,7 +112,7 @@
                         </tr>
                         <tr>
                             <th>Data prescrizione</th>
-                            <td><c:out value="${v.dataPrescrizione}"/></td>
+                            <td><c:out value="${v.prettyDataPrescrizione}"/></td>
                         </tr>
                         <tr>
                             <th>Data erogazione</th>
@@ -126,7 +126,7 @@
                                         </form>
                                     </c:when>
                                     <c:otherwise>
-                                       <c:out value="${v.dataErogazione}"/>
+                                       <c:out value="${v.prettyDataErogazione}"/>
                                     </c:otherwise>
                                 </c:choose>
                             </td>

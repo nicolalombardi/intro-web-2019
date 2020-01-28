@@ -62,7 +62,7 @@
                             <span class="badge badge-success"><i class="material-icons badge-icon">check</i></span>
                         </c:if>
                     </td>
-                    <td><c:out value="${v.dataErogazione}"/></td>
+                    <td><c:out value="${v.prettyDataErogazione}"/></td>
                     <td>
                         <c:choose>
                             <c:when test="${empty v.ricetta}">
@@ -104,7 +104,7 @@
                         </tr>
                         <tr>
                             <th>Data erogazione</th>
-                            <td><c:out value="${v.dataErogazione}"/></td>
+                            <td><c:out value="${v.prettyDataErogazione}"/></td>
                         </tr>
                         <tr>
                             <th>Ricetta</th>

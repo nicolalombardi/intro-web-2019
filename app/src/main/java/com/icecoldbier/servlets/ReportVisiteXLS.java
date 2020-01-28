@@ -119,7 +119,7 @@ public class ReportVisiteXLS extends HttpServlet {
 
         CreationHelper createHelper = workbook.getCreationHelper();
         CellStyle dateCellStyle = workbook.createCellStyle();
-        dateCellStyle.setDataFormat(createHelper.createDataFormat().getFormat("yyyy-MM-dd"));
+        dateCellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd/MM/yyyy HH:mm"));
         dateCellStyle.setAlignment(HorizontalAlignment.CENTER);
 
         for (VisitaSSP i : list) {

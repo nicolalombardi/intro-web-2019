@@ -69,7 +69,7 @@ public class MiniProfileTag extends BodyTagSupport {
                 printRowWithDivider(out, "Nome", paziente.toStringNomeCognome());
                 printRowWithDivider(out, "Email", paziente.getUsername());
                 printRowWithDivider(out, "Provincia", paziente.getProvinciaAppartenenza());
-                printRowWithDivider(out, "Data di nascita", paziente.getDataNascita().toString());
+                printRowWithDivider(out, "Data di nascita", paziente.getPrettyDataNascita());
                 printRowWithDivider(out, "Luogo di nascita", paziente.getLuogoNascita());
                 printRowWithDivider(out, "Codice fiscale", paziente.getCodiceFiscale());
                 printRowWithDivider(out, "Sesso", "" + paziente.getSesso());

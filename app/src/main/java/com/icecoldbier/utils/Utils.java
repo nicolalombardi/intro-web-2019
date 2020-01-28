@@ -10,6 +10,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -110,5 +113,15 @@ public class Utils {
         if(value <= min) return min;
         if(value > max) return max;
         return value;
+    }
+
+    public static String parseTimestamp(Timestamp t){
+        DateFormat prettyTimestamp = new SimpleDateFormat("dd/MM/YYYY HH:mm");
+        return prettyTimestamp.format(t);
+    }
+
+    public static String parseDate(Date d){
+        DateFormat prettyDate = new SimpleDateFormat("dd/MM/YYYY");
+        return prettyDate.format(d);
     }
 }

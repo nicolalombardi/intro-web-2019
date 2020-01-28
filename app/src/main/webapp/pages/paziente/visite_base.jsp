@@ -31,7 +31,7 @@
             <c:forEach var="v" items="${elencoVisite}">
                 <tr>
                     <td scope="row"><c:out value="${v.medicoBase.toStringNomeCognome()}"/></td>
-                    <td><c:out value="${v.dataErogazione}"/></td>
+                    <td><c:out value="${v.prettyDataErogazione}"/></td>
                     <c:choose>
                         <c:when test="${empty v.ricetta.id}">
                             <td>assente</td>

@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -113,7 +111,7 @@ public class ReportRicetteXLS extends HttpServlet {
 
         CreationHelper createHelper = workbook.getCreationHelper();
         CellStyle dateCellStyle = workbook.createCellStyle();
-        dateCellStyle.setDataFormat(createHelper.createDataFormat().getFormat("yyyy-MM-dd"));
+        dateCellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd/MM/yyyy HH:mm"));
         dateCellStyle.setAlignment(HorizontalAlignment.CENTER);
 
         for (InfoRicetta i : list) {
@@ -122,7 +120,7 @@ public class ReportRicetteXLS extends HttpServlet {
             rowStyle.setAlignment(HorizontalAlignment.CENTER);
             row.setRowStyle(rowStyle);
             Cell cell = row.createCell(0);
-            cell.setCellValue(i.getData());
+            cell.setCellValue(i.getDataPrescrizione());
             cell.setCellStyle(dateCellStyle);
             row.createCell(1).setCellValue(i.getFarmaco());
             row.createCell(2).setCellValue(i.getMedicoBase().toStringNomeCognome());

@@ -1,26 +1,33 @@
 package com.icecoldbier.persistence.entities;
 
-import java.sql.Date;
+import com.icecoldbier.utils.Utils;
+
+import java.sql.Timestamp;
 
 public class Ticket {
-    private Date data;
+    private Timestamp dataErogazione;
     private String tipoVisita;
     private String nomeVisita;
     private float costo;
 
-    public Ticket(Date data, String tipoVisita, String nomeVisita, float costo) {
-        this.data = data;
+    public Ticket(Timestamp dataErogazione, String tipoVisita, String nomeVisita, float costo) {
+        this.dataErogazione = dataErogazione;
         this.tipoVisita = tipoVisita;
         this.nomeVisita = nomeVisita;
         this.costo = costo;
     }
 
-    public Date getData() {
-        return data;
+    public Timestamp getDataErogazione() {
+        return dataErogazione;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDataErogazione(Timestamp dataErogazione) {
+        this.dataErogazione = dataErogazione;
+    }
+
+    public String getPrettyDataErogazione() {
+        return Utils.parseTimestamp(dataErogazione);
+
     }
 
     public String getTipoVisita() {

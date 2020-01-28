@@ -21,10 +21,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 @WebServlet("/paziente/tickets/pdf")
 public class ListaTicketsPDF extends HttpServlet {
@@ -92,7 +90,7 @@ public class ListaTicketsPDF extends HttpServlet {
 
                 Row<PDPage> header = table.createRow(20);
                 header.createCell(4, "#");
-                header.createCell(15, "Data");
+                header.createCell(15, "Data erogazione");
                 header.createCell(15, "Tipo");
                 header.createCell(62, "Visita");
                 header.createCell(10, "Costo");
@@ -106,7 +104,7 @@ public class ListaTicketsPDF extends HttpServlet {
                     Ticket t = tickets.get(i);
                     Row<PDPage> row = table.createRow(0);
                     row.createCell(String.valueOf(i + 1));
-                    row.createCell(t.getData().toString());
+                    row.createCell(t.getPrettyDataErogazione());
                     row.createCell(t.getTipoVisita());
                     row.createCell(t.getNomeVisita());
                     row.createCell(String.valueOf(t.getCosto()));

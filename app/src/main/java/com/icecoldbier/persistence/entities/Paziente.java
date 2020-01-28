@@ -1,5 +1,7 @@
 package com.icecoldbier.persistence.entities;
 
+import com.icecoldbier.utils.Utils;
+
 import java.sql.Date;
 
 public class Paziente extends User{
@@ -29,6 +31,10 @@ public class Paziente extends User{
 
     public void setDataNascita(Date dataNascita) {
         this.dataNascita = dataNascita;
+    }
+
+    public String getPrettyDataNascita() {
+        return Utils.parseDate(dataNascita);
     }
 
     public String getLuogoNascita() {

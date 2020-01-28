@@ -204,7 +204,7 @@ public class VisitaBaseDAO extends JDBCDAO<VisitaBase, Integer> implements Visit
         return new VisitaBase(
                 resultSet.getInt("id"),
                 paziente,
-                resultSet.getDate("data_erogazione"),
+                resultSet.getTimestamp("data_erogazione"),
                 medicoBase,
                 ricetta
         );

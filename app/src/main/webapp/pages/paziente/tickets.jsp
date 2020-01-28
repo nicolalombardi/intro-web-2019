@@ -27,7 +27,7 @@
         <table class="datatable table table-striped table-hover">
             <thead class="thead-dark">
             <tr>
-                <th class="all" scope="col">Data</th>
+                <th class="all" scope="col">Data erogazione</th>
                 <th class="all" scope="col">Nome</th>
                 <th class="min-sm" scope="col">Tipo</th>
                 <th class="min-md" scope="col">Costo</th>
@@ -36,7 +36,7 @@
             <tbody>
             <c:forEach var="t" items="${listaTickets}">
                 <tr>
-                    <td><c:out value="${t.data}"/></td>
+                    <td><c:out value="${t.prettyDataErogazione}"/></td>
                     <td><c:out value="${t.nomeVisita}"/></td>
                     <td><c:out value="${t.tipoVisita}"/></td>
                     <td><c:out value="${t.costo}"/></td>

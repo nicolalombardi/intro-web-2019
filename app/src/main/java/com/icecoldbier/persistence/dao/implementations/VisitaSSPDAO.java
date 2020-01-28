@@ -129,10 +129,10 @@ public class VisitaSSPDAO extends JDBCDAO<VisitaSSP, Integer> implements VisitaS
         return new VisitaSSP(
                 resultSet.getInt("id"),
                 paziente,
-                resultSet.getDate("data_erogazione"),
+                resultSet.getTimestamp("data_erogazione"),
                 tipoVisita,
                 resultSet.getBoolean("erogata"),
-                resultSet.getDate("data_prescrizione"),
+                resultSet.getTimestamp("data_prescrizione"),
                 ssp,
                 medicoBase
         );

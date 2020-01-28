@@ -12,7 +12,6 @@ public interface MedicoBaseDAOInterface extends DAO<User, Integer> {
     void prescrizioneEsameSSP(int idTipoVisita, int idSSP, int idPaziente, int idMedicoBase) throws DAOException;
     void prescrizioneEsameMS(int idTipoVisita, int idMedicoSpecialista, int idPaziente, int idMedicoBase) throws DAOException;
     void approvaRicetta(int idRicetta) throws DAOException;
-    InfoVisita getInfoVisita(int idv) throws DAOException;
     ArrayList<VisitaSpecialisticaOrSSP> getVisiteEsamiByMedico(int idMedico) throws DAOException;
     ArrayList<VisitaSpecialisticaOrSSP> getVisiteEsamiByMedicoAndPaziente(int idMedico, int idPaziente) throws DAOException;
     Long getVisiteEsamiByMedicoCount(int idMedico) throws DAOException;

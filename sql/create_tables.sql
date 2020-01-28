@@ -46,8 +46,8 @@ CREATE TABLE visita_specialistica(
     id SERIAL PRIMARY KEY,
     id_visita INT REFERENCES elenco_visite_possibili(id) NOT NULL,
     erogata BOOLEAN NOT NULL,
-    data_prescrizione DATE NOT NULL,
-    data_erogazione DATE,
+    data_prescrizione TIMESTAMP NOT NULL,
+    data_erogazione TIMESTAMP,
     id_medico INT REFERENCES users(id) NOT NULL,
     id_paziente INT REFERENCES paziente(id_user) NOT NULL,
     id_medico_base INT REFERENCES users(id) NOT NULL,
@@ -60,15 +60,15 @@ CREATE TABLE visita_base(
     id_paziente INT REFERENCES paziente(id_user) NOT NULL,
     id_visita_specialistica INT REFERENCES visita_specialistica(id),
     id_ricetta INT REFERENCES ricetta(id),
-    data_erogazione DATE NOT NULL
+    data_erogazione TIMESTAMP NOT NULL
 );
 
 CREATE TABLE visita_ssp(
     id SERIAL PRIMARY KEY,
     id_visita INT REFERENCES elenco_visite_possibili(id) NOT NULL,
     erogata BOOLEAN NOT NULL,
-    data_prescrizione DATE NOT NULL,
-    data_erogazione DATE,
+    data_prescrizione TIMESTAMP NOT NULL,
+    data_erogazione TIMESTAMP,
     id_ssp INT REFERENCES users(id) NOT NULL,
     id_paziente INT REFERENCES paziente(id_user) NOT NULL,
     id_medico_base INT REFERENCES users(id) NOT NULL

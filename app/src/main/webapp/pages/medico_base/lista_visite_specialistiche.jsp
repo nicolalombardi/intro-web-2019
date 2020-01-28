@@ -50,7 +50,7 @@
                     <c:when test="${v.SSP}">
                         <c:set var="foto" value="${v.visitaSSP.paziente.fotoThumb}"/>
                         <c:set var="paziente" value="${v.visitaSSP.paziente}"/>
-                        <c:set var="dataPrescrizione" value="${v.visitaSSP.dataPrescrizione}"/>
+                        <c:set var="dataPrescrizione" value="${v.visitaSSP.prettyDataPrescrizione}"/>
                         <c:set var="tipo" value="Esame SSP"/>
                         <c:set var="descrizione" value="${v.visitaSSP.tipo_visita.nome}"/>
                         <c:set var="erogata" value="${not empty v.visitaSSP.dataErogazione}"/>
@@ -60,7 +60,7 @@
                     <c:otherwise>
                         <c:set var="foto" value="${v.visitaSpecialistica.paziente.fotoThumb}"/>
                         <c:set var="paziente" value="${v.visitaSpecialistica.paziente}"/>
-                        <c:set var="dataPrescrizione" value="${v.visitaSpecialistica.dataPrescrizione}"/>
+                        <c:set var="dataPrescrizione" value="${v.visitaSpecialistica.prettyDataPrescrizione}"/>
                         <c:set var="tipo" value="Visita specialistica"/>
                         <c:set var="descrizione" value="${v.visitaSpecialistica.tipo_visita.nome}"/>
                         <c:set var="erogata" value="${not empty v.visitaSpecialistica.dataErogazione}"/>
@@ -158,7 +158,7 @@
                                                 <c:out value="Non ancora erogato"/>
                                             </c:when>
                                             <c:otherwise>
-                                                <c:out value="${v.visitaSSP.dataErogazione}"/>
+                                                <c:out value="${v.visitaSSP.prettyDataErogazione}"/>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
@@ -225,7 +225,7 @@
                                     <c:otherwise>
                                         <tr>
                                             <th>Data erogazione</th>
-                                            <td><c:out value="${v.visitaSpecialistica.dataErogazione}"/></td>
+                                            <td><c:out value="${v.visitaSpecialistica.prettyDataErogazione}"/></td>
                                         </tr>
                                         <tr>
                                             <th>Report</th>

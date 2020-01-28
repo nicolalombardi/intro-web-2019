@@ -34,7 +34,7 @@
                     <c:when test="${v.SSP}">
                         <tr>
                             <td><c:out value="${v.visitaSSP.tipo_visita.nome}"/></td>
-                            <td><c:out value="${v.visitaSSP.dataPrescrizione}"/></td>
+                            <td><c:out value="${v.visitaSSP.prettyDataPrescrizione}"/></td>
                             <td><c:out value="${v.visitaSSP.medicoBase.toStringNomeCognome()}"/></td>
                             <td><c:out value="${v.visitaSSP.ssp.toString()}"/></td>
                         </tr>
@@ -42,7 +42,7 @@
                     <c:otherwise>
                         <tr>
                             <td><c:out value="${v.visitaSpecialistica.tipo_visita.nome}"/></td>
-                            <td><c:out value="${v.visitaSpecialistica.dataPrescrizione}"/></td>
+                            <td><c:out value="${v.visitaSpecialistica.prettyDataPrescrizione}"/></td>
                             <td><c:out value="${v.visitaSpecialistica.medicoBase.toStringNomeCognome()}"/></td>
                             <td><c:out value="${v.visitaSpecialistica.medicoSpecialista.toStringNomeCognome()}"/></td>
                         </tr>

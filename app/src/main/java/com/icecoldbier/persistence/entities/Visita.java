@@ -1,13 +1,15 @@
 package com.icecoldbier.persistence.entities;
 
-import java.sql.Date;
+import com.icecoldbier.utils.Utils;
+
+import java.sql.Timestamp;
 
 public abstract class Visita {
     private int id;
     private Paziente paziente;
-    private Date dataErogazione;
+    private Timestamp dataErogazione;
 
-    public Visita(int id, Paziente paziente, Date dataErogazione) {
+    public Visita(int id, Paziente paziente, Timestamp dataErogazione) {
         this.id = id;
         this.paziente = paziente;
         this.dataErogazione = dataErogazione;
@@ -29,11 +31,16 @@ public abstract class Visita {
         this.paziente = paziente;
     }
 
-    public Date getDataErogazione() {
+    public Timestamp getDataErogazione() {
         return dataErogazione;
     }
 
-    public void setDataErogazione(Date dataErogazione) {
+    public void setDataErogazione(Timestamp dataErogazione) {
         this.dataErogazione = dataErogazione;
+    }
+
+    public String getPrettyDataErogazione() {
+        return Utils.parseTimestamp(dataErogazione);
+
     }
 }

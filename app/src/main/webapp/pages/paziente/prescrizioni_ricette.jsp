@@ -33,7 +33,7 @@
             <c:forEach var="r" items="${elencoRicette}">
                 <tr>
                     <td><c:out value="${r.farmaco}"/></td>
-                    <td><c:out value="${r.data}"/></td>
+                    <td><c:out value="${r.prettyDataPrescrizione}"/></td>
                     <c:choose>
                         <c:when test="${r.acquistabile}">
                             <td>Si</td>

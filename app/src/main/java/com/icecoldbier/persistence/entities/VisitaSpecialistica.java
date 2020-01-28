@@ -1,17 +1,19 @@
 package com.icecoldbier.persistence.entities;
 
-import java.sql.Date;
+import com.icecoldbier.utils.Utils;
+
+import java.sql.Timestamp;
 
 public class VisitaSpecialistica extends Visita{
     private VisitaPossibile tipo_visita;
     private boolean erogata;
-    private Date dataPrescrizione;
+    private Timestamp dataPrescrizione;
     private User medicoSpecialista;
     private Report report;
     private User medicoBase;
 
 
-    public VisitaSpecialistica(int id, Paziente paziente, Date dataErogazione, VisitaPossibile tipo_visita, boolean erogata, Date dataPrescrizione, User medicoSpecialista, Report report, User medicoBase) {
+    public VisitaSpecialistica(int id, Paziente paziente, Timestamp dataErogazione, VisitaPossibile tipo_visita, boolean erogata, Timestamp dataPrescrizione, User medicoSpecialista, Report report, User medicoBase) {
         super(id, paziente, dataErogazione);
         this.tipo_visita = tipo_visita;
         this.erogata = erogata;
@@ -37,11 +39,15 @@ public class VisitaSpecialistica extends Visita{
         this.erogata = erogata;
     }
 
-    public Date getDataPrescrizione() {
+    public Timestamp getDataPrescrizione() {
         return dataPrescrizione;
     }
 
-    public void setDataPrescrizione(Date dataPrescrizione) {
+    public String getPrettyDataPrescrizione() {
+        return Utils.parseTimestamp(dataPrescrizione);
+    }
+
+    public void setDataPrescrizione(Timestamp dataPrescrizione) {
         this.dataPrescrizione = dataPrescrizione;
     }
 

@@ -35,9 +35,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Calendar;
 
 @WebServlet("/paziente/stampa-ricetta")
 public class DettaglioRicettaPDF extends HttpServlet {
@@ -116,8 +113,8 @@ public class DettaglioRicettaPDF extends HttpServlet {
                         drawSubtitle(contents, "Medico base: ", 355);
                         drawContent(contents, visitaBase.getMedicoBase().toStringNomeCognome(), 355);
 
-                        drawSubtitle(contents, "Data erogazione: ", 330);
-                        drawContent(contents, visitaBase.getDataErogazione().toString(), 330);
+                        drawSubtitle(contents, "Data e ora erogazione: ", 330);
+                        drawContent(contents, visitaBase.getPrettyDataErogazione(), 330);
 
                     } else if (visitaSpecialistica != null) {
                         drawTitle(contents, "Ricetta", 650);
@@ -148,10 +145,10 @@ public class DettaglioRicettaPDF extends HttpServlet {
                         drawContent(contents, visitaSpecialistica.getMedicoSpecialista().toStringNomeCognome(), 330);
 
                         drawSubtitle(contents, "Data prescrizione: ", 305);
-                        drawContent(contents, visitaSpecialistica.getDataPrescrizione().toString(), 305);
+                        drawContent(contents, visitaSpecialistica.getPrettyDataPrescrizione(), 305);
 
                         drawSubtitle(contents, "Data erogazione: ", 280);
-                        drawContent(contents, visitaSpecialistica.getDataErogazione().toString(), 280);
+                        drawContent(contents, visitaSpecialistica.getPrettyDataErogazione(), 280);
 
                     } else {
                         drawString(contents, "Errore: Ricetta non trovata", 20, 80, 500);

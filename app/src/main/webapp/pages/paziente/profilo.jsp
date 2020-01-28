@@ -65,7 +65,7 @@
                 </tr>
                 <tr>
                     <th><b>Data di nascita</b></th>
-                    <td><c:out value="${paziente.dataNascita}"/></td>
+                    <td><c:out value="${paziente.prettyDataNascita}"/></td>
                 </tr>
                 <tr>
                     <th><b>Luogo di nascita</b></th>

@@ -187,7 +187,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                     VisitaBase visitaBase = new VisitaBase(
                             rs.getInt("id"),
                             paziente,
-                            rs.getDate("data_erogazione"),
+                            rs.getTimestamp("data_erogazione"),
                             medico,
                             ricetta
                     );
@@ -222,10 +222,10 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                     VisitaSpecialistica visitaSpecialistica = new VisitaSpecialistica(
                             rs.getInt("id"),
                             paziente,
-                            rs.getDate("data_erogazione"),
+                            rs.getTimestamp("data_erogazione"),
                             tipoVisita,
                             rs.getBoolean("erogata"),
-                            rs.getDate("data_prescrizione"),
+                            rs.getTimestamp("data_prescrizione"),
                             medicoSpecialista,
                             report,
                             medicoBase);
@@ -258,10 +258,10 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                     VisitaSSP visitaSSP = new VisitaSSP(
                             rs.getInt("id"),
                             paziente,
-                            rs.getDate("data_erogazione"),
+                            rs.getTimestamp("data_erogazione"),
                             tipoVisita,
                             rs.getBoolean("erogata"),
-                            rs.getDate("data_prescrizione"),
+                            rs.getTimestamp("data_prescrizione"),
                             ssp,
                             medicoBase);
                     visite.add(visitaSSP);
@@ -282,7 +282,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
             try(ResultSet rs = preparedStatement.executeQuery()){
                 while(rs.next()){
                     ricette.add(new InfoRicetta(
-                            rs.getDate("data"),
+                            rs.getTimestamp("data"),
                             rs.getString("farmaco"),
                             rs.getBoolean("prescritta"),
                             rs.getInt("id")
@@ -330,7 +330,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
             try (ResultSet rs = preparedStatement.executeQuery()){
                 while (rs.next()){
                     Ticket t = new Ticket(
-                            rs.getDate("data"),
+                            rs.getTimestamp("data"),
                             rs.getString("type"),
                             rs.getString("nome"),
                             rs.getInt("costo")
@@ -355,7 +355,7 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
             try (ResultSet rs = preparedStatement.executeQuery()){
                 while (rs.next()){
                     Ticket t = new Ticket(
-                            rs.getDate("data"),
+                            rs.getTimestamp("data"),
                             rs.getString("type"),
                             rs.getString("nome"),
                             rs.getInt("costo")
@@ -430,10 +430,10 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                         VisitaSpecialistica visitaSpecialistica = new VisitaSpecialistica(
                                 rs.getInt("id"),
                                 paziente,
-                                rs.getDate("data_erogazione"),
+                                rs.getTimestamp("data_erogazione"),
                                 tipoVisita,
                                 rs.getBoolean("erogata"),
-                                rs.getDate("data_prescrizione"),
+                                rs.getTimestamp("data_prescrizione"),
                                 medicoSpecialista,
                                 report,
                                 medicoBase
@@ -450,10 +450,10 @@ public class PazienteDAO extends JDBCDAO<Paziente, Integer> implements PazienteD
                         VisitaSSP visitaSSP = new VisitaSSP(
                                 rs.getInt("id"),
                                 paziente,
-                                rs.getDate("data_erogazione"),
+                                rs.getTimestamp("data_erogazione"),
                                 tipoVisita,
                                 rs.getBoolean("erogata"),
-                                rs.getDate("data_prescrizione"),
+                                rs.getTimestamp("data_prescrizione"),
                                 ssp,
                                 medicoBase);
                         visitaSpecialisticaOrSSP = new VisitaSpecialisticaOrSSP(visitaSSP);

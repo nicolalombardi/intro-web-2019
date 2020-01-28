@@ -246,10 +246,10 @@ public class MedicoSpecialistaDAO extends JDBCDAO<User, Integer> implements Medi
         return new VisitaSpecialistica(
                 resultSet.getInt("id"),
                 paziente,
-                resultSet.getDate("data_erogazione"),
+                resultSet.getTimestamp("data_erogazione"),
                 tipoVisita,
                 resultSet.getBoolean("erogata"),
-                resultSet.getDate("data_prescrizione"),
+                resultSet.getTimestamp("data_prescrizione"),
                 medicoSpecialista,
                 report,
                 medicoBase

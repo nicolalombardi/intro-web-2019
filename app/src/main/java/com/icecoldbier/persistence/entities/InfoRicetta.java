@@ -1,35 +1,41 @@
 package com.icecoldbier.persistence.entities;
 
-import java.sql.Date;
+import com.icecoldbier.utils.Utils;
+
+import java.sql.Timestamp;
 
 public class InfoRicetta {
-    private Date data;
+    private Timestamp dataPrescrizione;
     private String farmaco;
     private User medicoBase;
     private Paziente paziente;
     private boolean acquistabile;
     private Integer id;
 
-    public InfoRicetta(Date data, String farmaco, User medicoBase, Paziente paziente) {
-        this.data = data;
+    public InfoRicetta(Timestamp dataPrescrizione, String farmaco, User medicoBase, Paziente paziente) {
+        this.dataPrescrizione = dataPrescrizione;
         this.farmaco = farmaco;
         this.medicoBase = medicoBase;
         this.paziente = paziente;
     }
 
-    public InfoRicetta(Date data, String farmaco, boolean acquistabile, Integer id) {
-        this.data = data;
+    public InfoRicetta(Timestamp dataPrescrizione, String farmaco, boolean acquistabile, Integer id) {
+        this.dataPrescrizione = dataPrescrizione;
         this.farmaco = farmaco;
         this.acquistabile = acquistabile;
         this.id = id;
     }
 
-    public Date getData() {
-        return data;
+    public Timestamp getDataPrescrizione() {
+        return dataPrescrizione;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDataPrescrizione(Timestamp dataPrescrizione) {
+        this.dataPrescrizione = dataPrescrizione;
+    }
+
+    public String getPrettyDataPrescrizione() {
+        return Utils.parseTimestamp(dataPrescrizione);
     }
 
     public String getFarmaco() {
