@@ -1,9 +1,3 @@
-/*
- * AA 2018-2019
- * Introduction to Web Programming
- * Lab 12 - Shopping List Implementation
- * UniTN
- */
 package com.icecoldbier.servlets;
 
 import be.quodlibet.boxable.BaseTable;
@@ -100,7 +94,7 @@ public class ListaTicketsPDF extends HttpServlet {
                 header.createCell(4, "#");
                 header.createCell(15, "Data");
                 header.createCell(15, "Tipo");
-                header.createCell(72, "Visita");
+                header.createCell(62, "Visita");
                 header.createCell(10, "Costo");
                 for (Cell<PDPage> cell : header.getCells()) {
                     cell.setFont(PDType1Font.TIMES_BOLD);
@@ -124,7 +118,7 @@ public class ListaTicketsPDF extends HttpServlet {
                 table.draw();
             }
 
-            String name = "Lista_tickets_" + u.getNome() + "_" + u.getCognome() + ".xls";
+            String name = "Lista_tickets_" + u.getNome() + "_" + u.getCognome() + ".pdf";
             response.setContentType("application/pdf");
             response.setHeader("Content-disposition", "attachment; filename=" + name);
             doc.save(response.getOutputStream());
