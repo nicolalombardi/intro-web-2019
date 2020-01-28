@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="/WEB-INF/customTags/ellipsizeTag.tld" prefix="ct" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <jsp:useBean id="elencoVisiteFuture" scope="request"
              type="java.util.List<com.icecoldbier.persistence.entities.VisitaSpecialisticaOrSSP>"/>
 <html>
@@ -35,16 +37,16 @@
                         <tr>
                             <td><c:out value="${v.visitaSSP.tipo_visita.nome}"/></td>
                             <td><c:out value="${v.visitaSSP.prettyDataPrescrizione}"/></td>
-                            <td><c:out value="${v.visitaSSP.medicoBase.toStringNomeCognome()}"/></td>
-                            <td><c:out value="${v.visitaSSP.ssp.toString()}"/></td>
+                            <td><mp:miniProfileTag user="${v.visitaSSP.medicoBase}"/></td>
+                            <td><mp:miniProfileTag ssp="${v.visitaSSP.ssp}"/></td>
                         </tr>
                     </c:when>
                     <c:otherwise>
                         <tr>
                             <td><c:out value="${v.visitaSpecialistica.tipo_visita.nome}"/></td>
                             <td><c:out value="${v.visitaSpecialistica.prettyDataPrescrizione}"/></td>
-                            <td><c:out value="${v.visitaSpecialistica.medicoBase.toStringNomeCognome()}"/></td>
-                            <td><c:out value="${v.visitaSpecialistica.medicoSpecialista.toStringNomeCognome()}"/></td>
+                            <td><mp:miniProfileTag user="${v.visitaSpecialistica.medicoBase}"/></td>
+                            <td><mp:miniProfileTag user="${v.visitaSpecialistica.medicoSpecialista}"/></td>
                         </tr>
                     </c:otherwise>
                 </c:choose>

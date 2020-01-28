@@ -1,7 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="/WEB-INF/customTags/ellipsizeTag.tld" prefix="ct" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib uri="/WEB-INF/customTags/ellipsizeTag.tld" prefix="ct" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <jsp:useBean id="listaVisite" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.VisitaSSP>"/>
 
 
@@ -49,7 +50,7 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <td><c:out value="${v.paziente.nome} ${v.paziente.cognome}"/></td>
+                    <td><mp:miniProfileTag paziente="${v.paziente}"/></td>
                     <td><c:out value="${v.prettyDataPrescrizione}"/></td>
                     <td><c:out value="${v.tipo_visita.nome}"/></td>
                     <td>
@@ -92,7 +93,7 @@
                         </tr>
                         <tr>
                             <th>Paziente</th>
-                            <td><c:out value="${v.paziente.nome}"/> <c:out value="${v.paziente.cognome}"/></td>
+                            <td>  <mp:miniProfileTag paziente="${v.paziente}"/></td>
                         </tr>
                         <tr>
                             <th>Nome esame</th>
@@ -108,7 +109,7 @@
                         </tr>
                         <tr>
                             <th>Prescritta da</th>
-                            <td><c:out value="${v.medicoBase.nome}"/> <c:out value="${v.medicoBase.cognome}"/></td>
+                            <td> <mp:miniProfileTag user="${v.medicoBase}"/></td>
                         </tr>
                         <tr>
                             <th>Data prescrizione</th>
@@ -156,6 +157,7 @@
 
 <script src="../js/init_datatables.js"></script>
 <script src="../js/toggle_modal_hash.js"></script>
+<script src="../../js/init_non_datatable_popover.js"></script>
 
 <%--These are the success and error modals--%>
 <%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>

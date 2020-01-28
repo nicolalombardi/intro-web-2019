@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="/WEB-INF/customTags/ellipsizeTag.tld" prefix="ct" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <jsp:useBean id="elencoVisite" scope="request"
              type="java.util.List<com.icecoldbier.persistence.entities.VisitaBase>"/>
 <html>
@@ -30,7 +32,7 @@
             <tbody>
             <c:forEach var="v" items="${elencoVisite}">
                 <tr>
-                    <td scope="row"><c:out value="${v.medicoBase.toStringNomeCognome()}"/></td>
+                    <td scope="row"><mp:miniProfileTag user="${v.medicoBase}"/></td>
                     <td><c:out value="${v.prettyDataErogazione}"/></td>
                     <c:choose>
                         <c:when test="${empty v.ricetta.id}">

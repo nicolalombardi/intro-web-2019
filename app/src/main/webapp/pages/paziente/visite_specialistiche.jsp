@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="/WEB-INF/customTags/ellipsizeTag.tld" prefix="ct" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <jsp:useBean id="elencoVisite" scope="request"
              type="java.util.List<com.icecoldbier.persistence.entities.VisitaSpecialistica>"/>
 <html>
@@ -43,7 +45,7 @@
                     </td>
 
                     <td><c:out value="${v.prettyDataPrescrizione}"/></td>
-                    <td><c:out value="${v.medicoSpecialista.toStringNomeCognome()}"/></td>
+                    <td><mp:miniProfileTag user="${v.medicoSpecialista}"/></td>
                     <c:choose>
                         <c:when test="${empty v.report.id}">
                             <td>assente</td>
@@ -156,11 +158,11 @@
                         </c:choose>
                         <tr>
                             <th>Prescritta da</th>
-                            <td><c:out value="${v.medicoBase.toStringNomeCognome()}"/></td>
+                            <td><mp:miniProfileTag user="${v.medicoBase}"/> </td>
                         </tr>
                         <tr>
                             <th>Medico erogante</th>
-                            <td><c:out value="${v.medicoSpecialista.toStringNomeCognome()}"/></td>
+                            <td><mp:miniProfileTag user="${v.medicoSpecialista}"/></td>
                         </tr>
                         <tr>
                             <th>Costo ticket</th>
@@ -189,5 +191,6 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
 
 <script src="../js/init_datatables.js"></script>
+<script src="../../js/init_non_datatable_popover.js"></script>
 </body>
 </html>

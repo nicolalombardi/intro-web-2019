@@ -3,6 +3,8 @@
              type="java.util.List<com.icecoldbier.persistence.entities.User>"/>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/WEB-INF/customTags/ellipsizeTag.tld" prefix="ct" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -86,7 +88,7 @@
                             <td>Non ancora scelto.   <button type="button" class="btn btn-xs btn-dark" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button></td>
                         </c:when>
                         <c:otherwise>
-                            <td><c:out value="${paziente.medico.nome}"/> <c:out value="${paziente.medico.cognome}   "/><button type="button" class="btn btn-xs btn-dark" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button></td>
+                            <td> <mp:miniProfileTag user="${paziente.medicoBase}"/> <button type="button" class="btn btn-xs btn-dark" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button></td>
                         </c:otherwise>
                     </c:choose>
                 </tr>
@@ -210,6 +212,7 @@
 
 <script src="../js/scheda_paziente.js"></script>
 <script src="../js/toggle_modal_hash.js"></script>
+<script src="../js/init_datatables.js"></script>
 
 <%--These are the success and error modals--%>
 <%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>

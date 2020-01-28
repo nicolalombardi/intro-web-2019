@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="/WEB-INF/customTags/ellipsizeTag.tld" prefix="ct" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <jsp:useBean id="elencoVisiteSSP" scope="request"
              type="java.util.List<com.icecoldbier.persistence.entities.VisitaSSP>"/>
 <html>
@@ -42,7 +44,7 @@
                         </c:choose>
                     </td>
                     <td><c:out value="${v.prettyDataPrescrizione}"/></td>
-                    <td><c:out value="${v.ssp.toString()}"/></td>
+                    <td><mp:miniProfileTag ssp="${v.ssp}"/></td>
                     <td>
                         <a class="btn btn-primary mb-3" href="#"  data-toggle="modal" data-target="#modaleVisitaSSP${v.id}" role="button"><i class="material-icons">open_in_new</i></a>
                     </td>
@@ -97,11 +99,11 @@
                         </c:choose>
                         <tr>
                             <th>Prescritta da</th>
-                            <td><c:out value="${v.medicoBase.toStringNomeCognome()}"/></td>
+                            <td><mp:miniProfileTag user="${v.medicoBase}"/></td>
                         </tr>
                         <tr>
                             <th>Erogante</th>
-                            <td><c:out value="${v.ssp.toString()}"/></td>
+                            <td><mp:miniProfileTag ssp="${v.ssp}"/></td>
                         </tr>
                         <tr>
                             <th>Costo ticket</th>
@@ -131,5 +133,6 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
 
 <script src="../js/init_datatables.js"></script>
+<script src="../../js/init_non_datatable_popover.js"></script>
 </body>
 </html>
