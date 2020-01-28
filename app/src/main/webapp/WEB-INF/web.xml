@@ -21,6 +21,14 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>Homepage</servlet-name>
+        <jsp-file>/pages/home.html</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Homepage</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>LoginPage</servlet-name>
         <jsp-file>/pages/login.jsp</jsp-file>
     </servlet>

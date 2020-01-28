@@ -4,108 +4,161 @@
 <head>
     <meta charset="UTF-8">
     <title>Servizi Sanitari</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.css" />
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 
 <body>
-    <h1>
-        Chi siamo e cosa facciamo?
-    </h1>
-    <p>
-        Siamo l'ente ufficiale per i Servizi Sanitari Italiani, forniamo molteplici servizi ai cittadini, enti per il Servizio Sanitario Provinciale (SSP), medici di base e specialistici.
-        <br> In questo sito potrai prenotare delle visite dal tuo medico di riferimento, e rimarrai aggiornato, tramite l'utilizzo di mail, sulle ricette che ti verranno prescritte.
-        <br> Il medico di base potrà poi prescriverti una visita da fare da un medico specialista o SSP, per te sarà semplicissimo gestire il tutto!
-    </p>
-    <br>
-    <h2>
-        Servizi per il cittadino
-    </h2>
-    <p>
-        Una volta effettuato il login con mail e password che ti sono state fornite, portai accedere a diverse funzionalità:
-        <li>
-            Vedere la lista delle visite effettuate, presso medici di base, specialisti o SSP ed informazioni riguardanti, come le ricette o i report
-        </li>
-        <li>
-            Vedere la lista delle visite e ricette che ti sono state prescritte, con la possibilità di stampare una ricetta in formato pdf
-        </li>
-        <li>
-            Vedere la lista dei ticket per gli esami fatti presso medici specialisti o SSP, con la possibilità di stamparla in formato pdf
-        </li>
-        <li>
-            Vedere la lista degli esami specialistici che è possibile richiedere
-        </li>
-        <li>
-            Vedere e gestire il tuo profilo, con la possibilità di caricare o aggiornare la foto, cambiare il medico di base a te associato e cambiare la password di accesso al sistema
-        </li>
-    </p>
-    <h2>
-        Servizi per il medico di base
-    </h2>
-    <p>
-        Una volta effettuato il login con mail e password che ti sono state fornite, portai accedere a diverse funzionalità:
-        <li>
-            Vedere la lista dei pazienti registrati al servizio, con la possibilità di vedere solo i propri
-        </li>
-        <li>
-            Vedere la lista delle visite da te erogate, per tutti i pazienti o per uno specifico
-        </li>
-        <li>
-            Vedere la lista delle visite specialistiche o SSP da te prescritte, per tutti i pazienti o per uno specifico
-        </li>
-        <li>
-            Vedere le informazioni di un paziente
-        </li>
-        <li>
-            Erogare una visita ad un paziente a te associato
-        </li>
-        <li>
-            Prescrivere una visita presso un medico specialistico o un SSP
-        </li>
-        <li>
-            Approvare una ricetta prescritta da un medico specialista
-        </li>
-    </p>
-    <h2>
-        Servizi per il medico specialista
-    </h2>
-    <p>
-        Una volta effettuato il login con mail e password che ti sono state fornite, portai accedere a diverse funzionalità:
-        <li>
-            Vedere la lista dei pazienti registrati al servizio, con la possibilità di vedere solo i propri
-        </li>
-        <li>
-            Vedere la lista delle visite a te associate
-        </li>
-        <li>
-            Erogare una visita specialistica facendo pagare il ticket al paziente, associando ad essa un report, ed eventualmente una ricetta
-        </li>
-        <li>
-            Vedere la storia delle visite effettuate da un paziente
-        </li>
-        <li>
-            Vedere le informazioni di un paziente
-        </li>
-    </p>
-    <h2>
-        Servizi per SSP
-    </h2>
-    <p>
-        Una volta effettuato il login con mail e password che ti sono state fornite, portai accedere a diverse funzionalità:
-        <li>
-            Vedere la lista delle visite associate
-        </li>
-        <li>
-            Erogare una visita facendo pagare il ticket al paziente
-        </li>
-        <li>
-            Generare un report in formato xls contenente le ricette erogate in un giorno specifico
-        </li>
-        <li>
-            Generare un report in formato xls contenente le visite erogate dall'SSP in un giorno specifico
-        </li>
-    </p>
+
+    <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Servizi Sanitari</a>
+        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#cittadino">Servizi utente <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#medico_base">Servizi medico base <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#medico_specialista">Servizi medico specialista <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#ssp">Servizi SSP <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <div class="nav-item active">
+                <a aria-expanded="false" aria-haspopup="true" class="nav-link white" href="/login" role="button">
+                    <b>Login</b>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Servizi Sanitari</h1>
+            <h3>Chi siamo e cosa facciamo?</h3>
+            <p>
+                Siamo l'ente ufficiale per i Servizi Sanitari Italiani, forniamo molteplici servizi ai cittadini, enti per il Servizio Sanitario Provinciale (SSP), medici di base e specialistici.
+                In questo sito potrai prenotare delle visite dal tuo medico di riferimento, e rimarrai aggiornato, tramite l'utilizzo di mail, sulle ricette che ti verranno prescritte.
+                Il medico di base potr&agrave; poi prescriverti una visita da fare da un medico specialista o SSP, per te sar&agrave; semplicissimo gestire il tutto!
+            </p>
+            <p><a class="btn btn-primary btn-lg btn-dark" href="/login" role="button">Login</a></p>
+        </div>
+        <div class="container">
+            <table class="datatable table table-striped table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th>
+                        <h2 id="cittadino">Servizi per il cittadino</h2>
+                        <p>
+                            Una volta effettuato il login con mail e password che ti sono state fornite, portai accedere a diverse funzionalit&agrave;:
+                        <li>
+                            Vedere la lista delle visite effettuate, presso medici di base, specialisti o SSP ed informazioni riguardanti, come le ricette o i report
+                        </li>
+                        <li>
+                            Vedere la lista delle visite e ricette che ti sono state prescritte, con la possibilit&agrave; di stampare una ricetta in formato pdf
+                        </li>
+                        <li>
+                            Vedere la lista dei ticket per gli esami fatti presso medici specialisti o SSP, con la possibilit&agrave; di stamparla in formato pdf
+                        </li>
+                        <li>
+                            Vedere la lista degli esami specialistici che &egrave; possibile richiedere
+                        </li>
+                        <li>
+                            Vedere e gestire il tuo profilo, con la possibilit&agrave; di caricare o aggiornare la foto, cambiare il medico di base a te associato e cambiare la password di accesso al sistema
+                        </li>
+                        </p>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <h2 id="medico_base">
+                            Servizi per il medico di base
+                        </h2>
+                        <p>
+                            Una volta effettuato il login con mail e password che ti sono state fornite, portai accedere a diverse funzionalit&agrave;:
+                        <li>
+                            Vedere la lista dei pazienti registrati al servizio, con la possibilit&agrave; di vedere solo i propri
+                        </li>
+                        <li>
+                            Vedere la lista delle visite da te erogate, per tutti i pazienti o per uno specifico
+                        </li>
+                        <li>
+                            Vedere la lista delle visite specialistiche o SSP da te prescritte, per tutti i pazienti o per uno specifico
+                        </li>
+                        <li>
+                            Vedere le informazioni di un paziente
+                        </li>
+                        <li>
+                            Erogare una visita ad un paziente a te associato
+                        </li>
+                        <li>
+                            Prescrivere una visita presso un medico specialistico o un SSP
+                        </li>
+                        <li>
+                            Approvare una ricetta prescritta da un medico specialista
+                        </li>
+                        </p>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <h2 id="medico_specialista">
+                            Servizi per il medico specialista
+                        </h2>
+                        <p>
+                            Una volta effettuato il login con mail e password che ti sono state fornite, portai accedere a diverse funzionalit&agrave;:
+                        <li>
+                            Vedere la lista dei pazienti registrati al servizio, con la possibilit&agrave; di vedere solo i propri
+                        </li>
+                        <li>
+                            Vedere la lista delle visite a te associate
+                        </li>
+                        <li>
+                            Erogare una visita specialistica facendo pagare il ticket al paziente, associando ad essa un report, ed eventualmente una ricetta
+                        </li>
+                        <li>
+                            Vedere la storia delle visite effettuate da un paziente
+                        </li>
+                        <li>
+                            Vedere le informazioni di un paziente
+                        </li>
+                        </p>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <h2 id="ssp">
+                            Servizi per SSP
+                        </h2>
+                        <p>
+                            Una volta effettuato il login con mail e password che ti sono state fornite, portai accedere a diverse funzionalit&agrave;:
+                        <li>
+                            Vedere la lista delle visite associate
+                        </li>
+                        <li>
+                            Erogare una visita facendo pagare il ticket al paziente
+                        </li>
+                        <li>
+                            Generare un report in formato xls contenente le ricette erogate in un giorno specifico
+                        </li>
+                        <li>
+                            Generare un report in formato xls contenente le visite erogate dall'SSP in un giorno specifico
+                        </li>
+                        </p>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 </body>
 
 </html>
