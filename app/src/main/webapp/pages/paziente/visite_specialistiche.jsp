@@ -162,6 +162,10 @@
                             <th>Medico erogante</th>
                             <td><c:out value="${v.medicoSpecialista.toStringNomeCognome()}"/></td>
                         </tr>
+                        <tr>
+                            <th>Costo ticket</th>
+                            <td>50.0€</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

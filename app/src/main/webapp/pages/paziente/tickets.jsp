@@ -39,7 +39,7 @@
                     <td><c:out value="${t.prettyDataErogazione}"/></td>
                     <td><c:out value="${t.nomeVisita}"/></td>
                     <td><c:out value="${t.tipoVisita}"/></td>
-                    <td><c:out value="${t.costo}"/></td>
+                    <td><c:out value="${t.costo}€"/></td>
                 </tr>
             </c:forEach>
             </tbody>

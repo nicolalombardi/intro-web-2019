@@ -24,8 +24,8 @@
             <tr>
                 <th class="all" scope="col">Tipo Visita</th>
                 <th class="all default-sort" scope="col">Data Prescrizione</th>
-                <th class="min-sm" scope="col">Medico Base</th>
-                <th class="min-md" scope="col">Praticante</th>
+                <th class="min-sm" scope="col">Prescritta da</th>
+                <th class="min-md" scope="col">Erogante</th>
             </tr>
             </thead>
             <tbody>
