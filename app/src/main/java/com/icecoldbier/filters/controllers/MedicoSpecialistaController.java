@@ -35,8 +35,6 @@ public class MedicoSpecialistaController implements Filter {
         User user = (User)session.getAttribute("user");
 
         boolean error = false;
-        
-        System.out.println(request.getServletPath());
 
         if(userPath.equals("/medico-specialista/lista")){
             ArrayList<Paziente> listaPazientiSpecialista = null;

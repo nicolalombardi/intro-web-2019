@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -60,6 +61,8 @@ public class MedicoSpecialistaServlet extends HttpServlet {
             String idVisita = request.getParameter("idVisita");
             String textReport = request.getParameter("textReport");
             String textRicetta = request.getParameter("textRicetta");
+            String usernamePaziente = request.getParameter("usernamePaziente");
+            
             if(idPaziente != null && idMedicoSpecialista!= null && idMedicoBase!=null && idVisita!=null && textReport!=null){
                 int idPaz = Integer.parseInt(idPaziente);
                 int idVis = Integer.parseInt(idVisita);
@@ -67,6 +70,9 @@ public class MedicoSpecialistaServlet extends HttpServlet {
                 int idMedSpec = Integer.parseInt(idMedicoSpecialista);
                 VisitaSpecialistica visita = null;
                 Report report = new Report(textReport);
+                String messaggio = "Report visita: " + textReport + "\n";
+                String oggetto = "Esito visita specialistica";
+                
                 if(textRicetta.equals("")){
                     try {
                         medicoSpecialistaDAO.erogaVisita(idVis,idPaz,idMedBas,report);
@@ -82,6 +88,7 @@ public class MedicoSpecialistaServlet extends HttpServlet {
                     try {
                         medicoSpecialistaDAO.erogaVisitaConRicetta(idVis, idPaz, idMedBas, report, ricetta);
                         visita = visitaSpecialisticaDAO.getByPrimaryKey(idVis);
+                        messaggio += "Ricetta: " + textRicetta + "\n";
                         session.setAttribute("successMessage", "Visita erogata con successo");
                         response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-specialista/visite/dettagli-visita?id=" + idVisita));
                     } catch (DAOException ex) {
@@ -90,6 +97,15 @@ public class MedicoSpecialistaServlet extends HttpServlet {
                     }
                 }
                 
+                try {
+                    Utils.sendMail(pazienteDAO.getByPrimaryKey(Integer.parseInt(idPaziente)), oggetto, messaggio);
+                } catch (DAOException ex) {
+                    session.setAttribute("errorMessage", "Errore nel trovare l'utente a cui inviare la mail");
+                    ex.printStackTrace();
+                } catch (MessagingException ex) {
+                    session.setAttribute("errorMessage", "Errore nell'inviare la mail");
+                    ex.printStackTrace();
+                }
             }else{
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Id mancanti");
             }
