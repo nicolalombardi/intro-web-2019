@@ -83,8 +83,8 @@
 
 <div class="container">
     <form class="form-login" action="dologin" method="POST">
-        <h1 class="h3 mb-3 font-weight-normal">Please log in</h1>
-        <label for="inputEmail" class="sr-only">Email address</label>
+        <h1 class="h3 mb-3 font-weight-normal">Accedi</h1>
+        <label for="inputEmail" class="sr-only">Email</label>
         <div class="form-group">
 
             <input id="inputEmail" name="inputEmail" placeholder="Email" type="email" class="form-control <c:if test="${param.error}">is-invalid</c:if>">
@@ -106,10 +106,10 @@
         </div>
         <div class="checkbox mb-3">
             <label>
-                <input type="checkbox" name="rememberMe"> Remember me
+                <input type="checkbox" name="rememberMe"> Ricordami
             </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Accedi</button>
     </form>
 
 
