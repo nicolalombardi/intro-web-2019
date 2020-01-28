@@ -23,7 +23,7 @@
             <thead class="thead-dark">
             <tr>
                 <th class="all" scope="col">Tipo Visita</th>
-                <th class="all" scope="col">Data Prescrizione</th>
+                <th class="all default-sort" scope="col">Data Prescrizione</th>
                 <th class="min-sm" scope="col">Medico Base</th>
                 <th class="min-md" scope="col">Praticante</th>
             </tr>

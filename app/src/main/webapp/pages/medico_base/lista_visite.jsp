@@ -38,7 +38,7 @@
             <tr>
                 <th class="all" scope="col">Foto</th>
                 <th class="all" scope="col">Paziente</th>
-                <th class="min-sm" scope="col">Data erogazione</th>
+                <th class="min-sm default-sort" scope="col">Data erogazione</th>
                 <th class="min-md" scope="col">Ricetta</th>
                 <th class="min-md" scope="col">Dettagli</th>
             </tr>

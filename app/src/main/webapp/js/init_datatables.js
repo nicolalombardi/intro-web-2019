@@ -11,6 +11,7 @@ $(document).ready(function() {
             ]
         },
         noWrap: true,
+        order: [[$('th.default-sort').index(), 'asc']],
         dom: "<'row'<'col-lg-4 mb-2 mb-lg-0'l><'col-lg-4 pag-fix mb-2 mb-lg-0'p><'col-lg-4'f>>" +
     "<'row'<'col-sm-12'tr>>",
         language:{

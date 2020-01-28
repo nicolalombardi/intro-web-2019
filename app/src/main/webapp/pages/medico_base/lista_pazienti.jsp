@@ -44,7 +44,7 @@
         <thead class="thead-dark">
         <tr>
             <th class="all" scope="col">Foto</th>
-            <th class="all" scope="col">Nome e cognome</th>
+            <th class="all default-sort" scope="col">Nome e cognome</th>
             <th class="min-sm" scope="col">Sesso</th>
             <th class="min-md" scope="col">Data di nascita</th>
             <th class="min-md" scope="col">Luogo di nascita</th>

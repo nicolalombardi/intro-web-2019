@@ -23,10 +23,10 @@
         <table class="datatable table table-striped table-hover">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Farmaco prescritto</th>
-                <th scope="col">Data prescrizione</th>
-                <th scope="col">Acquistabile</th>
-                <th scope="col" width="16%">Azione</th>
+                <th class="all default-sort" scope="col">Farmaco prescritto</th>
+                <th class="all" scope="col">Data prescrizione</th>
+                <th class="min-sm" scope="col">Acquistabile</th>
+                <th class="min-md" scope="col" width="16%">Azione</th>
             </tr>
             </thead>
             <tbody>

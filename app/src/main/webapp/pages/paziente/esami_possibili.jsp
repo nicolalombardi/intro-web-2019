@@ -27,7 +27,7 @@
         <table class="datatable table table-striped table-hover">
             <thead class="thead-dark">
             <tr>
-                <th class="all" scope="col">Nome</th>
+                <th class="all default-sort" scope="col">Nome</th>
                 <th class="all" scope="col">Praticante</th>
                 <th class="min-sm" scope="col">Costo ticket</th>
                 <th class="min-md" scope="col">Descrizione</th>

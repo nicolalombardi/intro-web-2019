@@ -24,7 +24,7 @@
             <tr>
                 <th class="all" scope="col">Tipo Visita</th>
                 <th class="all" scope="col">Erogata</th>
-                <th class="min-sm" scope="col">Data Prescrizione</th>
+                <th class="min-sm default-sort" scope="col">Data Prescrizione</th>
                 <th class="min-md" scope="col">Data Erogazione</th>
                 <th class="min-md" scope="col">Medico specialista</th>
                 <th class="min-lg" scope="col">Report</th>
