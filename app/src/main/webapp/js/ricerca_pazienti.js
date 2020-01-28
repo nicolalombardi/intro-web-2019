@@ -31,6 +31,13 @@ $('.basicAutoSelect').autoComplete({
     }
 });
 
-$('.basicAutoSelect').on('autocomplete.select', (evt, itm)=>{
-    window.location.href = "/medico-base/scheda-paziente?id=" + itm.id;
-});
+if(specialista){
+    $('.basicAutoSelect').on('autocomplete.select', (evt, itm)=>{
+        window.location.href = "/medico-specialista/scheda-paziente?id=" + itm.id;
+    });
+} else{
+    $('.basicAutoSelect').on('autocomplete.select', (evt, itm)=>{
+        window.location.href = "/medico-base/scheda-paziente?id=" + itm.id;
+    });
+}
+
