@@ -1,11 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<<<<<<< Updated upstream
-<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
-=======
 <%@ taglib uri="/WEB-INF/customTags/ellipsizeTag.tld" prefix="ct" %>
 <%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <jsp:useBean id="visita" scope="request" type="com.icecoldbier.persistence.entities.VisitaSpecialistica"/>
->>>>>>> Stashed changes
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -71,7 +67,7 @@
                     </tr>
                     <tr>
                         <th><b>Medico di base</b></th>
-                        <td><c:out value="${visita.paziente.medico.nome} ${visita.paziente.medico.cognome}"/></td>
+                        <td> <mp:miniProfileTag user="${visita.medicoBase}"/> </td>
                     </tr>
                 </tbody>
             </table>
@@ -154,7 +150,7 @@
 <script src="../../js/init_datatables.js"></script>
 <script src="../../js/ricerca_pazienti.js"></script>
 
-<script src="../js/init_non_datatable_popover.js"></script>
+<script src="../../js/init_non_datatable_popover.js"></script>
 
 
 <%--These are the success and error modals--%>

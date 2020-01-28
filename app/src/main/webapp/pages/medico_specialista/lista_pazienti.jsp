@@ -1,8 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<<<<<<< Updated upstream
-=======
 <%@ taglib uri="/WEB-INF/customTags/ellipsizeTag.tld" prefix="ct" %>
->>>>>>> Stashed changes
 <%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="listaPazientiSpecialista" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.Paziente>"/>
