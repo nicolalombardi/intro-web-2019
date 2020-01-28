@@ -1,6 +1,9 @@
 # intro-web-2019
 Repository per il progetto del corso "Introduzione alla programmazione per il web"
 
+## Documentazione
+La documentazione del progetto è disponibile al seguente link: https://docs.google.com/document/d/1Fa3DuwpcoFoz8SzSYSbgl9fuGLV4APD07iAmDPsJSa8/edit?usp=sharing
+
 ## Creazione e popolazione delle tabelle
 Per creare le tabelle all'interno del database è sufficiente importare il file sql/create_tables.sql con questo comando
 ```
