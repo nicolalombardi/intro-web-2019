@@ -1,6 +1,7 @@
 <jsp:useBean id="paziente" scope="request" type="com.icecoldbier.persistence.entities.Paziente"/>
 <jsp:useBean id="medico" scope="request" type="com.icecoldbier.persistence.entities.User"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -54,7 +55,7 @@
                         </tr>
                         <tr>
                             <th><b>Data di nascita</b></th>
-                            <td><c:out value="${paziente.dataNascita}"/></td>
+                            <td><c:out value="${paziente.prettyDataNascita}"/></td>
                         </tr>
                         <tr>
                             <th><b>Luogo di nascita</b></th>
@@ -70,7 +71,7 @@
                         </tr>
                         <tr>
                             <th><b>Medico di base</b></th>
-                            <td><c:out value="${medico.nome} ${medico.cognome}"/></td>
+                            <td><mp:miniProfileTag user="${medico}"/></td>
                         </tr>
 
                         </tbody>
@@ -91,5 +92,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+<script src="../js/init_non_datatable_popover.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="visite" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.VisitaSpecialistica>"/>
 
@@ -25,21 +26,20 @@
     <table class="datatable table table-striped table-hover">
         <thead class="thead-dark">
         <tr>
-            <th class="all" scope="col">Data prescrizione</th>
-            <th class="all" scope="col">Tipologia visita</th>
-            <th class="min-sm" scope="col">Nome</th>
-            <th class="min-md" scope="col">Cognome</th>
+
+            <th class="all" scope="col">Paziente</th>
+            <th class="all default-sort" scope="col">Data prescrizione</th>
+            <th class="min-md" scope="col">Tipologia visita</th>
             <th class="min-md" scope="col">Erogata</th>
-            <th class="min-lg" scope="col">Dettagli</th>
+            <th class="min-sm" scope="col">Dettagli</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach var="v" items="${visite}">
             <tr>
-                <td><c:out value="${v.dataPrescrizione}"/></td>
+                <td><mp:miniProfileTag paziente="${v.paziente}"/></td>
+                <td><c:out value="${v.prettyDataPrescrizione}"/></td>
                 <td><c:out value="${v.tipo_visita.nome}"/></td>
-                <td><c:out value="${v.paziente.nome}"/></td>
-                <td><c:out value="${v.paziente.cognome}"/></td>
                 <td>
                     <c:choose>
                         <c:when test="${v.erogata}">Si</c:when>

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="listaPazientiSpecialista" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.Paziente>"/>
 
@@ -26,9 +27,8 @@
     <table class="datatable table table-striped table-hover">
         <thead class="thead-dark">
         <tr>
-            <th class="all" scope="col">Nome</th>
-            <th class="all" scope="col">Cognome</th>
-            <th class="min-sm" scope="col">Sesso</th>
+            <th class="all default-sort" scope="col">Paziente</th>
+            <th class="all" scope="col">Sesso</th>
             <th class="min-md" scope="col">Data di nascita</th>
             <th class="min-md" scope="col">Luogo di nascita</th>
             <th class="min-lg" scope="col">Codice fiscale</th>
@@ -39,10 +39,9 @@
         <tbody>
         <c:forEach var="p" items="${listaPazientiSpecialista}">
             <tr>
-                <td><c:out value="${p.nome}"/></td>
-                <td><c:out value="${p.cognome}"/></td>
+                <td><mp:miniProfileTag paziente="${p}"/></td>
                 <td><c:out value="${p.sesso}"/></td>
-                <td><c:out value="${p.dataNascita}"/></td>
+                <td><c:out value="${p.prettyDataNascita}"/></td>
                 <td><c:out value="${p.luogoNascita}"/></td>
                 <td><c:out value="${p.codiceFiscale}"/></td>
                 <td><a class="btn btn-primary mb-3 icon-white"

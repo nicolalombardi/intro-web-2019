@@ -1,5 +1,6 @@
 <jsp:useBean id="visita" scope="request" type="com.icecoldbier.persistence.entities.VisitaSpecialistica"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -7,7 +8,7 @@
     <title>Dettagli visita</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
@@ -18,7 +19,6 @@
 <div class="container">
     <h1>Visita di</h1>
     <div class="row">
-        <%--            Dati paziente--%>
         <div class="col-12 col-lg-6">
             <table class="table profile-table">
                 <tbody>
@@ -44,12 +44,8 @@
                         <td><c:out value="${visita.tipo_visita.nome}"/></td>
                     </tr>
                     <tr>
-                        <th><b>Nome</b></th>
-                        <td><c:out value="${visita.paziente.nome}"/></td>
-                    </tr>
-                    <tr>
-                        <th><b>Cognome</b></th>
-                        <td><c:out value="${visita.paziente.cognome}"/></td>
+                        <th><b>Paziente</b></th>
+                        <td> <mp:miniProfileTag paziente="${visita.paziente}"/></td>
                     </tr>
                     <tr>
                         <th><b>Codice Fiscale</b></th>
@@ -57,7 +53,7 @@
                     </tr>
                     <tr>
                         <th><b>Data di prescrizione</b></th>
-                        <td><c:out value="${visita.dataPrescrizione}"/></td>
+                        <td><c:out value="${visita.prettyDataPrescrizione}"/></td>
                     </tr>
                     <tr>
                         <th><b>Erogata</b></th>
@@ -143,6 +139,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+
+<script src="../js/init_non_datatable_popover.js"></script>
+
 
 <%--These are the success and error modals--%>
 <%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>
