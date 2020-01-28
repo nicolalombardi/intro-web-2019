@@ -24,7 +24,7 @@
             <tr>
                 <th class="all" scope="col">Medico base</th>
                 <th class="all default-sort" scope="col">Data erogazione</th>
-                <th class="min-sm" scope="col">Ricetta (erogata)</th>
+                <th class="min-sm" scope="col">Ricetta</th>
             </tr>
             </thead>
             <tbody>
