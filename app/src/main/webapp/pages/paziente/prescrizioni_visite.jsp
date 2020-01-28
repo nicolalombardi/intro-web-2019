@@ -36,7 +36,7 @@
                             <td><c:out value="${v.visitaSSP.tipo_visita.nome}"/></td>
                             <td><c:out value="${v.visitaSSP.dataPrescrizione}"/></td>
                             <td><c:out value="${v.visitaSSP.medicoBase.toStringNomeCognome()}"/></td>
-                            <td><c:out value="${v.visitaSSP.ssp.toStringSSP()}"/></td>
+                            <td><c:out value="${v.visitaSSP.ssp.toString()}"/></td>
                         </tr>
                     </c:when>
                     <c:otherwise>

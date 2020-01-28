@@ -53,7 +53,7 @@
                         </c:choose>
                     </td>
                     <td><c:out value="${v.medicoBase.toStringNomeCognome()}"/></td>
-                    <td><c:out value="${v.ssp.toStringSSP()}"/></td>
+                    <td><c:out value="${v.ssp.toString()}"/></td>
                 </tr>
             </c:forEach>
             </tbody>
