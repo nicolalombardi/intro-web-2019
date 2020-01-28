@@ -148,7 +148,7 @@
                                 </tr>
                                 <tr>
                                     <th>Data prescrizione</th>
-                                    <td><c:out value="${v.visitaSSP.dataPrescrizione}"/></td>
+                                    <td><c:out value="${v.visitaSSP.prettyDataPrescrizione}"/></td>
                                 </tr>
                                 <tr>
                                     <th>Data erogazione</th>
@@ -213,7 +213,7 @@
                                 </tr>
                                 <tr>
                                     <th>Data prescrizione</th>
-                                    <td><c:out value="${v.visitaSpecialistica.dataPrescrizione}"/></td>
+                                    <td><c:out value="${v.visitaSpecialistica.prettyDataPrescrizione}"/></td>
                                 </tr>
                                 <c:choose>
                                     <c:when test="${empty v.visitaSpecialistica.dataErogazione}">
@@ -253,23 +253,25 @@
                                                 </c:choose>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <th>Stato Ricetta</th>
-                                            <td>
-                                                <c:choose>
-                                                    <c:when test="${v.visitaSpecialistica.report.ricetta.prescritta}">
-                                                        Ricetta già approvata
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        Ricetta non approvata
-                                                        <form action="approva" method="post" class="approva">
-                                                            <input type="hidden" name="id_ricetta" value="<c:out value="${v.visitaSpecialistica.report.ricetta.id}"/>">
-                                                            <button type="submit" class="btn btn-primary">Approva</button>
-                                                        </form>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </td>
-                                        </tr>
+                                        <c:if test="${not empty v.visitaSpecialistica.report.ricetta}">
+                                            <tr>
+                                                <th>Stato Ricetta</th>
+                                                <td>
+                                                    <c:choose>
+                                                        <c:when test="${v.visitaSpecialistica.report.ricetta.prescritta}">
+                                                            Ricetta già approvata
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            Ricetta non approvata
+                                                            <form action="approva" method="post" class="approva">
+                                                                <input type="hidden" name="id_ricetta" value="<c:out value="${v.visitaSpecialistica.report.ricetta.id}"/>">
+                                                                <button type="submit" class="btn btn-primary">Approva</button>
+                                                            </form>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                            </tr>
+                                        </c:if>
 
                                     </c:otherwise>
                                 </c:choose>
