@@ -28,10 +28,11 @@
             <thead class="thead-dark">
             <tr>
                 <th class="all" scope="col">Foto</th>
-                <th class="all" scope="col">Paziente</th>
-                <th class="min-sm" scope="col">Data prescrizione</th>
-                <th class="min-md" scope="col">Descrizione</th>
-                <th class="min-md" scope="col">Dettagli</th>
+                <th class="all default-sort" scope="col">Paziente</th>
+                <th class="min-md" scope="col">Data prescrizione</th>
+                <th class="min-lg" scope="col">Descrizione</th>
+                <th class="min-md" scope="col">Stato</th>
+                <th class="min-sm" scope="col">Dettagli</th>
             </tr>
             </thead>
             <tbody>
@@ -51,6 +52,16 @@
                     <td><c:out value="${v.paziente.nome} ${v.paziente.cognome}"/></td>
                     <td><c:out value="${v.dataPrescrizione}"/></td>
                     <td><c:out value="${v.tipo_visita.nome}"/></td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${empty v.dataErogazione}">
+                                Non erogato
+                            </c:when>
+                            <c:otherwise>
+                                Erogato
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                     <td><a class="btn btn-primary mb-3 icon-white" data-toggle="modal" data-target="<c:out value="${targetModal}"/>" href="#"
                            role="button"><i class="material-icons">open_in_new</i></a></td>
 
