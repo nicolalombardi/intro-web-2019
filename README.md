@@ -13,3 +13,8 @@ Per inserire i dati basta rieseguire lo stesso comando importando però il file 
 ```
 psql [nome db] < sql/populate_tables.sql
 ```
+
+In alternativa è possibile importare il dump del database presente in sql/dump_db con
+```
+psql [nome db] < sql/dump_db
+```
