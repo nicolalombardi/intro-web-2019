@@ -59,7 +59,15 @@ public class MedicoBaseServlet extends HttpServlet {
             if(idPazienteS == null){
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Id paziente mancante");
             }else{
-                int idPaziente = Integer.parseInt(idPazienteS);
+                int idPaziente;
+                try {
+                    idPaziente = Integer.parseInt(idPazienteS);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Id inserito non valido");
+                    return;
+                }
+
                 try {
                     Paziente paziente = pazienteDAO.getByPrimaryKey(idPaziente);
 
@@ -68,7 +76,6 @@ public class MedicoBaseServlet extends HttpServlet {
                         session.setAttribute("errorMessage", "L'utente selezionato non è un tuo paziente");
                         response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/scheda-paziente?id=" + idPaziente));
                     }else{
-                        System.out.println("In servlet is " + ricetta);
                         medicoBaseDAO.erogaVisitaBase(
                                 user.getId(),
                                 idPaziente,
@@ -98,19 +105,27 @@ public class MedicoBaseServlet extends HttpServlet {
             if(idRicettaS == null){
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Id ricetta mancante");
             }else{
-                int idRicetta = Integer.parseInt(idRicettaS);
+                int idRicetta;
+                try {
+                    idRicetta = Integer.parseInt(idRicettaS);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Id ricetta inserito non valido");
+                    return;
+                }
                 try {
                     //Controlliamo che la ricetta sia contenuta in una visita prescritta dal medico base loggato
                     VisitaSpecialistica visitaSpecialistica = visitaSpecialisticaDAO.getContainingRicetta(idRicetta);
                     if(!visitaSpecialistica.getMedicoBase().getId().equals(user.getId())){
-                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "La visita specialistica che contiene questa ricetta non è stata prescritta da te");
+                        session.setAttribute("errorMessage", "La visita specialistica che contiene questa ricetta non è stata prescritta da te");
+                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/lista-visite-specialistiche?id_paziente=" + visitaSpecialistica.getPaziente().getId()));
                     }else{
                         medicoBaseDAO.approvaRicetta(idRicetta);
                         session.setAttribute("successMessage", "Ricetta approvata con successo");
                         response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/lista-visite-specialistiche?id_paziente=" + visitaSpecialistica.getPaziente().getId()));
                     }
                 } catch (DAOException e) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore durante l'approvazione della ricetta");
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore durante l'approvazione della ricetta");
                     e.printStackTrace();
                 }
             }
@@ -131,15 +146,34 @@ public class MedicoBaseServlet extends HttpServlet {
                     medicoSpecialistaId = Integer.parseInt(medicoSpecialistaS);
                     idPaziente = Integer.parseInt(idPazienteS);
 
-                    User medicoSpecialista = medicoSpecialistaDAO.getByPrimaryKey(medicoSpecialistaId);
-                    if(medicoSpecialista == null) throw new Exception();
 
+                    //Deve essere un medico specialista
+                    User medicoSpecialista = medicoSpecialistaDAO.getByPrimaryKey(medicoSpecialistaId);
+                    if(medicoSpecialista == null){
+                        session.setAttribute("errorMessage", "Il medico selezionato non è un medico specialista o non esiste");
+                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/scheda-paziente?id=" + idPaziente));
+                        return;
+                    }
+
+                    //La visita deve essere di tipo specialistico
                     VisitaPossibile visitaSpecialistica = visitePossibiliDAO.getByPrimaryKey(tipoVisitaId);
-                    if(visitaSpecialistica.getPraticante() != User.UserType.medico_specialista) throw new Exception();
+                    if(visitaSpecialistica.getPraticante() != User.UserType.medico_specialista){
+                        session.setAttribute("errorMessage", "La visita selezionata non è una visita specialistica");
+                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/scheda-paziente?id=" + idPaziente));
+                        return;
+                    }
+
+                    //Il paziente deve essere tuo
+                    Paziente paziente = pazienteDAO.getByPrimaryKey(idPaziente);
+                    if(!paziente.getMedico().getId().equals(user.getId())){
+                        session.setAttribute("errorMessage", "L'utente selezionato non è un tuo paziente");
+                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/scheda-paziente?id=" + idPaziente));
+                        return;
+                    }
 
                 }catch (Exception e){
                     e.printStackTrace();
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Errore nell'elaborazione della richiesta");
                     return;
                 }
 
@@ -149,7 +183,7 @@ public class MedicoBaseServlet extends HttpServlet {
                     response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/scheda-paziente?id=" + idPaziente));
 
                 } catch (DAOException e) {
-                    session.setAttribute("errorMessage", "Errore nel prescrivere la visita, riprova più tardi");
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore nell'elaborazione della richiesta, riprova più tardi.");
                     e.printStackTrace();
                 }
             }
@@ -171,10 +205,25 @@ public class MedicoBaseServlet extends HttpServlet {
                     idPaziente = Integer.parseInt(idPazienteS);
 
                     SSP ssp = sspDAO.getByPrimaryKey(sspId);
-                    if(ssp == null) throw new Exception();
+                    if(ssp == null){
+                        session.setAttribute("errorMessage", "L'SSP selezionata non è un'SSP o non esiste");
+                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/scheda-paziente?id=" + idPaziente));
+                        return;
+                    }
 
                     VisitaPossibile esameSSP = visitePossibiliDAO.getByPrimaryKey(tipoVisitaId);
-                    if(esameSSP.getPraticante() != User.UserType.ssp) throw new Exception();
+                    if(esameSSP.getPraticante() != User.UserType.ssp){
+                        session.setAttribute("errorMessage", "La visita selezionata non è una visita ssp");
+                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/scheda-paziente?id=" + idPaziente));
+                        return;
+                    }
+
+                    Paziente paziente = pazienteDAO.getByPrimaryKey(idPaziente);
+                    if(!paziente.getMedico().getId().equals(user.getId())){
+                        session.setAttribute("errorMessage", "L'utente selezionato non è un tuo paziente");
+                        response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/scheda-paziente?id=" + idPaziente));
+                        return;
+                    }
 
 
                 }catch (Exception e){
@@ -189,7 +238,7 @@ public class MedicoBaseServlet extends HttpServlet {
                     response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/scheda-paziente?id=" + idPaziente));
 
                 } catch (DAOException e) {
-                    session.setAttribute("errorMessage", "Errore nel prescrivere l'esame, riprova più tardi");
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore nell'elaborazione della richiesta, riprova più tardi.");
                     e.printStackTrace();
                 }
             }

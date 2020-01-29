@@ -76,7 +76,7 @@ public class MedicoBaseController implements Filter {
                     Paziente paziente = pazienteDAO.getByPrimaryKey(idPaziente);
                     //Se il paziente non è tuo
                     if(!paziente.getMedico().getId().equals(user.getId())){
-                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Il paziente non è tuo");
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Il paziente non è tuo");
                     }
                     request.setAttribute("paziente", paziente);
                     listaVisite = visitaBaseDAO.getByMedicoAndPaziente(idMedico, idPaziente);
