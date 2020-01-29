@@ -69,7 +69,13 @@ public class MedicoSpecialistaController implements Filter {
             String idS = request.getParameter("id");
             VisitaSpecialistica visita = null;
             if(idS != null){
-                int id = Integer.parseInt(idS);
+                int id;
+                try{
+                    id = Integer.parseInt(idS);
+                }catch (Exception e){
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Non è stato possibile recuperare la lista delle visite specialistiche, riprova più tardi");
+                    return;
+                }
                 try {
                     visita = visitaSpecialisticaDAO.getByPrimaryKey(id);
                     request.setAttribute("visita", visita);
@@ -84,16 +90,18 @@ public class MedicoSpecialistaController implements Filter {
             Paziente paziente = null;
             User medico = null;
             if(idS != null){
-                int id = Integer.parseInt(idS);
                 try {
+                    int id = Integer.parseInt(idS);
                     paziente = pazienteDAO.getByPrimaryKey(id);
                     medico = medicoBaseDAO.getByPrimaryKey(paziente.getMedico().getId());
                     request.setAttribute("paziente", paziente);
                     request.setAttribute("medico", medico);
                 } catch (DAOException ex) {
-                    ((HttpServletResponse)resp).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Non è stato possibile recuperare i dettagli del paziente, riprova più tardi.");
                     ex.printStackTrace();
                 }
+            }else{
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Id non valido o mancante");
             }
         }
 

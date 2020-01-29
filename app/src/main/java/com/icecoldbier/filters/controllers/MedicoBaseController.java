@@ -65,8 +65,9 @@ public class MedicoBaseController implements Filter {
 
             }catch (Exception e){
                 e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Non è stato possibile recuperare la lista delle visite base, riprova più tardi");
+                return;
             }
-
             try{
                 ArrayList<VisitaBase> listaVisite;
 
