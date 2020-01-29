@@ -18,3 +18,29 @@ In alternativa è possibile importare il dump del database presente in sql/dump_
 ```
 psql [nome db] < sql/dump_db
 ```
+
+## Impostare dati di connessione database
+Per il corretto funzionamento dell'applicazione è necessario impostare i dati di connessione al database. La configurazione si trova nel file /app/src/main/webapp/WEB-INF/web.xml ed ha questo aspetto:
+```
+    <context-param>
+        <description>The url to the database</description>
+        <param-name>dbUrl</param-name>
+        <param-value>jdbc:postgresql://localhost/[nome database]</param-value>
+    </context-param>
+    <context-param>
+        <description>The jdbc driver</description>
+        <param-name>dbDriver</param-name>
+        <param-value>org.postgresql.Driver</param-value>
+    </context-param>
+    <context-param>
+        <description>The user for the connection</description>
+        <param-name>dbUser</param-name>
+        <param-value>[nome utente]</param-value>
+    </context-param>
+    <context-param>
+        <description>The password for the connection</description>
+        <param-name>dbPassword</param-name>
+        <param-value>[password]</param-value>
+    </context-param>
+```
+È sufficiente sostituire i campi [parametro] con il valore corretto.
