@@ -202,6 +202,7 @@
 
 <script src="../js/scheda_paziente.js"></script>
 <script src="../js/toggle_modal_hash.js"></script>
+<script src="../js/init_non_datatable_popover.js"></script>
 
 <%--These are the success and error modals--%>
 <%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>
