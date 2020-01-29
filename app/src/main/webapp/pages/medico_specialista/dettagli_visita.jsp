@@ -18,7 +18,7 @@
 <% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); %>
 
 <div class="container">
-    <h1>Visita di</h1>
+    <h1>Visita di <c:out value="${visita.paziente.toStringNomeCognome()}"</h1>
     <div class="row">
         <div class="col-12 col-lg-6">
             <table class="table profile-table">
