@@ -3,6 +3,7 @@
 <%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="listaPazientiSpecialista" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.Paziente>"/>
+<jsp:useBean id="showAll" scope="request" type="java.lang.Boolean"/>
 
 
 <html>
@@ -24,6 +25,21 @@
 
 <div class="container">
     <h1>Lista pazienti</h1>
+
+    <div class="div-centered">
+        <c:choose>
+            <c:when test="${showAll}">
+                <a class="btn btn-primary mb-3"
+                   href="lista?mostraTutti=false"
+                   role="button">Mostra solo i tuoi pazienti</a>
+            </c:when>
+            <c:otherwise>
+                <a class="btn btn-primary mb-3"
+                   href="lista?mostraTutti=true"
+                   role="button">Mostra tutti i pazienti</a>
+            </c:otherwise>
+        </c:choose>
+    </div>
 
     <table class="datatable table table-striped table-hover">
         <thead class="thead-dark">

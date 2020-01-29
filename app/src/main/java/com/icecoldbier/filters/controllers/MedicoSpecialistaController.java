@@ -30,6 +30,7 @@ public class MedicoSpecialistaController implements Filter {
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession(false);
         String userPath = request.getServletPath();
         User user = (User)session.getAttribute("user");
@@ -37,14 +38,23 @@ public class MedicoSpecialistaController implements Filter {
         boolean error = false;
 
         if(userPath.equals("/medico-specialista/lista")){
-            ArrayList<Paziente> listaPazientiSpecialista = null;
-            try {
-                listaPazientiSpecialista = medicoSpecialistaDAO.getListaPazientiAssociati(user.getId());
-                request.setAttribute("listaPazientiSpecialista", listaPazientiSpecialista);
-            } catch (DAOException ex) {
-                error = true;
-                ((HttpServletResponse)resp).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-                ex.printStackTrace();
+            ArrayList<Paziente> listaPazienti;
+            try{
+                String showAllS = request.getParameter("mostraTutti");
+                boolean showAll = showAllS == null ? true : Boolean.parseBoolean(showAllS);
+
+                if(showAll){
+                    listaPazienti = pazienteDAO.getPazienti();
+                }else{
+                    listaPazienti = medicoSpecialistaDAO.getListaPazientiAssociati(user.getId());
+                }
+
+                request.setAttribute("showAll", showAll);
+                request.setAttribute("listaPazientiSpecialista", listaPazienti);
+            }catch (DAOException e) {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Non è stato possibile recuperare la lista dei pazienti, riprova più tardi");
+                e.printStackTrace();
+                return;
             }
         }else if(userPath.equals(("/medico-specialista/visite"))){
             ArrayList<VisitaSpecialistica> visite = null;
