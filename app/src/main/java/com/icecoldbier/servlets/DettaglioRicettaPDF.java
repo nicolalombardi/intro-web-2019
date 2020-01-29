@@ -75,6 +75,7 @@ public class DettaglioRicettaPDF extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String ricetteUrl = "http://192.168.1.185:8080/paziente/elenco-prescrizioni-ricette";
         int idRicetta = Integer.parseInt(request.getParameter("idRicetta"));
         HttpSession session = request.getSession(false);
         String contextPath = Utils.getServletContextPath(request.getServletContext());
@@ -113,7 +114,7 @@ public class DettaglioRicettaPDF extends HttpServlet {
 
                             drawSubtitle(contents, "Codice QR:", 590);
 
-                            Image qrImage = getQRCode("URL DELLA RICETTA NELLA VISITA BASE");
+                            Image qrImage = getQRCode(ricetteUrl + "#modaleRicetta" + ricetta.getId());
                             qrImage.draw(doc, contents, CONTENT_LEFT_MARGIN - 9, 600);
 
 
@@ -141,7 +142,7 @@ public class DettaglioRicettaPDF extends HttpServlet {
 
                             drawSubtitle(contents, "Codice QR:", 590);
 
-                            Image qrImage = getQRCode("URL DELLA RICETTA NELLA VISITA SPECIALISTICA");
+                            Image qrImage = getQRCode(ricetteUrl + "#modaleRicetta" + ricetta.getId());
                             qrImage.draw(doc, contents, CONTENT_LEFT_MARGIN - 9, 600);
 
 
