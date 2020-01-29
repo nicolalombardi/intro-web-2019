@@ -9,6 +9,7 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
@@ -24,38 +25,30 @@
         <table class="datatable table table-striped table-hover">
             <thead class="thead-dark">
             <tr>
-                <th class="all" scope="col">Approvato da</th>
                 <th class="all default-sort" scope="col">Farmaco prescritto</th>
                 <th class="all" scope="col">Data prescrizione</th>
-                <th class="min-sm" scope="col">Acquistabile</th>
+                <th class="all" scope="col">Approvato da</th>
                 <th class="min-md" scope="col" width="16%">Azione</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach var="r" items="${elencoRicette}">
                 <tr>
-                    <c:choose>
-                        <c:when test="${r.acquistabile}">
-                            <td><mp:miniProfileTag user="${r.medicoBase}"/></td>
-                        </c:when>
-                        <c:otherwise>
-                            <td>Non ancora approvato</td>
-                        </c:otherwise>
-                    </c:choose>
-
                     <td><c:out value="${r.farmaco}"/></td>
                     <td><c:out value="${r.prettyDataPrescrizione}"/></td>
                     <c:choose>
                         <c:when test="${r.acquistabile}">
-                            <td>Si</td>
+                            <td><mp:miniProfileTag user="${r.medicoBase}"/></td>
                             <form action="stampa-ricetta" method="POST">
                                 <input type="hidden" name="idRicetta" value=<c:out value="${r.id}"/>>
                                 <td><button class="btn btn-sm btn-primary" type="submit">Stampa ricetta</button></td>
                             </form>
                         </c:when>
-                        <c:otherwise><td>NO</td><td></td></c:otherwise>
+                        <c:otherwise>
+                            <td>Non ancora approvato</td>
+                            <td></td>
+                        </c:otherwise>
                     </c:choose>
-
                 </tr>
             </c:forEach>
             </tbody>
@@ -120,6 +113,8 @@
 <script src="../js/init_datatables.js"></script>
 <script src="../js/init_non_datatable_popover.js"></script>
 <script src="../js/toggle_modal_hash.js"></script>
+
+<%@ include file="../../WEB-INF/fragments/statusModals.jspf" %>
 
 </body>
 </html>
