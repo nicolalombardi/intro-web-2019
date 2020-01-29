@@ -28,6 +28,7 @@
     <table class="datatable table table-striped table-hover">
         <thead class="thead-dark">
         <tr>
+            <th class="all" scope="col">Foto</th>
             <th class="all default-sort" scope="col">Paziente</th>
             <th class="all" scope="col">Sesso</th>
             <th class="min-md" scope="col">Data di nascita</th>
@@ -40,6 +41,16 @@
         <tbody>
         <c:forEach var="p" items="${listaPazientiSpecialista}">
             <tr>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty p.fotoThumb}">
+                            <img class="profile-picture-thumbnail" src="<c:out value="${p.fotoThumb}"/>" height="48" width="48">
+                        </c:when>
+                        <c:otherwise>
+                            <img src="/images/profile_placeholder.svg" height="48" width="48">
+                        </c:otherwise>
+                    </c:choose>
+                </td>
                 <td><mp:miniProfileTag paziente="${p}"/></td>
                 <td><c:out value="${p.sesso}"/></td>
                 <td><c:out value="${p.prettyDataNascita}"/></td>
