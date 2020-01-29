@@ -19,11 +19,12 @@ public class InfoRicetta {
         this.paziente = paziente;
     }
 
-    public InfoRicetta(Timestamp dataPrescrizione, String farmaco, boolean acquistabile, Integer id) {
+    public InfoRicetta(Timestamp dataPrescrizione, String farmaco, boolean acquistabile, Integer id, User medicoBase) {
         this.dataPrescrizione = dataPrescrizione;
         this.farmaco = farmaco;
         this.acquistabile = acquistabile;
         this.id = id;
+        this.medicoBase = medicoBase;
     }
 
     public Timestamp getDataPrescrizione() {
