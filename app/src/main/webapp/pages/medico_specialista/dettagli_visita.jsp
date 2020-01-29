@@ -26,8 +26,8 @@
                     <tr>
                         <td colspan="2" style="text-align: center">
                             <c:choose>
-                                <c:when test="${not empty paziente.foto}">
-                                    <img class="profile-picture" src="<c:out value="${paziente.foto}"/>">
+                                <c:when test="${not empty visita.paziente.foto}">
+                                    <img class="profile-picture" src="<c:out value="${visita.paziente.foto}"/>">
                                 </c:when>
                                 <c:otherwise>
                                     <img class="profile-picture" src="/images/profile_placeholder.svg">
