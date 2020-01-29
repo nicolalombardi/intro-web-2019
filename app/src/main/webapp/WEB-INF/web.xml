@@ -33,15 +33,6 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>DebugLoginPage</servlet-name>
-        <jsp-file>/pages/debug_login.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DebugLoginPage</servlet-name>
-        <url-pattern>/logindebug</url-pattern>
-    </servlet-mapping>
-
 <!--    MEDICO DI BASE-->
     <servlet>
         <servlet-name>MedicoBaseLista</servlet-name>
@@ -255,7 +246,7 @@
     <context-param>
         <description>The url to the database</description>
         <param-name>dbUrl</param-name>
-        <param-value>jdbc:postgresql://localhost/[nome database]</param-value>
+        <param-value>jdbc:postgresql://localhost/nicola</param-value>
     </context-param>
     <context-param>
         <description>The jdbc driver</description>
@@ -265,12 +256,12 @@
     <context-param>
         <description>The user for the connection</description>
         <param-name>dbUser</param-name>
-        <param-value>[nome utente]</param-value>
+        <param-value>nicola</param-value>
     </context-param>
     <context-param>
         <description>The password for the connection</description>
         <param-name>dbPassword</param-name>
-        <param-value>[password]</param-value>
+        <param-value>123</param-value>
     </context-param>
 
 
