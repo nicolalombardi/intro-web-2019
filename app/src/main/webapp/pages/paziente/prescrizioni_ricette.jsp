@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -23,6 +24,7 @@
         <table class="datatable table table-striped table-hover">
             <thead class="thead-dark">
             <tr>
+                <th class="all" scope="col">Approvato da</th>
                 <th class="all default-sort" scope="col">Farmaco prescritto</th>
                 <th class="all" scope="col">Data prescrizione</th>
                 <th class="min-sm" scope="col">Acquistabile</th>
@@ -32,6 +34,15 @@
             <tbody>
             <c:forEach var="r" items="${elencoRicette}">
                 <tr>
+                    <c:choose>
+                        <c:when test="${r.acquistabile}">
+                            <td><mp:miniProfileTag user="${r.medicoBase}"/></td>
+                        </c:when>
+                        <c:otherwise>
+                            <td>Non ancora approvato</td>
+                        </c:otherwise>
+                    </c:choose>
+
                     <td><c:out value="${r.farmaco}"/></td>
                     <td><c:out value="${r.prettyDataPrescrizione}"/></td>
                     <c:choose>
@@ -51,6 +62,49 @@
         </table>
 </div>
 
+<c:forEach var="r" items="${elencoRicette}">
+    <div class="modal fade" id="modaleRicetta<c:out value="${r.id}"/>" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dettagli ricetta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Farmaco prescritto</th>
+                            <td><c:out value="${r.farmaco}"/></td>
+                        </tr>
+                        <tr>
+                            <th>Data prescrizione</th>
+                            <td><c:out value="${r.prettyDataPrescrizione}"/></td>
+                        </tr>
+                        <tr>
+                            <th>Stato approvazione</th>
+                            <c:choose>
+                                <c:when test="${r.acquistabile}">
+                                    <td>Approvato da <mp:miniProfileTag user="${r.medicoBase}"/></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>Non ancora approvato</td>
+                                </c:otherwise>
+                            </c:choose>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</c:forEach>
+
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -64,6 +118,8 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
 
 <script src="../js/init_datatables.js"></script>
+<script src="../js/init_non_datatable_popover.js"></script>
+<script src="../js/toggle_modal_hash.js"></script>
 
 </body>
 </html>
