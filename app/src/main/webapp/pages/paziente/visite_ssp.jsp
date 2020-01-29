@@ -39,8 +39,8 @@
                     <td><c:out value="${v.tipo_visita.nome}"/></td>
                     <td>
                         <c:choose>
-                            <c:when test="${v.erogata}">SI</c:when>
-                            <c:otherwise>NO</c:otherwise>
+                            <c:when test="${v.erogata}">Sì</c:when>
+                            <c:otherwise>No</c:otherwise>
                         </c:choose>
                     </td>
                     <td><c:out value="${v.prettyDataPrescrizione}"/></td>
