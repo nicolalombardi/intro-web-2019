@@ -250,6 +250,30 @@
     </context-param>
 
 
+<!--    Database configuration-->
+<!--    Sostituire "[parametro]" con il valore corretto-->
+    <context-param>
+        <description>The url to the database</description>
+        <param-name>dbUrl</param-name>
+        <param-value>jdbc:postgresql://localhost/[nome database]</param-value>
+    </context-param>
+    <context-param>
+        <description>The jdbc driver</description>
+        <param-name>dbDriver</param-name>
+        <param-value>org.postgresql.Driver</param-value>
+    </context-param>
+    <context-param>
+        <description>The user for the connection</description>
+        <param-name>dbUser</param-name>
+        <param-value>[nome utente]</param-value>
+    </context-param>
+    <context-param>
+        <description>The password for the connection</description>
+        <param-name>dbPassword</param-name>
+        <param-value>[password]</param-value>
+    </context-param>
+
+
 <!--    FILTERS-->
     <filter>
         <filter-name>AuthenticationFilter</filter-name>

@@ -1,6 +1,5 @@
 package com.icecoldbier.listeners;
 
-import com.icecoldbier.persistence.dao.DBConf;
 import it.unitn.disi.wp.commons.persistence.dao.exceptions.DAOFactoryException;
 import it.unitn.disi.wp.commons.persistence.dao.factories.DAOFactory;
 import it.unitn.disi.wp.commons.persistence.dao.factories.jdbc.JDBCDAOFactory;
@@ -13,7 +12,13 @@ public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         try {
-            JDBCDAOFactory.configure(DBConf.DBURL);
+            //Get database configuration parameters
+            String dbUrl = sce.getServletContext().getInitParameter("dbUrl");
+            String dbDriver = sce.getServletContext().getInitParameter("dbDriver");
+            String dbUser = sce.getServletContext().getInitParameter("dbUser");
+            String dbPassword = sce.getServletContext().getInitParameter("dbPassword");
+
+            JDBCDAOFactory.configure(dbUrl, dbDriver, dbUser, dbPassword);
             DAOFactory daoFactory = JDBCDAOFactory.getInstance();
             sce.getServletContext().setAttribute("daoFactory", daoFactory);
             //Create the photos folder and the thumbs folder if they don't exist
@@ -24,6 +29,7 @@ public class ContextListener implements ServletContextListener {
                 resizedPhotosFolder.mkdirs();
             }
         } catch (DAOFactoryException ex) {
+            ex.printStackTrace();
             throw new RuntimeException(ex);
         }
     }
