@@ -48,7 +48,7 @@ public class PazienteServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        req.setCharacterEncoding("UTF-8");
         String userPath = req.getServletPath();
         HttpSession session =  req.getSession(false);
         User user = (User) session.getAttribute("user");

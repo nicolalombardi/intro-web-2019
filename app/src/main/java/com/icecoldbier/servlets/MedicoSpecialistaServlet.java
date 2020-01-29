@@ -49,6 +49,7 @@ public class MedicoSpecialistaServlet extends HttpServlet {
     }
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        request.setCharacterEncoding("UTF-8");
         String userPath = request.getServletPath();
         HttpSession session =  request.getSession(false);
         User user = (User) session.getAttribute("user");

@@ -44,6 +44,7 @@ public class MedicoBaseServlet extends HttpServlet {
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
         String userPath = request.getServletPath();
         HttpSession session =  request.getSession(false);
         User user = (User) session.getAttribute("user");
@@ -67,6 +68,7 @@ public class MedicoBaseServlet extends HttpServlet {
                         session.setAttribute("errorMessage", "L'utente selezionato non è un tuo paziente");
                         response.sendRedirect(response.encodeRedirectURL(contextPath + "medico-base/scheda-paziente?id=" + idPaziente));
                     }else{
+                        System.out.println("In servlet is " + ricetta);
                         medicoBaseDAO.erogaVisitaBase(
                                 user.getId(),
                                 idPaziente,
