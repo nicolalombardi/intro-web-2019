@@ -399,51 +399,51 @@ COPY public.elenco_visite_possibili (id, praticante, nome, descrizione, costo_ti
 --
 
 COPY public.paziente (id_user, data_nascita, luogo_nascita, codice_fiscale, sesso, foto, id_medico, email) FROM stdin;
-14	1990-02-21	Milano	GRSCRS90B21F205O	M		1	progettoweb0+p.christian.grasso@gmail.com
-15	1992-02-16	Brescia	BNCLVC92B56B157D	F		2	progettoweb0+p.ludovica.bianco@gmail.com
-16	1988-12-29	Brescia	VLNRCR88T29B157L	M		1	progettoweb0+p.riccardo.valentini@gmail.com
-17	1979-03-22	Milano	MRNGPP79C22F205K	M		1	progettoweb0+p.giuseppe.marini@gmail.com
-18	2000-09-10	Brescia	PRSGRG00P50B157H	F		2	progettoweb0+p.giorgia.parisi@gmail.com
-19	1951-10-21	Milano	RZZNDR51R21F205K	M		1	progettoweb0+p.andrea.rizzo@gmail.com
-20	1968-01-14	Brescia	RSSLVC68A54B157S	F		1	progettoweb0+p.ludovica.russo@gmail.com
-21	2008-05-05	Roma	MRNGAI08E45H501V	F		1	progettoweb0+p.gaia.marino@gmail.com
-22	1943-07-26	Brescia	GLLMTT43L26B157B	M		2	progettoweb0+p.matteo.galli@gmail.com
-23	1991-04-22	Roma	FRRFNC91D22H501R	M		2	progettoweb0+p.francesco.ferraro@gmail.com
-24	1953-09-05	Brescia	RSSRRT53P45B157L	F		1	progettoweb0+p.roberta.rossi@gmail.com
-25	1980-01-26	Roma	CPPSML80A26H501X	M		2	progettoweb0+p.samuele.coppola@gmail.com
-26	1936-02-07	Milano	CRSNDR36B07F205U	M		2	progettoweb0+p.andrea.caruso@gmail.com
-27	1957-01-11	Brescia	CSTBPP57A11B157X	M		2	progettoweb0+p.beppe.costa@gmail.com
-28	2011-06-17	Milano	MRNDGI11H17F205K	M		3	progettoweb0+p.diego.marino@gmail.com
-29	1929-02-22	Milano	GRSBRC29B62F205Z	F		4	progettoweb0+p.beatrice.grasso@gmail.com
-30	1926-02-19	Roma	MRTDVD26B19H501O	M		2	progettoweb0+p.davide.moretti@gmail.com
-31	1954-12-09	Roma	BRBGNN54T49H501C	F		3	progettoweb0+p.giovanna.barbieri@gmail.com
-32	1940-12-18	Brescia	MNCMTT40T18B157R	M		3	progettoweb0+p.matteo.mancini@gmail.com
-33	1958-09-05	Roma	LMBNCL58P05H501Y	M		3	progettoweb0+p.nicolo.lombardi@gmail.com
-34	1949-06-02	Roma	MRNRRA49H42H501O	F		1	progettoweb0+p.aurora.mariani@gmail.com
-35	1930-11-15	Milano	LNGNMO30S55F205H	F		4	progettoweb0+p.noemi.longo@gmail.com
-36	1941-08-10	Brescia	BRBRLA41M10B157N	M		2	progettoweb0+p.aurelio.barbieri@gmail.com
-37	2003-01-15	Milano	FRRLNZ03A15F205G	M		3	progettoweb0+p.lorenzo.ferri@gmail.com
-38	1994-01-28	Roma	DSNMRC94A28H501E	M		2	progettoweb0+p.marco.desantis@gmail.com
-39	1958-12-20	Roma	RSSDGI58T20H501S	M		1	progettoweb0+p.diego.russo@gmail.com
-40	1988-12-12	Roma	MRNBPP88T12H501L	M		3	progettoweb0+p.beppe.mariani@gmail.com
-41	1922-02-24	Roma	SRRLSN22B24H501H	M		3	progettoweb0+p.alessandro.serra@gmail.com
-42	1938-01-23	Milano	LMBCRS38A23F205O	M		3	progettoweb0+p.christian.lombardi@gmail.com
-43	1952-10-09	Brescia	GRCLSN52R09B157K	M		1	progettoweb0+p.alessandro.greco@gmail.com
-44	1934-01-16	Brescia	LMBNNA34A56B157A	F		4	progettoweb0+p.anna.lombardi@gmail.com
-45	1921-05-14	Roma	BNCLSS21E54H501E	F		4	progettoweb0+p.alessia.bianchi@gmail.com
-46	1927-07-12	Roma	FRRCHR27L52H501Q	F		4	progettoweb0+p.chiara.ferrara@gmail.com
-47	1983-12-29	Milano	GLLCHR83T69F205W	F		4	progettoweb0+p.chiara.gallo@gmail.com
-48	1938-02-03	Brescia	MRNRRT38B43B157S	F		4	progettoweb0+p.roberta.marino@gmail.com
-49	1943-08-22	Milano	MRTGRT43M62F205Q	F		3	progettoweb0+p.greta.moretti@gmail.com
-50	1947-02-22	Roma	MRNNMO47B62H501R	F		5	progettoweb0+p.noemi.marini@gmail.com
-51	1962-03-25	Roma	SRRRCR62C25H501D	M		4	progettoweb0+p.riccardo.serra@gmail.com
-52	1997-12-16	Milano	LNGMHL97T56F205B	F		5	progettoweb0+p.michela.longo@gmail.com
-53	1956-07-21	Brescia	FRRTMS56L21B157L	M		4	progettoweb0+p.tommaso.ferri@gmail.com
-54	1949-12-01	Milano	GLLGVR49T41F205S	F		5	progettoweb0+p.ginevra.galli@gmail.com
-55	1998-02-05	Roma	FBBNCL98B05H501B	M		5	progettoweb0+p.nicola.fabbri@gmail.com
-56	1959-06-05	Brescia	MRNRRT59H45B157W	F		4	progettoweb0+p.roberta.marino@gmail.com
-57	1944-04-02	Milano	DSNCRS44D02F205R	M		5	progettoweb0+p.christian.desantis@gmail.com
-58	1947-03-31	Brescia	VLNGRT47C71B157V	F		5	progettoweb0+p.greta.valentini@gmail.com
+14	1990-02-21	Milano	GRSCRS90B21F205O	M	/photos/m1.jpg	1	progettoweb0+p.christian.grasso@gmail.com
+15	1992-02-16	Brescia	BNCLVC92B56B157D	F	/photos/f1.jpg	2	progettoweb0+p.ludovica.bianco@gmail.com
+16	1988-12-29	Brescia	VLNRCR88T29B157L	M	/photos/m2.jpg	1	progettoweb0+p.riccardo.valentini@gmail.com
+17	1979-03-22	Milano	MRNGPP79C22F205K	M	/photos/m3.jpg	1	progettoweb0+p.giuseppe.marini@gmail.com
+18	2000-09-10	Brescia	PRSGRG00P50B157H	F	/photos/f2.jpg	2	progettoweb0+p.giorgia.parisi@gmail.com
+19	1951-10-21	Milano	RZZNDR51R21F205K	M	/photos/m4.jpg	1	progettoweb0+p.andrea.rizzo@gmail.com
+20	1968-01-14	Brescia	RSSLVC68A54B157S	F	/photos/f3.jpg	1	progettoweb0+p.ludovica.russo@gmail.com
+21	2008-05-05	Roma	MRNGAI08E45H501V	F	/photos/f4.jpg	1	progettoweb0+p.gaia.marino@gmail.com
+22	1943-07-26	Brescia	GLLMTT43L26B157B	M	/photos/m5.jpg	2	progettoweb0+p.matteo.galli@gmail.com
+23	1991-04-22	Roma	FRRFNC91D22H501R	M	/photos/m6.jpg	2	progettoweb0+p.francesco.ferraro@gmail.com
+24	1953-09-05	Brescia	RSSRRT53P45B157L	F	/photos/f5.jpg	1	progettoweb0+p.roberta.rossi@gmail.com
+25	1980-01-26	Roma	CPPSML80A26H501X	M	/photos/m7.jpg	2	progettoweb0+p.samuele.coppola@gmail.com
+26	1936-02-07	Milano	CRSNDR36B07F205U	M	/photos/m8.jpg	2	progettoweb0+p.andrea.caruso@gmail.com
+27	1957-01-11	Brescia	CSTBPP57A11B157X	M	/photos/m9.jpg	2	progettoweb0+p.beppe.costa@gmail.com
+28	2011-06-17	Milano	MRNDGI11H17F205K	M	/photos/m10.jpg	3	progettoweb0+p.diego.marino@gmail.com
+29	1929-02-22	Milano	GRSBRC29B62F205Z	F	/photos/f6.jpg	4	progettoweb0+p.beatrice.grasso@gmail.com
+30	1926-02-19	Roma	MRTDVD26B19H501O	M	/photos/m11.jpg	2	progettoweb0+p.davide.moretti@gmail.com
+31	1954-12-09	Roma	BRBGNN54T49H501C	F	/photos/f7.jpg	3	progettoweb0+p.giovanna.barbieri@gmail.com
+32	1940-12-18	Brescia	MNCMTT40T18B157R	M	/photos/m12.jpg	3	progettoweb0+p.matteo.mancini@gmail.com
+33	1958-09-05	Roma	LMBNCL58P05H501Y	M	/photos/m13.jpg	3	progettoweb0+p.nicolo.lombardi@gmail.com
+34	1949-06-02	Roma	MRNRRA49H42H501O	F	/photos/f8.jpg	1	progettoweb0+p.aurora.mariani@gmail.com
+35	1930-11-15	Milano	LNGNMO30S55F205H	F	/photos/f9.jpg	4	progettoweb0+p.noemi.longo@gmail.com
+36	1941-08-10	Brescia	BRBRLA41M10B157N	M	/photos/m14.jpg	2	progettoweb0+p.aurelio.barbieri@gmail.com
+37	2003-01-15	Milano	FRRLNZ03A15F205G	M	/photos/m15.jpg	3	progettoweb0+p.lorenzo.ferri@gmail.com
+38	1994-01-28	Roma	DSNMRC94A28H501E	M	/photos/m16.jpg	2	progettoweb0+p.marco.desantis@gmail.com
+39	1958-12-20	Roma	RSSDGI58T20H501S	M	/photos/m17.jpg	1	progettoweb0+p.diego.russo@gmail.com
+40	1988-12-12	Roma	MRNBPP88T12H501L	M	/photos/m18.jpg	3	progettoweb0+p.beppe.mariani@gmail.com
+41	1922-02-24	Roma	SRRLSN22B24H501H	M	/photos/m19.jpg	3	progettoweb0+p.alessandro.serra@gmail.com
+42	1938-01-23	Milano	LMBCRS38A23F205O	M	/photos/m20.jpg	3	progettoweb0+p.christian.lombardi@gmail.com
+43	1952-10-09	Brescia	GRCLSN52R09B157K	M	/photos/m21.jpg	1	progettoweb0+p.alessandro.greco@gmail.com
+44	1934-01-16	Brescia	LMBNNA34A56B157A	F	/photos/f10.jpg	4	progettoweb0+p.anna.lombardi@gmail.com
+45	1921-05-14	Roma	BNCLSS21E54H501E	F	/photos/f11.jpg	4	progettoweb0+p.alessia.bianchi@gmail.com
+46	1927-07-12	Roma	FRRCHR27L52H501Q	F	/photos/f12.jpg	4	progettoweb0+p.chiara.ferrara@gmail.com
+47	1983-12-29	Milano	GLLCHR83T69F205W	F	/photos/f13.jpg	4	progettoweb0+p.chiara.gallo@gmail.com
+48	1938-02-03	Brescia	MRNRRT38B43B157S	F	/photos/f14.jpg	4	progettoweb0+p.roberta.marino@gmail.com
+49	1943-08-22	Milano	MRTGRT43M62F205Q	F	/photos/f15.jpg	3	progettoweb0+p.greta.moretti@gmail.com
+50	1947-02-22	Roma	MRNNMO47B62H501R	F	/photos/f16.jpg	5	progettoweb0+p.noemi.marini@gmail.com
+51	1962-03-25	Roma	SRRRCR62C25H501D	M	/photos/m22.jpg	4	progettoweb0+p.riccardo.serra@gmail.com
+52	1997-12-16	Milano	LNGMHL97T56F205B	F	/photos/f17.jpg	5	progettoweb0+p.michela.longo@gmail.com
+53	1956-07-21	Brescia	FRRTMS56L21B157L	M	/photos/m23.jpg	4	progettoweb0+p.tommaso.ferri@gmail.com
+54	1949-12-01	Milano	GLLGVR49T41F205S	F	/photos/f18.jpg	5	progettoweb0+p.ginevra.galli@gmail.com
+55	1998-02-05	Roma	FBBNCL98B05H501B	M	/photos/m24.jpg	5	progettoweb0+p.nicola.fabbri@gmail.com
+56	1959-06-05	Brescia	MRNRRT59H45B157W	F	/photos/f19.jpg	4	progettoweb0+p.roberta.marino@gmail.com
+57	1944-04-02	Milano	DSNCRS44D02F205R	M	/photos/m25.jpg	5	progettoweb0+p.christian.desantis@gmail.com
+58	1947-03-31	Brescia	VLNGRT47C71B157V	F	/photos/f20.jpg	5	progettoweb0+p.greta.valentini@gmail.com
 59	1957-01-15	Brescia	BRNGNN57A15B157E	M		3	progettoweb0+p.giovanni.bruno@gmail.com
 60	1930-07-19	Roma	DSNLRD30L19H501Q	M		5	progettoweb0+p.leonardo.desantis@gmail.com
 61	1960-10-25	Brescia	LMBFNC60R25B157A	M		5	progettoweb0+p.francesco.lombardo@gmail.com
