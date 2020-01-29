@@ -246,7 +246,7 @@
     <context-param>
         <description>The url to the database</description>
         <param-name>dbUrl</param-name>
-        <param-value>jdbc:postgresql://localhost/nicola</param-value>
+        <param-value>jdbc:postgresql://localhost/[nome database]</param-value>
     </context-param>
     <context-param>
         <description>The jdbc driver</description>
@@ -256,12 +256,12 @@
     <context-param>
         <description>The user for the connection</description>
         <param-name>dbUser</param-name>
-        <param-value>nicola</param-value>
+        <param-value>[nome utente]</param-value>
     </context-param>
     <context-param>
         <description>The password for the connection</description>
         <param-name>dbPassword</param-name>
-        <param-value>123</param-value>
+        <param-value>[password]</param-value>
     </context-param>
 
 
