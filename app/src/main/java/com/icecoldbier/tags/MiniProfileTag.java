@@ -2,6 +2,7 @@ package com.icecoldbier.tags;
 import com.icecoldbier.persistence.entities.Paziente;
 import com.icecoldbier.persistence.entities.SSP;
 import com.icecoldbier.persistence.entities.User;
+import com.icecoldbier.utils.Utils;
 import org.apache.commons.text.StringEscapeUtils;
 
 import javax.servlet.jsp.*;
@@ -47,7 +48,8 @@ public class MiniProfileTag extends BodyTagSupport {
 
             //If user profile
             if(user != null){
-                printRowWithDivider(out, "Tipo", user.getTyp().name());
+                String userType = user.getTyp().name();
+                printRowWithDivider(out, "Tipo", Utils.capitalize(userType.replace("_", " ")));
                 printRowWithDivider(out, "Nome", user.toStringNomeCognome());
                 printRowWithDivider(out, "Email", user.getUsername());
                 printRow(out, "Provincia", user.getProvinciaAppartenenza());
@@ -66,6 +68,7 @@ public class MiniProfileTag extends BodyTagSupport {
                 out.print("</div>");
                 out.print("</div>");
 
+                printRowWithDivider(out, "Tipo", "Paziente");
                 printRowWithDivider(out, "Nome", paziente.toStringNomeCognome());
                 printRowWithDivider(out, "Email", paziente.getUsername());
                 printRowWithDivider(out, "Provincia", paziente.getProvinciaAppartenenza());
