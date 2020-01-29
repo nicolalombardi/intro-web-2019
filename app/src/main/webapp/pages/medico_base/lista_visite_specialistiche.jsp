@@ -38,10 +38,10 @@
                 <th class="all" scope="col">Foto</th>
                 <th class="all" scope="col">Paziente</th>
                 <th class="min-sm  default-sort" scope="col">Data prescrizione</th>
-                <th class="min-md" scope="col">Tipo</th>
+                <th class="min-sm" scope="col">Tipo</th>
                 <th class="min-md" scope="col">Descrizione</th>
-                <th class="min-lg" scope="col">Stato</th>
-                <th class="min-lg" scope="col">Dettagli</th>
+                <th class="min-md" scope="col">Stato</th>
+                <th class="all" scope="col">Dettagli</th>
             </tr>
             </thead>
             <tbody>

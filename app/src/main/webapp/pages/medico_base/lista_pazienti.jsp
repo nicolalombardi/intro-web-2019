@@ -46,11 +46,11 @@
             <th class="all" scope="col">Foto</th>
             <th class="all default-sort" scope="col">Nome e cognome</th>
             <th class="min-sm" scope="col">Sesso</th>
-            <th class="min-md" scope="col">Data di nascita</th>
+            <th class="min-sm" scope="col">Data di nascita</th>
             <th class="min-md" scope="col">Luogo di nascita</th>
-            <th class="min-lg" scope="col">Provincia</th>
+            <th class="min-md" scope="col">Provincia</th>
             <th class="min-lg" scope="col">Codice fiscale</th>
-            <th class="min-lg" scope="col">Scheda</th>
+            <th class="all" scope="col">Scheda</th>
         </tr>
         </thead>
         <tbody>
