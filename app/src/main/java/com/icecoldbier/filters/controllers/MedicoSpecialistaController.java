@@ -76,6 +76,7 @@ public class MedicoSpecialistaController implements Filter {
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Non è stato possibile recuperare la lista delle visite specialistiche, riprova più tardi");
                     return;
                 }
+
                 try {
                     visita = visitaSpecialisticaDAO.getByPrimaryKey(id);
                     request.setAttribute("visita", visita);
@@ -84,7 +85,6 @@ public class MedicoSpecialistaController implements Filter {
                     ex.printStackTrace();
                 }
             }
-            //System.out.println("Id visita: " + idS);
         }else if(userPath.equals(("/medico-specialista/scheda-paziente"))){
             String idS = request.getParameter("id");
             Paziente paziente = null;
