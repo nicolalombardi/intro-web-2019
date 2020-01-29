@@ -19,7 +19,7 @@
 
 <div class="container">
     <h1>
-        <form action="/paziente/tickets/pdf" method="POST">
+        <form action="tickets/pdf" method="POST">
             Lista tickets <button class="btn btn-sm btn-dark" type="submit"><i class="material-icons md-light">print</i></button>
         </form>
     </h1>

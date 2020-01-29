@@ -75,9 +75,18 @@ public class PazienteServlet extends HttpServlet {
                 try {
                     User p = userDAO.getByPrimaryKey(idPaziente);
                     User m = userDAO.getByPrimaryKey(idMedico);
-                    pazienteDAO.changeMedicoBase(p,m);
-                    session.setAttribute("successMessage", "Medico cambiato");
-                    resp.sendRedirect(resp.encodeRedirectURL(contextPath + "paziente/profilo"));
+                    if(!m.getProvinciaAppartenenza().equals(p.getProvinciaAppartenenza())){
+                        session.setAttribute("errorMessage", "Non puoi scegliere un medico di una provincia diversa dalla tua");
+                        resp.sendRedirect(resp.encodeRedirectURL(contextPath + "paziente/profilo"));
+                    }else if(m.getTyp()!= User.UserType.medico_base){
+                        session.setAttribute("errorMessage", "Puoi scegliere solo tra i medici di base");
+                        resp.sendRedirect(resp.encodeRedirectURL(contextPath + "paziente/profilo"));
+                    }else{
+                        pazienteDAO.changeMedicoBase(p,m);
+                        session.setAttribute("successMessage", "Medico cambiato");
+                        resp.sendRedirect(resp.encodeRedirectURL(contextPath + "paziente/profilo"));
+                    }
+
                 } catch (DAOException | ProvincieNotMatchingException e) {
                     session.setAttribute("errorMessage", "Errore nel cambiare il medico, riprova più tardi");
                     e.printStackTrace();
@@ -106,7 +115,7 @@ public class PazienteServlet extends HttpServlet {
                 }
                 int idPaziente = Integer.parseInt(idp);
                 if(idPaziente != user.getId()){
-                    session.setAttribute("errorMessage", "Non puoi modificare la password di un altro paziente");
+                    session.setAttribute("errorMessage", "Non puoi modificare la password altrui");
                     resp.sendRedirect(resp.encodeRedirectURL(contextPath + "paziente/profilo"));
                 }else{
                     String hashedSaltedPassword = null;
