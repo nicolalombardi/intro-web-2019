@@ -11,7 +11,6 @@ public class VisitaBase extends Visita{
         super(id, paziente, dataErogazione);
         this.medicoBase = medicoBase;
         this.ricetta = ricetta;
-        System.out.println(dataErogazione.toString() + " " + dataErogazione.getTime());
     }
 
     public User getMedicoBase() {

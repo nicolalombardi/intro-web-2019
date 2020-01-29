@@ -50,7 +50,6 @@ public class ReportVisiteXLS extends HttpServlet {
         HttpSession session = req.getSession(false);
         User u = (User) session.getAttribute("user");
         String dateS = req.getParameter("data");
-        System.out.println(dateS);
 
         if(dateS.trim().equals("")){
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Data non inserita");
@@ -81,7 +80,6 @@ public class ReportVisiteXLS extends HttpServlet {
         ArrayList<VisitaSSP> list = new ArrayList<>();
         try {
             list = sspDAO.getListaVisite(data, ssp);
-            System.out.println(list);
         } catch (DAOException e) {
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             e.printStackTrace();
