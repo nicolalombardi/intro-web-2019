@@ -43,7 +43,7 @@
                             <c:otherwise>ssp</c:otherwise>
                         </c:choose>
                     </td>
-                    <td><c:out value="${v.costo_ticket}"/></td>
+                    <td><c:out value="${v.costo_ticket}"/>€</td>
                     <td><c:out value="${v.descrizione}"/></td>
                 </tr>
             </c:forEach>

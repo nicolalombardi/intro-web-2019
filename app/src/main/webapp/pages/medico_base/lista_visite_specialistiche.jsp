@@ -133,7 +133,7 @@
                                 </tr>
                                 <tr>
                                     <th>Costo ticket</th>
-                                    <td><c:out value="${v.visitaSSP.tipo_visita.costo_ticket}"/> euro</td>
+                                    <td><c:out value="${v.visitaSSP.tipo_visita.costo_ticket}"/>€</td>
                                 </tr>
                                 <tr>
                                     <th>Prescritta da</th>
@@ -198,7 +198,7 @@
                                 </tr>
                                 <tr>
                                     <th>Costo ticket</th>
-                                    <td><c:out value="${v.visitaSpecialistica.tipo_visita.costo_ticket}"/> euro</td>
+                                    <td><c:out value="${v.visitaSpecialistica.tipo_visita.costo_ticket}"/>€</td>
                                 </tr>
                                 <tr>
                                     <th>Prescritta da</th>

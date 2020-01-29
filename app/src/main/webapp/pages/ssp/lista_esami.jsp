@@ -1,7 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="/WEB-INF/customTags/ellipsizeTag.tld" prefix="ct" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="/WEB-INF/customTags/ellipsizeTag.tld" prefix="ct" %>
 <%@ taglib uri="/WEB-INF/customTags/miniProfileTag.tld" prefix="mp" %>
 <jsp:useBean id="listaVisite" scope="request" type="java.util.List<com.icecoldbier.persistence.entities.VisitaSSP>"/>
 
@@ -98,7 +96,7 @@
                         </tr>
                         <tr>
                             <th>Costo ticket</th>
-                            <td><c:out value="${v.tipo_visita.costo_ticket}"/> euro</td>
+                            <td><c:out value="${v.tipo_visita.costo_ticket}"/>€</td>
                         </tr>
                         <tr>
                             <th>Prescritta da</th>
