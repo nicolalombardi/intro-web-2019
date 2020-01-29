@@ -33,20 +33,10 @@
                 <tbody>
                 <tr>
                     <td colspan="2" style="text-align: center">
-                        <c:choose>
-                            <c:when test="${not empty paziente.foto}">
-                                <img class="profile-picture" src="<c:out value="${paziente.foto}"/>">
-                                <button type="button" class="btn btn-xs btn-dark" id= "BottoneFoto" data-toggle="modal" data-target="#modaleCambiaFoto" >
-                                    <i class="material-icons md-light">create</i>
-                                </button>
-                            </c:when>
-                            <c:otherwise>
-                                <img class="profile-picture" src="/images/profile_placeholder.svg">
-                                <button type="button" class="btn btn-xs btn-dark" data-toggle="modal" id= "BottoneFoto" data-target="#modaleCambiaFoto" >
-                                    <i class="material-icons md-light">create</i>
-                                </button>
-                            </c:otherwise>
-                        </c:choose>
+                        <img class="profile-picture" src="<c:out value="${paziente.foto}"/>">
+                        <button type="button" class="btn btn-xs btn-dark" id= "BottoneFoto" data-toggle="modal" data-target="#modaleCambiaFoto" >
+                            <i class="material-icons md-light">create</i>
+                        </button>
                     </td>
                 </tr>
                 <tr>

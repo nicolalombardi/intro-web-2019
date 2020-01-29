@@ -3,10 +3,6 @@ $('.basicAutoSelect').autoComplete({
         url: '/rest/pazienti-service'
     },
     formatResult: function (item) {
-        console.log(item);
-        if(!item.image || item.image.length === 0){
-            item.image = "/images/profile_placeholder.svg";
-        }
         return {
             value: item.id,
             text: item.text,

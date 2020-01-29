@@ -20,8 +20,8 @@ public class Paziente extends User{
         this.luogoNascita = luogoNascita;
         this.codiceFiscale = codiceFiscale;
         this.sesso = sesso;
-        this.foto = foto;
-        this.fotoThumb = (foto == null || foto.equals("")) ? null : foto + "?size=thumbnail";
+        this.foto = (foto == null || foto.equals("")) ? "/photos/" : foto;
+        this.fotoThumb = (foto == null || foto.equals("")) ? "/photos/" : foto + "?size=thumbnail";
         this.medico = medico;
     }
 

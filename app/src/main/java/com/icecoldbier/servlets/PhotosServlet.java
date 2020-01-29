@@ -32,6 +32,7 @@ public class PhotosServlet extends HttpServlet {
             }
             folderPath = getServletContext().getRealPath(resizedPhotosFolderPath);
 
+
         }else{
             String photosFolderPath = getServletContext().getInitParameter("photosFolder");
             if (photosFolderPath == null) {
@@ -41,7 +42,18 @@ public class PhotosServlet extends HttpServlet {
 
         }
         String filename = URLDecoder.decode(request.getPathInfo().substring(1), "UTF-8");
+        //User has non profile picture
+        if(filename == null || filename.trim().equals("")){
+            filename = "placeholder.png";
+        }
+
         File photoToServe = new File(folderPath, filename);
+
+        //If the picture doesnt' exist serve the default one
+        if(!photoToServe.exists()){
+            filename = "placeholder.png";
+            photoToServe = new File(folderPath, filename);
+        }
 
         response.setHeader("Content-Type", getServletContext().getMimeType(filename));
         response.setHeader("Content-Length", String.valueOf(photoToServe.length()));

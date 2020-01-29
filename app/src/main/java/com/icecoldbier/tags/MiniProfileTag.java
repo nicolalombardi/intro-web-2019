@@ -60,11 +60,7 @@ public class MiniProfileTag extends BodyTagSupport {
                 //Foto
                 out.print("<div class='row'>");
                 out.print("<div class='col-12 text-center'>");
-                if(paziente.getFoto() == null || paziente.getFoto().trim().equals("")){
-                    out.print("<img class='profile-picture-popover' src='/images/profile_placeholder.svg'>");
-                }else{
-                    out.print("<img class='profile-picture-popover'src='" + escape(paziente.getFotoThumb())+"'/>");
-                }
+                out.print("<img class='profile-picture-popover'src='" + escape(paziente.getFotoThumb())+"'/>");
                 out.print("</div>");
                 out.print("</div>");
 

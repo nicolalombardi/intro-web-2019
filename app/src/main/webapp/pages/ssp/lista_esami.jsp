@@ -41,14 +41,7 @@
                 <c:set var="targetModal" value="#modaleVisitaSSP-${v.id}"/>
                 <tr>
                     <td>
-                        <c:choose>
-                            <c:when test="${not empty v.paziente.fotoThumb}">
-                                <img class="profile-picture-thumbnail" src="<c:out value="${v.paziente.foto}"/>" height="48" width="48">
-                            </c:when>
-                            <c:otherwise>
-                                <img src="/images/profile_placeholder.svg" height="48" width="48">
-                            </c:otherwise>
-                        </c:choose>
+                        <img class="profile-picture-thumbnail" src="<c:out value="${v.paziente.foto}"/>" height="48" width="48">
                     </td>
                     <td><mp:miniProfileTag paziente="${v.paziente}"/></td>
                     <td><c:out value="${v.prettyDataPrescrizione}"/></td>

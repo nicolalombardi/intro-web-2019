@@ -70,14 +70,7 @@
                 </c:choose>
                 <tr>
                     <td>
-                        <c:choose>
-                            <c:when test="${not empty foto}">
-                                <img class="profile-picture-thumbnail" src="<c:out value="${foto}"/>" height="48" width="48">
-                            </c:when>
-                            <c:otherwise>
-                                <img src="/images/profile_placeholder.svg" height="48" width="48">
-                            </c:otherwise>
-                        </c:choose>
+                        <img class="profile-picture-thumbnail" src="<c:out value="${foto}"/>" height="48" width="48">
                     </td>
                     <td>
                         <mp:miniProfileTag paziente="${paziente}"/>
