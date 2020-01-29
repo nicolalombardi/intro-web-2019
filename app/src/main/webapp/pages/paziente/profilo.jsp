@@ -88,7 +88,7 @@
                             <td>Non ancora scelto.   <button type="button" class="btn btn-xs btn-dark" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button></td>
                         </c:when>
                         <c:otherwise>
-                            <td> <mp:miniProfileTag user="${paziente.medicoBase}"/> <button type="button" class="btn btn-xs btn-dark" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button></td>
+                            <td> <mp:miniProfileTag user="${paziente.medico}"/> <button type="button" class="btn btn-xs btn-dark" data-toggle="modal" data-target="#modaleCambiaMedico" ><i class="material-icons md-light">create</i></button></td>
                         </c:otherwise>
                     </c:choose>
                 </tr>
