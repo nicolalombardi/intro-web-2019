@@ -46,12 +46,21 @@ public class SSPServlet extends HttpServlet {
         if(userPath.equals("/ssp/eroga")){
 
             String idVisitaSSPS = request.getParameter("idVisitaSSP");
-            System.out.println(idVisitaSSPS);
 
             if(idVisitaSSPS == null){
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Id ssp mancante");
+                session.setAttribute("errorMessage", "Id SSP mancante");
+                response.sendRedirect(response.encodeRedirectURL(contextPath + "ssp/lista-esami"));
+                return;
             }else{
-                int idVisitaSSP = Integer.parseInt(idVisitaSSPS);
+                int idVisitaSSP;
+                try{
+                    idVisitaSSP = Integer.parseInt(idVisitaSSPS);
+                }catch (Exception e){
+                    session.setAttribute("errorMessage", "Id inserito non valido");
+                    response.sendRedirect(response.encodeRedirectURL(contextPath + "ssp/lista-esami"));
+                    e.printStackTrace();
+                    return;
+                }
                 try {
                     VisitaSSP visitaSSP = visitaSSPDAO.getByPrimaryKey(idVisitaSSP);
 
@@ -67,6 +76,7 @@ public class SSPServlet extends HttpServlet {
                     }
                 } catch (DAOException e) {
                     session.setAttribute("errorMessage", "Errore nell'erogare la visita, riprova più tardi");
+                    response.sendRedirect(response.encodeRedirectURL(contextPath + "ssp/lista-esami"));
                     e.printStackTrace();
                 }
             }
